@@ -25,9 +25,9 @@
     ::-webkit-scrollbar-thumb{background:var(--gold-d);border-radius:3px}
 
     /* ── NAV ── */
-    nav{position:fixed;top:0;left:0;right:0;width:100%;background:transparent;z-index:1000;padding:20px 70px;display:flex;align-items:center;justify-content:space-between;isolation:isolate;transition:padding .4s cubic-bezier(.22,1,.36,1),backdrop-filter .4s ease}
+    nav{position:fixed;top:0;left:0;right:0;width:100%;background:transparent;z-index:1000;padding:20px 70px;display:flex;align-items:center;justify-content:space-between;isolation:isolate;transition:padding .4s cubic-bezier(.22,1,.36,1)}
     nav::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(12,12,12,.72),rgba(16,16,16,.6));opacity:0;transform:translateY(-18px) scaleY(.88);transform-origin:top center;transition:opacity .42s ease,transform .46s cubic-bezier(.22,1,.36,1),box-shadow .42s ease;border-bottom:1px solid rgba(201,169,110,.1);box-shadow:0 14px 36px rgba(0,0,0,0);pointer-events:none;z-index:0}
-    nav.scrolled{padding:12px 70px;backdrop-filter:blur(12px)}
+    nav.scrolled{padding:12px 70px}
     nav.scrolled::before{opacity:1;transform:translateY(0) scaleY(1);box-shadow:0 18px 44px rgba(0,0,0,.18)}
     nav>*{position:relative;z-index:1}
     .nav-logo img{height:132px;object-fit:contain}
@@ -42,6 +42,12 @@
     .nav-toggle{display:none;border:1px solid rgba(255,255,255,.18);background:rgba(0,0,0,.22);width:44px;height:44px;border-radius:12px;align-items:center;justify-content:center;cursor:pointer;z-index:1001}
     .nav-toggle span{display:block;width:18px;height:2px;background:#fff;border-radius:999px;transition:transform .25s ease,opacity .2s ease}
     .nav-toggle span+span{margin-top:4px}
+
+    @media(min-width:641px){
+      nav.scrolled{backdrop-filter:none}
+      .hero-body{will-change:auto}
+      .hero-overlay-b{filter:none}
+    }
 
     /* ── HERO ── */
     #hero{position:relative;min-height:100svh;overflow:hidden;background:#05070b;display:flex;flex-direction:column;--hero-fade:0;--hero-zoom:1.04;--hero-shift:0px;--hero-copy-y:0px;--hero-copy-scale:1;--hero-copy-o:1;--hero-glow-o:.5;--hero-line-scale:.35}
@@ -845,21 +851,38 @@
 
   const applyScrollMotion = () => {
     const y = window.scrollY;
+    const isMobileView = window.innerWidth <= 640;
     const scrolledThreshold = window.innerWidth <= 640 ? 50 : 92;
     nav.classList.toggle('scrolled', y > scrolledThreshold);
-    document.documentElement.style.setProperty('--page-glow-y', `${Math.min(90, y * 0.08)}px`);
-    document.documentElement.style.setProperty('--page-glow-o', `${Math.max(.2, .42 - y * 0.00018)}`);
+    if (isMobileView) {
+      document.documentElement.style.setProperty('--page-glow-y', `${Math.min(90, y * 0.08)}px`);
+      document.documentElement.style.setProperty('--page-glow-o', `${Math.max(.2, .42 - y * 0.00018)}`);
+    } else {
+      document.documentElement.style.setProperty('--page-glow-y', '0px');
+      document.documentElement.style.setProperty('--page-glow-o', '.32');
+    }
     if (hero) {
       const heroHeight = Math.max(hero.offsetHeight, 1);
       const heroProgress = Math.min(y / (heroHeight * 0.9), 1);
-      hero.style.setProperty('--hero-fade', heroProgress.toFixed(3));
-      hero.style.setProperty('--hero-zoom', `${(1.04 + heroProgress * 0.24).toFixed(3)}`);
-      hero.style.setProperty('--hero-shift', `${(y * 0.22).toFixed(1)}px`);
-      hero.style.setProperty('--hero-copy-y', `${(heroProgress * -120).toFixed(1)}px`);
-      hero.style.setProperty('--hero-copy-scale', `${(1 - heroProgress * 0.16).toFixed(3)}`);
-      hero.style.setProperty('--hero-copy-o', `${Math.max(.06, 1 - heroProgress * 1.12).toFixed(3)}`);
-      hero.style.setProperty('--hero-glow-o', `${Math.max(.08, .52 - heroProgress * .36).toFixed(3)}`);
-      hero.style.setProperty('--hero-line-scale', `${(0.35 + heroProgress * 1.2).toFixed(3)}`);
+      if (isMobileView) {
+        hero.style.setProperty('--hero-fade', heroProgress.toFixed(3));
+        hero.style.setProperty('--hero-zoom', `${(1.04 + heroProgress * 0.24).toFixed(3)}`);
+        hero.style.setProperty('--hero-shift', `${(y * 0.22).toFixed(1)}px`);
+        hero.style.setProperty('--hero-copy-y', `${(heroProgress * -120).toFixed(1)}px`);
+        hero.style.setProperty('--hero-copy-scale', `${(1 - heroProgress * 0.16).toFixed(3)}`);
+        hero.style.setProperty('--hero-copy-o', `${Math.max(.06, 1 - heroProgress * 1.12).toFixed(3)}`);
+        hero.style.setProperty('--hero-glow-o', `${Math.max(.08, .52 - heroProgress * .36).toFixed(3)}`);
+        hero.style.setProperty('--hero-line-scale', `${(0.35 + heroProgress * 1.2).toFixed(3)}`);
+      } else {
+        hero.style.setProperty('--hero-fade', `${(heroProgress * 0.45).toFixed(3)}`);
+        hero.style.setProperty('--hero-zoom', `${(1.04 + heroProgress * 0.08).toFixed(3)}`);
+        hero.style.setProperty('--hero-shift', `${(y * 0.08).toFixed(1)}px`);
+        hero.style.setProperty('--hero-copy-y', `${(heroProgress * -34).toFixed(1)}px`);
+        hero.style.setProperty('--hero-copy-scale', '1');
+        hero.style.setProperty('--hero-copy-o', '1');
+        hero.style.setProperty('--hero-glow-o', '.18');
+        hero.style.setProperty('--hero-line-scale', '1');
+      }
     }
 
     if (processSteps && processSection) {
