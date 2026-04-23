@@ -354,8 +354,9 @@
     @media(max-width:640px){
       nav{padding:14px 16px;justify-content:space-between;align-items:center;row-gap:10px}
       nav.scrolled{padding:10px 16px}
-      .nav-toggle{display:inline-flex;order:1;position:absolute;left:16px;top:16px;width:42px;height:42px;padding:0;border:1px solid rgba(255,255,255,.1);background:rgba(10,12,18,.28);backdrop-filter:blur(8px);border-radius:12px;box-shadow:none}
-      .nav-toggle span{width:15px;height:1.6px;margin:0;background:rgba(255,255,255,.96);border-radius:999px}
+      .nav-toggle{display:inline-flex;order:1;position:absolute;left:16px;top:16px;width:48px;height:48px;padding:0;border:1px solid rgba(201,169,110,.24);background:linear-gradient(180deg,rgba(14,16,22,.72),rgba(8,10,14,.52));backdrop-filter:blur(12px);border-radius:16px;box-shadow:0 12px 28px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.05)}
+      .nav-toggle span{width:18px;height:2px;margin:0;background:linear-gradient(90deg,#f7f2e8,#d9bb83);border-radius:999px;box-shadow:0 0 10px rgba(201,169,110,.08)}
+      .nav-toggle span:nth-child(2){width:12px;align-self:flex-end}
       .nav-toggle span+span{margin-top:4px}
       .nav-logo{width:auto;order:2;position:absolute;right:16px;top:10px;display:flex;justify-content:flex-end}
       .nav-logo img{height:68px}
@@ -365,7 +366,7 @@
       nav.menu-open .nav-toggle span:nth-child(1){transform:translateY(6px) rotate(45deg)}
       nav.menu-open .nav-toggle span:nth-child(2){opacity:0}
       nav.menu-open .nav-toggle span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
-      .hero-video{object-position:center center;transform:translate3d(0,var(--hero-shift),0) scale(.94);filter:saturate(1.04) contrast(1.01) brightness(1)}
+      .hero-video{object-position:center center;transform:translate3d(0,var(--hero-shift),0) scale(1.02);filter:saturate(1.05) contrast(1.01) brightness(.99)}
       .hero-overlay{background:linear-gradient(180deg,rgba(2,4,8,.22) 0%,rgba(4,7,12,.12) 34%,rgba(4,7,12,.08) 62%,rgba(4,7,12,.2) 100%)}
       .hero-overlay::after{background:linear-gradient(180deg,rgba(2,4,8,.04) 0%,rgba(2,4,8,.08) 58%,rgba(2,4,8,.22) 100%)}
       .hero-vignette{display:none}
