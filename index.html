@@ -49,12 +49,12 @@
     .hero-vignette{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(circle at 72% 28%,rgba(255,255,255,.08),transparent 22%),radial-gradient(circle at 50% 50%,transparent 40%,rgba(3,4,8,.24) 72%,rgba(2,3,6,.7) 100%);opacity:calc(.72 + var(--hero-fade) * .2)}
     #hero::after{content:'';position:absolute;bottom:0;width:100%;height:100px;background:linear-gradient(to bottom,rgba(5,7,11,0) 0%,rgba(5,7,11,.7) 100%);z-index:2}
     /* Hero body */
-    .hero-body{position:relative;z-index:3;max-width:620px;padding:160px 80px 90px;flex:1;display:flex;flex-direction:column;justify-content:center;transform:translate3d(0,var(--hero-copy-y),0) scale(var(--hero-copy-scale));transform-origin:right center;opacity:var(--hero-copy-o);will-change:transform,opacity}
+    .hero-body{position:relative;z-index:3;max-width:520px;padding:160px 80px 90px;flex:1;display:flex;flex-direction:column;justify-content:center;transform:translate3d(0,var(--hero-copy-y),0) scale(var(--hero-copy-scale));transform-origin:right center;opacity:var(--hero-copy-o);will-change:transform,opacity}
     .hero-kicker{display:flex;align-items:center;gap:18px;margin-bottom:20px}
     .hero-kicker-line{width:110px;height:1px;background:linear-gradient(90deg,rgba(201,169,110,0),rgba(201,169,110,.95),rgba(255,255,255,.85));transform-origin:right center;transform:scaleX(var(--hero-line-scale));transition:transform .2s linear}
-    .eyebrow{color:var(--gold);font-size:.9rem;font-weight:500;letter-spacing:.1em;margin-bottom:18px}
-    .hero-h1{font-size:clamp(28px,3.9vw,50px);font-weight:800;line-height:1.12;margin-bottom:14px;color:#fff;text-shadow:0 12px 28px rgba(0,0,0,.18);transition:text-shadow 1.35s cubic-bezier(.22,1,.36,1)}
-    .hero-desc{font-size:.98rem;line-height:1.8;color:rgba(255,255,255,.78);max-width:500px;margin-bottom:28px}
+    .eyebrow{color:var(--gold);font-size:.78rem;font-weight:500;letter-spacing:.08em;margin-bottom:14px}
+    .hero-h1{font-size:clamp(22px,3vw,38px);font-weight:800;line-height:1.12;margin-bottom:12px;color:#fff;text-shadow:0 12px 28px rgba(0,0,0,.18);transition:text-shadow 1.35s cubic-bezier(.22,1,.36,1)}
+    .hero-desc{font-size:.82rem;line-height:1.7;color:rgba(255,255,255,.78);max-width:420px;margin-bottom:22px}
     /* Actions */
     .hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:36px}
     .btn-ph{display:inline-flex;align-items:center;justify-content:center;padding:15px 28px;background:#d4b07a;color:#111;font-family:'Tajawal',sans-serif;font-size:.95rem;font-weight:700;text-decoration:none;border-radius:14px;transition:all var(--tr)}
@@ -467,10 +467,6 @@
   <div class="hero-overlay-b"></div>
   <div class="hero-vignette"></div>
   <div class="hero-body hero-copy">
-    <div class="hero-kicker">
-      <span class="hero-kicker-line"></span>
-      <p class="eyebrow">استثمارك في مكان يستحق</p>
-    </div>
     <h1 class="hero-h1">ابدأ رحلتك نحو<br>مستقبل عقاري واعد</h1>
     <p class="hero-desc">نوفر لك فرصًا عقارية مختارة بعناية في أفضل المشاريع والمواقع، بأعلى معايير الجودة وأفضل العوائد الاستثمارية.</p>
     <div class="hero-actions">
