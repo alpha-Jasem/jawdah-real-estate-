@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="format-detection" content="telephone=no,date=no,email=no,address=no">
   <title>جودة العقارية — JAWDAH REAL ESTATE</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -170,7 +171,8 @@
     .lic-icon{width:56px;height:56px;color:var(--gold);margin:0 auto 22px}
     .lic-icon svg{width:100%;height:100%}
     .lic-badge{display:inline-block;background:rgba(201,169,110,.12);border:1px solid rgba(201,169,110,.3);color:var(--gold);font-size:.7rem;font-weight:700;padding:4px 14px;letter-spacing:.08em;margin-bottom:20px}
-    .lic-num{font-size:1.55rem;font-weight:800;color:#fff;margin-bottom:8px;letter-spacing:.04em;direction:ltr}
+    .lic-num{font-size:1.55rem;font-weight:800;color:#fff;margin-bottom:8px;letter-spacing:.04em;direction:ltr;unicode-bidi:embed}
+    .lic-num a{color:inherit!important;text-decoration:none!important;pointer-events:none}
     .lic-sub{font-size:.8rem;color:rgba(255,255,255,.5);line-height:1.6}
     @media(max-width:768px){
       #projects{padding:60px 20px}
@@ -234,7 +236,7 @@
       23%,100%{background:#fff;color:#9A7A3A;border-color:#9A7A3A;box-shadow:none}
     }
     .pr-step h3{font-size:.92rem;font-weight:700;color:#1A1A1A;margin-bottom:6px}
-    .pr-step p{font-size:.8rem;color:#666;line-height:1.6}
+    .pr-step p{font-size:.8rem;color:#666;line-height:1.6;max-width:220px;margin:0 auto}
     .pr-cta{text-align:center;margin-top:64px;padding:48px;background:rgba(255,255,255,.82);border:1px solid rgba(154,122,58,.2);box-shadow:0 26px 70px rgba(82,55,17,.08)}
     .pr-cta h3{font-size:1.45rem;font-weight:700;color:#1A1A1A;margin-bottom:6px}
     .pr-cta p{color:#666;margin-bottom:22px}
@@ -363,10 +365,31 @@
       .hsr strong{font-size:1.8rem}
       .scroll-indicator{bottom:20px}
       #services,#projects,#stats,#process,#testimonials,footer{padding:68px 20px}
+      #interior{background-position:30% center}
+      #interior::before{background:rgba(2,3,7,.56);opacity:1}
+      .int-txt{padding:54px 22px 48px;background:linear-gradient(180deg,rgba(6,6,6,.96),rgba(6,6,6,.9));align-items:center;text-align:center}
+      .int-txt>.lbl,.int-txt>.h2,.int-txt>.gl,.int-txt>.sp,.int-txt>.int-checks,.int-txt>.btn-p{width:100%;margin-left:0}
+      .int-txt .lbl,.int-txt .h2,.int-txt .gl,.int-txt .sp{text-align:center}
+      .int-checks{margin:22px 0 28px;align-items:stretch}
+      .int-checks li{justify-content:center;text-align:center;font-size:.84rem}
       .sg,.st-grid,.tg{grid-template-columns:1fr}
       .stc,.lic-card,.tc,.pr-cta{padding:34px 22px}
+      .lic-card{padding:32px 18px}
+      .lic-num{font-size:1.95rem;line-height:1.1;word-break:break-word;overflow-wrap:anywhere}
+      .lic-sub{max-width:210px;margin:0 auto}
+      .pr-head{margin-bottom:46px}
+      .pr-step{padding:0 4px}
+      .pr-step h3{font-size:1.7rem;font-weight:800;line-height:1.2;margin-bottom:10px}
+      .pr-step p{font-size:.98rem;line-height:1.9;max-width:100%;color:#5e5e5e}
+      .sn{width:84px;height:84px;margin-bottom:18px}
+      .cta-bg{background-position:62% center}
+      .cta-ov{background:linear-gradient(180deg,rgba(0,0,0,.88) 0%,rgba(0,0,0,.8) 36%,rgba(0,0,0,.66) 100%),linear-gradient(90deg,rgba(0,0,0,.88) 0%,rgba(0,0,0,.58) 46%,rgba(0,0,0,.22) 100%)}
       .cta-cnt{padding:60px 22px}
-      .cta-feats{gap:12px;flex-direction:column;align-items:flex-start}
+      .cta-cnt{max-width:none;text-align:center}
+      .cta-cnt h2,.cta-cnt p{max-width:none}
+      .cta-cnt .gl{margin:20px auto}
+      .cta-feats{gap:12px;flex-direction:column;align-items:center}
+      .cta-cnt .btns{justify-content:center}
       .btns,.hero-actions{flex-direction:column;align-items:stretch}
       .btn-p,.btn-ph,.btn-sh,.btn-gd{width:100%;text-align:center}
       .cta-cnt .btn-p{min-width:0}
