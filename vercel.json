@@ -1,6 +1,9 @@
 {
-    "outputDirectory": "dist",
-    "buildCommand": "",
-    "installCommand": "",
-    "framework": null
+  "cleanUrls": false,
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/index%20copy.html"
+    }
+  ]
 }
