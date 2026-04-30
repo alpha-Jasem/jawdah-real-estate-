@@ -561,6 +561,7 @@
 
     /* ══ HERO STATS: 3 items, all numbers fully visible ══ */
     .hero-stats-row{flex-wrap:nowrap!important;gap:34px!important;padding:18px 24px!important;width:470px!important}
+    @media(max-width:640px){.hero-stats-row{width:100%!important;max-width:100%!important;box-sizing:border-box!important}}
     .hsr{flex:1 1 0!important;min-width:0!important;overflow:visible!important}
     .hsr strong{font-size:clamp(1.6rem,2.8vw,2.4rem)!important;white-space:nowrap!important}
     .hsr span{font-size:.82rem!important}
@@ -788,6 +789,186 @@
     @media(max-width:640px){
       .cta-cnt{width:50%!important;padding:70px 10px 44px 18px!important}
       .cta-ov{background:linear-gradient(90deg,rgba(240,252,252,.98) 0%,rgba(240,252,252,.72) 38%,rgba(240,252,252,.16) 72%,rgba(240,252,252,0) 100%)!important}
+    }
+
+    /* ═══════════════════════════════════════════════
+       RESPONSIVE PERFECTION — TABLET & MOBILE 10/10
+    ═══════════════════════════════════════════════ */
+
+    /* ── TABLET: 641px → 1024px ── */
+    @media(min-width:641px) and (max-width:1024px){
+      /* Process: 3 columns on tablet instead of 5 */
+      .pr-steps{grid-template-columns:repeat(3,1fr)!important;gap:22px!important}
+      .pr-steps::before,.pr-steps::after,.pr-progress-dot{display:none!important}
+      /* Padding normalize */
+      #services,#projects,#stats,#process,#testimonials{padding-left:32px!important;padding-right:32px!important}
+      footer{padding-left:32px!important;padding-right:32px!important}
+      /* Interior: comfortable overlay width */
+      .int-txt{width:58%!important;padding:60px 40px 60px 52px!important}
+      /* CTA: comfortable overlay width */
+      .cta-cnt{width:58%!important;padding:70px 32px 70px 56px!important}
+      .cta-cnt h2{font-size:clamp(1.6rem,3.2vw,2.4rem)!important}
+      .cta-cnt p{font-size:.92rem!important;color:rgba(15,42,42,.68)!important}
+      .cf{font-size:.84rem!important;color:rgba(15,42,42,.7)!important}
+    }
+
+    /* ── MOBILE: ≤640px — COMPLETE OVERHAUL ── */
+    @media(max-width:640px){
+
+      /* === NAV: compact & clean === */
+      .nav-logo img{height:48px!important}
+      nav{padding:14px 16px!important}
+      nav.scrolled{padding:10px 16px!important}
+      .nav-toggle{top:13px!important;left:13px!important;width:46px!important;height:46px!important;border-radius:14px!important}
+      .nav-logo{top:7px!important;right:13px!important}
+
+      /* === HERO: full-width, readable === */
+      .hero-body{
+        width:100%!important;
+        max-width:none!important;
+        padding:100px 22px 40px!important;
+        text-align:right!important;
+        align-items:flex-start!important;
+        justify-content:flex-end!important;
+        margin:0 auto!important;
+      }
+      .hero-kicker{display:flex!important;margin-bottom:16px!important}
+      .hero-h1{font-size:clamp(1.75rem,7.5vw,2.3rem)!important;margin-bottom:12px!important}
+      .hero-desc{font-size:.9rem!important;max-width:100%!important;margin-bottom:18px!important}
+      .hero-actions{
+        flex-direction:row!important;
+        flex-wrap:wrap!important;
+        align-items:flex-start!important;
+        gap:10px!important;
+        margin-bottom:22px!important;
+      }
+      .hero-actions .btn-ph{
+        flex:1!important;
+        min-width:130px!important;
+        width:auto!important;
+        justify-content:center!important;
+        padding:13px 18px!important;
+        font-size:.88rem!important;
+      }
+
+      /* Hero stats: fixed — no gap, full width, all 3 visible */
+      .hero-stats-row{
+        position:relative!important;
+        bottom:auto!important;
+        right:auto!important;
+        left:auto!important;
+        width:100%!important;
+        max-width:100%!important;
+        box-sizing:border-box!important;
+        margin-top:0!important;
+        display:grid!important;
+        grid-template-columns:repeat(3,1fr)!important;
+        padding:14px 10px!important;
+        gap:4px!important;
+        border-radius:14px!important;
+        background:linear-gradient(180deg,rgba(8,10,14,.28),rgba(8,10,14,.58))!important;
+        backdrop-filter:blur(10px)!important;
+        border:1px solid rgba(255,255,255,.07)!important;
+        flex-wrap:nowrap!important;
+        overflow:hidden!important;
+      }
+      .hsr{min-width:0!important;overflow:hidden!important;padding:4px 2px!important;flex:1!important}
+      .hsr strong{font-size:clamp(.95rem,4.5vw,1.3rem)!important;white-space:nowrap!important;line-height:1.1!important;overflow:hidden!important;text-overflow:clip!important}
+      .hsr span{font-size:.62rem!important;line-height:1.3!important;display:block!important;overflow:hidden!important;word-break:break-word!important}
+
+      /* Hide scroll indicator on mobile — overlaps stats */
+      .scroll-indicator{display:none!important}
+
+      /* === INTERIOR: gradient from bottom, image shows on top === */
+      #interior{min-height:560px!important;background-position:70% center!important;display:flex!important;flex-direction:column!important;justify-content:flex-end!important}
+      .int-txt{
+        position:relative!important;
+        width:100%!important;
+        height:auto!important;
+        padding:36px 22px 40px!important;
+        background:linear-gradient(to top,rgba(240,252,252,1) 0%,rgba(240,252,252,.97) 50%,rgba(240,252,252,.80) 72%,rgba(240,252,252,0) 100%)!important;
+        backdrop-filter:none!important;
+        -webkit-backdrop-filter:none!important;
+        box-shadow:none!important;
+        align-items:flex-end!important;
+        justify-content:flex-end!important;
+        margin-top:auto!important;
+      }
+      .int-txt .h2{color:#0f2a2a!important;font-size:clamp(1.35rem,5.5vw,1.8rem)!important;text-shadow:none!important}
+      .int-txt .sp{color:rgba(15,42,42,.68)!important;font-size:.88rem!important}
+      .int-txt .lbl{color:#2AABA3!important}
+      .int-txt .gl{background:#2AABA3!important;margin:12px 0!important}
+      .int-txt .int-checks li{color:rgba(15,42,42,.72)!important;font-size:.84rem!important;justify-content:flex-end!important}
+      .int-txt .btn-p{
+        width:auto!important;
+        min-width:140px!important;
+        justify-content:center!important;
+        align-self:flex-end!important;
+        font-size:.88rem!important;
+        padding:12px 22px!important;
+      }
+
+      /* === CTA: full-width readable === */
+      #cta{min-height:520px!important}
+      .cta-ov{
+        background:linear-gradient(
+          180deg,
+          rgba(240,252,252,.97) 0%,
+          rgba(240,252,252,.93) 50%,
+          rgba(240,252,252,.72) 75%,
+          rgba(240,252,252,.35) 100%
+        )!important;
+      }
+      .cta-cnt{
+        width:100%!important;
+        max-width:none!important;
+        padding:58px 22px 280px!important;
+        text-align:right!important;
+        margin:0!important;
+      }
+      .cta-cnt h2{font-size:clamp(1.55rem,5.5vw,2.1rem)!important;max-width:none!important;line-height:1.2!important}
+      .cta-cnt p{font-size:.9rem!important;max-width:none!important;color:rgba(15,42,42,.68)!important;line-height:1.8!important;margin-bottom:20px!important}
+      .cta-cnt .gl{margin:12px 0!important}
+      .cta-feats{flex-direction:column!important;gap:10px!important;margin-bottom:22px!important;align-items:flex-start!important}
+      .cf{font-size:.84rem!important;color:rgba(15,42,42,.7)!important}
+      .cta-cnt .btns{flex-direction:row!important;flex-wrap:wrap!important;justify-content:flex-start!important;gap:10px!important}
+      .cta-cnt .btn-p{
+        width:auto!important;
+        flex:1!important;
+        min-width:130px!important;
+        justify-content:center!important;
+        font-size:.9rem!important;
+        padding:13px 20px!important;
+        border-radius:10px!important;
+      }
+
+      /* === BUTTONS: row layout, not full-width stack === */
+      .btns{flex-direction:row!important;flex-wrap:wrap!important;gap:10px!important}
+      .btn-p,.btn-ph,.btn-sh,.btn-gd,.btn-gd-o{
+        width:auto!important;
+        flex:1!important;
+        min-width:120px!important;
+        text-align:center!important;
+        justify-content:center!important;
+      }
+
+      /* Process CTA box */
+      .pr-cta{text-align:right!important;padding:30px 18px!important}
+      .pr-cta .btns{justify-content:flex-start!important}
+
+      /* Footer bottom */
+      .f-bot{flex-direction:column!important;align-items:flex-start!important;gap:10px!important}
+      .f-bot-l{flex-wrap:wrap!important;gap:12px!important}
+    }
+
+    /* ── TINY PHONES: ≤390px ── */
+    @media(max-width:390px){
+      .hero-h1{font-size:1.6rem!important}
+      .hsr strong{font-size:.98rem!important}
+      .hsr span{font-size:.6rem!important}
+      #services,#projects,#stats,#process,#testimonials{padding:54px 14px!important}
+      footer{padding:44px 14px 0!important}
+      .cta-cnt{padding:50px 14px 260px!important}
     }
 
   </style>
