@@ -879,33 +879,48 @@
       /* Hide scroll indicator on mobile — overlaps stats */
       .scroll-indicator{display:none!important}
 
-      /* === INTERIOR: gradient from bottom, image shows on top === */
-      #interior{min-height:560px!important;background-position:70% center!important;display:flex!important;flex-direction:column!important;justify-content:flex-end!important}
-      .int-txt{
+      /* === INTERIOR: light overlay like CTA section, image shows clearly === */
+      #interior{
+        min-height:600px!important;
+        background-position:60% center!important;
+        display:block!important;
         position:relative!important;
+      }
+      .int-txt{
+        position:absolute!important;
+        inset:0!important;
         width:100%!important;
-        height:auto!important;
-        padding:36px 22px 40px!important;
-        background:linear-gradient(to top,rgba(240,252,252,1) 0%,rgba(240,252,252,.97) 50%,rgba(240,252,252,.80) 72%,rgba(240,252,252,0) 100%)!important;
+        height:100%!important;
+        padding:100px 22px 40px!important;
+        background:linear-gradient(
+          90deg,
+          rgba(240,252,252,.93) 0%,
+          rgba(240,252,252,.85) 32%,
+          rgba(240,252,252,.58) 56%,
+          rgba(240,252,252,.18) 76%,
+          rgba(240,252,252,0) 100%
+        )!important;
         backdrop-filter:none!important;
         -webkit-backdrop-filter:none!important;
         box-shadow:none!important;
         align-items:flex-end!important;
-        justify-content:flex-end!important;
-        margin-top:auto!important;
+        justify-content:center!important;
       }
-      .int-txt .h2{color:#0f2a2a!important;font-size:clamp(1.35rem,5.5vw,1.8rem)!important;text-shadow:none!important}
-      .int-txt .sp{color:rgba(15,42,42,.68)!important;font-size:.88rem!important}
+      .int-txt .h2{color:#0f2a2a!important;font-size:clamp(1.35rem,5.5vw,1.75rem)!important;text-shadow:none!important}
+      .int-txt .sp{color:rgba(15,42,42,.68)!important;font-size:.86rem!important}
       .int-txt .lbl{color:#2AABA3!important}
-      .int-txt .gl{background:#2AABA3!important;margin:12px 0!important}
-      .int-txt .int-checks li{color:rgba(15,42,42,.72)!important;font-size:.84rem!important;justify-content:flex-end!important}
+      .int-txt .lbl::before{background:#2AABA3!important}
+      .int-txt .gl{background:#2AABA3!important;margin:10px 0!important}
+      .int-txt .int-checks li{color:rgba(15,42,42,.72)!important;font-size:.82rem!important;justify-content:flex-end!important}
       .int-txt .btn-p{
         width:auto!important;
-        min-width:140px!important;
+        min-width:130px!important;
         justify-content:center!important;
         align-self:flex-end!important;
-        font-size:.88rem!important;
-        padding:12px 22px!important;
+        font-size:.86rem!important;
+        padding:11px 20px!important;
+        color:#fff!important;
+        background:#2AABA3!important;
       }
 
       /* === CTA: full-width readable === */
