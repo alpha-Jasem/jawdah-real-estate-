@@ -667,12 +667,12 @@
       .pr-step:nth-child(6) .sn{animation:snStep5 20s ease-in-out infinite!important;animation-delay:0s!important}
     }
 
-    /* ══ INTERIOR TEXT: glass white panel ══ */
+    /* ══ INTERIOR TEXT: clean gradient, no blur ══ */
     .int-txt{
-      width:50%!important;
-      background:rgba(255,255,255,0.18)!important;
-      backdrop-filter:blur(10px)!important;
-      -webkit-backdrop-filter:blur(10px)!important;
+      width:55%!important;
+      background:linear-gradient(to right,rgba(240,252,252,.97) 0%,rgba(240,252,252,.88) 40%,rgba(240,252,252,.55) 65%,rgba(240,252,252,0) 100%)!important;
+      backdrop-filter:none!important;
+      -webkit-backdrop-filter:none!important;
       padding:72px 44px 72px 56px!important;
       align-items:flex-end!important;
       z-index:2!important;
@@ -682,12 +682,12 @@
       width:100%!important;margin-left:0!important;margin-right:0!important;text-align:right!important;
     }
     .int-txt>.btn-p{align-self:flex-end!important;margin-top:4px!important}
-    .int-txt .sp{color:rgba(255,255,255,.85)!important;font-size:.92rem!important}
-    .int-txt .h2{color:#ffffff!important;text-shadow:0 2px 18px rgba(0,0,0,.3)!important}
-    .int-txt .lbl{color:#3ECDC4!important}
-    .int-txt .lbl::before{background:#3ECDC4!important}
-    .int-txt .gl{background:#3ECDC4!important}
-    .int-txt .int-checks li{color:rgba(255,255,255,.88)!important;font-size:.9rem!important;justify-content:flex-start!important;text-align:right!important}
+    .int-txt .sp{color:rgba(15,42,42,.72)!important;font-size:.92rem!important}
+    .int-txt .h2{color:#0f2a2a!important;text-shadow:none!important}
+    .int-txt .lbl{color:#2AABA3!important}
+    .int-txt .lbl::before{background:#2AABA3!important}
+    .int-txt .gl{background:#2AABA3!important}
+    .int-txt .int-checks li{color:rgba(15,42,42,.75)!important;font-size:.9rem!important;justify-content:flex-start!important;text-align:right!important}
     .int-txt .int-checks{align-items:flex-start!important}
     @media(max-width:768px){
       .int-txt{width:100%!important;position:static!important;height:auto!important;padding:56px 28px!important;backdrop-filter:blur(6px)!important;-webkit-backdrop-filter:blur(6px)!important}
