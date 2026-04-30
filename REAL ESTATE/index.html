@@ -976,14 +976,40 @@
       .f-bot-l{flex-wrap:wrap!important;gap:12px!important}
     }
 
+    /* ── TESTIMONIALS: tablet (641–900px) ── */
+    @media(min-width:641px) and (max-width:900px){
+      #testimonials{padding:70px 32px!important}
+      #testimonials>div>div:nth-child(2){grid-template-columns:repeat(2,1fr)!important;gap:16px!important}
+    }
+
+    /* ── TESTIMONIALS: mobile (≤640px) — fix inline grid & padding ── */
+    @media(max-width:640px){
+      #testimonials{padding:52px 16px 44px!important}
+      /* Override the inline display:grid repeat(3,1fr) */
+      #testimonials>div>div:nth-child(2){
+        grid-template-columns:1fr!important;
+        gap:14px!important;
+      }
+      /* Compact card padding */
+      #testimonials>div>div:nth-child(2)>div{
+        padding:18px 18px!important;
+        border-radius:14px!important;
+      }
+      /* Reduce header bottom margin */
+      #testimonials>div>div:nth-child(1){margin-bottom:32px!important}
+      /* Smaller overall rating badge */
+      #testimonials>div>div:nth-child(1)>div:last-child{padding:8px 18px!important}
+    }
+
     /* ── TINY PHONES: ≤390px ── */
     @media(max-width:390px){
       .hero-h1{font-size:1.6rem!important}
       .hsr strong{font-size:.98rem!important}
       .hsr span{font-size:.6rem!important}
-      #services,#projects,#stats,#process,#testimonials{padding:54px 14px!important}
+      #services,#projects,#stats,#process{padding:54px 14px!important}
       footer{padding:44px 14px 0!important}
       .cta-cnt{padding:50px 14px 260px!important}
+      #testimonials{padding:44px 12px 36px!important}
     }
 
   </style>
