@@ -156,8 +156,8 @@
 
     /* ── INTERIOR ── */
     #interior{position:relative;min-height:620px;background-image:url('dist/assets/section-3.png');background-size:cover;background-position:center;overflow:hidden}
-    #interior::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(3,4,8,.18),rgba(3,4,8,.02) 42%,rgba(3,4,8,.22));opacity:.5;transition:opacity .8s ease}
-    #interior.in-view::before{opacity:.9}
+    #interior::before{content:'';position:absolute;inset:0;background:none;opacity:0;transition:none}
+    #interior.in-view::before{opacity:0}
     .int-txt{position:absolute;top:0;left:0;width:50%;height:100%;background:linear-gradient(to right,rgba(255,255,255,1) 0%,rgba(255,255,255,.98) 55%,rgba(255,255,255,.75) 75%,rgba(255,255,255,0) 100%);display:flex;flex-direction:column;justify-content:center;align-items:flex-end;padding:80px 48px 80px 80px;box-shadow:40px 0 90px rgba(0,0,0,.16)}
     .int-txt .sp{color:rgba(255,255,255,.62)}
     .int-txt > .lbl,.int-txt > .h2,.int-txt > .gl,.int-txt > .sp,.int-txt > .int-checks,.int-txt > .btn-p{width:min(100%,540px);margin-left:auto}
