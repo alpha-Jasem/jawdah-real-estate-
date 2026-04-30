@@ -365,18 +365,19 @@
     @media(max-width:640px){
       nav{padding:20px 16px 58px;justify-content:space-between;align-items:center;row-gap:10px}
       nav.scrolled{padding:20px 16px 58px}
-      .nav-toggle{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;order:1;position:absolute;left:16px;top:16px;width:54px;height:54px;padding:0;border:1px solid rgba(62,205,196,.28);background:linear-gradient(180deg,rgba(14,16,22,.52),rgba(8,10,14,.24));backdrop-filter:blur(14px);border-radius:18px;box-shadow:0 14px 30px rgba(0,0,0,.14),inset 0 1px 0 rgba(255,255,255,.05)}
-      .nav-toggle span{width:22px;height:1.8px;margin:0;background:linear-gradient(90deg,#f8f2e8,#3ECDC4);border-radius:999px;box-shadow:0 0 10px rgba(62,205,196,.08)}
-      .nav-toggle span:nth-child(2){width:16px}
+      .nav-toggle{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;order:1;position:absolute;left:16px;top:16px;width:44px;height:44px;padding:0;border:none;background:transparent;border-radius:10px;box-shadow:none;backdrop-filter:none}
+      .nav-toggle span{width:22px;height:2px;margin:0;background:#1a1a1a;border-radius:999px;box-shadow:none}
+      .nav-toggle span:nth-child(2){width:22px}
       .nav-toggle span+span{margin-top:5px}
       .nav-logo{width:auto;order:2;position:absolute;right:16px;top:10px;display:flex;justify-content:flex-end}
-      nav{background:linear-gradient(180deg,rgba(240,252,252,1) 0%,rgba(240,252,252,.98) 34%,rgba(240,252,252,.95) 56%,rgba(240,252,252,.82) 76%,rgba(240,252,252,.46) 90%,rgba(240,252,252,.12) 100%);box-shadow:0 24px 54px rgba(0,0,0,.42)}
-      nav.scrolled{background:linear-gradient(180deg,rgba(240,252,252,1) 0%,rgba(240,252,252,1) 36%,rgba(240,252,252,.97) 58%,rgba(240,252,252,.88) 78%,rgba(240,252,252,.54) 92%,rgba(240,252,252,.18) 100%);box-shadow:0 30px 62px rgba(0,0,0,.5)}
+      nav{background:#fff;box-shadow:0 1px 12px rgba(0,0,0,.08)}
+      nav.scrolled{background:#fff;box-shadow:0 2px 16px rgba(0,0,0,.10)}
       .nav-logo{padding:0;background:none}
       .nav-logo img{height:82px}
-      .nav-links{display:none;order:3;position:absolute;top:72px;left:16px;right:16px;transform:none;width:auto;justify-content:flex-start;flex-direction:column;gap:8px;padding:14px;background:rgba(8,10,15,.92);border:1px solid rgba(62,205,196,.12);border-radius:18px;backdrop-filter:blur(16px);box-shadow:0 24px 60px rgba(0,0,0,.28)}
+      .nav-links{display:none;order:3;position:absolute;top:72px;left:16px;right:16px;transform:none;width:auto;justify-content:flex-start;flex-direction:column;gap:6px;padding:12px;background:#fff;border:1px solid rgba(0,0,0,.07);border-radius:14px;backdrop-filter:none;box-shadow:0 8px 24px rgba(0,0,0,.10)}
       nav.menu-open .nav-links{display:flex}
-      .nav-links a{font-size:.75rem;padding:10px 12px;border:1px solid rgba(255,255,255,.06);background:rgba(62,205,196,.06);border-radius:12px;display:block}
+      .nav-links a{font-size:.88rem;padding:11px 14px;border:none;background:transparent;border-radius:10px;display:block;color:#1a1a1a!important;border-bottom:1px solid rgba(0,0,0,.05)}
+      .nav-links li:last-child a{border-bottom:none}
       nav.menu-open .nav-toggle span:nth-child(1){transform:translateY(7px) rotate(45deg)}
       nav.menu-open .nav-toggle span:nth-child(2){opacity:0}
       nav.menu-open .nav-toggle span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
@@ -551,10 +552,10 @@
       nav:not(.scrolled) .nav-cta{border-color:rgba(255,255,255,.7)!important;color:#fff!important}
     }
     @media(max-width:640px){
-      nav.menu-open .nav-links a{color:rgba(255,255,255,.88)!important}
-      nav.menu-open .nav-links a:hover,nav.menu-open .nav-links a.active{color:#3ECDC4!important}
-      nav{background:rgba(255,255,255,.98)!important;box-shadow:0 8px 28px rgba(0,0,0,.12)!important}
-      nav.scrolled{background:rgba(255,255,255,.98)!important}
+      nav.menu-open .nav-links a{color:#1a1a1a!important}
+      nav.menu-open .nav-links a:hover,nav.menu-open .nav-links a.active{color:#2AABA3!important}
+      nav{background:#fff!important;box-shadow:0 1px 12px rgba(0,0,0,.08)!important}
+      nav.scrolled{background:#fff!important;box-shadow:0 2px 16px rgba(0,0,0,.10)!important}
     }
     nav.scrolled::before{background:rgba(255,255,255,.98)!important;border-bottom:1px solid rgba(62,205,196,.12)!important;box-shadow:0 8px 32px rgba(0,0,0,.08)!important}
     .nav-cta{color:#2AABA3!important;border-color:#2AABA3!important}
