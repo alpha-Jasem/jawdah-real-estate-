@@ -1057,9 +1057,42 @@
       #testimonials{padding:44px 12px 36px!important}
     }
 
+    /* ── PAGE LOADER ── */
+    #page-loader{position:fixed;inset:0;z-index:99999;background:#f5fefe;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:36px;transition:opacity .65s cubic-bezier(.22,1,.36,1),visibility .65s}
+    #page-loader.hide{opacity:0;visibility:hidden;pointer-events:none}
+    .ld-logo{width:200px;max-width:55vw;opacity:0;transform:scale(.88) translateY(10px);animation:ldLogoIn .75s .1s cubic-bezier(.22,1,.36,1) forwards}
+    @keyframes ldLogoIn{to{opacity:1;transform:scale(1) translateY(0)}}
+    .ld-ring{width:38px;height:38px;border:2.5px solid rgba(42,171,163,.18);border-top-color:#2AABA3;border-radius:50%;animation:ldSpin .85s linear infinite;opacity:0;animation-delay:.55s;animation-fill-mode:forwards}
+    @keyframes ldSpin{0%{opacity:1;transform:rotate(0)}100%{opacity:1;transform:rotate(360deg)}}
+    .ld-tagline{font-family:'Tajawal',sans-serif;font-size:.76rem;letter-spacing:.18em;color:#2AABA3;text-transform:uppercase;opacity:0;animation:ldFadeIn .6s .7s ease forwards}
+    @keyframes ldFadeIn{to{opacity:.7}}
+
   </style>
 </head>
 <body data-cc-id="cc-1" style="background-color: rgb(255, 255, 255); cursor: crosshair;">
+
+<!-- PAGE LOADER -->
+<div id="page-loader">
+  <img src="dist/image-removebg-preview.png" class="ld-logo" alt="جودة العقارية">
+  <div class="ld-ring"></div>
+  <span class="ld-tagline">JAWDAH REAL ESTATE</span>
+</div>
+<script>
+(function(){
+  var loader=document.getElementById('page-loader');
+  var start=Date.now();
+  function hide(){
+    var wait=Math.max(0,900-(Date.now()-start));
+    setTimeout(function(){
+      loader.classList.add('hide');
+      setTimeout(function(){loader.remove()},700);
+    },wait);
+  }
+  window.addEventListener('load',hide);
+  setTimeout(hide,6000);
+})();
+</script>
+
 <div class="scroll-prog" id="scrollProg"></div>
 
 <!-- NAV -->
