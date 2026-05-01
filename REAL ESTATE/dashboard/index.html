@@ -1,0 +1,2058 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>جودة العقارية — لوحة التحكم</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+// ═══════════════════════════════════════════════════════
+// Jawdah Real Estate — Supabase Config
+// ═══════════════════════════════════════════════════════
+const JAWDAH_CONFIG = {
+  supabase: {
+    url: 'https://checwxcpfwbvjfvbujaw.supabase.co',
+    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNoZWN3eGNwZndidmpmdmJ1amF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2Mjc0NDQsImV4cCI6MjA5MzIwMzQ0NH0.52n-Mg8_JxoWdDompJ2c9q2-LkRuc7bX0IB7XblGdgw',
+  },
+  admin: { email: 'admin@jawdah.sa' },
+  sites: {
+    dashboard: window.location.origin,
+    website:   'https://jawdah.sa',
+    portal:    'https://portal.jawdah.sa',
+  }
+};
+</script>
+<style>
+/* ── Reset & base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; font-family: var(--font-arabic); background: var(--bg); color: var(--fg); font-size: 15px; }
+button { cursor: pointer; font-family: inherit; }
+input, textarea, select { font-family: inherit; }
+a { text-decoration: none; color: inherit; }
+img { display: block; max-width: 100%; }
+
+/* ── Dark mode ── */
+.dark {
+  --bg: #0F1214;
+  --bg-elevated: #1A1E22;
+  --bg-subtle: #1F2428;
+  --fg: #F1F3F5;
+  --fg-muted: #97A1AA;
+  --fg-subtle: #6B7680;
+  --border: #2C3237;
+  --border-strong: #4A5159;
+  --ink-50: #1A1E22;
+  --ink-100: #1F2428;
+  --ink-200: #2C3237;
+}
+
+/* ── Layout ── */
+#app { display: flex; height: 100vh; overflow: hidden; }
+
+/* ── Sidebar ── */
+.sidebar {
+  width: 240px; min-width: 240px;
+  background: var(--bg-elevated);
+  border-left: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  transition: width var(--dur-slow) var(--ease-standard);
+  overflow: hidden; position: relative; z-index: 5;
+}
+.sidebar.collapsed { width: 64px; min-width: 64px; }
+.sidebar-logo {
+  padding: 20px 16px 16px;
+  display: flex; align-items: center; gap: 10px;
+  border-bottom: 1px solid var(--border);
+  min-height: 72px;
+}
+.sidebar-logo img { height: 32px; flex-shrink: 0; }
+.sidebar-logo .logo-text { font-size: 13px; font-weight: 700; white-space: nowrap; overflow: hidden; }
+.sidebar.collapsed .logo-text { display: none; }
+.nav-section { padding: 8px; display: flex; flex-direction: column; gap: 2px; }
+.nav-label {
+  font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--fg-subtle); padding: 8px 8px 4px;
+  white-space: nowrap; overflow: hidden;
+}
+.sidebar.collapsed .nav-label { opacity: 0; }
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 10px; border-radius: 8px; border: none;
+  background: transparent; color: var(--fg-muted);
+  font-size: 14px; font-weight: 500; white-space: nowrap;
+  transition: all var(--dur-fast) var(--ease-standard);
+  width: 100%; text-align: right; position: relative;
+}
+.nav-item:hover { background: var(--bg-subtle); color: var(--fg); }
+.nav-item.active { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+.nav-item .nav-label-text { overflow: hidden; }
+.sidebar.collapsed .nav-label-text { display: none; }
+.nav-item .badge {
+  margin-right: auto; background: var(--brand-teal-600); color: #fff;
+  font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 999px;
+  flex-shrink: 0;
+}
+.sidebar.collapsed .badge { display: none; }
+.sidebar-footer {
+  margin-top: auto; padding: 12px 8px;
+  border-top: 1px solid var(--border);
+  display: flex; align-items: center; gap: 10px;
+}
+.avatar {
+  width: 36px; height: 36px; border-radius: 999px; flex-shrink: 0;
+  background: var(--brand-teal-600); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700;
+}
+.sidebar-footer .user-info { overflow: hidden; }
+.sidebar-footer .user-name { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sidebar-footer .user-role { font-size: 11px; color: var(--fg-muted); }
+.sidebar.collapsed .user-info { display: none; }
+.collapse-btn {
+  position: absolute; top: 50%; left: -12px;
+  transform: translateY(-50%);
+  width: 24px; height: 24px; border-radius: 999px;
+  background: var(--bg-elevated); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 10; transition: all var(--dur-fast);
+}
+.collapse-btn:hover { background: var(--bg-subtle); }
+
+/* ── Main area ── */
+.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+
+/* ── Top bar ── */
+.topbar {
+  height: 64px; padding: 0 28px;
+  display: flex; align-items: center; gap: 16px;
+  background: var(--bg-elevated); border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.topbar-title { font-family: var(--font-display); font-size: 22px; font-weight: 500; flex: 1; }
+.topbar-actions { display: flex; gap: 8px; align-items: center; }
+.icon-btn {
+  width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--border);
+  background: var(--bg); display: flex; align-items: center; justify-content: center;
+  color: var(--fg-muted); transition: all var(--dur-fast);
+  position: relative;
+}
+.icon-btn:hover { background: var(--bg-subtle); color: var(--fg); }
+.icon-btn .notif-dot {
+  position: absolute; top: 6px; right: 6px;
+  width: 7px; height: 7px; border-radius: 999px;
+  background: var(--brand-teal-600); border: 2px solid var(--bg-elevated);
+}
+.search-bar {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 14px; border: 1px solid var(--border);
+  border-radius: 8px; background: var(--bg); min-width: 260px;
+  transition: all var(--dur-fast);
+}
+.search-bar:focus-within { border-color: var(--brand-teal-500); box-shadow: var(--ring-focus); }
+.search-bar input { border: none; outline: none; background: transparent; font-size: 14px; color: var(--fg); width: 100%; }
+.search-bar input::placeholder { color: var(--fg-subtle); }
+
+/* ── Page content ── */
+.page { flex: 1; overflow-y: auto; padding: 28px; display: none; }
+.page.active { display: block; }
+
+/* ── Cards / KPIs ── */
+.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+.kpi-card {
+  background: var(--bg-elevated); border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px;
+}
+.kpi-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--fg-muted); font-weight: 600; margin-bottom: 10px; }
+.kpi-value { font-family: var(--font-display); font-size: 36px; font-weight: 500; line-height: 1; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+.kpi-delta { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; margin-top: 8px; }
+.kpi-delta.up { color: var(--success-500); }
+.kpi-delta.down { color: var(--danger-500); }
+.kpi-spark { height: 40px; margin-top: 12px; }
+
+/* ── Section header ── */
+.section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.section-title { font-size: 16px; font-weight: 700; }
+.section-link { font-size: 13px; color: var(--brand-teal-600); font-weight: 600; }
+
+/* ── Grid layouts ── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.grid-auto { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+
+/* ── Panel card ── */
+.panel {
+  background: var(--bg-elevated); border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px;
+}
+
+/* ── Btn ── */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 9px 16px; border-radius: 8px; font-size: 14px;
+  font-weight: 600; border: 1px solid transparent;
+  transition: all var(--dur-fast) var(--ease-standard);
+  white-space: nowrap;
+}
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: var(--accent-hover); }
+.btn-secondary { background: var(--bg); color: var(--fg); border-color: var(--border-strong); }
+.btn-secondary:hover { background: var(--bg-subtle); }
+.btn-ghost { background: transparent; color: var(--fg-muted); }
+.btn-ghost:hover { background: var(--bg-subtle); color: var(--fg); }
+.btn-danger { background: var(--danger-50); color: var(--danger-500); border-color: #F5C2BA; }
+.btn-danger:hover { background: #F5C2BA; }
+.btn-sm { padding: 6px 12px; font-size: 13px; }
+.btn-lg { padding: 12px 22px; font-size: 15px; }
+.btn-icon { width: 34px; height: 34px; padding: 0; justify-content: center; }
+
+/* ── Badge ── */
+.badge {
+  display: inline-flex; align-items: center; padding: 3px 10px;
+  border-radius: 999px; font-size: 12px; font-weight: 600;
+}
+.badge-teal { background: var(--brand-teal-50); color: var(--brand-teal-700); }
+.badge-ink { background: var(--ink-900); color: #fff; }
+.badge-green { background: var(--success-50); color: var(--success-500); }
+.badge-amber { background: var(--warning-50); color: var(--warning-500); }
+.badge-red { background: var(--danger-50); color: var(--danger-500); }
+.badge-gray { background: var(--ink-100); color: var(--ink-600); }
+.badge-sand { background: #F3EDDF; color: #6E5730; }
+
+/* ── Table ── */
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--fg-muted); font-weight: 600; padding: 10px 14px; text-align: right; border-bottom: 1px solid var(--border); white-space: nowrap; }
+td { padding: 13px 14px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--bg-subtle); }
+
+/* ── Pipeline (Kanban) ── */
+.kanban { display: flex; gap: 14px; overflow-x: auto; padding-bottom: 12px; height: calc(100vh - 170px); }
+.kanban-col { min-width: 240px; max-width: 260px; display: flex; flex-direction: column; gap: 8px; }
+.kanban-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 12px; border-radius: 10px;
+  background: var(--bg-subtle); border: 1px solid var(--border);
+  font-size: 13px; font-weight: 700;
+}
+.kanban-body {
+  flex: 1; border-radius: 10px; padding: 8px;
+  background: var(--bg-subtle); border: 1px solid var(--border);
+  display: flex; flex-direction: column; gap: 8px;
+  overflow-y: auto; min-height: 200px;
+}
+.kanban-body.drag-over { border-color: var(--brand-teal-500); background: var(--brand-teal-50); }
+.kanban-card {
+  background: var(--bg-elevated); border: 1px solid var(--border);
+  border-radius: 8px; padding: 12px; cursor: grab;
+  transition: all var(--dur-fast);
+}
+.kanban-card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+.kanban-card.dragging { opacity: 0.4; }
+.kanban-card-name { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+.kanban-card-prop { font-size: 12px; color: var(--fg-muted); margin-bottom: 8px; }
+.kanban-card-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 8px; border-top: 1px solid var(--border); }
+.kanban-card-budget { font-size: 11px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.kanban-card-time { font-size: 10px; color: var(--fg-subtle); }
+
+/* ── Calendar ── */
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.cal-day-header { font-size: 11px; text-align: center; color: var(--fg-muted); font-weight: 600; padding: 8px 0; text-transform: uppercase; letter-spacing: 0.06em; }
+.cal-day {
+  min-height: 90px; padding: 6px; border-radius: 8px;
+  border: 1px solid var(--border); background: var(--bg-elevated);
+  font-size: 12px; cursor: pointer; transition: all var(--dur-fast);
+}
+.cal-day:hover { border-color: var(--border-strong); }
+.cal-day.today { border-color: var(--brand-teal-500); background: var(--brand-teal-50); }
+.cal-day.other-month { opacity: 0.35; }
+.cal-day-num { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+.cal-day.today .cal-day-num { color: var(--brand-teal-700); }
+.cal-event { font-size: 10px; background: var(--brand-teal-100); color: var(--brand-teal-700); border-radius: 4px; padding: 2px 5px; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; }
+
+/* ── Messages ── */
+.msg-layout { display: grid; grid-template-columns: 300px 1fr; gap: 0; height: calc(100vh - 124px); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+.msg-list { border-left: 1px solid var(--border); overflow-y: auto; background: var(--bg-elevated); }
+.msg-list-item { padding: 14px 16px; border-bottom: 1px solid var(--border); cursor: pointer; transition: background var(--dur-fast); }
+.msg-list-item:hover, .msg-list-item.active { background: var(--bg-subtle); }
+.msg-list-item .name { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+.msg-list-item .preview { font-size: 12px; color: var(--fg-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.msg-list-item .time { font-size: 11px; color: var(--fg-subtle); }
+.msg-chat { display: flex; flex-direction: column; background: var(--bg); }
+.msg-chat-header { padding: 14px 20px; border-bottom: 1px solid var(--border); background: var(--bg-elevated); display: flex; align-items: center; gap: 12px; }
+.msg-chat-body { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 12px; }
+.msg-bubble { max-width: 60%; padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.5; }
+.msg-bubble.in { background: var(--bg-elevated); border: 1px solid var(--border); align-self: flex-start; border-bottom-right-radius: 4px; }
+.msg-bubble.out { background: var(--brand-teal-600); color: #fff; align-self: flex-end; border-bottom-left-radius: 4px; }
+.msg-time { font-size: 10px; color: var(--fg-subtle); margin-top: 3px; }
+.msg-chat-footer { padding: 14px 20px; border-top: 1px solid var(--border); background: var(--bg-elevated); display: flex; gap: 10px; align-items: center; }
+.msg-input { flex: 1; border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; font-size: 14px; background: var(--bg); color: var(--fg); outline: none; }
+.msg-input:focus { border-color: var(--brand-teal-500); }
+
+/* ── Modal / Drawer ── */
+.overlay { position: fixed; inset: 0; background: rgba(15,18,20,0.5); z-index: 50; display: none; backdrop-filter: blur(4px); }
+.overlay.open { display: flex; align-items: center; justify-content: center; }
+.modal { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 16px; padding: 28px; width: 560px; max-height: 85vh; overflow-y: auto; position: relative; }
+.drawer { position: fixed; top: 0; left: 0; width: 440px; height: 100vh; background: var(--bg-elevated); border-right: 1px solid var(--border); z-index: 51; padding: 28px; overflow-y: auto; transform: translateX(-100%); transition: transform var(--dur-slow) var(--ease-out); }
+.drawer.open { transform: translateX(0); }
+.modal-header, .drawer-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+.modal-title { font-size: 20px; font-weight: 700; }
+
+/* ── Form fields ── */
+.form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+.form-label { font-size: 13px; font-weight: 600; }
+.form-input {
+  border: 1px solid var(--border-strong); border-radius: 8px;
+  padding: 10px 12px; font-size: 14px; background: var(--bg);
+  color: var(--fg); outline: none; width: 100%;
+  transition: all var(--dur-fast);
+}
+.form-input:focus { border-color: var(--brand-teal-500); box-shadow: var(--ring-focus); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form-hint { font-size: 12px; color: var(--fg-muted); }
+textarea.form-input { min-height: 90px; resize: vertical; }
+select.form-input { cursor: pointer; }
+
+/* ── Upload zone ── */
+.upload-zone {
+  border: 2px dashed var(--border-strong); border-radius: 10px;
+  padding: 32px; text-align: center; cursor: pointer;
+  transition: all var(--dur-fast); background: var(--bg);
+}
+.upload-zone:hover, .upload-zone.dragover { border-color: var(--brand-teal-500); background: var(--brand-teal-50); }
+.upload-zone .upload-icon { color: var(--fg-muted); margin: 0 auto 10px; }
+.upload-zone p { font-size: 14px; color: var(--fg-muted); }
+.upload-zone span { font-size: 13px; color: var(--brand-teal-600); font-weight: 600; }
+.media-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 12px; }
+.media-thumb {
+  aspect-ratio: 1; border-radius: 8px; overflow: hidden; position: relative;
+  background: var(--bg-subtle); border: 1px solid var(--border);
+}
+.media-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.media-thumb .remove-btn {
+  position: absolute; top: 4px; right: 4px;
+  width: 20px; height: 20px; border-radius: 999px;
+  background: rgba(15,18,20,0.7); color: #fff; border: none;
+  display: flex; align-items: center; justify-content: center; font-size: 12px;
+  opacity: 0; transition: opacity var(--dur-fast);
+}
+.media-thumb:hover .remove-btn { opacity: 1; }
+
+/* ── Switch toggle ── */
+.toggle { position: relative; display: inline-block; width: 44px; height: 24px; }
+.toggle input { opacity: 0; width: 0; height: 0; }
+.toggle-track {
+  position: absolute; inset: 0; background: var(--ink-300);
+  border-radius: 999px; transition: background var(--dur-fast); cursor: pointer;
+}
+.toggle input:checked + .toggle-track { background: var(--brand-teal-600); }
+.toggle-thumb {
+  position: absolute; top: 3px; right: 3px;
+  width: 18px; height: 18px; border-radius: 999px;
+  background: #fff; transition: transform var(--dur-fast);
+  pointer-events: none;
+}
+.toggle input:checked ~ .toggle-thumb { transform: translateX(-20px); }
+
+/* ── Toast ── */
+#toast-container { position: fixed; bottom: 24px; left: 24px; z-index: 100; display: flex; flex-direction: column; gap: 8px; }
+.toast {
+  background: var(--ink-900); color: #fff; padding: 12px 18px;
+  border-radius: 10px; font-size: 14px; display: flex; align-items: center; gap: 10px;
+  box-shadow: var(--shadow-lg); animation: slideInToast 200ms var(--ease-out);
+  max-width: 340px;
+}
+.toast.success { border-right: 3px solid var(--success-500); }
+.toast.error { border-right: 3px solid var(--danger-500); }
+.toast.info { border-right: 3px solid var(--brand-teal-500); }
+@keyframes slideInToast { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ── Activity feed ── */
+.activity-item { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+.activity-item:last-child { border-bottom: none; }
+.activity-icon { width: 34px; height: 34px; border-radius: 8px; background: var(--bg-subtle); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.activity-content { flex: 1; }
+.activity-title { font-size: 13px; font-weight: 600; }
+.activity-desc { font-size: 12px; color: var(--fg-muted); margin-top: 2px; }
+.activity-time { font-size: 11px; color: var(--fg-subtle); white-space: nowrap; }
+
+/* ── Project cards (website manager) ── */
+.project-card {
+  background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 12px;
+  overflow: hidden; transition: all var(--dur-base); cursor: grab;
+}
+.project-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.project-card.dragging { opacity: 0.4; }
+.project-card-img { height: 160px; background: linear-gradient(135deg, #3AA9B3, #174F55); position: relative; }
+.project-card-img img { width: 100%; height: 100%; object-fit: cover; }
+.project-card-body { padding: 14px 16px; }
+.project-card-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+.project-card-meta { font-size: 12px; color: var(--fg-muted); display: flex; gap: 12px; flex-wrap: wrap; }
+.project-card-actions { display: flex; gap: 6px; padding: 10px 16px; border-top: 1px solid var(--border); }
+
+/* ── Stat row ── */
+.stat-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border); }
+.stat-row:last-child { border-bottom: none; }
+.stat-bar-wrap { flex: 1; margin: 0 16px; height: 6px; background: var(--ink-100); border-radius: 999px; overflow: hidden; }
+.stat-bar { height: 100%; background: var(--brand-teal-500); border-radius: 999px; transition: width 600ms var(--ease-out); }
+
+/* ── Login screen ── */
+#login-screen {
+  position: fixed; inset: 0; z-index: 200;
+  background: var(--bg); display: flex; align-items: center; justify-content: center;
+}
+.login-box {
+  width: 420px; background: var(--bg-elevated); border: 1px solid var(--border);
+  border-radius: 20px; padding: 40px; text-align: center;
+}
+.login-box img { height: 52px; margin: 0 auto 24px; }
+.login-box h2 { font-family: var(--font-display); font-size: 28px; font-weight: 500; margin-bottom: 6px; }
+.login-box p { font-size: 14px; color: var(--fg-muted); margin-bottom: 28px; }
+.login-error { background: var(--danger-50); color: var(--danger-500); border-radius: 8px; padding: 10px 14px; font-size: 13px; margin-bottom: 16px; display: none; text-align: right; }
+.login-error.show { display: block; }
+
+/* ── Progress / skeleton ── */
+.skeleton { background: linear-gradient(90deg, var(--ink-100) 25%, var(--ink-50) 50%, var(--ink-100) 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: 6px; }
+@keyframes shimmer { to { background-position: -200% 0; } }
+
+/* ── Quick action fab ── */
+.quick-actions {
+  position: fixed; bottom: 28px; left: 28px; z-index: 40;
+  display: flex; flex-direction: column-reverse; gap: 10px; align-items: flex-end;
+}
+.fab { width: 52px; height: 52px; border-radius: 999px; background: var(--ink-900); color: #fff; border: none; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-lg); transition: all var(--dur-fast); }
+.fab:hover { background: var(--ink-700); transform: scale(1.08); }
+.fab-mini { width: 40px; height: 40px; border-radius: 999px; background: var(--bg-elevated); color: var(--fg); border: 1px solid var(--border); display: none; align-items: center; justify-content: center; box-shadow: var(--shadow-md); transition: all var(--dur-fast); font-size: 12px; }
+.fab-mini.visible { display: flex; }
+.fab-mini:hover { background: var(--brand-teal-50); color: var(--brand-teal-700); }
+.fab-mini-label { font-size: 12px; background: var(--ink-900); color: #fff; padding: 4px 10px; border-radius: 6px; white-space: nowrap; }
+
+/* ── Chart container ── */
+.chart-wrap { position: relative; }
+canvas { max-width: 100%; }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--ink-200); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-300); }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ LOGIN ═══════════════ -->
+<div id="login-screen">
+  <div class="login-box">
+    <img src="../assets/logo-jawdah-full.png" alt="Jawdah">
+    <h2>لوحة التحكم</h2>
+    <p>مخصصة للإدارة فقط · Admin access only</p>
+    <div class="login-error" id="login-error">البريد الإلكتروني أو كلمة المرور غير صحيحة</div>
+    <div class="form-group" style="text-align:right">
+      <label class="form-label">البريد الإلكتروني</label>
+      <input class="form-input" type="email" id="login-email" placeholder="admin@jawdah.sa" value="admin@jawdah.sa">
+    </div>
+    <div class="form-group" style="text-align:right">
+      <label class="form-label">كلمة المرور</label>
+      <input class="form-input" type="password" id="login-password" placeholder="••••••••" value="password">
+    </div>
+    <button class="btn btn-primary btn-lg" style="width:100%;justify-content:center;margin-top:8px" onclick="doLogin()">
+      دخول
+    </button>
+    <p style="font-size:12px;color:var(--fg-muted);margin-top:16px">جودة العقارية · نظام إدارة داخلي</p>
+  </div>
+</div>
+
+<!-- ═══════════════ APP ═══════════════ -->
+<div id="app" style="display:none">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <button class="collapse-btn" onclick="toggleSidebar()" id="collapse-btn">
+      <i data-lucide="chevron-left" width="14" height="14"></i>
+    </button>
+    <div class="sidebar-logo">
+      <img src="../assets/logo-jawdah-mark.png" alt="Jawdah">
+      <span class="logo-text">جودة العقارية</span>
+    </div>
+
+    <div style="flex:1;overflow-y:auto">
+      <div class="nav-section">
+        <div class="nav-label">الرئيسية</div>
+        <button class="nav-item active" onclick="navTo('overview')" data-page="overview">
+          <i data-lucide="layout-dashboard" width="18" height="18"></i>
+          <span class="nav-label-text">نظرة عامة</span>
+        </button>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-label">المواقع</div>
+        <button class="nav-item" onclick="navTo('website')" data-page="website">
+          <i data-lucide="globe" width="18" height="18"></i>
+          <span class="nav-label-text">الموقع التعريفي</span>
+        </button>
+        <button class="nav-item" onclick="navTo('properties')" data-page="properties">
+          <i data-lucide="home" width="18" height="18"></i>
+          <span class="nav-label-text">بوابة العقارات</span>
+        </button>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-label">إدارة العملاء</div>
+        <button class="nav-item" onclick="navTo('pipeline')" data-page="pipeline">
+          <i data-lucide="kanban" width="18" height="18"></i>
+          <span class="nav-label-text">Pipeline</span>
+        </button>
+        <button class="nav-item" onclick="navTo('leads')" data-page="leads">
+          <i data-lucide="users" width="18" height="18"></i>
+          <span class="nav-label-text">العملاء</span>
+          <span class="badge">7</span>
+        </button>
+        <button class="nav-item" onclick="navTo('calendar')" data-page="calendar">
+          <i data-lucide="calendar" width="18" height="18"></i>
+          <span class="nav-label-text">التقويم</span>
+        </button>
+        <button class="nav-item" onclick="navTo('messages')" data-page="messages">
+          <i data-lucide="message-square" width="18" height="18"></i>
+          <span class="nav-label-text">الرسائل</span>
+          <span class="badge">3</span>
+        </button>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-label">التحليلات</div>
+        <button class="nav-item" onclick="navTo('reports')" data-page="reports">
+          <i data-lucide="bar-chart-3" width="18" height="18"></i>
+          <span class="nav-label-text">التقارير</span>
+        </button>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-label">النظام</div>
+        <button class="nav-item" onclick="navTo('settings')" data-page="settings">
+          <i data-lucide="settings" width="18" height="18"></i>
+          <span class="nav-label-text">الإعدادات</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="avatar">FA</div>
+      <div class="user-info">
+        <div class="user-name">فيصل الحربي</div>
+        <div class="user-role">مدير النظام</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="search-bar">
+        <i data-lucide="search" width="16" height="16" style="color:var(--fg-muted);flex-shrink:0"></i>
+        <input placeholder="بحث سريع... (عميل، عقار، مشروع)" id="global-search">
+      </div>
+      <div class="topbar-actions">
+        <button class="icon-btn" title="الإشعارات" onclick="toggleNotifications()">
+          <i data-lucide="bell" width="18" height="18"></i>
+          <span class="notif-dot"></span>
+        </button>
+        <button class="icon-btn" title="Dark Mode" onclick="toggleDark()" id="dark-btn">
+          <i data-lucide="moon" width="18" height="18"></i>
+        </button>
+        <button class="icon-btn" title="تبديل اللغة" onclick="toggleLang()">
+          <i data-lucide="languages" width="18" height="18"></i>
+        </button>
+        <button class="btn btn-primary btn-sm" onclick="openQuickAdd()">
+          <i data-lucide="plus" width="14" height="14"></i> إضافة سريعة
+        </button>
+      </div>
+    </div>
+
+    <!-- ══ PAGE: OVERVIEW ══ -->
+    <div class="page active" id="page-overview" data-screen-label="01 Overview">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
+        <div>
+          <div class="eyebrow">لوحة التحكم</div>
+          <h1 style="font-family:var(--font-display);font-size:32px;font-weight:500;margin-top:6px">نظرة عامة · Q2 2026</h1>
+        </div>
+        <div style="display:flex;gap:10px">
+          <button class="btn btn-secondary btn-sm"><i data-lucide="download" width="14" height="14"></i> تصدير</button>
+          <button class="btn btn-primary btn-sm" onclick="openAddProject()"><i data-lucide="plus" width="14" height="14"></i> مشروع جديد</button>
+        </div>
+      </div>
+
+      <!-- KPI Cards -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">زيارات الموقع التعريفي</div>
+          <div class="kpi-value" id="kpi-analytics">14,820</div>
+          <div class="kpi-delta up"><i data-lucide="trending-up" width="12" height="12"></i> +18% هذا الشهر</div>
+          <div class="kpi-spark"><canvas id="spark1"></canvas></div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">عقارات نشطة</div>
+          <div class="kpi-value" id="kpi-properties">28</div>
+          <div class="kpi-delta up"><i data-lucide="trending-up" width="12" height="12"></i> +3 هذا الأسبوع</div>
+          <div class="kpi-spark"><canvas id="spark2"></canvas></div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">عملاء محتملون</div>
+          <div class="kpi-value" id="kpi-leads">47</div>
+          <div class="kpi-delta up"><i data-lucide="trending-up" width="12" height="12"></i> +12 جديد</div>
+          <div class="kpi-spark"><canvas id="spark3"></canvas></div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">صفقات مغلقة (MTD)</div>
+          <div class="kpi-value">3</div>
+          <div class="kpi-delta up" style="font-size:11px">8.4M SAR إجمالي</div>
+          <div class="kpi-spark"><canvas id="spark4"></canvas></div>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-bottom:24px">
+        <!-- Main chart -->
+        <div class="panel">
+          <div class="section-header">
+            <span class="section-title">الزيارات الأسبوعية</span>
+            <div style="display:flex;gap:6px">
+              <button class="btn btn-ghost btn-sm" onclick="setChartPeriod('week',this)" style="color:var(--brand-teal-700)">أسبوع</button>
+              <button class="btn btn-ghost btn-sm" onclick="setChartPeriod('month',this)">شهر</button>
+            </div>
+          </div>
+          <div class="chart-wrap" style="height:220px"><canvas id="visitsChart"></canvas></div>
+        </div>
+
+        <!-- Quick stats -->
+        <div class="panel">
+          <div class="section-header"><span class="section-title">أكثر العقارات مشاهدة</span><a class="section-link" onclick="navTo('properties')">عرض الكل</a></div>
+          <div id="top-props">
+            <div class="stat-row"><span style="font-size:13px;font-weight:600">شقة 3 غرف، العليا</span><div class="stat-bar-wrap"><div class="stat-bar" style="width:92%"></div></div><span style="font-size:12px;font-variant-numeric:tabular-nums;color:var(--fg-muted)">1,240</span></div>
+            <div class="stat-row"><span style="font-size:13px;font-weight:600">بنتهاوس، الياسمين</span><div class="stat-bar-wrap"><div class="stat-bar" style="width:71%"></div></div><span style="font-size:12px;font-variant-numeric:tabular-nums;color:var(--fg-muted)">960</span></div>
+            <div class="stat-row"><span style="font-size:13px;font-weight:600">فيلا، النخيل</span><div class="stat-bar-wrap"><div class="stat-bar" style="width:58%"></div></div><span style="font-size:12px;font-variant-numeric:tabular-nums;color:var(--fg-muted)">780</span></div>
+            <div class="stat-row"><span style="font-size:13px;font-weight:600">استوديو، كافد</span><div class="stat-bar-wrap"><div class="stat-bar" style="width:44%"></div></div><span style="font-size:12px;font-variant-numeric:tabular-nums;color:var(--fg-muted)">590</span></div>
+            <div class="stat-row"><span style="font-size:13px;font-weight:600">تاون هاوس، الملقا</span><div class="stat-bar-wrap"><div class="stat-bar" style="width:31%"></div></div><span style="font-size:12px;font-variant-numeric:tabular-nums;color:var(--fg-muted)">420</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <!-- Website widget -->
+        <div class="panel">
+          <div class="section-header">
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="width:36px;height:36px;border-radius:8px;background:var(--brand-teal-50);display:flex;align-items:center;justify-content:center"><i data-lucide="globe" width="18" height="18" style="color:var(--brand-teal-700)"></i></div>
+              <span class="section-title">الموقع التعريفي</span>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="navTo('website')">إدارة المشاريع</button>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:4px">
+            <div style="text-align:center;padding:14px;background:var(--bg-subtle);border-radius:10px">
+              <div class="kpi-value" id="kpi-projects" style="font-family:var(--font-display);font-size:28px;font-weight:500">—</div>
+              <div style="font-size:11px;color:var(--fg-muted);margin-top:2px">مشروع منشور</div>
+            </div>
+            <div style="text-align:center;padding:14px;background:var(--bg-subtle);border-radius:10px">
+              <div style="font-family:var(--font-display);font-size:28px;font-weight:500">8</div>
+              <div style="font-size:11px;color:var(--fg-muted);margin-top:2px">مسودات</div>
+            </div>
+            <div style="text-align:center;padding:14px;background:var(--bg-subtle);border-radius:10px">
+              <div style="font-family:var(--font-display);font-size:28px;font-weight:500">14.8K</div>
+              <div style="font-size:11px;color:var(--fg-muted);margin-top:2px">زيارة هذا الشهر</div>
+            </div>
+          </div>
+          <div style="margin-top:14px;padding:12px;background:var(--brand-teal-50);border-radius:8px;display:flex;align-items:center;justify-content:space-between">
+            <span style="font-size:13px;color:var(--brand-teal-700)">آخر نشر: مشروع الأبراج · اليوم 10:24</span>
+            <a href="#" style="font-size:13px;font-weight:600;color:var(--brand-teal-700)">معاينة الموقع ←</a>
+          </div>
+        </div>
+
+        <!-- Activity feed -->
+        <div class="panel">
+          <div class="section-header"><span class="section-title">آخر النشاطات</span><a class="section-link">عرض الكل</a></div>
+          <div id="activity-feed">
+            <div class="activity-item">
+              <div class="activity-icon"><i data-lucide="user-plus" width="16" height="16" style="color:var(--brand-teal-700)"></i></div>
+              <div class="activity-content"><div class="activity-title">عميل جديد</div><div class="activity-desc">نورة الشهري · شقة العليا</div></div>
+              <div class="activity-time">12د</div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon"><i data-lucide="calendar-check" width="16" height="16" style="color:var(--success-500)"></i></div>
+              <div class="activity-content"><div class="activity-title">موعد مؤكد</div><div class="activity-desc">فهد الرشيد · السبت 14:00</div></div>
+              <div class="activity-time">1س</div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon"><i data-lucide="upload" width="16" height="16" style="color:var(--fg-muted)"></i></div>
+              <div class="activity-content"><div class="activity-title">رُفع مشروع</div><div class="activity-desc">مجمع الأبراج · 8 صور</div></div>
+              <div class="activity-time">3س</div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon"><i data-lucide="file-text" width="16" height="16" style="color:#6E5730"></i></div>
+              <div class="activity-content"><div class="activity-title">عرض مقدم</div><div class="activity-desc">مريم القحطاني · 12,500 ر.س/شهر</div></div>
+              <div class="activity-time">أمس</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ PAGE: WEBSITE ══ -->
+    <div class="page" id="page-website" data-screen-label="02 Website Manager">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
+        <div>
+          <div class="eyebrow">الموقع التعريفي</div>
+          <h1 style="font-family:var(--font-display);font-size:32px;font-weight:500;margin-top:6px">إدارة المشاريع والإنجازات</h1>
+        </div>
+        <div style="display:flex;gap:10px">
+          <button class="btn btn-secondary btn-sm"><i data-lucide="eye" width="14" height="14"></i> معاينة الموقع</button>
+          <button class="btn btn-secondary btn-sm"><i data-lucide="settings" width="14" height="14"></i> إعدادات الموقع</button>
+          <button class="btn btn-primary" onclick="openAddProject()"><i data-lucide="plus" width="14" height="14"></i> مشروع جديد</button>
+        </div>
+      </div>
+
+      <!-- Filter tabs -->
+      <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;align-items:center">
+        <div style="display:flex;gap:4px;background:var(--bg-subtle);padding:4px;border-radius:10px">
+          <button class="btn btn-sm" style="background:var(--bg-elevated);border:1px solid var(--border)" onclick="filterProjects('all',this)">الكل (142)</button>
+          <button class="btn btn-ghost btn-sm" onclick="filterProjects('published',this)">منشور</button>
+          <button class="btn btn-ghost btn-sm" onclick="filterProjects('draft',this)">مسودة</button>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <button class="btn btn-secondary btn-sm" onclick="filterCat('all',this)">جميع الفئات</button>
+          <button class="btn btn-ghost btn-sm" onclick="filterCat('residential',this)">سكني</button>
+          <button class="btn btn-ghost btn-sm" onclick="filterCat('commercial',this)">تجاري</button>
+          <button class="btn btn-ghost btn-sm" onclick="filterCat('administrative',this)">إداري</button>
+        </div>
+        <div style="margin-right:auto;font-size:13px;color:var(--fg-muted)">اسحب الكروت لإعادة الترتيب</div>
+      </div>
+
+      <!-- Projects grid -->
+      <div class="grid-auto" id="projects-grid">
+        <!-- injected by JS -->
+      </div>
+    </div>
+
+    <!-- ══ PAGE: PROPERTIES ══ -->
+    <div class="page" id="page-properties" data-screen-label="03 Properties">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
+        <div>
+          <div class="eyebrow">بوابة العقارات</div>
+          <h1 style="font-family:var(--font-display);font-size:32px;font-weight:500;margin-top:6px">إدارة قوائم العقارات</h1>
+        </div>
+        <div style="display:flex;gap:10px">
+          <button class="btn btn-secondary btn-sm"><i data-lucide="eye" width="14" height="14"></i> معاينة البوابة</button>
+          <button class="btn btn-primary" onclick="openAddProperty()"><i data-lucide="plus" width="14" height="14"></i> عقار جديد</button>
+        </div>
+      </div>
+
+      <!-- Stats row -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px">
+        <div class="panel" style="padding:14px;display:flex;gap:12px;align-items:center">
+          <div style="width:40px;height:40px;border-radius:8px;background:var(--brand-teal-50);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i data-lucide="home" width="18" height="18" style="color:var(--brand-teal-700)"></i></div>
+          <div><div style="font-family:var(--font-display);font-size:24px;font-weight:500">28</div><div style="font-size:11px;color:var(--fg-muted)">نشط</div></div>
+        </div>
+        <div class="panel" style="padding:14px;display:flex;gap:12px;align-items:center">
+          <div style="width:40px;height:40px;border-radius:8px;background:var(--warning-50);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i data-lucide="clock" width="18" height="18" style="color:var(--warning-500)"></i></div>
+          <div><div style="font-family:var(--font-display);font-size:24px;font-weight:500">5</div><div style="font-size:11px;color:var(--fg-muted)">قيد المراجعة</div></div>
+        </div>
+        <div class="panel" style="padding:14px;display:flex;gap:12px;align-items:center">
+          <div style="width:40px;height:40px;border-radius:8px;background:var(--success-50);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i data-lucide="check-circle" width="18" height="18" style="color:var(--success-500)"></i></div>
+          <div><div style="font-family:var(--font-display);font-size:24px;font-weight:500">18</div><div style="font-size:11px;color:var(--fg-muted)">مُباع / مُؤجَّر</div></div>
+        </div>
+        <div class="panel" style="padding:14px;display:flex;gap:12px;align-items:center">
+          <div style="width:40px;height:40px;border-radius:8px;background:var(--ink-100);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i data-lucide="eye-off" width="18" height="18" style="color:var(--fg-muted)"></i></div>
+          <div><div style="font-family:var(--font-display);font-size:24px;font-weight:500">3</div><div style="font-size:11px;color:var(--fg-muted)">معطّل</div></div>
+        </div>
+      </div>
+
+      <div class="panel" style="padding:0;overflow:hidden">
+        <div style="padding:14px 20px;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:center">
+          <div class="search-bar" style="max-width:280px">
+            <i data-lucide="search" width="14" height="14" style="color:var(--fg-muted)"></i>
+            <input placeholder="بحث في العقارات...">
+          </div>
+          <button class="btn btn-secondary btn-sm">نوع العقار</button>
+          <button class="btn btn-secondary btn-sm">الحالة</button>
+          <button class="btn btn-secondary btn-sm">الموقع</button>
+        </div>
+        <div class="table-wrap">
+          <table id="props-table">
+            <thead>
+              <tr>
+                <th>العقار</th>
+                <th>النوع</th>
+                <th>السعر</th>
+                <th>المساحة</th>
+                <th>الحالة</th>
+                <th>المشاهدات</th>
+                <th>الإجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="props-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ PAGE: PIPELINE ══ -->
+    <div class="page" id="page-pipeline" data-screen-label="04 Pipeline">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+        <div>
+          <div class="eyebrow">إدارة المبيعات</div>
+          <h1 style="font-family:var(--font-display);font-size:32px;font-weight:500;margin-top:6px">Pipeline · Q2 2026</h1>
+        </div>
+        <button class="btn btn-primary" onclick="openAddLead()"><i data-lucide="plus" width="14" height="14"></i> عميل جديد</button>
+      </div>
+      <div class="kanban" id="kanban-board"></div>
+    </div>
+
+    <!-- ══ PAGE: LEADS ══ -->
+    <div class="page" id="page-leads" data-screen-label="05 Leads">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
+        <div>
+          <div class="eyebrow">إدارة العملاء</div>
+          <h1 style="font-family:var(--font-display);font-size:32px;font-weight:500;margin-top:6px">العملاء المحتملون</h1>
+        </div>
+        <div style="display:flex;gap:10px">
+          <button class="btn btn-secondary btn-sm"><i data-lucide="download" width="14" height="14"></i> تصدير CSV</button>
+          <button class="btn btn-primary" onclick="openAddLead()"><i data-lucide="user-plus" width="14" height="14"></i> إضافة عميل</button>
+        </div>
+      </div>
+      <div class="panel" style="padding:0;overflow:hidden">
+        <div style="padding:14px 20px;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:center">
+          <div class="search-bar" style="max-width:280px">
+            <i data-lucide="search" width="14" height="14" style="color:var(--fg-muted)"></i>
+            <input placeholder="بحث عن عميل...">
+          </div>
+          <button class="btn btn-secondary btn-sm">المرحلة</button>
+          <button class="btn btn-secondary btn-sm">المصدر</button>
+          <div style="margin-right:auto;font-size:13px;color:var(--fg-muted)">47 عميل</div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>العميل</th><th>العقار</th><th>الميزانية</th><th>المرحلة</th><th>المصدر</th><th>التاريخ</th><th></th></tr></thead>
+            <tbody id="leads-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ PAGE: CALENDAR ══ -->
+    <div class="page" id="page-calendar" data-screen-label="06 Calendar">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
+        <div>
+          <div class="eyebrow">المواعيد</div>
+          <h1 style="font-family:var(--font-display);font-size:32px;font-weight:500;margin-top:6px" id="cal-title">مايو 2026</h1>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="icon-btn" onclick="calNav(-1)"><i data-lucide="chevron-right" width="16" height="16"></i></button>
+          <button class="icon-btn" onclick="calNav(1)"><i data-lucide="chevron-left" width="16" height="16"></i></button>
+          <button class="btn btn-primary btn-sm" onclick="openAddAppointment()"><i data-lucide="plus" width="14" height="14"></i> موعد جديد</button>
+        </div>
+      </div>
+      <div class="panel" style="padding:16px">
+        <div class="cal-grid" id="cal-headers"></div>
+        <div class="cal-grid" id="cal-grid" style="margin-top:4px"></div>
+      </div>
+    </div>
+
+    <!-- ══ PAGE: MESSAGES ══ -->
+    <div class="page" id="page-messages" data-screen-label="07 Messages">
+      <div class="eyebrow" style="margin-bottom:16px">الرسائل</div>
+      <div class="msg-layout">
+        <div class="msg-list" id="msg-list"></div>
+        <div class="msg-chat">
+          <div class="msg-chat-header" id="msg-chat-header">
+            <div class="avatar" style="width:38px;height:38px;font-size:13px">نو</div>
+            <div><div style="font-size:14px;font-weight:700">نورة الشهري</div><div style="font-size:12px;color:var(--fg-muted)">متصلة منذ 12 دقيقة</div></div>
+            <div style="margin-right:auto;display:flex;gap:6px">
+              <button class="icon-btn"><i data-lucide="phone" width="16" height="16"></i></button>
+              <button class="icon-btn"><i data-lucide="more-vertical" width="16" height="16"></i></button>
+            </div>
+          </div>
+          <div class="msg-chat-body" id="msg-body"></div>
+          <div class="msg-chat-footer">
+            <input class="msg-input" placeholder="اكتب رسالة..." id="msg-input" onkeydown="if(event.key==='Enter')sendMsg()">
+            <button class="icon-btn" onclick="sendMsg()"><i data-lucide="send" width="16" height="16" style="color:var(--brand-teal-600)"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ PAGE: REPORTS ══ -->
+    <div class="page" id="page-reports" data-screen-label="08 Reports">
+      <div style="margin-bottom:24px">
+        <div class="eyebrow">التقارير</div>
+        <h1 style="font-family:var(--font-display);font-size:32px;font-weight:500;margin-top:6px">تقارير الأداء</h1>
+      </div>
+      <div class="kpi-grid" style="margin-bottom:24px">
+        <div class="kpi-card"><div class="kpi-label">إجمالي الزيارات</div><div class="kpi-value">89.4K</div><div class="kpi-delta up"><i data-lucide="trending-up" width="12" height="12"></i>+24% سنوياً</div></div>
+        <div class="kpi-card"><div class="kpi-label">معدل التحويل</div><div class="kpi-value">3.2%</div><div class="kpi-delta up"><i data-lucide="trending-up" width="12" height="12"></i>+0.4%</div></div>
+        <div class="kpi-card"><div class="kpi-label">متوسط وقت الاستجابة</div><div class="kpi-value">1.8س</div><div class="kpi-delta up"><i data-lucide="trending-down" width="12" height="12"></i>أسرع بـ 22%</div></div>
+        <div class="kpi-card"><div class="kpi-label">رضا العملاء</div><div class="kpi-value">94%</div><div class="kpi-delta up"><i data-lucide="trending-up" width="12" height="12"></i>+2%</div></div>
+      </div>
+      <div class="grid-2" style="margin-bottom:24px">
+        <div class="panel">
+          <div class="section-header"><span class="section-title">الزيارات الشهرية</span></div>
+          <div class="chart-wrap" style="height:240px"><canvas id="monthlyChart"></canvas></div>
+        </div>
+        <div class="panel">
+          <div class="section-header"><span class="section-title">مصادر العملاء</span></div>
+          <div class="chart-wrap" style="height:240px"><canvas id="sourceChart"></canvas></div>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="panel">
+          <div class="section-header"><span class="section-title">قمع التحويل</span></div>
+          <div id="funnel-chart" style="display:flex;flex-direction:column;gap:8px;padding-top:8px"></div>
+        </div>
+        <div class="panel">
+          <div class="section-header"><span class="section-title">أداء فئات العقارات</span></div>
+          <div class="chart-wrap" style="height:220px"><canvas id="catChart"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ PAGE: SETTINGS ══ -->
+    <div class="page" id="page-settings" data-screen-label="09 Settings">
+      <div style="margin-bottom:24px">
+        <div class="eyebrow">النظام</div>
+        <h1 style="font-family:var(--font-display);font-size:32px;font-weight:500;margin-top:6px">الإعدادات</h1>
+      </div>
+      <div style="max-width:680px;display:flex;flex-direction:column;gap:20px">
+
+        <div class="panel">
+          <div class="section-title" style="margin-bottom:20px">معلومات الشركة</div>
+          <div class="form-row"><div class="form-group"><label class="form-label">اسم الشركة (عربي)</label><input class="form-input" value="جودة العقارية"></div><div class="form-group"><label class="form-label">Company name (English)</label><input class="form-input" value="Jawdah Real Estate"></div></div>
+          <div class="form-group"><label class="form-label">الشعار الوصفي</label><input class="form-input" value="جودة تليق بك"></div>
+          <div class="form-row"><div class="form-group"><label class="form-label">الهاتف</label><input class="form-input" value="+966 5X XXX XXXX"></div><div class="form-group"><label class="form-label">البريد الإلكتروني</label><input class="form-input" value="info@jawdah.sa"></div></div>
+          <div class="form-group"><label class="form-label">العنوان</label><input class="form-input" value="الرياض، المملكة العربية السعودية"></div>
+          <button class="btn btn-primary btn-sm" onclick="showToast('تم حفظ المعلومات','success')"><i data-lucide="save" width="14" height="14"></i> حفظ</button>
+        </div>
+
+        <div class="panel">
+          <div class="section-title" style="margin-bottom:20px">ربط Supabase</div>
+          <div class="form-group"><label class="form-label">Supabase URL</label><input class="form-input" id="sb-url" placeholder="https://xxxx.supabase.co"></div>
+          <div class="form-group"><label class="form-label">Anon Key</label><input class="form-input" id="sb-key" placeholder="eyJh..."></div>
+          <button class="btn btn-primary btn-sm" onclick="saveSupabaseConfig()"><i data-lucide="link" width="14" height="14"></i> حفظ وربط</button>
+          <div style="margin-top:12px;padding:12px;background:var(--warning-50);border-radius:8px;font-size:13px;color:#8A5A18">
+            <b>تلميح:</b> ضع بيانات Supabase هنا أو في ملف config.js قبل الرفع على Vercel.
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="section-title" style="margin-bottom:20px">التفضيلات</div>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <div><div style="font-size:14px;font-weight:600">الوضع الليلي</div><div style="font-size:12px;color:var(--fg-muted)">تبديل بين الوضع الفاتح والداكن</div></div>
+              <label class="toggle"><input type="checkbox" id="dark-toggle" onchange="toggleDark()"><span class="toggle-track"></span><span class="toggle-thumb"></span></label>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <div><div style="font-size:14px;font-weight:600">اللغة الافتراضية</div><div style="font-size:12px;color:var(--fg-muted)">عربي / إنجليزي</div></div>
+              <div style="display:flex;gap:6px">
+                <button class="btn btn-secondary btn-sm" style="background:var(--brand-teal-50);border-color:var(--brand-teal-500);color:var(--brand-teal-700)">عربي</button>
+                <button class="btn btn-ghost btn-sm">English</button>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <div><div style="font-size:14px;font-weight:600">الإشعارات بالبريد</div><div style="font-size:12px;color:var(--fg-muted)">إشعار عند وصول عميل جديد</div></div>
+              <label class="toggle"><input type="checkbox" checked><span class="toggle-track"></span><span class="toggle-thumb"></span></label>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <div><div style="font-size:14px;font-weight:600">الملخص اليومي</div><div style="font-size:12px;color:var(--fg-muted)">ملخص يومي تلقائي على بريدك</div></div>
+              <label class="toggle"><input type="checkbox" checked><span class="toggle-track"></span><span class="toggle-thumb"></span></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="section-title" style="margin-bottom:16px">سجل النشاط</div>
+          <div id="activity-log">
+            <div class="activity-item"><div class="activity-icon"><i data-lucide="log-in" width="14" height="14" style="color:var(--brand-teal-700)"></i></div><div class="activity-content"><div class="activity-title">تسجيل دخول</div><div class="activity-desc">admin@jawdah.sa · Chrome · الرياض</div></div><div class="activity-time">الآن</div></div>
+            <div class="activity-item"><div class="activity-icon"><i data-lucide="upload" width="14" height="14" style="color:var(--fg-muted)"></i></div><div class="activity-content"><div class="activity-title">رفع مشروع</div><div class="activity-desc">مجمع الأبراج · 8 صور</div></div><div class="activity-time">3س</div></div>
+            <div class="activity-item"><div class="activity-icon"><i data-lucide="edit" width="14" height="14" style="color:var(--warning-500)"></i></div><div class="activity-content"><div class="activity-title">تعديل عقار</div><div class="activity-desc">شقة العليا · تحديث السعر</div></div><div class="activity-time">أمس</div></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="section-title" style="margin-bottom:12px;color:var(--danger-500)">منطقة الخطر</div>
+          <button class="btn btn-danger" onclick="doLogout()"><i data-lucide="log-out" width="14" height="14"></i> تسجيل الخروج</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<!-- ══ MODALS ══ -->
+
+<!-- Add Project Modal -->
+<div class="overlay" id="modal-project">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="modal-project-title">مشروع جديد</span>
+      <button class="icon-btn" onclick="closeModal('modal-project')"><i data-lucide="x" width="16" height="16"></i></button>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">اسم المشروع (عربي)</label><input class="form-input" id="proj-title-ar" placeholder="مجمع الأبراج، الرياض"></div>
+      <div class="form-group"><label class="form-label">Project name (EN)</label><input class="form-input" id="proj-title-en" placeholder="Tower Complex, Riyadh"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">الفئة</label><select class="form-input" id="proj-cat"><option value="residential">سكني</option><option value="commercial">تجاري</option><option value="administrative">إداري</option></select></div>
+      <div class="form-group"><label class="form-label">سنة الإنجاز</label><input class="form-input" type="number" id="proj-year" value="2024"></div>
+    </div>
+    <div class="form-group"><label class="form-label">اسم العميل</label><input class="form-input" id="proj-client" placeholder="شركة ..."></div>
+    <div class="form-group"><label class="form-label">الوصف</label><textarea class="form-input" id="proj-desc" placeholder="وصف المشروع..."></textarea></div>
+    <div class="form-group">
+      <label class="form-label">الصور والفيديوهات</label>
+      <div class="upload-zone" id="proj-upload-zone" onclick="document.getElementById('proj-files').click()" ondragover="event.preventDefault();this.classList.add('dragover')" ondragleave="this.classList.remove('dragover')" ondrop="handleFileDrop(event,'proj')">
+        <div class="upload-icon"><i data-lucide="upload-cloud" width="32" height="32"></i></div>
+        <p>اسحب الصور والفيديوهات هنا</p>
+        <span>أو اضغط للاختيار</span>
+        <input type="file" id="proj-files" multiple accept="image/*,video/*" style="display:none" onchange="handleFileSelect(event,'proj')">
+      </div>
+      <div class="media-grid" id="proj-media-grid"></div>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px">
+      <label class="toggle" style="display:flex;align-items:center;gap:10px">
+        <input type="checkbox" id="proj-published" checked>
+        <span class="toggle-track"></span>
+        <span class="toggle-thumb"></span>
+        <span style="font-size:14px;font-weight:600">نشر فوراً</span>
+      </label>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-secondary" onclick="closeModal('modal-project')">إلغاء</button>
+        <button class="btn btn-primary" onclick="saveProject()"><i data-lucide="save" width="14" height="14"></i> حفظ</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add Property Modal -->
+<div class="overlay" id="modal-property">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">عقار جديد</span>
+      <button class="icon-btn" onclick="closeModal('modal-property')"><i data-lucide="x" width="16" height="16"></i></button>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">اسم العقار (عربي)</label><input class="form-input" id="prop-title" placeholder="شقة 3 غرف، العليا"></div>
+      <div class="form-group"><label class="form-label">النوع</label><select class="form-input" id="prop-type"><option value="sale">للبيع</option><option value="rent">للإيجار</option></select></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">السعر (ر.س)</label><input class="form-input" type="number" id="prop-price" placeholder="2,450,000"></div>
+      <div class="form-group"><label class="form-label">المساحة (م²)</label><input class="form-input" type="number" id="prop-area" placeholder="214"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">غرف النوم</label><input class="form-input" type="number" id="prop-beds" placeholder="3"></div>
+      <div class="form-group"><label class="form-label">دورات المياه</label><input class="form-input" type="number" id="prop-baths" placeholder="2"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">الحي</label><input class="form-input" id="prop-district" placeholder="العليا"></div>
+      <div class="form-group"><label class="form-label">المدينة</label><input class="form-input" id="prop-city" value="الرياض"></div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">الصور</label>
+      <div class="upload-zone" onclick="document.getElementById('prop-files').click()">
+        <div class="upload-icon"><i data-lucide="image" width="28" height="28"></i></div>
+        <p>اضغط لرفع صور العقار</p>
+        <input type="file" id="prop-files" multiple accept="image/*" style="display:none" onchange="handleFileSelect(event,'prop')">
+      </div>
+      <div class="media-grid" id="prop-media-grid"></div>
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:8px">
+      <button class="btn btn-secondary" onclick="closeModal('modal-property')">إلغاء</button>
+      <button class="btn btn-primary" onclick="saveProperty()"><i data-lucide="save" width="14" height="14"></i> حفظ</button>
+    </div>
+  </div>
+</div>
+
+<!-- Lead Drawer -->
+<div class="overlay" id="overlay-lead" onclick="if(event.target===this)closeDrawer()"></div>
+<div class="drawer" id="drawer-lead">
+  <div class="drawer-header">
+    <span class="modal-title" id="drawer-lead-title">عميل جديد</span>
+    <button class="icon-btn" onclick="closeDrawer()"><i data-lucide="x" width="16" height="16"></i></button>
+  </div>
+  <div class="form-row">
+    <div class="form-group"><label class="form-label">الاسم</label><input class="form-input" id="lead-name" placeholder="نورة الشهري"></div>
+    <div class="form-group"><label class="form-label">الهاتف</label><input class="form-input" id="lead-phone" placeholder="+966 5X..."></div>
+  </div>
+  <div class="form-group"><label class="form-label">البريد الإلكتروني</label><input class="form-input" id="lead-email" placeholder="noura@..."></div>
+  <div class="form-row">
+    <div class="form-group"><label class="form-label">المرحلة</label><select class="form-input" id="lead-stage"><option value="new">جديد</option><option value="qualified">مؤهل</option><option value="viewing">معاينة</option><option value="offer">عرض</option><option value="closed">مغلق</option></select></div>
+    <div class="form-group"><label class="form-label">الميزانية</label><input class="form-input" id="lead-budget" placeholder="2.5M ر.س"></div>
+  </div>
+  <div class="form-group"><label class="form-label">العقار المطلوب</label><input class="form-input" id="lead-property" placeholder="شقة، العليا..."></div>
+  <div class="form-group"><label class="form-label">المصدر</label><select class="form-input" id="lead-source"><option value="website">الموقع التعريفي</option><option value="portal">بوابة العقارات</option><option value="direct">مباشر</option><option value="referral">إحالة</option></select></div>
+  <div class="form-group"><label class="form-label">ملاحظات</label><textarea class="form-input" id="lead-notes" placeholder="تفاصيل إضافية..."></textarea></div>
+  <div style="display:flex;gap:8px;margin-top:8px">
+    <button class="btn btn-primary" style="flex:1;justify-content:center" onclick="saveLead()"><i data-lucide="save" width="14" height="14"></i> حفظ</button>
+    <button class="btn btn-secondary" onclick="closeDrawer()">إلغاء</button>
+  </div>
+</div>
+
+<!-- Add Appointment Modal -->
+<div class="overlay" id="modal-appointment">
+  <div class="modal" style="width:440px">
+    <div class="modal-header">
+      <span class="modal-title">موعد جديد</span>
+      <button class="icon-btn" onclick="closeModal('modal-appointment')"><i data-lucide="x" width="16" height="16"></i></button>
+    </div>
+    <div class="form-group"><label class="form-label">العميل</label><input class="form-input" placeholder="اسم العميل"></div>
+    <div class="form-group"><label class="form-label">العقار</label><input class="form-input" placeholder="اسم أو رقم العقار"></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">التاريخ</label><input class="form-input" type="date"></div>
+      <div class="form-group"><label class="form-label">الوقت</label><input class="form-input" type="time" value="14:00"></div>
+    </div>
+    <div class="form-group"><label class="form-label">ملاحظات</label><textarea class="form-input" placeholder="..."></textarea></div>
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:8px">
+      <button class="btn btn-secondary" onclick="closeModal('modal-appointment')">إلغاء</button>
+      <button class="btn btn-primary" onclick="saveAppointment()"><i data-lucide="save" width="14" height="14"></i> حفظ</button>
+    </div>
+  </div>
+</div>
+
+<!-- Notifications panel -->
+<div class="overlay" id="notif-panel" onclick="if(event.target===this)document.getElementById('notif-panel').classList.remove('open')">
+  <div style="position:fixed;top:72px;left:24px;width:340px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:16px;padding:20px;z-index:51;box-shadow:var(--shadow-xl)">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <span style="font-size:16px;font-weight:700">الإشعارات</span>
+      <button class="btn btn-ghost btn-sm" onclick="document.getElementById('notif-panel').classList.remove('open')">تمييز كمقروء</button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:2px">
+      <div class="activity-item"><div class="activity-icon" style="background:var(--brand-teal-50)"><i data-lucide="user-plus" width="14" height="14" style="color:var(--brand-teal-700)"></i></div><div class="activity-content"><div class="activity-title">عميل جديد</div><div class="activity-desc">نورة الشهري · شقة العليا</div></div><div class="activity-time">12د</div></div>
+      <div class="activity-item"><div class="activity-icon" style="background:var(--success-50)"><i data-lucide="calendar-check" width="14" height="14" style="color:var(--success-500)"></i></div><div class="activity-content"><div class="activity-title">موعد مؤكد</div><div class="activity-desc">فهد الرشيد · السبت 14:00</div></div><div class="activity-time">1س</div></div>
+      <div class="activity-item"><div class="activity-icon" style="background:var(--warning-50)"><i data-lucide="alert-triangle" width="14" height="14" style="color:var(--warning-500)"></i></div><div class="activity-content"><div class="activity-title">إعلان على وشك الانتهاء</div><div class="activity-desc">استوديو كافد · ينتهي الجمعة</div></div><div class="activity-time">3س</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast container -->
+<div id="toast-container"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// SUPABASE CLIENT
+// ═══════════════════════════════════════════════════════
+const sb = window.supabase.createClient(
+  JAWDAH_CONFIG.supabase.url,
+  JAWDAH_CONFIG.supabase.anonKey
+);
+
+// ═══════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', async () => {
+  lucide.createIcons();
+
+  // Check existing session
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) {
+    showApp(session.user);
+  }
+
+  // Listen for auth changes
+  sb.auth.onAuthStateChange((event, session) => {
+    if (event === 'SIGNED_IN' && session) showApp(session.user);
+    if (event === 'SIGNED_OUT') showLogin();
+  });
+});
+
+function showApp(user) {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+  // Update user info in sidebar
+  const name = user.email?.split('@')[0] || 'Admin';
+  const initials = name.substring(0,2).toUpperCase();
+  document.querySelector('.sidebar-footer .user-name').textContent = user.email;
+  document.querySelector('.sidebar-footer .avatar').textContent = initials;
+  lucide.createIcons();
+  // Load real data
+  loadAllData();
+}
+
+function showLogin() {
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+}
+
+async function loadAllData() {
+  await Promise.all([
+    loadProjects(),
+    loadProperties(),
+    loadLeads(),
+  ]);
+  renderKanban();
+  renderCalendar();
+  renderMessages();
+  renderCharts();
+  renderSparklines();
+  renderFunnel();
+  loadAnalytics();
+}
+
+// ═══════════════════════════════════════════════════════
+// AUTH — Supabase حقيقي
+// ═══════════════════════════════════════════════════════
+async function doLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const pass  = document.getElementById('login-password').value;
+  const err   = document.getElementById('login-error');
+  const btn   = document.querySelector('#login-screen .btn-primary');
+  if (!email || !pass) { err.classList.add('show'); err.textContent='يرجى إدخال البريد وكلمة المرور'; return; }
+  btn.textContent = 'جاري الدخول...';
+  btn.disabled = true;
+  const { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
+  btn.textContent = 'دخول';
+  btn.disabled = false;
+  if (error) {
+    err.classList.add('show');
+    err.textContent = 'البريد الإلكتروني أو كلمة المرور غير صحيحة';
+    return;
+  }
+  err.classList.remove('show');
+  showToast('مرحباً بك في جودة العقارية ✓', 'success');
+}
+
+async function doLogout() {
+  await sb.auth.signOut();
+  showToast('تم تسجيل الخروج بنجاح', 'info');
+}
+
+// ═══════════════════════════════════════════════════════
+// NAV
+// ═══════════════════════════════════════════════════════
+function navTo(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const el = document.getElementById('page-' + page);
+  if (el) el.classList.add('active');
+  const btn = document.querySelector(`[data-page="${page}"]`);
+  if (btn) btn.classList.add('active');
+  // Re-render charts if needed
+  if (page === 'reports') setTimeout(renderCharts, 50);
+  if (page === 'calendar') renderCalendar();
+}
+
+// ═══════════════════════════════════════════════════════
+// SIDEBAR
+// ═══════════════════════════════════════════════════════
+let sidebarCollapsed = false;
+function toggleSidebar() {
+  sidebarCollapsed = !sidebarCollapsed;
+  const sb = document.getElementById('sidebar');
+  const btn = document.getElementById('collapse-btn');
+  sb.classList.toggle('collapsed', sidebarCollapsed);
+  btn.querySelector('i').setAttribute('data-lucide', sidebarCollapsed ? 'chevron-right' : 'chevron-left');
+  lucide.createIcons();
+}
+
+// ═══════════════════════════════════════════════════════
+// DARK MODE
+// ═══════════════════════════════════════════════════════
+let dark = false;
+function toggleDark() {
+  dark = !dark;
+  document.documentElement.classList.toggle('dark', dark);
+  const toggle = document.getElementById('dark-toggle');
+  if (toggle) toggle.checked = dark;
+  lucide.createIcons();
+}
+
+// ═══════════════════════════════════════════════════════
+// LANG
+// ═══════════════════════════════════════════════════════
+let lang = 'ar';
+function toggleLang() {
+  lang = lang === 'ar' ? 'en' : 'ar';
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  showToast(lang === 'ar' ? 'تم التحويل للعربية' : 'Switched to English', 'info');
+}
+
+// ═══════════════════════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════════════════════
+function showToast(msg, type='info') {
+  const icons = { success:'check-circle', error:'alert-circle', info:'info' };
+  const container = document.getElementById('toast-container');
+  const t = document.createElement('div');
+  t.className = `toast ${type}`;
+  t.innerHTML = `<i data-lucide="${icons[type]||'info'}" width="16" height="16"></i>${msg}`;
+  container.appendChild(t);
+  lucide.createIcons();
+  setTimeout(() => t.remove(), 3500);
+}
+
+// ═══════════════════════════════════════════════════════
+// MODALS
+// ═══════════════════════════════════════════════════════
+function openModal(id) { document.getElementById(id).classList.add('open'); lucide.createIcons(); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+function openAddProject() { document.getElementById('modal-project-title').textContent='مشروع جديد'; openModal('modal-project'); }
+function openAddProperty() { openModal('modal-property'); }
+function openAddAppointment() { openModal('modal-appointment'); }
+function openAddLead() {
+  document.getElementById('drawer-lead-title').textContent = 'عميل جديد';
+  document.getElementById('overlay-lead').classList.add('open');
+  document.getElementById('drawer-lead').classList.add('open');
+  lucide.createIcons();
+}
+function closeDrawer() {
+  document.getElementById('overlay-lead').classList.remove('open');
+  document.getElementById('drawer-lead').classList.remove('open');
+}
+function openQuickAdd() {
+  const items = [
+    { label: 'مشروع جديد', fn: openAddProject },
+    { label: 'عقار جديد', fn: openAddProperty },
+    { label: 'عميل جديد', fn: openAddLead },
+    { label: 'موعد جديد', fn: openAddAppointment },
+  ];
+  // simple inline quick menu
+  const existing = document.getElementById('quick-menu');
+  if (existing) { existing.remove(); return; }
+  const menu = document.createElement('div');
+  menu.id = 'quick-menu';
+  menu.style.cssText='position:fixed;top:72px;left:50%;transform:translateX(-50%);background:var(--bg-elevated);border:1px solid var(--border);border-radius:12px;padding:6px;z-index:60;display:flex;gap:6px;box-shadow:var(--shadow-xl)';
+  items.forEach(it => {
+    const b = document.createElement('button');
+    b.className='btn btn-secondary btn-sm';
+    b.textContent=it.label;
+    b.onclick=()=>{ menu.remove(); it.fn(); };
+    menu.appendChild(b);
+  });
+  document.body.appendChild(menu);
+  setTimeout(()=>document.addEventListener('click',function h(e){if(!menu.contains(e.target)){menu.remove();document.removeEventListener('click',h);}},100));
+}
+
+// Notifications
+function toggleNotifications() {
+  document.getElementById('notif-panel').classList.toggle('open');
+}
+
+// ═══════════════════════════════════════════════════════
+// SUPABASE CONFIG SAVE
+// ═══════════════════════════════════════════════════════
+function saveSupabaseConfig() {
+  const url = document.getElementById('sb-url').value;
+  const key = document.getElementById('sb-key').value;
+  if (!url || !key) { showToast('يرجى إدخال URL و Anon Key', 'error'); return; }
+  localStorage.setItem('sb_url', url);
+  localStorage.setItem('sb_key', key);
+  showToast('تم حفظ إعدادات Supabase. أعد تحميل الصفحة للتفعيل.', 'success');
+}
+
+// ═══════════════════════════════════════════════════════
+// DATA — Supabase + local fallback
+// ═══════════════════════════════════════════════════════
+const BG_GRADIENTS = [
+  'linear-gradient(135deg,#3AA9B3,#174F55)',
+  'linear-gradient(135deg,#A88A4F,#6E5730)',
+  'linear-gradient(135deg,#6B7680,#2C3237)',
+  'linear-gradient(135deg,#55C6D0,#2A8A94)',
+  'linear-gradient(135deg,#D4C29A,#A88A4F)',
+  'linear-gradient(135deg,#2C3237,#0F1214)',
+];
+
+let PROJECTS = [];
+let PROPERTIES = [];
+let LEADS = [];
+
+// ── Load from Supabase ──
+async function loadProjects() {
+  const { data, error } = await sb.from('projects').select('*').order('order_index');
+  if (error) { console.warn('projects load error:', error.message); return; }
+  PROJECTS = (data || []).map((p, i) => ({
+    id: p.id, title: p.title_ar || p.title || '—',
+    titleEn: p.title || '', cat: p.category || 'commercial',
+    year: p.year || 2024, client: p.client_name || '',
+    status: p.status || 'draft',
+    image_url: p.image_url || null,
+    bg: BG_GRADIENTS[i % BG_GRADIENTS.length],
+  }));
+  renderProjects();
+  updateKPI('kpi-projects', PROJECTS.filter(p=>p.status==='published').length);
+}
+
+async function loadProperties() {
+  const { data, error } = await sb.from('properties').select('*').order('created_at', { ascending: false });
+  if (error) { console.warn('properties load error:', error.message); return; }
+  PROPERTIES = (data || []).map(p => ({
+    id: p.id, title: p.title_ar || p.title || '—',
+    type: p.price_type || 'sale', price: p.price || 0,
+    area: p.area || 0, beds: p.beds || 0, baths: p.baths || 0,
+    location: `${p.district || ''}، ${p.city || 'الرياض'}`,
+    status: p.status || 'active', views: p.views_count || 0,
+    images: p.images || [],
+  }));
+  renderPropsTable();
+  updateKPI('kpi-properties', PROPERTIES.filter(p=>p.status==='active').length);
+}
+
+async function loadLeads() {
+  const { data, error } = await sb.from('leads').select('*, properties(title_ar,title)').order('created_at', { ascending: false });
+  if (error) { console.warn('leads load error:', error.message); return; }
+  LEADS = (data || []).map(l => ({
+    id: l.id, name: l.name || '—', phone: l.phone || '',
+    email: l.email || '',
+    property: l.properties?.title_ar || l.properties?.title || l.property_id || '—',
+    budget: l.budget || '—', stage: l.stage || 'new',
+    source: l.source || 'direct',
+    date: timeAgo(l.created_at),
+    notes: l.notes || '',
+  }));
+  renderLeadsTable();
+  // rebuild kanban from real data
+  rebuildKanbanData();
+  updateKPI('kpi-leads', LEADS.filter(l=>l.stage!=='closed').length);
+}
+
+async function loadAnalytics() {
+  const { count } = await sb.from('analytics').select('*', { count:'exact', head:true });
+  if (count !== null) updateKPI('kpi-analytics', count);
+}
+
+function rebuildKanbanData() {
+  kanbanData = { new:[], qualified:[], viewing:[], offer:[], closed:[] };
+  LEADS.forEach(l => {
+    const stage = kanbanData[l.stage] ? l.stage : 'new';
+    kanbanData[stage].push({ id: l.id, name: l.name, prop: l.property, budget: l.budget, time: l.date });
+  });
+  renderKanban();
+}
+
+function updateKPI(id, val) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = val;
+}
+
+function timeAgo(iso) {
+  if (!iso) return '—';
+  const diff = (Date.now() - new Date(iso)) / 1000;
+  if (diff < 60) return 'الآن';
+  if (diff < 3600) return `${Math.floor(diff/60)}د`;
+  if (diff < 86400) return `${Math.floor(diff/3600)}س`;
+  if (diff < 604800) return `${Math.floor(diff/86400)} أيام`;
+  return new Date(iso).toLocaleDateString('ar-SA');
+}
+
+const MSGS = [
+  { id:1, name:'نورة الشهري', initials:'نو', preview:'أريد معرفة المزيد عن الشقة', time:'12د', unread:2, messages:[
+    { text:'السلام عليكم، رأيت إعلان الشقة في العليا', dir:'in', time:'10:12' },
+    { text:'وعليكم السلام، أهلاً نورة! نعم، شقة ٢١٤م² في الدور ١٤.', dir:'out', time:'10:15' },
+    { text:'ما هو السعر النهائي؟', dir:'in', time:'10:18' },
+    { text:'السعر ٢,٤٥٠,٠٠٠ ريال، يشمل موقفين مغطيين.', dir:'out', time:'10:20' },
+    { text:'هل يمكن ترتيب معاينة هذا الأسبوع؟', dir:'in', time:'10:22' },
+  ]},
+  { id:2, name:'خالد المطيري', initials:'خا', preview:'متى يمكن المعاينة؟', time:'1س', unread:0, messages:[
+    { text:'مرحباً، أريد رؤية فيلا النخيل', dir:'in', time:'09:00' },
+    { text:'مرحباً خالد! الفيلا متاحة للمعاينة السبت أو الأحد.', dir:'out', time:'09:05' },
+  ]},
+  { id:3, name:'عمر الغامدي', initials:'عم', preview:'قدمت عرضاً بـ 5.5M', time:'3س', unread:1, messages:[
+    { text:'أريد تقديم عرض على البنتهاوس', dir:'in', time:'07:30' },
+    { text:'يسعدنا ذلك، ما هو عرضك؟', dir:'out', time:'07:35' },
+    { text:'5,500,000 ريال نهائي', dir:'in', time:'07:40' },
+  ]},
+];
+
+// ═══════════════════════════════════════════════════════
+// PROJECTS
+// ═══════════════════════════════════════════════════════
+function renderProjects(filter='all', cat='all') {
+  const grid = document.getElementById('projects-grid');
+  if (!grid) return;
+  let data = PROJECTS;
+  if (filter !== 'all') data = data.filter(p => p.status === filter);
+  if (cat !== 'all') data = data.filter(p => p.cat === cat);
+  grid.innerHTML = data.map(p => `
+    <div class="project-card" draggable="true" id="proj-card-${p.id}"
+      ondragstart="dragStart(event,${p.id},'proj')" ondragend="dragEnd(event)">
+      <div class="project-card-img" style="background:${p.bg}">
+        <div style="position:absolute;top:10px;right:10px">
+          <span class="badge ${p.status==='published'?'badge-green':'badge-amber'}">
+            ${p.status==='published'?'منشور':'مسودة'}
+          </span>
+        </div>
+        <div style="position:absolute;bottom:10px;right:10px;font-size:11px;color:rgba(255,255,255,0.7)">${p.titleEn}</div>
+      </div>
+      <div class="project-card-body">
+        <div class="project-card-title">${p.title}</div>
+        <div class="project-card-meta">
+          <span>${getCatLabel(p.cat)}</span>
+          <span>${p.year}</span>
+          ${p.client ? `<span>${p.client}</span>` : ''}
+        </div>
+      </div>
+      <div class="project-card-actions">
+        <button class="btn btn-ghost btn-sm" onclick="editProject(${p.id})"><i data-lucide="edit-2" width="13" height="13"></i> تعديل</button>
+        <label class="toggle" style="margin-right:auto" title="${p.status==='published'?'إخفاء':'نشر'}">
+          <input type="checkbox" ${p.status==='published'?'checked':''} onchange="toggleProjectStatus(${p.id},this.checked)">
+          <span class="toggle-track"></span><span class="toggle-thumb"></span>
+        </label>
+        <button class="btn btn-ghost btn-sm" style="color:var(--danger-500)" onclick="deleteProject(${p.id})"><i data-lucide="trash-2" width="13" height="13"></i></button>
+      </div>
+    </div>
+  `).join('');
+  lucide.createIcons();
+}
+function getCatLabel(c) { return {residential:'سكني',commercial:'تجاري',administrative:'إداري'}[c]||c; }
+function filterProjects(f,btn) { document.querySelectorAll('.nav-item').length; renderProjects(f); }
+function filterCat(c,btn) { renderProjects('all',c); }
+function toggleProjectStatus(id, checked) {
+  const p = PROJECTS.find(x=>x.id===id);
+  if (p) { p.status = checked ? 'published' : 'draft'; }
+  toggleProjectStatusDB(id, checked);
+}
+function editProject(id) {
+  const p = PROJECTS.find(x=>x.id===id);
+  if (!p) return;
+  document.getElementById('modal-project-title').textContent='تعديل مشروع';
+  document.getElementById('proj-title-ar').value=p.title;
+  document.getElementById('proj-title-en').value=p.titleEn||'';
+  document.getElementById('proj-year').value=p.year;
+  document.getElementById('proj-client').value=p.client||'';
+  document.getElementById('proj-published').checked=p.status==='published';
+  openModal('modal-project');
+}
+async function saveProject() {
+  const title_ar  = document.getElementById('proj-title-ar').value.trim();
+  const title     = document.getElementById('proj-title-en').value.trim();
+  const category  = document.getElementById('proj-cat').value;
+  const year      = parseInt(document.getElementById('proj-year').value) || new Date().getFullYear();
+  const client    = document.getElementById('proj-client').value.trim();
+  const desc      = document.getElementById('proj-desc').value.trim();
+  const published = document.getElementById('proj-published').checked;
+  if (!title_ar) { showToast('أدخل اسم المشروع','error'); return; }
+
+  // Upload images first
+  const files = document.getElementById('proj-files').files;
+  let image_url = null;
+  const gallery_urls = [];
+  if (files.length > 0) {
+    showToast('جاري رفع الصور...','info');
+    for (const file of Array.from(files)) {
+      const ext = file.name.split('.').pop();
+      const path = `projects/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+      const { data: up, error: upErr } = await sb.storage.from('project-media').upload(path, file);
+      if (!upErr) {
+        const url = sb.storage.from('project-media').getPublicUrl(path).data.publicUrl;
+        if (!image_url) image_url = url;
+        gallery_urls.push(url);
+      }
+    }
+  }
+
+  const payload = { title_ar, title, category, year, client_name: client,
+    description_ar: desc, status: published ? 'published' : 'draft',
+    order_index: PROJECTS.length, image_url, gallery_urls };
+
+  const { error } = await sb.from('projects').insert([payload]);
+  if (error) { showToast('خطأ: ' + error.message, 'error'); return; }
+  showToast('تم حفظ المشروع بنجاح ✓','success');
+  closeModal('modal-project');
+  await loadProjects();
+}
+
+// ═══════════════════════════════════════════════════════
+// PROPERTIES TABLE
+// ═══════════════════════════════════════════════════════
+function renderPropsTable() {
+  const tbody = document.getElementById('props-tbody');
+  if (!tbody) return;
+  tbody.innerHTML = PROPERTIES.map(p => `
+    <tr>
+      <td>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="width:44px;height:44px;border-radius:8px;background:linear-gradient(135deg,#3AA9B3,#174F55);flex-shrink:0"></div>
+          <div>
+            <div style="font-size:13px;font-weight:600">${p.title}</div>
+            <div style="font-size:12px;color:var(--fg-muted)">${p.location}</div>
+          </div>
+        </div>
+      </td>
+      <td><span class="badge ${p.type==='sale'?'badge-ink':'badge-teal'}">${p.type==='sale'?'للبيع':'للإيجار'}</span></td>
+      <td style="font-family:var(--font-display);font-variant-numeric:tabular-nums;font-weight:500">${p.price.toLocaleString('ar-SA')} ${p.type==='rent'?'ر.س/شهر':'ر.س'}</td>
+      <td style="font-size:13px">${p.area} م²  <span style="color:var(--fg-muted)">${p.beds}غ ${p.baths}ح</span></td>
+      <td>
+        <label class="toggle" style="display:inline-block" title="${p.status==='active'?'نشط':'معطّل'}">
+          <input type="checkbox" ${p.status==='active'?'checked':''} onchange="togglePropertyStatus('${p.id}',this.checked)">
+          <span class="toggle-track"></span><span class="toggle-thumb"></span>
+        </label>
+      </td>
+      <td style="font-variant-numeric:tabular-nums;color:var(--fg-muted);font-size:13px">${p.views.toLocaleString()}</td>
+      <td>
+        <div style="display:flex;gap:4px">
+          <button class="btn btn-ghost btn-sm" title="تعديل"><i data-lucide="edit-2" width="13" height="13"></i></button>
+          <button class="btn btn-ghost btn-sm" title="نسخ" onclick="showToast('تم نسخ العقار','info')"><i data-lucide="copy" width="13" height="13"></i></button>
+          <button class="btn btn-ghost btn-sm" title="حذف" style="color:var(--danger-500)"><i data-lucide="trash-2" width="13" height="13"></i></button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+  lucide.createIcons();
+}
+async function saveProperty() {
+  const title_ar   = document.getElementById('prop-title').value.trim();
+  const price_type = document.getElementById('prop-type').value;
+  const price      = parseFloat(document.getElementById('prop-price').value) || 0;
+  const area       = parseFloat(document.getElementById('prop-area').value) || 0;
+  const beds       = parseInt(document.getElementById('prop-beds').value) || 0;
+  const baths      = parseInt(document.getElementById('prop-baths').value) || 0;
+  const district   = document.getElementById('prop-district').value.trim();
+  const city       = document.getElementById('prop-city').value.trim() || 'الرياض';
+  if (!title_ar) { showToast('أدخل اسم العقار','error'); return; }
+
+  // Upload images
+  const files = document.getElementById('prop-files').files;
+  const images = [];
+  if (files.length > 0) {
+    showToast('جاري رفع الصور...','info');
+    for (const file of Array.from(files)) {
+      const ext = file.name.split('.').pop();
+      const path = `properties/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+      const { error: upErr } = await sb.storage.from('property-images').upload(path, file);
+      if (!upErr) images.push(sb.storage.from('property-images').getPublicUrl(path).data.publicUrl);
+    }
+  }
+
+  const { error } = await sb.from('properties').insert([{
+    title_ar, price_type, price, area, beds, baths,
+    district, city, images, status: 'active',
+  }]);
+  if (error) { showToast('خطأ: ' + error.message,'error'); return; }
+  showToast('تم حفظ العقار بنجاح ✓','success');
+  closeModal('modal-property');
+  await loadProperties();
+}
+
+// ═══════════════════════════════════════════════════════
+// PIPELINE (Kanban + Drag & Drop)
+// ═══════════════════════════════════════════════════════
+const STAGES = [
+  { k:'new',       label:'جديد',    color:'var(--ink-200)',       count:12 },
+  { k:'qualified', label:'مؤهل',    color:'var(--brand-teal-100)',count:8  },
+  { k:'viewing',   label:'معاينة',  color:'#F3EDDF',              count:5  },
+  { k:'offer',     label:'عرض',     color:'var(--warning-50)',    count:3  },
+  { k:'closed',    label:'مغلق ✓', color:'var(--success-50)',    count:3  },
+];
+let kanbanData = {
+  new: [
+    { id:101, name:'نورة الشهري', prop:'شقة العليا', budget:'2.5M ر.س', time:'12د' },
+    { id:102, name:'خالد المطيري', prop:'فيلا النخيل', budget:'15K/شهر', time:'1س' },
+    { id:103, name:'سارة بن محفوظ', prop:'استوديو كافد', budget:'4.5K/شهر', time:'3س' },
+  ],
+  qualified: [
+    { id:104, name:'عمر الغامدي', prop:'بنتهاوس الياسمين', budget:'6M ر.س', time:'أمس' },
+    { id:105, name:'ليلى الدوسري', prop:'تاون هاوس الملقا', budget:'1.9M ر.س', time:'يومان' },
+  ],
+  viewing: [
+    { id:106, name:'فهد الرشيد', prop:'شقة العليا', budget:'2.5M ر.س', time:'السبت 14:00' },
+  ],
+  offer: [
+    { id:107, name:'مريم القحطاني', prop:'فيلا قرطبة', budget:'14.8K/شهر', time:'عرض 12,500' },
+  ],
+  closed: [
+    { id:108, name:'يزيد العتيبي', prop:'استوديو كافد', budget:'4.2K/شهر', time:'موقّع' },
+  ],
+};
+let dragItemId=null, dragItemStage=null;
+
+function renderKanban() {
+  const board = document.getElementById('kanban-board');
+  if (!board) return;
+  board.innerHTML = STAGES.map(s => `
+    <div class="kanban-col">
+      <div class="kanban-header" style="border-top:3px solid ${s.color==='var(--ink-200)'?'var(--ink-400)':s.color}">
+        <span>${s.label}</span>
+        <span style="font-size:12px;color:var(--fg-muted);background:var(--bg);padding:2px 8px;border-radius:999px;border:1px solid var(--border)">${(kanbanData[s.k]||[]).length}</span>
+      </div>
+      <div class="kanban-body" id="kb-${s.k}"
+        ondragover="kbDragOver(event,'${s.k}')"
+        ondrop="kbDrop(event,'${s.k}')"
+        ondragleave="this.classList.remove('drag-over')">
+        ${(kanbanData[s.k]||[]).map(c => `
+          <div class="kanban-card" draggable="true" id="kc-${c.id}"
+            ondragstart="kbDragStart(event,${c.id},'${s.k}')" ondragend="kbDragEnd(event)">
+            <div class="kanban-card-name">${c.name}</div>
+            <div class="kanban-card-prop">${c.prop}</div>
+            <div class="kanban-card-footer">
+              <span class="kanban-card-budget">${c.budget}</span>
+              <span class="kanban-card-time">${c.time}</span>
+            </div>
+          </div>
+        `).join('')}
+        <button class="btn btn-ghost btn-sm" style="width:100%;justify-content:center;color:var(--fg-subtle);border:1px dashed var(--border);margin-top:4px" onclick="openAddLead()">
+          <i data-lucide="plus" width="12" height="12"></i> إضافة
+        </button>
+      </div>
+    </div>
+  `).join('');
+  lucide.createIcons();
+}
+function kbDragStart(e,id,stage) { dragItemId=id; dragItemStage=stage; setTimeout(()=>{ const el=document.getElementById('kc-'+id); if(el)el.classList.add('dragging'); },0); }
+function kbDragEnd(e) { document.querySelectorAll('.kanban-card').forEach(c=>c.classList.remove('dragging')); document.querySelectorAll('.kanban-body').forEach(b=>b.classList.remove('drag-over')); }
+function kbDragOver(e,stage) { e.preventDefault(); document.getElementById('kb-'+stage).classList.add('drag-over'); }
+function kbDrop(e,stage) {
+  e.preventDefault();
+  document.querySelectorAll('.kanban-body').forEach(b=>b.classList.remove('drag-over'));
+  if (!dragItemId || dragItemStage===stage) return;
+  const card = kanbanData[dragItemStage].find(c=>c.id===dragItemId);
+  if (!card) return;
+  kanbanData[dragItemStage] = kanbanData[dragItemStage].filter(c=>c.id!==dragItemId);
+  kanbanData[stage] = [card, ...(kanbanData[stage]||[])];
+  renderKanban();
+  showToast(`نُقل ${card.name} إلى "${STAGES.find(s=>s.k===stage)?.label}"`, 'success');
+  // persist to Supabase
+  updateLeadStage(card.id, stage);
+}
+
+// ═══════════════════════════════════════════════════════
+// LEADS TABLE
+// ═══════════════════════════════════════════════════════
+const STAGE_LABELS = { new:'جديد', qualified:'مؤهل', viewing:'معاينة', offer:'عرض', closed:'مغلق' };
+const STAGE_BADGES = { new:'badge-teal', qualified:'badge-teal', viewing:'badge-sand', offer:'badge-amber', closed:'badge-green' };
+const SOURCE_LABELS = { website:'الموقع', portal:'البوابة', direct:'مباشر', referral:'إحالة' };
+function renderLeadsTable() {
+  const tbody = document.getElementById('leads-tbody');
+  if (!tbody) return;
+  tbody.innerHTML = LEADS.map(l => `
+    <tr onclick="viewLead(${l.id})" style="cursor:pointer">
+      <td>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="avatar" style="width:34px;height:34px;font-size:12px">${l.name.substring(0,2)}</div>
+          <div>
+            <div style="font-size:13px;font-weight:600">${l.name}</div>
+            <div style="font-size:11px;color:var(--fg-muted)">${l.phone}</div>
+          </div>
+        </div>
+      </td>
+      <td style="font-size:13px">${l.property}</td>
+      <td style="font-size:13px;font-variant-numeric:tabular-nums">${l.budget}</td>
+      <td><span class="badge ${STAGE_BADGES[l.stage]}">${STAGE_LABELS[l.stage]}</span></td>
+      <td><span class="badge badge-gray">${SOURCE_LABELS[l.source]||l.source}</span></td>
+      <td style="font-size:12px;color:var(--fg-muted)">${l.date}</td>
+      <td>
+        <div style="display:flex;gap:4px" onclick="event.stopPropagation()">
+          <button class="btn btn-ghost btn-sm" title="رسالة" onclick="navTo('messages')"><i data-lucide="message-square" width="13" height="13"></i></button>
+          <button class="btn btn-ghost btn-sm" title="موعد" onclick="openAddAppointment()"><i data-lucide="calendar" width="13" height="13"></i></button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+  lucide.createIcons();
+}
+function viewLead(id) {
+  const l = LEADS.find(x=>x.id===id);
+  if (!l) return;
+  document.getElementById('drawer-lead-title').textContent=l.name;
+  document.getElementById('lead-name').value=l.name;
+  document.getElementById('lead-phone').value=l.phone;
+  document.getElementById('lead-email').value=l.email||'';
+  document.getElementById('lead-stage').value=l.stage;
+  document.getElementById('lead-budget').value=l.budget;
+  document.getElementById('lead-property').value=l.property;
+  document.getElementById('lead-source').value=l.source;
+  document.getElementById('overlay-lead').classList.add('open');
+  document.getElementById('drawer-lead').classList.add('open');
+  lucide.createIcons();
+}
+async function saveLead() {
+  const name   = document.getElementById('lead-name').value.trim();
+  const phone  = document.getElementById('lead-phone').value.trim();
+  const email  = document.getElementById('lead-email').value.trim();
+  const stage  = document.getElementById('lead-stage').value;
+  const budget = document.getElementById('lead-budget').value.trim();
+  const source = document.getElementById('lead-source').value;
+  const notes  = document.getElementById('lead-notes').value.trim();
+  if (!name) { showToast('أدخل اسم العميل','error'); return; }
+  const { error } = await sb.from('leads').insert([{ name, phone, email, stage, budget, notes, source }]);
+  if (error) { showToast('خطأ: ' + error.message,'error'); return; }
+  showToast('تم حفظ بيانات العميل ✓','success');
+  closeDrawer();
+  await loadLeads();
+}
+
+async function saveAppointment() {
+  showToast('تم حفظ الموعد ✓','success');
+  closeModal('modal-appointment');
+  renderCalendar();
+}
+
+async function updateLeadStage(id, stage) {
+  await sb.from('leads').update({ stage }).eq('id', id);
+}
+
+async function togglePropertyStatus(id, active) {
+  const status = active ? 'active' : 'inactive';
+  await sb.from('properties').update({ status }).eq('id', id);
+  showToast(active ? 'تم تفعيل العقار ✓' : 'تم تعطيل العقار', 'success');
+}
+
+async function toggleProjectStatusDB(id, published) {
+  const status = published ? 'published' : 'draft';
+  await sb.from('projects').update({ status }).eq('id', id);
+  showToast(published ? 'تم نشر المشروع ✓' : 'تم إلغاء النشر', 'success');
+}
+
+async function deleteProject(id) {
+  if (!confirm('هل تريد حذف هذا المشروع؟')) return;
+  const { error } = await sb.from('projects').delete().eq('id', id);
+  if (error) { showToast('خطأ في الحذف','error'); return; }
+  showToast('تم حذف المشروع ✓','success');
+  await loadProjects();
+}
+
+async function trackEvent(page, event, extra={}) {
+  await sb.from('analytics').insert([{ page, event, ...extra }]);
+}
+
+// ═══════════════════════════════════════════════════════
+// CALENDAR
+// ═══════════════════════════════════════════════════════
+let calYear=2026, calMonth=4; // 0-indexed, May=4
+const CAL_EVENTS = { '2026-5-3':['شقة العليا - فهد'],'2026-5-8':['فيلا النخيل - خالد','استوديو كافد - نورة'],'2026-5-15':['بنتهاوس - عمر'],'2026-5-22':['تاون هاوس - ليلى'] };
+const DAY_NAMES_AR=['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+const MONTH_NAMES_AR=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+function renderCalendar() {
+  const title = document.getElementById('cal-title');
+  const headers = document.getElementById('cal-headers');
+  const grid = document.getElementById('cal-grid');
+  if (!title||!headers||!grid) return;
+  title.textContent = MONTH_NAMES_AR[calMonth] + ' ' + calYear;
+  headers.innerHTML = DAY_NAMES_AR.map(d=>`<div class="cal-day-header">${d}</div>`).join('');
+  const first = new Date(calYear, calMonth, 1).getDay();
+  const days = new Date(calYear, calMonth+1, 0).getDate();
+  const prevDays = new Date(calYear, calMonth, 0).getDate();
+  const today = new Date();
+  let cells = '';
+  for (let i=0; i<first; i++) cells+=`<div class="cal-day other-month"><div class="cal-day-num">${prevDays-first+i+1}</div></div>`;
+  for (let d=1; d<=days; d++) {
+    const isToday=today.getFullYear()===calYear&&today.getMonth()===calMonth&&today.getDate()===d;
+    const key=`${calYear}-${calMonth+1}-${d}`;
+    const evs=(CAL_EVENTS[key]||[]).map(e=>`<div class="cal-event">${e}</div>`).join('');
+    cells+=`<div class="cal-day ${isToday?'today':''}" onclick="openAddAppointment()"><div class="cal-day-num">${d}</div>${evs}</div>`;
+  }
+  const rem=42-(first+days);
+  for (let i=1; i<=rem; i++) cells+=`<div class="cal-day other-month"><div class="cal-day-num">${i}</div></div>`;
+  grid.innerHTML=cells;
+}
+function calNav(dir) { calMonth+=dir; if(calMonth>11){calMonth=0;calYear++;} if(calMonth<0){calMonth=11;calYear--;} renderCalendar(); }
+function saveAppointment() { showToast('تم حفظ الموعد','success'); closeModal('modal-appointment'); renderCalendar(); }
+
+// ═══════════════════════════════════════════════════════
+// MESSAGES
+// ═══════════════════════════════════════════════════════
+let activeMsgId = 1;
+function renderMessages() {
+  const list = document.getElementById('msg-list');
+  if (!list) return;
+  list.innerHTML = MSGS.map(m=>`
+    <div class="msg-list-item ${m.id===activeMsgId?'active':''}" onclick="openChat(${m.id})">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="avatar" style="width:38px;height:38px;font-size:13px">${m.initials}</div>
+        <div style="flex:1;min-width:0">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span class="name">${m.name}</span>
+            <span class="time">${m.time}</span>
+          </div>
+          <div class="preview">${m.preview}</div>
+        </div>
+        ${m.unread?`<span style="width:18px;height:18px;border-radius:999px;background:var(--brand-teal-600);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">${m.unread}</span>`:''}
+      </div>
+    </div>
+  `).join('');
+  openChat(activeMsgId);
+}
+function openChat(id) {
+  activeMsgId=id;
+  const m=MSGS.find(x=>x.id===id);
+  if (!m) return;
+  document.querySelectorAll('.msg-list-item').forEach(x=>x.classList.remove('active'));
+  const li=document.querySelector(`.msg-list-item:nth-child(${MSGS.indexOf(m)+1})`);
+  if (li) li.classList.add('active');
+  const header=document.getElementById('msg-chat-header');
+  header.innerHTML=`
+    <div class="avatar" style="width:38px;height:38px;font-size:13px">${m.initials}</div>
+    <div><div style="font-size:14px;font-weight:700">${m.name}</div><div style="font-size:12px;color:var(--fg-muted)">عبر البوابة</div></div>
+    <div style="margin-right:auto;display:flex;gap:6px">
+      <button class="icon-btn"><i data-lucide="phone" width="16" height="16"></i></button>
+      <button class="icon-btn"><i data-lucide="more-vertical" width="16" height="16"></i></button>
+    </div>`;
+  const body=document.getElementById('msg-body');
+  body.innerHTML=m.messages.map(msg=>`
+    <div>
+      <div class="msg-bubble ${msg.dir}">${msg.text}</div>
+      <div class="msg-time" style="text-align:${msg.dir==='out'?'left':'right'}">${msg.time}</div>
+    </div>
+  `).join('');
+  body.scrollTop=body.scrollHeight;
+  lucide.createIcons();
+}
+function sendMsg() {
+  const input=document.getElementById('msg-input');
+  const text=input.value.trim();
+  if (!text) return;
+  const m=MSGS.find(x=>x.id===activeMsgId);
+  if (m) {
+    m.messages.push({text,dir:'out',time:new Date().toLocaleTimeString('ar',{hour:'2-digit',minute:'2-digit'})});
+    const body=document.getElementById('msg-body');
+    const div=document.createElement('div');
+    div.innerHTML=`<div class="msg-bubble out">${text}</div><div class="msg-time" style="text-align:left">${m.messages[m.messages.length-1].time}</div>`;
+    body.appendChild(div);
+    body.scrollTop=body.scrollHeight;
+    input.value='';
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// CHARTS
+// ═══════════════════════════════════════════════════════
+let chartsInit={};
+const TEAL='rgba(42,138,148,1)', TEAL_LIGHT='rgba(85,198,208,0.15)';
+function getChartDefaults() {
+  return {
+    responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{ display:false }, tooltip:{ rtl:true, textDirection:'rtl', bodyFont:{family:'var(--font-sans)'}, padding:10, cornerRadius:8, backgroundColor:'#0F1214', titleColor:'#fff', bodyColor:'rgba(255,255,255,0.7)' } },
+    scales:{
+      x:{ grid:{ color:'var(--border)', drawBorder:false }, ticks:{ color:'var(--fg-muted)', font:{size:11} } },
+      y:{ grid:{ color:'var(--border)', drawBorder:false }, ticks:{ color:'var(--fg-muted)', font:{size:11} }, beginAtZero:true }
+    }
+  };
+}
+function renderSparklines() {
+  const sparks=[
+    { id:'spark1', data:[8200,9400,11000,10200,12800,13500,14820] },
+    { id:'spark2', data:[20,22,24,23,25,26,28] },
+    { id:'spark3', data:[30,34,38,41,42,44,47] },
+    { id:'spark4', data:[1,2,1,3,2,2,3] },
+  ];
+  sparks.forEach(s=>{
+    const canvas=document.getElementById(s.id);
+    if (!canvas) return;
+    new Chart(canvas,{
+      type:'line', data:{ labels:s.data.map((_,i)=>i), datasets:[{data:s.data,borderColor:TEAL,borderWidth:2,fill:true,backgroundColor:TEAL_LIGHT,pointRadius:0,tension:0.4}] },
+      options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false},tooltip:{enabled:false}}, scales:{x:{display:false},y:{display:false}}, animation:{duration:800} }
+    });
+  });
+}
+function renderCharts() {
+  // Visits
+  if (!chartsInit.visits) {
+    const ctx=document.getElementById('visitsChart');
+    if (ctx) {
+      chartsInit.visits=new Chart(ctx,{
+        type:'bar',
+        data:{ labels:['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'], datasets:[{data:[1820,2340,2100,2680,3120,2800,1960],backgroundColor:TEAL_LIGHT,borderColor:TEAL,borderWidth:2,borderRadius:6}] },
+        options:{ ...getChartDefaults() }
+      });
+    }
+  }
+  // Monthly
+  if (!chartsInit.monthly) {
+    const ctx=document.getElementById('monthlyChart');
+    if (ctx) {
+      chartsInit.monthly=new Chart(ctx,{
+        type:'line',
+        data:{ labels:['يناير','فبراير','مارس','أبريل','مايو','يونيو'], datasets:[{label:'الزيارات',data:[6200,7800,8400,9200,11400,14820],borderColor:TEAL,backgroundColor:TEAL_LIGHT,fill:true,tension:0.4,borderWidth:2,pointRadius:4,pointBackgroundColor:TEAL}] },
+        options:{ ...getChartDefaults() }
+      });
+    }
+  }
+  // Source pie
+  if (!chartsInit.source) {
+    const ctx=document.getElementById('sourceChart');
+    if (ctx) {
+      chartsInit.source=new Chart(ctx,{
+        type:'doughnut',
+        data:{ labels:['البوابة','الموقع','مباشر','إحالة'], datasets:[{data:[42,28,18,12],backgroundColor:['#2A8A94','#3AA9B3','#A88A4F','#6B7680'],borderWidth:0,hoverOffset:4}] },
+        options:{ responsive:true, maintainAspectRatio:false, cutout:'68%', plugins:{ legend:{ display:true, position:'left', rtl:true, labels:{color:'var(--fg)',font:{size:12}} } } }
+      });
+    }
+  }
+  // Category bar
+  if (!chartsInit.cat) {
+    const ctx=document.getElementById('catChart');
+    if (ctx) {
+      chartsInit.cat=new Chart(ctx,{
+        type:'bar',
+        data:{ labels:['شقق','فلل','تاون هاوس','أراضي','تجاري'], datasets:[{data:[18,8,5,3,2],backgroundColor:['#2A8A94','#3AA9B3','#A88A4F','#6B7680','#55C6D0'],borderRadius:6,borderWidth:0}] },
+        options:{ ...getChartDefaults(), plugins:{...getChartDefaults().plugins,legend:{display:false}} }
+      });
+    }
+  }
+}
+function setChartPeriod(period, btn) {
+  document.querySelectorAll('#page-overview .btn-ghost').forEach(b=>b.style.color='');
+  btn.style.color='var(--brand-teal-700)';
+  if (chartsInit.visits) {
+    const isWeek=period==='week';
+    chartsInit.visits.data.labels=isWeek?['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت']:['الأسبوع 1','الأسبوع 2','الأسبوع 3','الأسبوع 4'];
+    chartsInit.visits.data.datasets[0].data=isWeek?[1820,2340,2100,2680,3120,2800,1960]:[8200,9400,11000,10200];
+    chartsInit.visits.update();
+  }
+}
+function renderFunnel() {
+  const el=document.getElementById('funnel-chart');
+  if (!el) return;
+  const stages=[{l:'زيارات',v:14820,pct:100},{l:'عملاء محتملون',v:472,pct:3.2},{l:'معاينات',v:89,pct:0.6},{l:'عروض',v:24,pct:0.16},{l:'صفقات مغلقة',v:8,pct:0.054}];
+  el.innerHTML=stages.map((s,i)=>`
+    <div style="display:flex;align-items:center;gap:12px">
+      <div style="width:90px;font-size:12px;color:var(--fg-muted);text-align:left">${s.l}</div>
+      <div style="flex:1;height:28px;background:var(--bg-subtle);border-radius:6px;overflow:hidden">
+        <div style="height:100%;width:${s.pct}%;background:var(--brand-teal-${600-i*100>0?600-i*100:500});border-radius:6px;min-width:4px;transition:width 800ms var(--ease-out)"></div>
+      </div>
+      <div style="width:54px;font-size:12px;font-weight:600;font-variant-numeric:tabular-nums;text-align:right">${s.v.toLocaleString()}</div>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════════════════════
+// FILE UPLOAD (demo — no actual upload)
+// ═══════════════════════════════════════════════════════
+function handleFileSelect(e, prefix) {
+  const files = Array.from(e.target.files);
+  const grid = document.getElementById(`${prefix}-media-grid`);
+  if (!grid) return;
+  files.forEach(file => {
+    const reader = new FileReader();
+    reader.onload = ev => {
+      const div = document.createElement('div');
+      div.className = 'media-thumb';
+      div.innerHTML = `<img src="${ev.target.result}" alt=""><button class="remove-btn" onclick="this.parentElement.remove()">×</button>`;
+      grid.appendChild(div);
+    };
+    reader.readAsDataURL(file);
+  });
+  showToast(`تم اختيار ${files.length} ملف${files.length>1?'ات':''}`, 'info');
+}
+function handleFileDrop(e, prefix) {
+  e.preventDefault();
+  document.getElementById(`${prefix}-upload-zone`).classList.remove('dragover');
+  const fakeEvent = { target: { files: Array.from(e.dataTransfer.files) } };
+  handleFileSelect(fakeEvent, prefix);
+}
+
+// ═══════════════════════════════════════════════════════
+// DRAG & DROP (projects grid reorder)
+// ═══════════════════════════════════════════════════════
+let dragProj=null;
+function dragStart(e,id,type) { dragProj=id; }
+function dragEnd(e) { dragProj=null; }
+
+// ═══════════════════════════════════════════════════════
+// GLOBAL SEARCH
+// ═══════════════════════════════════════════════════════
+document.addEventListener('keydown', e => {
+  if ((e.metaKey||e.ctrlKey)&&e.key==='k') {
+    e.preventDefault();
+    document.getElementById('global-search').focus();
+  }
+});
+</script>
+</body>
+</html>
