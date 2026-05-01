@@ -108,12 +108,14 @@
 
       if (error || !data || data.length === 0) return;
 
-      // Find the projects grid — look for .pg or #projects-grid
-      const grid = document.querySelector('.pg, #projects-grid, #achievements-grid');
+      // Target only the dedicated Supabase projects grid
+      const grid = document.getElementById('projects-grid');
       if (!grid) return;
 
-      // Clear existing placeholder cards if any
-      // Only replace if we have real data
+      // Show the section now that we have data
+      const section = document.getElementById('our-projects');
+      if (section) section.style.display = '';
+
       grid.innerHTML = data.map((p, i) => {
         const cat = { residential: 'سكني', commercial: 'تجاري', administrative: 'إداري' }[p.category] || p.category || '';
         const imgStyle = p.image_url
