@@ -590,19 +590,19 @@ canvas { max-width: 100%; }
       <div class="kpi-grid">
         <div class="kpi-card">
           <div class="kpi-label">زيارات الموقع التعريفي</div>
-          <div class="kpi-value" id="kpi-analytics">14,820</div>
+          <div class="kpi-value" id="kpi-analytics">—</div>
           <div class="kpi-delta up"><i data-lucide="trending-up" width="12" height="12"></i> +18% هذا الشهر</div>
           <div class="kpi-spark"><canvas id="spark1"></canvas></div>
         </div>
         <div class="kpi-card">
           <div class="kpi-label">عقارات نشطة</div>
-          <div class="kpi-value" id="kpi-properties">28</div>
+          <div class="kpi-value" id="kpi-properties">—</div>
           <div class="kpi-delta up"><i data-lucide="trending-up" width="12" height="12"></i> +3 هذا الأسبوع</div>
           <div class="kpi-spark"><canvas id="spark2"></canvas></div>
         </div>
         <div class="kpi-card">
           <div class="kpi-label">عملاء محتملون</div>
-          <div class="kpi-value" id="kpi-leads">47</div>
+          <div class="kpi-value" id="kpi-leads">—</div>
           <div class="kpi-delta up"><i data-lucide="trending-up" width="12" height="12"></i> +12 جديد</div>
           <div class="kpi-spark"><canvas id="spark3"></canvas></div>
         </div>
@@ -630,13 +630,7 @@ canvas { max-width: 100%; }
         <!-- Quick stats -->
         <div class="panel">
           <div class="section-header"><span class="section-title">أكثر العقارات مشاهدة</span><a class="section-link" onclick="navTo('properties')">عرض الكل</a></div>
-          <div id="top-props">
-            <div class="stat-row"><span style="font-size:13px;font-weight:600">شقة 3 غرف، العليا</span><div class="stat-bar-wrap"><div class="stat-bar" style="width:92%"></div></div><span style="font-size:12px;font-variant-numeric:tabular-nums;color:var(--fg-muted)">1,240</span></div>
-            <div class="stat-row"><span style="font-size:13px;font-weight:600">بنتهاوس، الياسمين</span><div class="stat-bar-wrap"><div class="stat-bar" style="width:71%"></div></div><span style="font-size:12px;font-variant-numeric:tabular-nums;color:var(--fg-muted)">960</span></div>
-            <div class="stat-row"><span style="font-size:13px;font-weight:600">فيلا، النخيل</span><div class="stat-bar-wrap"><div class="stat-bar" style="width:58%"></div></div><span style="font-size:12px;font-variant-numeric:tabular-nums;color:var(--fg-muted)">780</span></div>
-            <div class="stat-row"><span style="font-size:13px;font-weight:600">استوديو، كافد</span><div class="stat-bar-wrap"><div class="stat-bar" style="width:44%"></div></div><span style="font-size:12px;font-variant-numeric:tabular-nums;color:var(--fg-muted)">590</span></div>
-            <div class="stat-row"><span style="font-size:13px;font-weight:600">تاون هاوس، الملقا</span><div class="stat-bar-wrap"><div class="stat-bar" style="width:31%"></div></div><span style="font-size:12px;font-variant-numeric:tabular-nums;color:var(--fg-muted)">420</span></div>
-          </div>
+          <div id="top-props"><div style="padding:16px;text-align:center;color:var(--fg-muted);font-size:13px">جارٍ التحميل...</div></div>
         </div>
       </div>
 
@@ -656,11 +650,11 @@ canvas { max-width: 100%; }
               <div style="font-size:11px;color:var(--fg-muted);margin-top:2px">مشروع منشور</div>
             </div>
             <div style="text-align:center;padding:14px;background:var(--bg-subtle);border-radius:10px">
-              <div style="font-family:var(--font-display);font-size:28px;font-weight:500">8</div>
+              <div class="kpi-value" id="kpi-drafts" style="font-family:var(--font-display);font-size:28px;font-weight:500">0</div>
               <div style="font-size:11px;color:var(--fg-muted);margin-top:2px">مسودات</div>
             </div>
             <div style="text-align:center;padding:14px;background:var(--bg-subtle);border-radius:10px">
-              <div style="font-family:var(--font-display);font-size:28px;font-weight:500">14.8K</div>
+              <div class="kpi-value" id="kpi-visits" style="font-family:var(--font-display);font-size:28px;font-weight:500">0</div>
               <div style="font-size:11px;color:var(--fg-muted);margin-top:2px">زيارة هذا الشهر</div>
             </div>
           </div>
@@ -673,28 +667,7 @@ canvas { max-width: 100%; }
         <!-- Activity feed -->
         <div class="panel">
           <div class="section-header"><span class="section-title">آخر النشاطات</span><a class="section-link">عرض الكل</a></div>
-          <div id="activity-feed">
-            <div class="activity-item">
-              <div class="activity-icon"><i data-lucide="user-plus" width="16" height="16" style="color:var(--brand-teal-700)"></i></div>
-              <div class="activity-content"><div class="activity-title">عميل جديد</div><div class="activity-desc">نورة الشهري · شقة العليا</div></div>
-              <div class="activity-time">12د</div>
-            </div>
-            <div class="activity-item">
-              <div class="activity-icon"><i data-lucide="calendar-check" width="16" height="16" style="color:var(--success-500)"></i></div>
-              <div class="activity-content"><div class="activity-title">موعد مؤكد</div><div class="activity-desc">فهد الرشيد · السبت 14:00</div></div>
-              <div class="activity-time">1س</div>
-            </div>
-            <div class="activity-item">
-              <div class="activity-icon"><i data-lucide="upload" width="16" height="16" style="color:var(--fg-muted)"></i></div>
-              <div class="activity-content"><div class="activity-title">رُفع مشروع</div><div class="activity-desc">مجمع الأبراج · 8 صور</div></div>
-              <div class="activity-time">3س</div>
-            </div>
-            <div class="activity-item">
-              <div class="activity-icon"><i data-lucide="file-text" width="16" height="16" style="color:#6E5730"></i></div>
-              <div class="activity-content"><div class="activity-title">عرض مقدم</div><div class="activity-desc">مريم القحطاني · 12,500 ر.س/شهر</div></div>
-              <div class="activity-time">أمس</div>
-            </div>
-          </div>
+          <div id="activity-feed"><div style="padding:16px;text-align:center;color:var(--fg-muted);font-size:13px">جارٍ التحميل...</div></div>
         </div>
       </div>
     </div>
@@ -1102,13 +1075,13 @@ canvas { max-width: 100%; }
       <span class="modal-title">موعد جديد</span>
       <button class="icon-btn" onclick="closeModal('modal-appointment')"><i data-lucide="x" width="16" height="16"></i></button>
     </div>
-    <div class="form-group"><label class="form-label">العميل</label><input class="form-input" placeholder="اسم العميل"></div>
-    <div class="form-group"><label class="form-label">العقار</label><input class="form-input" placeholder="اسم أو رقم العقار"></div>
+    <div class="form-group"><label class="form-label">العميل</label><input class="form-input" id="appt-customer" placeholder="اسم العميل"></div>
+    <div class="form-group"><label class="form-label">العقار</label><input class="form-input" id="appt-property" placeholder="اسم أو رقم العقار"></div>
     <div class="form-row">
-      <div class="form-group"><label class="form-label">التاريخ</label><input class="form-input" type="date"></div>
-      <div class="form-group"><label class="form-label">الوقت</label><input class="form-input" type="time" value="14:00"></div>
+      <div class="form-group"><label class="form-label">التاريخ</label><input class="form-input" id="appt-date" type="date"></div>
+      <div class="form-group"><label class="form-label">الوقت</label><input class="form-input" id="appt-time" type="time" value="14:00"></div>
     </div>
-    <div class="form-group"><label class="form-label">ملاحظات</label><textarea class="form-input" placeholder="..."></textarea></div>
+    <div class="form-group"><label class="form-label">ملاحظات</label><textarea class="form-input" id="appt-notes" placeholder="..."></textarea></div>
     <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:8px">
       <button class="btn btn-secondary" onclick="closeModal('modal-appointment')">إلغاء</button>
       <button class="btn btn-primary" onclick="saveAppointment()"><i data-lucide="save" width="14" height="14"></i> حفظ</button>
@@ -1185,6 +1158,8 @@ async function loadAllData() {
     loadProjects(),
     loadProperties(),
     loadLeads(),
+    loadAppointments(),
+    loadMessages(),
   ]);
   renderKanban();
   renderCalendar();
@@ -1193,6 +1168,7 @@ async function loadAllData() {
   renderSparklines();
   renderFunnel();
   loadAnalytics();
+  initGlobalSearch();
 }
 
 // ═══════════════════════════════════════════════════════
@@ -1216,6 +1192,7 @@ async function doLogin() {
   }
   err.classList.remove('show');
   showToast('مرحباً بك في جودة العقارية ✓', 'success');
+  trackEvent('dashboard', 'login');
 }
 
 async function doLogout() {
@@ -1377,6 +1354,7 @@ async function loadProjects() {
   }));
   renderProjects();
   updateKPI('kpi-projects', PROJECTS.filter(p=>p.status==='published').length);
+  updateKPI('kpi-drafts', PROJECTS.filter(p=>p.status==='draft').length);
 }
 
 async function loadProperties() {
@@ -1392,6 +1370,7 @@ async function loadProperties() {
   }));
   renderPropsTable();
   updateKPI('kpi-properties', PROPERTIES.filter(p=>p.status==='active').length);
+  renderTopProps();
 }
 
 async function loadLeads() {
@@ -1407,14 +1386,20 @@ async function loadLeads() {
     notes: l.notes || '',
   }));
   renderLeadsTable();
-  // rebuild kanban from real data
   rebuildKanbanData();
   updateKPI('kpi-leads', LEADS.filter(l=>l.stage!=='closed').length);
+  renderActivityFeed();
 }
 
 async function loadAnalytics() {
   const { count } = await sb.from('analytics').select('*', { count:'exact', head:true });
-  if (count !== null) updateKPI('kpi-analytics', count);
+  if (count !== null) updateKPI('kpi-analytics', count.toLocaleString('ar-SA'));
+  // Monthly visits (current month)
+  const start = new Date(); start.setDate(1); start.setHours(0,0,0,0);
+  const { count: monthCount } = await sb.from('analytics')
+    .select('*', { count:'exact', head:true })
+    .gte('created_at', start.toISOString());
+  if (monthCount !== null) updateKPI('kpi-visits', monthCount.toLocaleString('ar-SA'));
 }
 
 function rebuildKanbanData() {
@@ -1424,6 +1409,105 @@ function rebuildKanbanData() {
     kanbanData[stage].push({ id: l.id, name: l.name, prop: l.property, budget: l.budget, time: l.date });
   });
   renderKanban();
+}
+
+function renderTopProps() {
+  const el = document.getElementById('top-props');
+  if (!el) return;
+  const top = [...PROPERTIES].sort((a,b) => b.views - a.views).slice(0,5);
+  if (!top.length) {
+    el.innerHTML = '<div style="padding:16px;text-align:center;color:var(--fg-muted);font-size:13px">لا توجد عقارات بعد</div>';
+    return;
+  }
+  const maxViews = Math.max(...top.map(p=>p.views), 1);
+  el.innerHTML = top.map(p => `
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)">
+      <div style="flex:1;min-width:0">
+        <div style="font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.title}</div>
+        <div style="font-size:11px;color:var(--fg-muted);margin-top:2px">${p.location}</div>
+        <div style="height:4px;background:var(--ink-200);border-radius:99px;margin-top:6px;overflow:hidden">
+          <div style="height:100%;width:${Math.round((p.views/maxViews)*100)}%;background:var(--brand-teal-500);border-radius:99px"></div>
+        </div>
+      </div>
+      <div style="font-size:13px;font-weight:600;color:var(--brand-teal-700);white-space:nowrap">${p.views} مشاهدة</div>
+    </div>
+  `).join('');
+}
+
+function renderActivityFeed() {
+  const el = document.getElementById('activity-feed');
+  if (!el) return;
+  const items = [];
+  LEADS.slice(0,5).forEach(l => {
+    items.push({ icon:'user', color:'var(--brand-teal-600)', text:`عميل جديد: ${l.name}`, sub: l.property !== '—' ? l.property : l.source, time: l.date });
+  });
+  PROPERTIES.slice(0,3).forEach(p => {
+    items.push({ icon:'home', color:'var(--sand-500)', text:`عقار: ${p.title}`, sub: p.location, time:'' });
+  });
+  if (!items.length) {
+    el.innerHTML = '<div style="padding:16px;text-align:center;color:var(--fg-muted);font-size:13px">لا توجد نشاطات بعد</div>';
+    return;
+  }
+  el.innerHTML = items.slice(0,8).map(item => `
+    <div style="display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)">
+      <div style="width:32px;height:32px;border-radius:8px;background:var(--bg-subtle);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <i data-lucide="${item.icon}" width="14" height="14" style="color:${item.color}"></i>
+      </div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:13px;font-weight:500">${item.text}</div>
+        ${item.sub ? `<div style="font-size:11px;color:var(--fg-muted);margin-top:2px">${item.sub}</div>` : ''}
+      </div>
+      ${item.time ? `<div style="font-size:11px;color:var(--fg-subtle);white-space:nowrap">${item.time}</div>` : ''}
+    </div>
+  `).join('');
+  lucide.createIcons();
+}
+
+function initGlobalSearch() {
+  const input = document.getElementById('global-search');
+  if (!input) return;
+  let dropdown = document.getElementById('gs-dropdown');
+  if (!dropdown) {
+    dropdown = document.createElement('div');
+    dropdown.id = 'gs-dropdown';
+    dropdown.style.cssText = 'position:absolute;top:calc(100% + 4px);right:0;left:0;background:var(--bg-elevated);border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow-lg);z-index:999;max-height:320px;overflow-y:auto;display:none';
+    input.parentElement.style.position = 'relative';
+    input.parentElement.appendChild(dropdown);
+  }
+
+  function doSearch(q) {
+    if (!q || q.length < 2) { dropdown.style.display = 'none'; return; }
+    q = q.toLowerCase();
+    const results = [];
+    PROPERTIES.filter(p => p.title.toLowerCase().includes(q) || p.location.toLowerCase().includes(q))
+      .slice(0,4).forEach(p => results.push({ icon:'home', label: p.title, sub: p.location, action: ()=>navTo('properties') }));
+    LEADS.filter(l => l.name.toLowerCase().includes(q) || l.phone.includes(q))
+      .slice(0,4).forEach(l => results.push({ icon:'user', label: l.name, sub: l.phone, action: ()=>navTo('leads') }));
+    PROJECTS.filter(p => p.title.toLowerCase().includes(q))
+      .slice(0,3).forEach(p => results.push({ icon:'layers', label: p.title, sub: p.cat, action: ()=>navTo('website') }));
+
+    if (!results.length) {
+      dropdown.innerHTML = '<div style="padding:14px;text-align:center;color:var(--fg-muted);font-size:13px">لا توجد نتائج</div>';
+    } else {
+      dropdown.innerHTML = results.map((r,i) => `
+        <div data-idx="${i}" style="display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;border-bottom:1px solid var(--border)" onmouseenter="this.style.background='var(--bg-subtle)'" onmouseleave="this.style.background=''" onclick="this.closest('#gs-dropdown').style.display='none'">
+          <i data-lucide="${r.icon}" width="14" height="14" style="color:var(--fg-muted);flex-shrink:0"></i>
+          <div>
+            <div style="font-size:13px;font-weight:500">${r.label}</div>
+            ${r.sub ? `<div style="font-size:11px;color:var(--fg-muted)">${r.sub}</div>` : ''}
+          </div>
+        </div>
+      `).join('');
+      results.forEach((r,i) => {
+        dropdown.querySelector(`[data-idx="${i}"]`).addEventListener('click', r.action);
+      });
+      lucide.createIcons();
+    }
+    dropdown.style.display = 'block';
+  }
+
+  input.addEventListener('input', e => doSearch(e.target.value.trim()));
+  document.addEventListener('click', e => { if (!input.parentElement.contains(e.target)) dropdown.style.display='none'; });
 }
 
 function updateKPI(id, val) {
@@ -1441,24 +1525,24 @@ function timeAgo(iso) {
   return new Date(iso).toLocaleDateString('ar-SA');
 }
 
-const MSGS = [
-  { id:1, name:'نورة الشهري', initials:'نو', preview:'أريد معرفة المزيد عن الشقة', time:'12د', unread:2, messages:[
-    { text:'السلام عليكم، رأيت إعلان الشقة في العليا', dir:'in', time:'10:12' },
-    { text:'وعليكم السلام، أهلاً نورة! نعم، شقة ٢١٤م² في الدور ١٤.', dir:'out', time:'10:15' },
-    { text:'ما هو السعر النهائي؟', dir:'in', time:'10:18' },
-    { text:'السعر ٢,٤٥٠,٠٠٠ ريال، يشمل موقفين مغطيين.', dir:'out', time:'10:20' },
-    { text:'هل يمكن ترتيب معاينة هذا الأسبوع؟', dir:'in', time:'10:22' },
-  ]},
-  { id:2, name:'خالد المطيري', initials:'خا', preview:'متى يمكن المعاينة؟', time:'1س', unread:0, messages:[
-    { text:'مرحباً، أريد رؤية فيلا النخيل', dir:'in', time:'09:00' },
-    { text:'مرحباً خالد! الفيلا متاحة للمعاينة السبت أو الأحد.', dir:'out', time:'09:05' },
-  ]},
-  { id:3, name:'عمر الغامدي', initials:'عم', preview:'قدمت عرضاً بـ 5.5M', time:'3س', unread:1, messages:[
-    { text:'أريد تقديم عرض على البنتهاوس', dir:'in', time:'07:30' },
-    { text:'يسعدنا ذلك، ما هو عرضك؟', dir:'out', time:'07:35' },
-    { text:'5,500,000 ريال نهائي', dir:'in', time:'07:40' },
-  ]},
-];
+let MSGS = [];
+let activeConvId = null;
+
+async function loadMessages() {
+  const { data } = await sb.from('messages').select('*').order('created_at', { ascending: true });
+  const map = {};
+  (data||[]).forEach(m => {
+    if (!map[m.conversation_id]) map[m.conversation_id] = { id: m.conversation_id, name: m.sender_name, initials: m.sender_name.slice(0,2), preview:'', time:'', unread:0, messages:[] };
+    const t = new Date(m.created_at).toLocaleTimeString('ar',{hour:'2-digit',minute:'2-digit'});
+    map[m.conversation_id].messages.push({ text: m.body, dir: m.sender_type==='admin'?'out':'in', time: t });
+    map[m.conversation_id].preview = m.body.slice(0,40);
+    map[m.conversation_id].time = timeAgo(m.created_at);
+    if (!m.read && m.sender_type!=='admin') map[m.conversation_id].unread++;
+  });
+  MSGS = Object.values(map);
+  if (MSGS.length && !activeConvId) activeConvId = MSGS[0].id;
+  renderMessages();
+}
 
 // ═══════════════════════════════════════════════════════
 // PROJECTS
@@ -1587,15 +1671,48 @@ function renderPropsTable() {
       <td style="font-variant-numeric:tabular-nums;color:var(--fg-muted);font-size:13px">${p.views.toLocaleString()}</td>
       <td>
         <div style="display:flex;gap:4px">
-          <button class="btn btn-ghost btn-sm" title="تعديل"><i data-lucide="edit-2" width="13" height="13"></i></button>
+          <button class="btn btn-ghost btn-sm" title="تعديل" onclick="openEditProperty(${JSON.stringify(p).replace(/"/g,'&quot;')})"><i data-lucide="edit-2" width="13" height="13"></i></button>
           <button class="btn btn-ghost btn-sm" title="نسخ" onclick="showToast('تم نسخ العقار','info')"><i data-lucide="copy" width="13" height="13"></i></button>
-          <button class="btn btn-ghost btn-sm" title="حذف" style="color:var(--danger-500)"><i data-lucide="trash-2" width="13" height="13"></i></button>
+          <button class="btn btn-ghost btn-sm" title="حذف" style="color:var(--danger-500)" onclick="deleteProperty('${p.id}')"><i data-lucide="trash-2" width="13" height="13"></i></button>
         </div>
       </td>
     </tr>
   `).join('');
   lucide.createIcons();
 }
+let _editingPropertyId = null;
+
+function openEditProperty(p) {
+  _editingPropertyId = p.id;
+  document.getElementById('prop-title').value    = p.title || '';
+  document.getElementById('prop-type').value     = p.type  || 'sale';
+  document.getElementById('prop-price').value    = p.price || '';
+  document.getElementById('prop-area').value     = p.area  || '';
+  document.getElementById('prop-beds').value     = p.beds  || '';
+  document.getElementById('prop-baths').value    = p.baths || '';
+  const loc = (p.location||'').split('،');
+  document.getElementById('prop-district').value = loc[0]?.trim() || '';
+  document.getElementById('prop-city').value     = loc[1]?.trim() || 'الرياض';
+  const modalTitle = document.querySelector('#modal-property .modal-title');
+  if (modalTitle) modalTitle.textContent = 'تعديل العقار';
+  openModal('modal-property');
+}
+
+function openAddProperty() {
+  _editingPropertyId = null;
+  document.getElementById('prop-title').value='';
+  document.getElementById('prop-type').value='sale';
+  document.getElementById('prop-price').value='';
+  document.getElementById('prop-area').value='';
+  document.getElementById('prop-beds').value='';
+  document.getElementById('prop-baths').value='';
+  document.getElementById('prop-district').value='';
+  document.getElementById('prop-city').value='';
+  const modalTitle = document.querySelector('#modal-property .modal-title');
+  if (modalTitle) modalTitle.textContent = 'عقار جديد';
+  openModal('modal-property');
+}
+
 async function saveProperty() {
   const title_ar   = document.getElementById('prop-title').value.trim();
   const price_type = document.getElementById('prop-type').value;
@@ -1607,7 +1724,6 @@ async function saveProperty() {
   const city       = document.getElementById('prop-city').value.trim() || 'الرياض';
   if (!title_ar) { showToast('أدخل اسم العقار','error'); return; }
 
-  // Upload images
   const files = document.getElementById('prop-files').files;
   const images = [];
   if (files.length > 0) {
@@ -1620,13 +1736,27 @@ async function saveProperty() {
     }
   }
 
-  const { error } = await sb.from('properties').insert([{
-    title_ar, price_type, price, area, beds, baths,
-    district, city, images, status: 'active',
-  }]);
+  let error;
+  if (_editingPropertyId) {
+    const payload = { title_ar, price_type, price, area, beds, baths, district, city };
+    if (images.length) payload.images = images;
+    ({ error } = await sb.from('properties').update(payload).eq('id', _editingPropertyId));
+  } else {
+    ({ error } = await sb.from('properties').insert([{ title_ar, price_type, price, area, beds, baths, district, city, images, status:'active' }]));
+    trackEvent('dashboard','add_property');
+  }
   if (error) { showToast('خطأ: ' + error.message,'error'); return; }
-  showToast('تم حفظ العقار بنجاح ✓','success');
+  showToast(_editingPropertyId ? 'تم تحديث العقار ✓' : 'تم حفظ العقار ✓','success');
+  _editingPropertyId = null;
   closeModal('modal-property');
+  await loadProperties();
+}
+
+async function deleteProperty(id) {
+  if (!confirm('هل تريد حذف هذا العقار؟')) return;
+  const { error } = await sb.from('properties').delete().eq('id', id);
+  if (error) { showToast('خطأ في الحذف','error'); return; }
+  showToast('تم حذف العقار ✓','success');
   await loadProperties();
 }
 
@@ -1640,26 +1770,7 @@ const STAGES = [
   { k:'offer',     label:'عرض',     color:'var(--warning-50)',    count:3  },
   { k:'closed',    label:'مغلق ✓', color:'var(--success-50)',    count:3  },
 ];
-let kanbanData = {
-  new: [
-    { id:101, name:'نورة الشهري', prop:'شقة العليا', budget:'2.5M ر.س', time:'12د' },
-    { id:102, name:'خالد المطيري', prop:'فيلا النخيل', budget:'15K/شهر', time:'1س' },
-    { id:103, name:'سارة بن محفوظ', prop:'استوديو كافد', budget:'4.5K/شهر', time:'3س' },
-  ],
-  qualified: [
-    { id:104, name:'عمر الغامدي', prop:'بنتهاوس الياسمين', budget:'6M ر.س', time:'أمس' },
-    { id:105, name:'ليلى الدوسري', prop:'تاون هاوس الملقا', budget:'1.9M ر.س', time:'يومان' },
-  ],
-  viewing: [
-    { id:106, name:'فهد الرشيد', prop:'شقة العليا', budget:'2.5M ر.س', time:'السبت 14:00' },
-  ],
-  offer: [
-    { id:107, name:'مريم القحطاني', prop:'فيلا قرطبة', budget:'14.8K/شهر', time:'عرض 12,500' },
-  ],
-  closed: [
-    { id:108, name:'يزيد العتيبي', prop:'استوديو كافد', budget:'4.2K/شهر', time:'موقّع' },
-  ],
-};
+let kanbanData = { new:[], qualified:[], viewing:[], offer:[], closed:[] };
 let dragItemId=null, dragItemStage=null;
 
 function renderKanban() {
@@ -1773,14 +1884,28 @@ async function saveLead() {
   const { error } = await sb.from('leads').insert([{ name, phone, email, stage, budget, notes, source }]);
   if (error) { showToast('خطأ: ' + error.message,'error'); return; }
   showToast('تم حفظ بيانات العميل ✓','success');
+  trackEvent('dashboard','save_lead');
   closeDrawer();
   await loadLeads();
 }
 
 async function saveAppointment() {
+  const customer_name = document.getElementById('appt-customer').value.trim();
+  const property_name = document.getElementById('appt-property').value.trim();
+  const date          = document.getElementById('appt-date').value;
+  const time          = document.getElementById('appt-time').value;
+  const notes         = document.getElementById('appt-notes').value.trim();
+  if (!customer_name || !date) { showToast('أدخل اسم العميل والتاريخ','error'); return; }
+  const { error } = await sb.from('appointments').insert([{ customer_name, property_name, date, time, notes, status:'pending' }]);
+  if (error) { showToast('خطأ: ' + error.message,'error'); return; }
   showToast('تم حفظ الموعد ✓','success');
+  document.getElementById('appt-customer').value='';
+  document.getElementById('appt-property').value='';
+  document.getElementById('appt-date').value='';
+  document.getElementById('appt-notes').value='';
   closeModal('modal-appointment');
-  renderCalendar();
+  await loadAppointments();
+  trackEvent('dashboard','save_appointment');
 }
 
 async function updateLeadStage(id, stage) {
@@ -1814,10 +1939,22 @@ async function trackEvent(page, event, extra={}) {
 // ═══════════════════════════════════════════════════════
 // CALENDAR
 // ═══════════════════════════════════════════════════════
-let calYear=2026, calMonth=4; // 0-indexed, May=4
-const CAL_EVENTS = { '2026-5-3':['شقة العليا - فهد'],'2026-5-8':['فيلا النخيل - خالد','استوديو كافد - نورة'],'2026-5-15':['بنتهاوس - عمر'],'2026-5-22':['تاون هاوس - ليلى'] };
+let calYear=new Date().getFullYear(), calMonth=new Date().getMonth();
+let CAL_EVENTS = {};
 const DAY_NAMES_AR=['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
 const MONTH_NAMES_AR=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+
+async function loadAppointments() {
+  const { data } = await sb.from('appointments').select('*').order('date');
+  CAL_EVENTS = {};
+  (data||[]).forEach(a => {
+    const d = new Date(a.date);
+    const key = `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
+    if (!CAL_EVENTS[key]) CAL_EVENTS[key] = [];
+    CAL_EVENTS[key].push(`${a.customer_name}${a.property_name?' · '+a.property_name:''}`);
+  });
+  renderCalendar();
+}
 function renderCalendar() {
   const title = document.getElementById('cal-title');
   const headers = document.getElementById('cal-headers');
@@ -1842,17 +1979,16 @@ function renderCalendar() {
   grid.innerHTML=cells;
 }
 function calNav(dir) { calMonth+=dir; if(calMonth>11){calMonth=0;calYear++;} if(calMonth<0){calMonth=11;calYear--;} renderCalendar(); }
-function saveAppointment() { showToast('تم حفظ الموعد','success'); closeModal('modal-appointment'); renderCalendar(); }
 
 // ═══════════════════════════════════════════════════════
 // MESSAGES
 // ═══════════════════════════════════════════════════════
-let activeMsgId = 1;
 function renderMessages() {
   const list = document.getElementById('msg-list');
   if (!list) return;
+  if (!MSGS.length) { list.innerHTML='<div style="padding:24px;text-align:center;color:var(--fg-muted);font-size:13px">لا توجد رسائل بعد</div>'; return; }
   list.innerHTML = MSGS.map(m=>`
-    <div class="msg-list-item ${m.id===activeMsgId?'active':''}" onclick="openChat(${m.id})">
+    <div class="msg-list-item ${m.id===activeConvId?'active':''}" onclick="openChat('${m.id}')">
       <div style="display:flex;align-items:center;gap:10px">
         <div class="avatar" style="width:38px;height:38px;font-size:13px">${m.initials}</div>
         <div style="flex:1;min-width:0">
@@ -1866,10 +2002,10 @@ function renderMessages() {
       </div>
     </div>
   `).join('');
-  openChat(activeMsgId);
+  if (activeConvId) openChat(activeConvId);
 }
 function openChat(id) {
-  activeMsgId=id;
+  activeConvId=id;
   const m=MSGS.find(x=>x.id===id);
   if (!m) return;
   document.querySelectorAll('.msg-list-item').forEach(x=>x.classList.remove('active'));
@@ -1893,20 +2029,25 @@ function openChat(id) {
   body.scrollTop=body.scrollHeight;
   lucide.createIcons();
 }
-function sendMsg() {
+async function sendMsg() {
   const input=document.getElementById('msg-input');
   const text=input.value.trim();
-  if (!text) return;
-  const m=MSGS.find(x=>x.id===activeMsgId);
+  if (!text || !activeConvId) return;
+  const m=MSGS.find(x=>x.id===activeConvId);
+  const now=new Date().toLocaleTimeString('ar',{hour:'2-digit',minute:'2-digit'});
+  // Optimistic UI
   if (m) {
-    m.messages.push({text,dir:'out',time:new Date().toLocaleTimeString('ar',{hour:'2-digit',minute:'2-digit'})});
+    m.messages.push({text,dir:'out',time:now});
     const body=document.getElementById('msg-body');
     const div=document.createElement('div');
-    div.innerHTML=`<div class="msg-bubble out">${text}</div><div class="msg-time" style="text-align:left">${m.messages[m.messages.length-1].time}</div>`;
+    div.innerHTML=`<div class="msg-bubble out">${text}</div><div class="msg-time" style="text-align:left">${now}</div>`;
     body.appendChild(div);
     body.scrollTop=body.scrollHeight;
-    input.value='';
   }
+  input.value='';
+  // Persist to Supabase
+  await sb.from('messages').insert([{ conversation_id: activeConvId, sender_name:'الإدارة', sender_type:'admin', body: text, read: true }]);
+  trackEvent('dashboard','send_message');
 }
 
 // ═══════════════════════════════════════════════════════
@@ -1926,10 +2067,10 @@ function getChartDefaults() {
 }
 function renderSparklines() {
   const sparks=[
-    { id:'spark1', data:[8200,9400,11000,10200,12800,13500,14820] },
-    { id:'spark2', data:[20,22,24,23,25,26,28] },
-    { id:'spark3', data:[30,34,38,41,42,44,47] },
-    { id:'spark4', data:[1,2,1,3,2,2,3] },
+    { id:'spark1', data:[0,0,0,0,0,0,0] },
+    { id:'spark2', data:[0,0,0,0,0,0,0] },
+    { id:'spark3', data:[0,0,0,0,0,0,0] },
+    { id:'spark4', data:[0,0,0,0,0,0,0] },
   ];
   sparks.forEach(s=>{
     const canvas=document.getElementById(s.id);
@@ -1947,7 +2088,7 @@ function renderCharts() {
     if (ctx) {
       chartsInit.visits=new Chart(ctx,{
         type:'bar',
-        data:{ labels:['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'], datasets:[{data:[1820,2340,2100,2680,3120,2800,1960],backgroundColor:TEAL_LIGHT,borderColor:TEAL,borderWidth:2,borderRadius:6}] },
+        data:{ labels:['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'], datasets:[{data:[0,0,0,0,0,0,0],backgroundColor:TEAL_LIGHT,borderColor:TEAL,borderWidth:2,borderRadius:6}] },
         options:{ ...getChartDefaults() }
       });
     }
@@ -1958,7 +2099,7 @@ function renderCharts() {
     if (ctx) {
       chartsInit.monthly=new Chart(ctx,{
         type:'line',
-        data:{ labels:['يناير','فبراير','مارس','أبريل','مايو','يونيو'], datasets:[{label:'الزيارات',data:[6200,7800,8400,9200,11400,14820],borderColor:TEAL,backgroundColor:TEAL_LIGHT,fill:true,tension:0.4,borderWidth:2,pointRadius:4,pointBackgroundColor:TEAL}] },
+        data:{ labels:['يناير','فبراير','مارس','أبريل','مايو','يونيو'], datasets:[{label:'الزيارات',data:[0,0,0,0,0,0],borderColor:TEAL,backgroundColor:TEAL_LIGHT,fill:true,tension:0.4,borderWidth:2,pointRadius:4,pointBackgroundColor:TEAL}] },
         options:{ ...getChartDefaults() }
       });
     }
@@ -1969,7 +2110,7 @@ function renderCharts() {
     if (ctx) {
       chartsInit.source=new Chart(ctx,{
         type:'doughnut',
-        data:{ labels:['البوابة','الموقع','مباشر','إحالة'], datasets:[{data:[42,28,18,12],backgroundColor:['#2A8A94','#3AA9B3','#A88A4F','#6B7680'],borderWidth:0,hoverOffset:4}] },
+        data:{ labels:['البوابة','الموقع','مباشر','إحالة'], datasets:[{data:[0,0,0,0],backgroundColor:['#2A8A94','#3AA9B3','#A88A4F','#6B7680'],borderWidth:0,hoverOffset:4}] },
         options:{ responsive:true, maintainAspectRatio:false, cutout:'68%', plugins:{ legend:{ display:true, position:'left', rtl:true, labels:{color:'var(--fg)',font:{size:12}} } } }
       });
     }
@@ -1980,7 +2121,7 @@ function renderCharts() {
     if (ctx) {
       chartsInit.cat=new Chart(ctx,{
         type:'bar',
-        data:{ labels:['شقق','فلل','تاون هاوس','أراضي','تجاري'], datasets:[{data:[18,8,5,3,2],backgroundColor:['#2A8A94','#3AA9B3','#A88A4F','#6B7680','#55C6D0'],borderRadius:6,borderWidth:0}] },
+        data:{ labels:['شقق','فلل','تاون هاوس','أراضي','تجاري'], datasets:[{data:[0,0,0,0,0],backgroundColor:['#2A8A94','#3AA9B3','#A88A4F','#6B7680','#55C6D0'],borderRadius:6,borderWidth:0}] },
         options:{ ...getChartDefaults(), plugins:{...getChartDefaults().plugins,legend:{display:false}} }
       });
     }
@@ -1992,14 +2133,23 @@ function setChartPeriod(period, btn) {
   if (chartsInit.visits) {
     const isWeek=period==='week';
     chartsInit.visits.data.labels=isWeek?['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت']:['الأسبوع 1','الأسبوع 2','الأسبوع 3','الأسبوع 4'];
-    chartsInit.visits.data.datasets[0].data=isWeek?[1820,2340,2100,2680,3120,2800,1960]:[8200,9400,11000,10200];
+    chartsInit.visits.data.datasets[0].data=isWeek?[0,0,0,0,0,0,0]:[0,0,0,0];
     chartsInit.visits.update();
   }
 }
 function renderFunnel() {
   const el=document.getElementById('funnel-chart');
   if (!el) return;
-  const stages=[{l:'زيارات',v:14820,pct:100},{l:'عملاء محتملون',v:472,pct:3.2},{l:'معاينات',v:89,pct:0.6},{l:'عروض',v:24,pct:0.16},{l:'صفقات مغلقة',v:8,pct:0.054}];
+  const total=LEADS.length||1;
+  const counts={new:0,qualified:0,viewing:0,offer:0,closed:0};
+  LEADS.forEach(l=>{ if(counts[l.stage]!==undefined) counts[l.stage]++; });
+  const stages=[
+    {l:'إجمالي العملاء', v:LEADS.length, pct:100},
+    {l:'مؤهلون',         v:counts.qualified, pct:Math.round(counts.qualified/total*100)},
+    {l:'معاينات',        v:counts.viewing,   pct:Math.round(counts.viewing/total*100)},
+    {l:'عروض',           v:counts.offer,     pct:Math.round(counts.offer/total*100)},
+    {l:'صفقات مغلقة',   v:counts.closed,    pct:Math.round(counts.closed/total*100)},
+  ];
   el.innerHTML=stages.map((s,i)=>`
     <div style="display:flex;align-items:center;gap:12px">
       <div style="width:90px;font-size:12px;color:var(--fg-muted);text-align:left">${s.l}</div>
