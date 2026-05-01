@@ -9,7 +9,8 @@
   <title>جودة العقارية — JAWDAH REAL ESTATE</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet"></noscript>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}
@@ -20,7 +21,7 @@
       --beige:#ffffff;--tr:.3s ease;
       --page-glow-y:0px;--page-glow-o:.42;
     }
-    body::before{content:'';position:fixed;inset:-18% -12% auto -12%;height:68vh;z-index:-1;pointer-events:none;background:radial-gradient(circle at 20% 20%,rgba(62,205,196,.18),transparent 32%),radial-gradient(circle at 78% 0%,rgba(255,255,255,.05),transparent 24%),radial-gradient(circle at 50% 40%,rgba(62,205,196,.08),transparent 38%);opacity:var(--page-glow-o);transform:translate3d(0,var(--page-glow-y),0);transition:transform .18s linear,opacity .25s ease;filter:blur(10px)}
+    body::before{content:'';position:fixed;inset:-18% -12% auto -12%;height:68vh;z-index:-1;pointer-events:none;background:radial-gradient(circle at 20% 20%,rgba(62,205,196,.14),transparent 32%),radial-gradient(circle at 78% 0%,rgba(255,255,255,.04),transparent 24%),radial-gradient(circle at 50% 40%,rgba(62,205,196,.06),transparent 38%);opacity:.38;will-change:auto}
     section{scroll-margin-top:110px}
     ::-webkit-scrollbar{width:5px}
     ::-webkit-scrollbar-track{background:#f0fafa}
@@ -1629,13 +1630,6 @@
     const isMobileView = window.innerWidth <= 640;
     const scrolledThreshold = window.innerWidth <= 640 ? 50 : 92;
     nav.classList.toggle('scrolled', y > scrolledThreshold);
-    if (isMobileView) {
-      document.documentElement.style.setProperty('--page-glow-y', `${Math.min(90, y * 0.08)}px`);
-      document.documentElement.style.setProperty('--page-glow-o', `${Math.max(.2, .42 - y * 0.00018)}`);
-    } else {
-      document.documentElement.style.setProperty('--page-glow-y', '0px');
-      document.documentElement.style.setProperty('--page-glow-o', '.32');
-    }
     if (hero) {
       const heroHeight = Math.max(hero.offsetHeight, 1);
       const heroProgress = Math.min(y / (heroHeight * 0.9), 1);
@@ -1740,7 +1734,7 @@
     el.style.transitionDelay = `${i * 0.1}s`;
   });
 
-  // About section — mouse glow orbs
+  // About section — mouse glow orbs (paused when off-screen)
   (function(){
     const sec = document.getElementById('about');
     if (!sec || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -1749,7 +1743,7 @@
       {el: sec.querySelector('.ab-orb-2'), spd: 0.035, ox: 0, oy: 0},
       {el: sec.querySelector('.ab-orb-3'), spd: 0.022, ox: 0, oy: 0}
     ].filter(o => o.el);
-    let tx = 0, ty = 0;
+    let tx = 0, ty = 0, rafId = null, visible = false;
     sec.addEventListener('mousemove', e => {
       const r = sec.getBoundingClientRect();
       tx = (e.clientX - r.left - r.width * 0.5) * 0.38;
@@ -1763,9 +1757,13 @@
         o.el.style.setProperty('--ox', o.ox.toFixed(2) + 'px');
         o.el.style.setProperty('--oy', o.oy.toFixed(2) + 'px');
       });
-      requestAnimationFrame(tick);
+      if (visible) rafId = requestAnimationFrame(tick);
     };
-    tick();
+    new IntersectionObserver(([e]) => {
+      visible = e.isIntersecting;
+      if (visible && !rafId) rafId = requestAnimationFrame(tick);
+      if (!visible) { cancelAnimationFrame(rafId); rafId = null; }
+    }, {threshold: 0.1}).observe(sec);
   })();
 
   // ══ Strip pre-baked .on → re-observe → stagger per section ══
@@ -1802,8 +1800,8 @@
 
 
 <!-- Supabase SDK -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
 <!-- Jawdah patch -->
-<script src="website-patch.js"></script>
+<script src="website-patch.js" defer></script>
 
 <browserflow-container></browserflow-container></body><browserflow-container></browserflow-container></html>
