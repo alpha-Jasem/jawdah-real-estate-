@@ -404,7 +404,7 @@
       .hsr strong{font-size:1.1rem}
       .hsr span{font-size:.58rem;line-height:1.35}
       .scroll-indicator{bottom:-8px;transform:translateX(-50%) scale(.82)}
-      #services,#projects,#stats,#process,#testimonials,footer{padding:68px 20px}
+      #services,#projects,#stats,#process,#testimonials,#our-achievements,footer{padding:68px 20px}
       #interior{min-height:620px;background-position:74% center}
       #interior::before{background:linear-gradient(90deg,rgba(240,252,252,.9) 0%,rgba(240,252,252,.72) 38%,rgba(240,252,252,.14) 72%,rgba(240,252,252,0) 100%);opacity:1}
       .int-txt{position:absolute;left:0;top:0;width:44%;height:100%;padding:66px 8px 40px 16px;background:linear-gradient(90deg,rgba(6,6,6,.88) 0%,rgba(6,6,6,.66) 50%,rgba(6,6,6,0) 100%);align-items:flex-start;text-align:right;box-shadow:none}
@@ -445,6 +445,12 @@
       .cta-cnt .btn-p{min-width:0;width:auto;padding:9px 12px;font-size:.68rem}
       .section-frame::after{inset:18px 18px auto}
       .wa-float{bottom:18px;left:18px}
+      /* hide احجز استشارة from top nav on mobile — it's in the contact section */
+      nav > div:last-child .nav-cta:last-child{display:none}
+      /* achievements grid */
+      #our-achievements .pg{grid-template-columns:1fr}
+      .p-head{margin-bottom:36px}
+      .p-head .h2{font-size:clamp(1.6rem,5vw,2.2rem)}
       .f-bot{flex-direction:column;align-items:flex-start;gap:10px}
       .f-bot-l{gap:14px;flex-wrap:wrap}
     }
@@ -1107,7 +1113,6 @@
   <ul class="nav-links" id="mobileNav">
     <li><a href="#" class="" data-cc-id="cc-3" style="">الرئيسية</a></li>
     <li><a href="#projects" class="" data-cc-id="cc-4" style="">اعتمادنا</a></li>
-    <li><a href="#our-projects" class="">عقاراتنا</a></li>
     <li><a href="#our-achievements" class="">مشاريعنا</a></li>
     <li><a href="#services" class="">الخدمات</a></li>
     <li><a href="#stats" class="">إنجازاتنا</a></li>
@@ -1285,18 +1290,6 @@
         <div class="lic-sub">رخصة فعّالة معتمدة من<br>هيئة العقار الوطنية</div>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- SUPABASE PROPERTIES -->
-<section id="our-projects" class="section-frame" style="display:none">
-  <div class="p-in">
-    <div class="p-head fade lux-reveal">
-      <div class="lbl c">عقاراتنا</div>
-      <h2 class="h2" style="text-align:center">عقارات <span class="g">متاحة</span></h2>
-      <div class="gl c"></div>
-    </div>
-    <div id="projects-grid" class="pg"></div>
   </div>
 </section>
 
@@ -1596,7 +1589,6 @@
   const navTargets = new Map([
     ['#', document.getElementById('hero')],
     ['#projects', document.getElementById('projects')],
-    ['#our-projects', document.getElementById('our-projects')],
     ['#our-achievements', document.getElementById('our-achievements')],
     ['#services', document.getElementById('services')],
     ['#stats', document.getElementById('stats')],

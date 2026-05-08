@@ -59,63 +59,7 @@
 
   loadSiteSettings();
 
-  // ─── 3. Load properties (عقاراتنا) ────────────────────
-  async function loadProperties() {
-    try {
-      const { data, error } = await db
-        .from('properties')
-        .select('*')
-        .eq('status', 'active')
-        .order('created_at', { ascending: false });
-
-      if (error || !data || data.length === 0) return;
-
-      const grid = document.getElementById('projects-grid');
-      if (!grid) return;
-
-      const section = document.getElementById('our-projects');
-      if (section) {
-        section.style.display = 'block';
-        section.querySelectorAll('.fade,.fade-l,.fade-r,.lux-reveal,.clip-in').forEach(el => el.classList.add('on'));
-      }
-
-      const typeMap = { sale: 'بيع', rent: 'إيجار', investment: 'استثمار' };
-
-      grid.innerHTML = data.map(p => {
-        const badge = typeMap[p.price_type] || p.price_type || '';
-        const img = p.images && p.images[0];
-        const price = p.price ? Number(p.price).toLocaleString('ar-SA') + ' ﷼' : '';
-        const meta = [p.city, p.district].filter(Boolean).join('، ');
-        const specs = [
-          p.beds  ? `${p.beds} غرف`  : '',
-          p.baths ? `${p.baths} حمام` : '',
-          p.area  ? `${p.area} م²`    : '',
-        ].filter(Boolean).join(' · ');
-
-        return `
-          <div class="lic-card on" style="text-align:right">
-            ${img ? `
-              <div style="width:100%;height:160px;margin:0 0 18px;border-radius:8px;overflow:hidden;background-image:url('${img}');background-size:cover;background-position:center"></div>
-            ` : `
-              <div class="lic-icon" style="margin-bottom:18px">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <path d="M3 9.5L12 3l9 6.5V21a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/>
-                  <path d="M9 22V12h6v10"/>
-                </svg>
-              </div>
-            `}
-            ${badge ? `<div class="lic-badge" style="margin-bottom:10px">${badge}</div>` : ''}
-            <div class="lic-num" style="font-size:1rem;margin-bottom:6px">${p.title_ar || p.title || '—'}</div>
-            ${meta ? `<div class="lic-sub" style="margin-bottom:8px">📍 ${meta}</div>` : ''}
-            ${specs ? `<div class="lic-sub" style="margin-bottom:10px;direction:rtl">${specs}</div>` : ''}
-            ${price ? `<div style="font-size:1.1rem;font-weight:700;color:#2AABA3;margin-top:8px">${price}</div>` : ''}
-          </div>
-        `;
-      }).join('');
-    } catch (e) { console.error('[Jawdah] loadProperties error:', e); }
-  }
-
-  // ─── 4. Load achievements (مشاريعنا) ──────────────────
+  // ─── 3. Load achievements (مشاريعنا) ─────────────────
   async function loadAchievements() {
     try {
       const { data, error } = await db
@@ -199,9 +143,8 @@
 
   // ─── Init ─────────────────────────────────────────────
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => { loadProperties(); loadAchievements(); });
+    document.addEventListener('DOMContentLoaded', loadAchievements);
   } else {
-    loadProperties();
     loadAchievements();
   }
 
