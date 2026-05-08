@@ -74,7 +74,10 @@
       if (!grid) return;
 
       const section = document.getElementById('our-projects');
-      if (section) section.style.display = 'block';
+      if (section) {
+        section.style.display = 'block';
+        section.querySelectorAll('.fade,.fade-l,.fade-r,.lux-reveal,.clip-in').forEach(el => el.classList.add('on'));
+      }
 
       const typeMap = { sale: 'بيع', rent: 'إيجار', investment: 'استثمار' };
 
@@ -127,7 +130,10 @@
       if (!grid) return;
 
       const section = document.getElementById('our-achievements');
-      if (section) section.style.display = 'block';
+      if (section) {
+        section.style.display = 'block';
+        section.querySelectorAll('.fade,.fade-l,.fade-r,.lux-reveal,.clip-in').forEach(el => el.classList.add('on'));
+      }
 
       const catMap = { residential: 'سكني', commercial: 'تجاري', administrative: 'إداري' };
 
