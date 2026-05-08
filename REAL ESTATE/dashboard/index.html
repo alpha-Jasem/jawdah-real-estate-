@@ -1270,7 +1270,16 @@ function showToast(msg, type='info') {
 // ═══════════════════════════════════════════════════════
 function openModal(id) { document.getElementById(id).classList.add('open'); lucide.createIcons(); }
 function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-function openAddProject() { document.getElementById('modal-project-title').textContent='مشروع جديد'; openModal('modal-project'); }
+let _editingProjectId = null;
+function openAddProject() {
+  _editingProjectId = null;
+  document.getElementById('modal-project-title').textContent = 'مشروع جديد';
+  ['proj-title-ar','proj-title-en','proj-year','proj-client','proj-desc'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = '';
+  });
+  const pub = document.getElementById('proj-published'); if (pub) pub.checked = false;
+  openModal('modal-project');
+}
 function openAddProperty() { openModal('modal-property'); }
 function openAddAppointment() { openModal('modal-appointment'); }
 function openAddLead() {
@@ -1555,7 +1564,7 @@ function renderProjects(filter='all', cat='all') {
   if (cat !== 'all') data = data.filter(p => p.cat === cat);
   grid.innerHTML = data.map(p => `
     <div class="project-card" draggable="true" id="proj-card-${p.id}"
-      ondragstart="dragStart(event,${p.id},'proj')" ondragend="dragEnd(event)">
+      ondragstart="dragStart(event,'${p.id}','proj')" ondragend="dragEnd(event)">
       <div class="project-card-img" style="background:${p.bg}">
         <div style="position:absolute;top:10px;right:10px">
           <span class="badge ${p.status==='published'?'badge-green':'badge-amber'}">
@@ -1573,12 +1582,12 @@ function renderProjects(filter='all', cat='all') {
         </div>
       </div>
       <div class="project-card-actions">
-        <button class="btn btn-ghost btn-sm" onclick="editProject(${p.id})"><i data-lucide="edit-2" width="13" height="13"></i> تعديل</button>
+        <button class="btn btn-ghost btn-sm" onclick="editProject('${p.id}')"><i data-lucide="edit-2" width="13" height="13"></i> تعديل</button>
         <label class="toggle" style="margin-right:auto" title="${p.status==='published'?'إخفاء':'نشر'}">
-          <input type="checkbox" ${p.status==='published'?'checked':''} onchange="toggleProjectStatus(${p.id},this.checked)">
+          <input type="checkbox" ${p.status==='published'?'checked':''} onchange="toggleProjectStatus('${p.id}',this.checked)">
           <span class="toggle-track"></span><span class="toggle-thumb"></span>
         </label>
-        <button class="btn btn-ghost btn-sm" style="color:var(--danger-500)" onclick="deleteProject(${p.id})"><i data-lucide="trash-2" width="13" height="13"></i></button>
+        <button class="btn btn-ghost btn-sm" style="color:var(--danger-500)" onclick="deleteProject('${p.id}')"><i data-lucide="trash-2" width="13" height="13"></i></button>
       </div>
     </div>
   `).join('');
@@ -1593,6 +1602,7 @@ function toggleProjectStatus(id, checked) {
   toggleProjectStatusDB(id, checked);
 }
 function editProject(id) {
+  _editingProjectId = id;
   const p = PROJECTS.find(x=>x.id===id);
   if (!p) return;
   document.getElementById('modal-project-title').textContent='تعديل مشروع';
@@ -1635,9 +1645,15 @@ async function saveProject() {
     description_ar: desc, status: published ? 'published' : 'draft',
     order_index: PROJECTS.length, image_url, gallery_urls };
 
-  const { error } = await sb.from('projects').insert([payload]);
+  let error;
+  if (_editingProjectId) {
+    ({ error } = await sb.from('projects').update(payload).eq('id', _editingProjectId));
+    _editingProjectId = null;
+  } else {
+    ({ error } = await sb.from('projects').insert([payload]));
+  }
   if (error) { showToast('خطأ: ' + error.message, 'error'); return; }
-  showToast('تم حفظ المشروع بنجاح ✓','success');
+  showToast(_editingProjectId === null ? 'تم حفظ المشروع بنجاح ✓' : 'تم تحديث المشروع ✓','success');
   closeModal('modal-project');
   await loadProjects();
 }

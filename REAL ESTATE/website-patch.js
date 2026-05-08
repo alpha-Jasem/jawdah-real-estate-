@@ -1,16 +1,5 @@
 /**
  * Jawdah Real Estate — Website Supabase Patch
- * =============================================
- * أضف هذا الملف في نهاية index.html:
- *
- *   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
- *   <script src="website-patch.js"></script>
- *
- * يقوم هذا الملف بـ:
- *  1. تتبع الزيارات في جدول analytics
- *  2. تحميل المشاريع/الإنجازات من Supabase وعرضها في قسم المشاريع
- *  3. تتبع النقرات على الأزرار الرئيسية
- *  4. تحميل إعدادات الموقع من site_settings
  */
 
 (function () {
@@ -41,16 +30,12 @@
     } catch (_) {}
   }
 
-  // Track on load
   trackVisit('view');
 
-  // Track CTA button clicks (any button with data-track attr or known classes)
   document.addEventListener('click', function (e) {
     const btn = e.target.closest('[data-track], .btn-ph, .btn-p, .btn-gd, .nav-cta');
     if (!btn) return;
-    const label = btn.dataset?.track
-      || btn.textContent?.trim()?.slice(0, 60)
-      || 'button';
+    const label = btn.dataset?.track || btn.textContent?.trim()?.slice(0, 60) || 'button';
     trackVisit('click_cta', { event: `click: ${label}` });
   });
 
@@ -61,44 +46,21 @@
       if (!data) return;
       const s = {};
       data.forEach(r => s[r.key] = r.value);
-
-      // Apply phone
       if (s.phone) {
-        document.querySelectorAll('[data-field="phone"], .fci-phone').forEach(el => {
-          el.textContent = s.phone;
-        });
-        // WhatsApp float btn
+        document.querySelectorAll('[data-field="phone"], .fci-phone').forEach(el => { el.textContent = s.phone; });
         const wa = document.querySelector('.wa-float');
-        if (wa) {
-          const num = s.phone.replace(/\D/g, '');
-          wa.href = `https://wa.me/${num}`;
-        }
+        if (wa) wa.href = `https://wa.me/${s.phone.replace(/\D/g, '')}`;
       }
-      // Apply email
-      if (s.email) {
-        document.querySelectorAll('[data-field="email"], .fci-email').forEach(el => {
-          el.textContent = s.email;
-        });
-      }
-      // Apply address
-      if (s.address) {
-        document.querySelectorAll('[data-field="address"], .fci-address').forEach(el => {
-          el.textContent = s.address;
-        });
-      }
-      // Apply company name
-      if (s.company_name) {
-        document.querySelectorAll('[data-field="company_name"]').forEach(el => {
-          el.textContent = s.company_name;
-        });
-      }
+      if (s.email) document.querySelectorAll('[data-field="email"], .fci-email').forEach(el => { el.textContent = s.email; });
+      if (s.address) document.querySelectorAll('[data-field="address"], .fci-address').forEach(el => { el.textContent = s.address; });
+      if (s.company_name) document.querySelectorAll('[data-field="company_name"]').forEach(el => { el.textContent = s.company_name; });
     } catch (_) {}
   }
 
   loadSiteSettings();
 
-  // ─── 3. Load properties from Supabase ─────────────────
-  async function loadProjects() {
+  // ─── 3. Load properties (عقاراتنا) ────────────────────
+  async function loadProperties() {
     try {
       const { data, error } = await db
         .from('properties')
@@ -112,11 +74,11 @@
       if (!grid) return;
 
       const section = document.getElementById('our-projects');
-      if (section) section.style.display = '';
+      if (section) section.style.display = 'block';
 
       const typeMap = { sale: 'بيع', rent: 'إيجار', investment: 'استثمار' };
 
-      grid.innerHTML = data.map((p, i) => {
+      grid.innerHTML = data.map(p => {
         const badge = typeMap[p.price_type] || p.price_type || '';
         const img = p.images && p.images[0];
         const price = p.price ? Number(p.price).toLocaleString('ar-SA') + ' ﷼' : '';
@@ -128,7 +90,7 @@
         ].filter(Boolean).join(' · ');
 
         return `
-          <div class="lic-card fade stagger-${(i % 5) + 1}" style="text-align:right">
+          <div class="lic-card on" style="text-align:right">
             ${img ? `
               <div style="width:100%;height:160px;margin:0 0 18px;border-radius:8px;overflow:hidden;background-image:url('${img}');background-size:cover;background-position:center"></div>
             ` : `
@@ -147,24 +109,52 @@
           </div>
         `;
       }).join('');
-
-      // Re-trigger scroll reveal for new cards
-      if (window._jawdahRevealObserver) {
-        grid.querySelectorAll('.fade').forEach(el => {
-          window._jawdahRevealObserver.observe(el);
-        });
-      }
-    } catch (_) {}
+    } catch (e) { console.error('[Jawdah] loadProperties error:', e); }
   }
 
-  // Wait for DOM to be ready before loading projects
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', loadProjects);
-  } else {
-    loadProjects();
+  // ─── 4. Load achievements (مشاريعنا) ──────────────────
+  async function loadAchievements() {
+    try {
+      const { data, error } = await db
+        .from('projects')
+        .select('*')
+        .eq('status', 'published')
+        .order('order_index', { ascending: true });
+
+      if (error || !data || data.length === 0) return;
+
+      const grid = document.getElementById('achievements-grid');
+      if (!grid) return;
+
+      const section = document.getElementById('our-achievements');
+      if (section) section.style.display = 'block';
+
+      const catMap = { residential: 'سكني', commercial: 'تجاري', administrative: 'إداري' };
+
+      grid.innerHTML = data.map(p => {
+        const cat = catMap[p.category] || p.category || '';
+        return `
+          <div class="lic-card on" style="text-align:right">
+            ${p.image_url ? `
+              <div style="width:100%;height:160px;margin:0 0 18px;border-radius:8px;overflow:hidden;background-image:url('${p.image_url}');background-size:cover;background-position:center"></div>
+            ` : `
+              <div class="lic-icon" style="margin-bottom:18px">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M3 9.5L12 3l9 6.5V21a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/>
+                  <path d="M9 22V12h6v10"/>
+                </svg>
+              </div>
+            `}
+            ${cat ? `<div class="lic-badge" style="margin-bottom:10px">${cat}</div>` : ''}
+            <div class="lic-num" style="font-size:1rem;margin-bottom:6px">${p.title_ar || p.title || '—'}</div>
+            <div class="lic-sub">${p.year || ''}${p.client_name ? ' · ' + p.client_name : ''}</div>
+          </div>
+        `;
+      }).join('');
+    } catch (e) { console.error('[Jawdah] loadAchievements error:', e); }
   }
 
-  // ─── 4. Expose scroll reveal observer for re-use ──────
+  // ─── 5. Scroll reveal observer ────────────────────────
   window.addEventListener('DOMContentLoaded', function () {
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
@@ -182,7 +172,7 @@
     });
   });
 
-  // ─── 5. Lead capture form (if exists) ─────────────────
+  // ─── 6. Lead capture form ─────────────────────────────
   const contactForm = document.querySelector('#contact-form, form[data-type="lead"]');
   if (contactForm) {
     contactForm.addEventListener('submit', async function (e) {
@@ -192,27 +182,21 @@
       const phone = fd.get('phone') || '';
       const email = fd.get('email') || '';
       const notes = fd.get('message') || fd.get('notes') || '';
-
-      if (!name || !phone) {
-        alert('يرجى إدخال الاسم ورقم الهاتف');
-        return;
-      }
-
-      const { error } = await db.from('leads').insert([{
-        name, phone, email, notes,
-        source: 'website',
-        stage: 'new',
-      }]);
-
-      if (error) {
-        alert('حدث خطأ، يرجى المحاولة مرة أخرى');
-        return;
-      }
-
+      if (!name || !phone) { alert('يرجى إدخال الاسم ورقم الهاتف'); return; }
+      const { error } = await db.from('leads').insert([{ name, phone, email, notes, source: 'website', stage: 'new' }]);
+      if (error) { alert('حدث خطأ، يرجى المحاولة مرة أخرى'); return; }
       trackVisit('submit_lead');
       contactForm.reset();
       alert('تم استلام طلبك، سنتواصل معك قريباً');
     });
+  }
+
+  // ─── Init ─────────────────────────────────────────────
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => { loadProperties(); loadAchievements(); });
+  } else {
+    loadProperties();
+    loadAchievements();
   }
 
   console.log('[Jawdah] Website patch loaded ✓');
