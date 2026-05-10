@@ -1274,9 +1274,10 @@ let _editingProjectId = null;
 function openAddProject() {
   _editingProjectId = null;
   document.getElementById('modal-project-title').textContent = 'مشروع جديد';
-  ['proj-title-ar','proj-title-en','proj-year','proj-client','proj-desc'].forEach(id => {
+  ['proj-title-ar','proj-title-en','proj-year','proj-client','proj-desc','proj-files'].forEach(id => {
     const el = document.getElementById(id); if (el) el.value = '';
   });
+  const cat = document.getElementById('proj-cat'); if (cat) cat.value = 'residential';
   const pub = document.getElementById('proj-published'); if (pub) pub.checked = false;
   openModal('modal-project');
 }
@@ -1606,10 +1607,14 @@ function editProject(id) {
   const p = PROJECTS.find(x=>x.id===id);
   if (!p) return;
   document.getElementById('modal-project-title').textContent='تعديل مشروع';
-  document.getElementById('proj-title-ar').value=p.title;
-  document.getElementById('proj-title-en').value=p.titleEn||'';
-  document.getElementById('proj-year').value=p.year;
-  document.getElementById('proj-client').value=p.client||'';
+  document.getElementById('proj-title-ar').value=p.title_ar||p.title||'';
+  document.getElementById('proj-title-en').value=p.title||'';
+  document.getElementById('proj-year').value=p.year||'';
+  document.getElementById('proj-client').value=p.client_name||p.client||'';
+  const catEl = document.getElementById('proj-cat');
+  if (catEl) catEl.value=p.category||'residential';
+  const descEl = document.getElementById('proj-desc');
+  if (descEl) descEl.value=p.description_ar||p.description||'';
   document.getElementById('proj-published').checked=p.status==='published';
   openModal('modal-project');
 }
@@ -1645,15 +1650,18 @@ async function saveProject() {
     description_ar: desc, status: published ? 'published' : 'draft',
     order_index: PROJECTS.length, image_url, gallery_urls };
 
+  const isEditing = !!_editingProjectId;
   let error;
-  if (_editingProjectId) {
+  if (isEditing) {
     ({ error } = await sb.from('projects').update(payload).eq('id', _editingProjectId));
-    _editingProjectId = null;
   } else {
     ({ error } = await sb.from('projects').insert([payload]));
   }
   if (error) { showToast('خطأ: ' + error.message, 'error'); return; }
-  showToast(_editingProjectId === null ? 'تم حفظ المشروع بنجاح ✓' : 'تم تحديث المشروع ✓','success');
+  _editingProjectId = null;
+  const filesEl = document.getElementById('proj-files');
+  if (filesEl) filesEl.value = '';
+  showToast(isEditing ? 'تم تحديث المشروع ✓' : 'تم حفظ المشروع بنجاح ✓','success');
   closeModal('modal-project');
   await loadProjects();
 }
@@ -1709,6 +1717,8 @@ function openEditProperty(p) {
   const loc = (p.location||'').split('،');
   document.getElementById('prop-district').value = loc[0]?.trim() || '';
   document.getElementById('prop-city').value     = loc[1]?.trim() || 'الرياض';
+  const filesEl = document.getElementById('prop-files');
+  if (filesEl) filesEl.value = '';
   const modalTitle = document.querySelector('#modal-property .modal-title');
   if (modalTitle) modalTitle.textContent = 'تعديل العقار';
   openModal('modal-property');
@@ -1724,6 +1734,8 @@ function openAddProperty() {
   document.getElementById('prop-baths').value='';
   document.getElementById('prop-district').value='';
   document.getElementById('prop-city').value='';
+  const filesEl = document.getElementById('prop-files');
+  if (filesEl) filesEl.value = '';
   const modalTitle = document.querySelector('#modal-property .modal-title');
   if (modalTitle) modalTitle.textContent = 'عقار جديد';
   openModal('modal-property');
@@ -1764,6 +1776,8 @@ async function saveProperty() {
   if (error) { showToast('خطأ: ' + error.message,'error'); return; }
   showToast(_editingPropertyId ? 'تم تحديث العقار ✓' : 'تم حفظ العقار ✓','success');
   _editingPropertyId = null;
+  const propFilesEl = document.getElementById('prop-files');
+  if (propFilesEl) propFilesEl.value = '';
   closeModal('modal-property');
   await loadProperties();
 }
