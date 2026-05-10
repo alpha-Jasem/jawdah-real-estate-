@@ -51,9 +51,22 @@
         const wa = document.querySelector('.wa-float');
         if (wa) wa.href = `https://wa.me/${s.phone.replace(/\D/g, '')}`;
       }
+      if (s.whatsapp) {
+        const wa = document.querySelector('.wa-float');
+        if (wa) wa.href = s.whatsapp;
+      }
       if (s.email) document.querySelectorAll('[data-field="email"], .fci-email').forEach(el => { el.textContent = s.email; });
       if (s.address) document.querySelectorAll('[data-field="address"], .fci-address').forEach(el => { el.textContent = s.address; });
       if (s.company_name) document.querySelectorAll('[data-field="company_name"]').forEach(el => { el.textContent = s.company_name; });
+      if (s.hero_title) {
+        const h1 = document.querySelector('.hero-h1');
+        if (h1) h1.innerHTML = s.hero_title;
+      }
+      if (s.hero_desc) {
+        const desc = document.querySelector('.hero-desc');
+        if (desc) desc.textContent = s.hero_desc;
+      }
+      if (s.about_text) document.querySelectorAll('[data-field="about_text"]').forEach(el => { el.textContent = s.about_text; });
     } catch (_) {}
   }
 

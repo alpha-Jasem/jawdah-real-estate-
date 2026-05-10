@@ -681,7 +681,7 @@ canvas { max-width: 100%; }
         </div>
         <div style="display:flex;gap:10px">
           <button class="btn btn-secondary btn-sm"><i data-lucide="eye" width="14" height="14"></i> معاينة الموقع</button>
-          <button class="btn btn-secondary btn-sm"><i data-lucide="settings" width="14" height="14"></i> إعدادات الموقع</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleSiteSettings()"><i data-lucide="settings" width="14" height="14"></i> إعدادات الموقع</button>
           <button class="btn btn-primary" onclick="openAddProject()"><i data-lucide="plus" width="14" height="14"></i> مشروع جديد</button>
         </div>
       </div>
@@ -700,6 +700,27 @@ canvas { max-width: 100%; }
           <button class="btn btn-ghost btn-sm" onclick="filterCat('administrative',this)">إداري</button>
         </div>
         <div style="margin-right:auto;font-size:13px;color:var(--fg-muted)">اسحب الكروت لإعادة الترتيب</div>
+      </div>
+
+      <!-- ── Site Settings Panel ── -->
+      <div class="panel" id="site-settings-panel" style="margin-bottom:24px;display:none">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+          <div class="section-title">إعدادات الموقع التعريفي</div>
+          <button class="btn btn-ghost btn-sm" onclick="toggleSiteSettings()"><i data-lucide="x" width="14" height="14"></i></button>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">الهاتف</label><input class="form-input" id="ss-phone" placeholder="+966 5X XXX XXXX"></div>
+          <div class="form-group"><label class="form-label">البريد الإلكتروني</label><input class="form-input" id="ss-email" placeholder="info@jawdah.sa"></div>
+        </div>
+        <div class="form-group"><label class="form-label">العنوان</label><input class="form-input" id="ss-address" placeholder="الرياض، المملكة العربية السعودية"></div>
+        <div class="form-group"><label class="form-label">رابط واتساب</label><input class="form-input" id="ss-whatsapp" placeholder="https://wa.me/9665XXXXXXXX"></div>
+        <div class="form-group"><label class="form-label">عنوان الهيرو (الجملة الرئيسية على الموقع)</label><input class="form-input" id="ss-hero-title" placeholder="شركة إدارة أملاك عقارية في السعودية"></div>
+        <div class="form-group"><label class="form-label">وصف الهيرو</label><textarea class="form-input" id="ss-hero-desc" rows="2" placeholder="نقدم حلول إدارة العقارات..."></textarea></div>
+        <div class="form-group"><label class="form-label">نص من نحن</label><textarea class="form-input" id="ss-about" rows="3" placeholder="جودة العقارية شركة متخصصة في..."></textarea></div>
+        <div style="display:flex;gap:8px;margin-top:4px">
+          <button class="btn btn-primary btn-sm" onclick="saveSiteSettings()"><i data-lucide="save" width="14" height="14"></i> حفظ وتطبيق</button>
+          <button class="btn btn-ghost btn-sm" onclick="toggleSiteSettings()">إلغاء</button>
+        </div>
       </div>
 
       <!-- Projects grid -->
@@ -899,11 +920,13 @@ canvas { max-width: 100%; }
 
         <div class="panel">
           <div class="section-title" style="margin-bottom:20px">معلومات الشركة</div>
-          <div class="form-row"><div class="form-group"><label class="form-label">اسم الشركة (عربي)</label><input class="form-input" value="جودة العقارية"></div><div class="form-group"><label class="form-label">Company name (English)</label><input class="form-input" value="Jawdah Real Estate"></div></div>
-          <div class="form-group"><label class="form-label">الشعار الوصفي</label><input class="form-input" value="جودة تليق بك"></div>
-          <div class="form-row"><div class="form-group"><label class="form-label">الهاتف</label><input class="form-input" value="+966 5X XXX XXXX"></div><div class="form-group"><label class="form-label">البريد الإلكتروني</label><input class="form-input" value="info@jawdah.sa"></div></div>
-          <div class="form-group"><label class="form-label">العنوان</label><input class="form-input" value="الرياض، المملكة العربية السعودية"></div>
-          <button class="btn btn-primary btn-sm" onclick="showToast('تم حفظ المعلومات','success')"><i data-lucide="save" width="14" height="14"></i> حفظ</button>
+          <div style="padding:16px;background:var(--brand-teal-50);border-radius:10px;display:flex;align-items:center;justify-content:space-between;gap:12px">
+            <div>
+              <div style="font-size:14px;font-weight:600;color:var(--brand-teal-700)">إعدادات الموقع التعريفي</div>
+              <div style="font-size:12px;color:var(--brand-teal-600);margin-top:2px">الهاتف، البريد، العنوان، واتساب، نصوص الموقع</div>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="navTo('website');toggleSiteSettings()"><i data-lucide="settings" width="14" height="14"></i> فتح الإعدادات</button>
+          </div>
         </div>
 
         <div class="panel">
@@ -1664,6 +1687,54 @@ async function saveProject() {
   showToast(isEditing ? 'تم تحديث المشروع ✓' : 'تم حفظ المشروع بنجاح ✓','success');
   closeModal('modal-project');
   await loadProjects();
+}
+
+// ═══════════════════════════════════════════════════════
+// SITE SETTINGS
+// ═══════════════════════════════════════════════════════
+function toggleSiteSettings() {
+  const panel = document.getElementById('site-settings-panel');
+  const isOpen = panel.style.display !== 'none';
+  panel.style.display = isOpen ? 'none' : 'block';
+  if (!isOpen) loadSiteSettingsForm();
+}
+
+async function loadSiteSettingsForm() {
+  try {
+    const { data } = await sb.from('site_settings').select('key, value');
+    if (!data) return;
+    const s = {};
+    data.forEach(r => s[r.key] = r.value);
+    const map = {
+      'ss-phone': s.phone, 'ss-email': s.email, 'ss-address': s.address,
+      'ss-whatsapp': s.whatsapp, 'ss-hero-title': s.hero_title,
+      'ss-hero-desc': s.hero_desc, 'ss-about': s.about_text
+    };
+    Object.entries(map).forEach(([id, val]) => {
+      const el = document.getElementById(id);
+      if (el && val) el.value = val;
+    });
+  } catch(e) {}
+}
+
+async function saveSiteSettings() {
+  const fields = [
+    { key: 'phone',       id: 'ss-phone' },
+    { key: 'email',       id: 'ss-email' },
+    { key: 'address',     id: 'ss-address' },
+    { key: 'whatsapp',    id: 'ss-whatsapp' },
+    { key: 'hero_title',  id: 'ss-hero-title' },
+    { key: 'hero_desc',   id: 'ss-hero-desc' },
+    { key: 'about_text',  id: 'ss-about' },
+  ];
+  const rows = fields
+    .map(f => ({ key: f.key, value: (document.getElementById(f.id)?.value || '').trim() }))
+    .filter(r => r.value !== '');
+  if (!rows.length) { showToast('لا توجد تغييرات للحفظ','error'); return; }
+  const { error } = await sb.from('site_settings').upsert(rows, { onConflict: 'key' });
+  if (error) { showToast('خطأ: ' + error.message, 'error'); return; }
+  showToast('تم حفظ إعدادات الموقع ✓', 'success');
+  document.getElementById('site-settings-panel').style.display = 'none';
 }
 
 // ═══════════════════════════════════════════════════════
