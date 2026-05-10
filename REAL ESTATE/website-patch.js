@@ -59,8 +59,11 @@
 
   loadSiteSettings();
 
-  // ─── 3. Load achievements (مشاريعنا) ─────────────────
+  // ─── 3. Load achievements — Gallery4 carousel ────────
   async function loadAchievements() {
+    const grid = document.getElementById('achievements-grid');
+    if (!grid) return;
+
     try {
       const { data, error } = await db
         .from('projects')
@@ -68,40 +71,108 @@
         .eq('status', 'published')
         .order('order_index', { ascending: true });
 
-      if (error || !data || data.length === 0) return;
-
-      const grid = document.getElementById('achievements-grid');
-      if (!grid) return;
-
-      const section = document.getElementById('our-achievements');
-      if (section) {
-        section.style.display = 'block';
-        section.querySelectorAll('.fade,.fade-l,.fade-r,.lux-reveal,.clip-in').forEach(el => el.classList.add('on'));
+      if (error || !data || data.length === 0) {
+        grid.innerHTML = '<div class="ach-empty">لا توجد مشاريع منشورة حالياً</div>';
+        document.getElementById('ach-prev').style.display = 'none';
+        document.getElementById('ach-next').style.display = 'none';
+        return;
       }
 
       const catMap = { residential: 'سكني', commercial: 'تجاري', administrative: 'إداري' };
+      const LIMIT = 5;
+      const hasMore = data.length > LIMIT;
+      const visible = hasMore ? data.slice(0, LIMIT) : data;
 
-      grid.innerHTML = data.map(p => {
+      grid.innerHTML = visible.map(p => {
         const cat = catMap[p.category] || p.category || '';
+        const inner = p.image_url
+          ? `<img src="${p.image_url}" alt="${(p.title_ar || '').replace(/"/g, '')}" loading="lazy">`
+          : `<div class="ach-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M3 9.5L12 3l9 6.5V21a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 22V12h6v10"/></svg></div>`;
         return `
-          <div class="lic-card on" style="text-align:right">
-            ${p.image_url ? `
-              <div style="width:100%;height:160px;margin:0 0 18px;border-radius:8px;overflow:hidden;background-image:url('${p.image_url}');background-size:cover;background-position:center"></div>
-            ` : `
-              <div class="lic-icon" style="margin-bottom:18px">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <path d="M3 9.5L12 3l9 6.5V21a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/>
-                  <path d="M9 22V12h6v10"/>
-                </svg>
+          <div class="ach-item">
+            <a class="ach-card" href="#our-achievements">
+              ${inner}
+              <div class="ach-card-ov"></div>
+              <div class="ach-card-body">
+                ${cat ? `<div class="ach-badge">${cat}</div>` : ''}
+                <div class="ach-title">${p.title_ar || p.title || '—'}</div>
+                ${(p.year || p.client_name) ? `<div class="ach-meta">${p.year || ''}${p.client_name ? ' · ' + p.client_name : ''}</div>` : ''}
+                ${p.description ? `<div class="ach-desc">${p.description}</div>` : ''}
+                <div class="ach-link">اقرأ المزيد <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="9 18 15 12 9 6"/></svg></div>
               </div>
-            `}
-            ${cat ? `<div class="lic-badge" style="margin-bottom:10px">${cat}</div>` : ''}
-            <div class="lic-num" style="font-size:1rem;margin-bottom:6px">${p.title_ar || p.title || '—'}</div>
-            <div class="lic-sub">${p.year || ''}${p.client_name ? ' · ' + p.client_name : ''}</div>
-          </div>
-        `;
+            </a>
+          </div>`;
       }).join('');
-    } catch (e) { console.error('[Jawdah] loadAchievements error:', e); }
+
+      // ── "المزيد" button ────────────────────────────────
+      const dotsParent = document.getElementById('ach-dots');
+      if (hasMore && dotsParent) {
+        const moreBtn = document.createElement('a');
+        moreBtn.href = 'projects.html';
+        moreBtn.className = 'ach-more-btn';
+        moreBtn.textContent = 'المزيد من مشاريعنا ←';
+        dotsParent.insertAdjacentElement('afterend', moreBtn);
+      }
+
+      // ── Carousel init ──────────────────────────────────
+      const wrap     = document.querySelector('.ach-wrap');
+      const prevBtn  = document.getElementById('ach-prev');
+      const nextBtn  = document.getElementById('ach-next');
+      const dotsEl   = document.getElementById('ach-dots');
+      const CARD_W   = 340 + 20;
+      let idx = 0;
+
+      function visibleCount() {
+        const pl = window.innerWidth <= 768 ? 20 : 80;
+        return Math.max(1, Math.floor((wrap.offsetWidth - pl) / (window.innerWidth <= 768 ? 300 : CARD_W)));
+      }
+      function maxIdx() { return Math.max(0, data.length - visibleCount()); }
+
+      // dots
+      dotsEl.innerHTML = '';
+      for (let i = 0; i <= maxIdx(); i++) {
+        const d = document.createElement('button');
+        d.className = 'ach-dot' + (i === 0 ? ' on' : '');
+        d.setAttribute('aria-label', 'انتقل للشريحة ' + (i + 1));
+        d.addEventListener('click', () => goTo(i));
+        dotsEl.appendChild(d);
+      }
+
+      function goTo(n) {
+        idx = Math.max(0, Math.min(n, maxIdx()));
+        const cw = window.innerWidth <= 768 ? 300 : CARD_W;
+        grid.style.transform = 'translateX(-' + (idx * cw) + 'px)';
+        prevBtn.disabled = idx === 0;
+        nextBtn.disabled = idx >= maxIdx();
+        dotsEl.querySelectorAll('.ach-dot').forEach((d, i) => d.classList.toggle('on', i === idx));
+      }
+
+      prevBtn.addEventListener('click', () => goTo(idx - 1));
+      nextBtn.addEventListener('click', () => goTo(idx + 1));
+
+      // touch / drag
+      let startX = 0;
+      grid.addEventListener('mousedown',  e => { startX = e.clientX; grid.classList.add('no-trans'); });
+      window.addEventListener('mouseup',  e => {
+        if (!startX) return;
+        grid.classList.remove('no-trans');
+        const dx = startX - e.clientX;
+        if (Math.abs(dx) > 50) goTo(idx + (dx > 0 ? 1 : -1)); else goTo(idx);
+        startX = 0;
+      });
+      grid.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+      grid.addEventListener('touchend',   e => {
+        const dx = startX - e.changedTouches[0].clientX;
+        if (Math.abs(dx) > 50) goTo(idx + (dx > 0 ? 1 : -1));
+      });
+
+      window.addEventListener('resize', () => goTo(Math.min(idx, maxIdx())));
+      goTo(0);
+
+    } catch (e) {
+      console.error('[Jawdah] loadAchievements error:', e);
+      grid.innerHTML = '<div class="ach-empty">حدث خطأ في تحميل المشاريع</div>';
+    }
   }
 
   // ─── 5. Scroll reveal observer ────────────────────────

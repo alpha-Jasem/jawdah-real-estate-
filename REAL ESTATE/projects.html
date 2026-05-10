@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مشاريعنا — جودة العقارية</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Tajawal',sans-serif;direction:rtl;background:#f8fafa;color:#0f2a2a;min-height:100vh}
+    :root{--gold:#3ECDC4;--gold-d:#2AABA3;--dark:#0f2a2a}
+
+    /* ── NAV ── */
+    .pnav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.96);backdrop-filter:blur(14px);border-bottom:1px solid rgba(62,205,196,.14);padding:16px 80px;display:flex;align-items:center;justify-content:space-between}
+    .pnav-logo img{height:48px;object-fit:contain}
+    .pnav-back{display:inline-flex;align-items:center;gap:8px;color:var(--gold-d);text-decoration:none;font-size:.88rem;font-weight:600;transition:gap .25s}
+    .pnav-back:hover{gap:12px}
+    .pnav-back svg{flex-shrink:0}
+
+    /* ── HERO ── */
+    .pg-hero{background:linear-gradient(135deg,#0f2a2a 0%,#1a4040 60%,#0d3030 100%);padding:72px 80px 60px;position:relative;overflow:hidden}
+    .pg-hero::before{content:'';position:absolute;inset:-20% -10%;background:radial-gradient(circle at 80% 50%,rgba(62,205,196,.18),transparent 55%);pointer-events:none}
+    .pg-hero-inner{position:relative;z-index:1;max-width:620px}
+    .pg-hero .lbl{font-size:.68rem;font-weight:700;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;margin-bottom:12px;opacity:.8}
+    .pg-hero h1{font-size:clamp(2rem,4vw,3rem);font-weight:800;color:#fff;line-height:1.18;margin-bottom:12px}
+    .pg-hero p{font-size:.92rem;color:rgba(255,255,255,.68);line-height:1.7;max-width:480px}
+    .pg-count{display:inline-flex;align-items:center;gap:8px;margin-top:20px;padding:8px 18px;background:rgba(62,205,196,.12);border:1px solid rgba(62,205,196,.25);border-radius:50px;font-size:.82rem;color:rgba(255,255,255,.75)}
+    .pg-count strong{color:var(--gold);font-weight:700}
+
+    /* ── FILTERS ── */
+    .pg-filters{background:#fff;border-bottom:1px solid rgba(62,205,196,.1);padding:0 80px;display:flex;align-items:center;gap:0;position:sticky;top:81px;z-index:90;overflow-x:auto;-ms-overflow-style:none;scrollbar-width:none}
+    .pg-filters::-webkit-scrollbar{display:none}
+    .filter-btn{flex-shrink:0;padding:16px 24px;background:transparent;border:none;border-bottom:2px solid transparent;cursor:pointer;font-family:'Tajawal',sans-serif;font-size:.88rem;font-weight:500;color:rgba(15,42,42,.55);transition:all .25s;white-space:nowrap}
+    .filter-btn:hover{color:var(--gold-d)}
+    .filter-btn.active{color:var(--gold-d);border-bottom-color:var(--gold-d);font-weight:700}
+    .pg-search{margin-right:auto;padding:8px 16px;display:flex;align-items:center;gap:8px;background:#f0fafa;border:1px solid rgba(62,205,196,.2);border-radius:10px;flex-shrink:0}
+    .pg-search input{border:none;background:transparent;font-family:'Tajawal',sans-serif;font-size:.85rem;color:#0f2a2a;outline:none;width:180px}
+    .pg-search input::placeholder{color:rgba(15,42,42,.4)}
+    .pg-search svg{flex-shrink:0;color:rgba(15,42,42,.35)}
+
+    /* ── GRID ── */
+    .pg-body{padding:40px 80px 80px;max-width:1400px;margin:0 auto}
+    .pg-sort{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}
+    .pg-sort-label{font-size:.82rem;color:rgba(15,42,42,.5)}
+    .pg-sort-label strong{color:#0f2a2a}
+    #projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+    .proj-card{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.06);transition:transform .32s ease,box-shadow .32s ease;cursor:pointer}
+    .proj-card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(0,0,0,.12)}
+    .proj-img{position:relative;height:220px;background:#0d2020;overflow:hidden}
+    .proj-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
+    .proj-card:hover .proj-img img{transform:scale(1.06)}
+    .proj-img-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0f2a2a,#1a4040)}
+    .proj-img-placeholder svg{width:44px;height:44px;stroke:rgba(62,205,196,.3)}
+    .proj-badge{position:absolute;top:14px;right:14px;font-size:.65rem;font-weight:700;letter-spacing:.08em;padding:4px 12px;border-radius:20px;background:rgba(62,205,196,.18);border:1px solid rgba(62,205,196,.4);color:#3ECDC4;backdrop-filter:blur(6px)}
+    .proj-body{padding:20px 22px 22px}
+    .proj-title{font-size:1rem;font-weight:700;color:#0f2a2a;margin-bottom:7px;line-height:1.4}
+    .proj-meta{font-size:.76rem;color:rgba(15,42,42,.5);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+    .proj-meta-dot{width:3px;height:3px;border-radius:50%;background:rgba(15,42,42,.3)}
+    .proj-desc{font-size:.82rem;line-height:1.65;color:rgba(15,42,42,.68);display:-webkit-box;-webkit-line-clamp:3;line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:16px}
+    .proj-footer{display:flex;align-items:center;justify-content:space-between;padding-top:14px;border-top:1px solid rgba(62,205,196,.1)}
+    .proj-link{font-size:.78rem;font-weight:600;color:var(--gold-d);display:flex;align-items:center;gap:5px;transition:gap .22s}
+    .proj-card:hover .proj-link{gap:9px}
+    .proj-year{font-size:.75rem;color:rgba(15,42,42,.38);font-weight:500}
+
+    /* ── EMPTY / LOADING ── */
+    .pg-state{grid-column:1/-1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px;gap:14px}
+    .pg-state svg{width:52px;height:52px;stroke:rgba(15,42,42,.2)}
+    .pg-state p{font-size:.92rem;color:rgba(15,42,42,.35)}
+    .pg-spinner{width:36px;height:36px;border:3px solid rgba(42,171,163,.15);border-top-color:#2AABA3;border-radius:50%;animation:spin .8s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* ── NO RESULTS ── */
+    .no-results{grid-column:1/-1;text-align:center;padding:60px 20px;color:rgba(15,42,42,.38);font-size:.92rem}
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:1024px){#projects-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:768px){
+      .pnav{padding:14px 20px}
+      .pg-hero{padding:52px 20px 44px}
+      .pg-filters{padding:0 20px}
+      .pg-search{display:none}
+      .pg-body{padding:28px 20px 60px}
+      #projects-grid{grid-template-columns:1fr;gap:18px}
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="pnav">
+  <div class="pnav-logo">
+    <img src="images/logo.png" alt="جودة العقارية" onerror="this.style.display='none'">
+  </div>
+  <a href="index.html" class="pnav-back">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"/></svg>
+    العودة للرئيسية
+  </a>
+</nav>
+
+<!-- HERO -->
+<div class="pg-hero">
+  <div class="pg-hero-inner">
+    <div class="lbl">مشاريعنا</div>
+    <h1>إنجازات <span style="color:var(--gold)">متميزة</span></h1>
+    <p>نفتخر بما حققناه من مشاريع عقارية متنوعة تعكس خبرتنا وجودتنا في السوق السعودي</p>
+    <div class="pg-count">إجمالي المشاريع: <strong id="total-count">—</strong></div>
+  </div>
+</div>
+
+<!-- FILTERS -->
+<div class="pg-filters" id="pg-filters">
+  <button class="filter-btn active" data-cat="all">الكل</button>
+  <button class="filter-btn" data-cat="residential">سكني</button>
+  <button class="filter-btn" data-cat="commercial">تجاري</button>
+  <button class="filter-btn" data-cat="administrative">إداري</button>
+  <div class="pg-search">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="text" id="search-input" placeholder="ابحث في المشاريع...">
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="pg-body">
+  <div class="pg-sort">
+    <div class="pg-sort-label">عرض <strong id="shown-count">—</strong> مشروع</div>
+  </div>
+  <div id="projects-grid">
+    <div class="pg-state">
+      <div class="pg-spinner"></div>
+      <p>جارٍ تحميل المشاريع...</p>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+(function () {
+  const SB_URL = 'https://checwxcpfwbvjfvbujaw.supabase.co';
+  const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNoZWN3eGNwZndidmpmdmJ1amF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2Mjc0NDQsImV4cCI6MjA5MzIwMzQ0NH0.52n-Mg8_JxoWdDompJ2c9q2-LkRuc7bX0IB7XblGdgw';
+  const db = window.supabase.createClient(SB_URL, SB_KEY);
+
+  const grid      = document.getElementById('projects-grid');
+  const totalEl   = document.getElementById('total-count');
+  const shownEl   = document.getElementById('shown-count');
+  const searchEl  = document.getElementById('search-input');
+  const catMap    = { residential: 'سكني', commercial: 'تجاري', administrative: 'إداري' };
+
+  let allProjects = [];
+  let currentCat  = 'all';
+  let searchQ     = '';
+
+  async function loadProjects() {
+    try {
+      const { data, error } = await db
+        .from('projects')
+        .select('*')
+        .eq('status', 'published')
+        .order('order_index', { ascending: true });
+
+      if (error || !data) throw error;
+
+      allProjects = data;
+      totalEl.textContent = data.length;
+      render();
+    } catch (e) {
+      grid.innerHTML = '<div class="pg-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><p>حدث خطأ في تحميل المشاريع</p></div>';
+    }
+  }
+
+  function render() {
+    let list = allProjects;
+    if (currentCat !== 'all') list = list.filter(p => p.category === currentCat);
+    if (searchQ) {
+      const q = searchQ.toLowerCase();
+      list = list.filter(p =>
+        (p.title_ar || '').toLowerCase().includes(q) ||
+        (p.title || '').toLowerCase().includes(q) ||
+        (p.description || '').toLowerCase().includes(q) ||
+        (p.client_name || '').toLowerCase().includes(q)
+      );
+    }
+
+    shownEl.textContent = list.length;
+
+    if (list.length === 0) {
+      grid.innerHTML = '<div class="no-results">لا توجد مشاريع تطابق البحث</div>';
+      return;
+    }
+
+    grid.innerHTML = list.map(p => {
+      const cat  = catMap[p.category] || p.category || '';
+      const img  = p.image_url
+        ? `<img src="${p.image_url}" alt="${(p.title_ar||'').replace(/"/g,'')}" loading="lazy">`
+        : `<div class="proj-img-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M3 9.5L12 3l9 6.5V21a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 22V12h6v10"/></svg></div>`;
+      return `
+        <div class="proj-card">
+          <div class="proj-img">
+            ${img}
+            ${cat ? `<div class="proj-badge">${cat}</div>` : ''}
+          </div>
+          <div class="proj-body">
+            <div class="proj-title">${p.title_ar || p.title || '—'}</div>
+            <div class="proj-meta">
+              ${p.client_name ? `<span>${p.client_name}</span>` : ''}
+              ${p.client_name && p.year ? `<span class="proj-meta-dot"></span>` : ''}
+              ${p.year ? `<span>${p.year}</span>` : ''}
+            </div>
+            ${p.description ? `<div class="proj-desc">${p.description}</div>` : ''}
+            <div class="proj-footer">
+              <span class="proj-link">عرض التفاصيل <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="9 18 15 12 9 6"/></svg></span>
+              ${p.year ? `<span class="proj-year">${p.year}</span>` : ''}
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  // Filter tabs
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentCat = btn.dataset.cat;
+      render();
+    });
+  });
+
+  // Search
+  if (searchEl) {
+    searchEl.addEventListener('input', () => {
+      searchQ = searchEl.value.trim();
+      render();
+    });
+  }
+
+  loadProjects();
+})();
+</script>
+</body>
+</html>

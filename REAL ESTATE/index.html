@@ -1074,6 +1074,60 @@
     .ld-tagline{font-family:'Tajawal',sans-serif;font-size:.76rem;letter-spacing:.18em;color:#2AABA3;text-transform:uppercase;opacity:0;animation:ldFadeIn .6s .7s ease forwards}
     @keyframes ldFadeIn{to{opacity:.7}}
 
+    /* ── PARTNERS STRIP ── */
+    .partners-strip{background:#f8fafa;border-top:1px solid rgba(62,205,196,.12);border-bottom:1px solid rgba(62,205,196,.12);padding:28px 0;overflow:hidden;direction:ltr}
+    .partners-label{text-align:center;font-size:.62rem;font-weight:700;letter-spacing:.22em;color:#2AABA3;text-transform:uppercase;margin-bottom:20px;opacity:.45;direction:rtl}
+    .partners-outer{-webkit-mask-image:linear-gradient(to right,transparent 0%,#000 8%,#000 92%,transparent 100%);mask-image:linear-gradient(to right,transparent 0%,#000 8%,#000 92%,transparent 100%)}
+    .partners-track{display:flex;flex-wrap:nowrap;align-items:center;gap:16px;width:max-content;animation:partners-marquee 36s linear infinite;padding-right:16px}
+    .partners-track.paused{animation-play-state:paused}
+    @keyframes partners-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+    .partner-item{display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .partner-card{display:flex;align-items:center;justify-content:center;width:150px;height:80px;background:#fff;border-radius:14px;border:1px solid rgba(0,0,0,.07);box-shadow:0 2px 12px rgba(0,0,0,.06);padding:14px 20px;transition:box-shadow .3s,transform .3s;flex-shrink:0}
+    .partner-item:hover .partner-card{box-shadow:0 8px 28px rgba(62,205,196,.18);transform:translateY(-3px);border-color:rgba(62,205,196,.3)}
+    .partner-logo{width:100%;height:100%;object-fit:contain;filter:grayscale(1) opacity(.55);transition:filter .35s}
+    .partner-item:hover .partner-logo{filter:grayscale(0) opacity(1)}
+    @media(max-width:640px){.partner-card{width:110px;height:60px;padding:10px 14px;border-radius:10px}}
+
+    /* ── ACHIEVEMENTS GALLERY ── */
+    #our-achievements{padding:90px 0!important;overflow:visible}
+    .ach-head{display:flex;align-items:flex-end;justify-content:space-between;padding:0 80px;margin-bottom:36px;gap:20px}
+    .ach-head-text .lbl{font-size:.72rem;font-weight:700;letter-spacing:.14em;color:var(--gold-d);margin-bottom:10px}
+    .ach-nav{display:flex;gap:8px;flex-shrink:0}
+    .ach-btn{width:42px;height:42px;border-radius:50%;border:1.5px solid rgba(15,42,42,.18);background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#0f2a2a;transition:all .25s;box-shadow:0 2px 8px rgba(0,0,0,.05);flex-shrink:0}
+    .ach-btn:hover:not([disabled]){background:#0f2a2a;color:#fff;border-color:#0f2a2a;box-shadow:0 6px 20px rgba(0,0,0,.14)}
+    .ach-btn[disabled]{opacity:.28;pointer-events:none}
+    .ach-wrap{overflow:hidden}
+    .ach-track{display:flex;direction:ltr;padding-left:80px;transition:transform .52s cubic-bezier(.25,.46,.45,.94);will-change:transform;cursor:grab}
+    .ach-track:active{cursor:grabbing}
+    .ach-track.no-trans{transition:none!important}
+    .ach-item{flex:0 0 340px;padding-right:20px;box-sizing:border-box;flex-shrink:0}
+    .ach-card{position:relative;display:block;height:430px;border-radius:18px;overflow:hidden;text-decoration:none;background:#0d2020}
+    .ach-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .45s ease}
+    .ach-card:hover img{transform:scale(1.06)}
+    .ach-card-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,20,20,.94) 0%,rgba(8,20,20,.38) 55%,rgba(8,20,20,.08) 100%)}
+    .ach-card-icon{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+    .ach-card-icon svg{width:56px;height:56px;stroke:rgba(62,205,196,.22)}
+    .ach-card-body{position:absolute;bottom:0;left:0;right:0;padding:26px 28px;color:#fff;direction:rtl}
+    .ach-badge{display:inline-block;font-size:.67rem;font-weight:700;letter-spacing:.1em;padding:4px 12px;border-radius:20px;background:rgba(62,205,196,.18);border:1px solid rgba(62,205,196,.38);color:#3ECDC4;margin-bottom:10px;backdrop-filter:blur(6px)}
+    .ach-title{font-size:1.1rem;font-weight:700;line-height:1.38;margin-bottom:6px}
+    .ach-meta{font-size:.76rem;opacity:.58;margin-bottom:10px}
+    .ach-desc{font-size:.82rem;line-height:1.65;opacity:.76;display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:14px}
+    .ach-link{display:inline-flex;align-items:center;gap:5px;font-size:.76rem;font-weight:600;color:#3ECDC4;transition:gap .25s}
+    .ach-card:hover .ach-link{gap:9px}
+    .ach-empty{padding:60px 0;color:rgba(15,42,42,.32);font-size:.95rem;direction:rtl}
+    .ach-dots{display:flex;justify-content:center;gap:8px;margin-top:28px}
+    .ach-dot{width:8px;height:8px;border-radius:50%;background:rgba(15,42,42,.12);border:none;cursor:pointer;padding:0;transition:all .3s}
+    .ach-dot.on{background:#2AABA3;width:22px;border-radius:4px}
+    .ach-more-btn{display:block;width:fit-content;margin:24px auto 0;padding:14px 36px;background:transparent;border:1.5px solid #2AABA3;color:#2AABA3;border-radius:50px;font-family:'Tajawal',sans-serif;font-size:.92rem;font-weight:600;text-decoration:none;transition:all .3s ease;letter-spacing:.02em}
+    .ach-more-btn:hover{background:#2AABA3;color:#fff;box-shadow:0 8px 24px rgba(42,171,163,.28);transform:translateY(-2px)}
+    @media(max-width:768px){
+      #our-achievements{padding:68px 0!important}
+      .ach-head{padding:0 20px;flex-direction:column;align-items:flex-start}
+      .ach-track{padding-left:20px}
+      .ach-item{flex:0 0 280px}
+      .ach-card{height:360px}
+    }
+
   </style>
 </head>
 <body data-cc-id="cc-1" style="background-color: rgb(255, 255, 255); cursor: crosshair;">
@@ -1149,6 +1203,24 @@
   </div>
   <div class="scroll-indicator"><span></span></div>
 </section>
+
+<!-- PARTNERS STRIP -->
+<div class="partners-strip">
+  <div class="partners-label">شركاؤنا وعملاؤنا</div>
+  <div class="partners-outer">
+    <div class="partners-track" id="partners-track">
+      <div class="partner-item"><div class="partner-card"><img src="images/partners/ittihad.png" alt="نادي الاتحاد" class="partner-logo" onerror="this.closest('.partner-item').style.display='none'"></div></div>
+      <div class="partner-item"><div class="partner-card"><img src="images/partners/nahdi.png" alt="النهدي" class="partner-logo" onerror="this.closest('.partner-item').style.display='none'"></div></div>
+      <div class="partner-item"><div class="partner-card"><img src="images/partners/dorrah.png" alt="درة العقارية" class="partner-logo" onerror="this.closest('.partner-item').style.display='none'"></div></div>
+      <div class="partner-item"><div class="partner-card"><img src="images/partners/baabdullah.png" alt="باعبدالله العقارية" class="partner-logo" onerror="this.closest('.partner-item').style.display='none'"></div></div>
+      <div class="partner-item"><div class="partner-card"><img src="images/partners/alezz.png" alt="العز المتقدمة" class="partner-logo" onerror="this.closest('.partner-item').style.display='none'"></div></div>
+      <div class="partner-item"><div class="partner-card"><img src="images/partners/w7.png" alt="النوافذ السبعة" class="partner-logo" onerror="this.closest('.partner-item').style.display='none'"></div></div>
+      <div class="partner-item"><div class="partner-card"><img src="images/partners/suico.png" alt="SUICO" class="partner-logo" onerror="this.closest('.partner-item').style.display='none'"></div></div>
+      <div class="partner-item"><div class="partner-card"><img src="images/partners/rsoukh.png" alt="رسوخ" class="partner-logo" onerror="this.closest('.partner-item').style.display='none'"></div></div>
+      <div class="partner-item"><div class="partner-card"><img src="images/partners/bromedia.png" alt="بروميديا" class="partner-logo" onerror="this.closest('.partner-item').style.display='none'"></div></div>
+    </div>
+  </div>
+</div>
 
 <!-- wave: hero → about -->
 <div class="wv" style="background:#05070b"><svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,20 C320,80 720,0 1080,60 C1200,80 1360,40 1440,20 L1440,80 L0,80 Z" fill="#ffffff"></path></svg></div>
@@ -1293,16 +1365,28 @@
   </div>
 </section>
 
-<!-- SUPABASE ACHIEVEMENTS -->
-<section id="our-achievements" class="section-frame" style="display:none">
-  <div class="p-in">
-    <div class="p-head fade lux-reveal">
-      <div class="lbl c">مشاريعنا</div>
-      <h2 class="h2" style="text-align:center">إنجازات <span class="g">متميزة</span></h2>
-      <div class="gl c"></div>
+<!-- SUPABASE ACHIEVEMENTS GALLERY -->
+<section id="our-achievements" class="section-frame" style="padding:90px 0">
+  <div class="ach-head">
+    <div class="ach-head-text">
+      <div class="lbl">مشاريعنا</div>
+      <h2 class="h2" style="margin:0">إنجازات <span class="g">متميزة</span></h2>
     </div>
-    <div id="achievements-grid" class="pg"></div>
+    <div class="ach-nav">
+      <button id="ach-prev" class="ach-btn" disabled aria-label="السابق">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button id="ach-next" class="ach-btn" aria-label="التالي">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
   </div>
+  <div class="ach-wrap">
+    <div id="achievements-grid" class="ach-track">
+      <div class="ach-empty">جارٍ تحميل المشاريع...</div>
+    </div>
+  </div>
+  <div id="ach-dots" class="ach-dots"></div>
 </section>
 
 <!-- STATS -->
@@ -1824,4 +1908,18 @@
 <!-- Jawdah patch -->
 <script src="website-patch.js" defer></script>
 
+<script>
+  (function(){
+    var track = document.getElementById('partners-track');
+    if(!track) return;
+    // clone 9 → 18 total so translateX(-50%) loops seamlessly
+    Array.from(track.querySelectorAll('.partner-item')).forEach(function(el){
+      var clone = el.cloneNode(true);
+      clone.setAttribute('aria-hidden','true');
+      track.appendChild(clone);
+    });
+    track.addEventListener('mouseenter', function(){ track.classList.add('paused'); });
+    track.addEventListener('mouseleave', function(){ track.classList.remove('paused'); });
+  })();
+</script>
 <browserflow-container></browserflow-container></body><browserflow-container></browserflow-container></html>
