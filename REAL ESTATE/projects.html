@@ -10,108 +10,141 @@
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}
-    body{font-family:'Tajawal',sans-serif;direction:rtl;background:#f8fafa;color:#0f2a2a;min-height:100vh}
-    :root{--gold:#3ECDC4;--gold-d:#2AABA3;--dark:#0f2a2a}
+    body{font-family:'Tajawal',sans-serif;direction:rtl;background:#f4f8f8;color:#0f2a2a;min-height:100vh}
+    :root{--gold:#3ECDC4;--gold-d:#2AABA3;--gold-dk:#1F8A90;--dark:#0f2a2a;--tr:.28s cubic-bezier(.22,1,.36,1)}
 
     /* ── NAV ── */
-    .pnav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.96);backdrop-filter:blur(14px);border-bottom:1px solid rgba(62,205,196,.14);padding:12px 40px;display:flex;align-items:center;justify-content:space-between}
-    .pnav-logo img{height:48px;object-fit:contain}
-    .pnav-back{display:inline-flex;align-items:center;gap:8px;color:var(--gold-d);text-decoration:none;font-size:.88rem;font-weight:600;transition:gap .25s}
-    .pnav-back:hover{gap:12px}
-    .pnav-back svg{flex-shrink:0}
+    .pnav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,.97);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid rgba(62,205,196,.14);padding:10px 40px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 0 rgba(62,205,196,.08)}
+    .pnav-logo img{height:46px;object-fit:contain;display:block}
+    .pnav-back{display:inline-flex;align-items:center;gap:7px;color:var(--gold-d);text-decoration:none;font-size:.85rem;font-weight:700;padding:8px 16px;border:1.5px solid rgba(62,205,196,.3);border-radius:50px;transition:all var(--tr);background:rgba(62,205,196,.04)}
+    .pnav-back:hover{background:var(--gold-d);color:#fff;border-color:var(--gold-d);gap:11px}
+    .pnav-back svg{flex-shrink:0;transition:transform var(--tr)}
 
     /* ── HERO ── */
-    .pg-hero{position:relative;min-height:340px;display:flex;align-items:center;overflow:hidden;padding:72px 40px 60px}
+    .pg-hero{position:relative;min-height:420px;display:flex;align-items:center;overflow:hidden;padding:80px 40px 70px}
     .pg-hero-bg{position:absolute;inset:0;z-index:0}
-    .pg-hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center}
-    .pg-hero-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(135deg,rgba(8,26,26,.88) 0%,rgba(15,42,42,.82) 45%,rgba(10,35,35,.65) 100%)}
-    .pg-hero-overlay::after{content:'';position:absolute;inset:-20% -10%;background:radial-gradient(circle at 80% 50%,rgba(62,205,196,.18),transparent 55%);pointer-events:none}
-    .pg-hero-inner{position:relative;z-index:2;max-width:620px}
-    .pg-hero .lbl{font-size:.68rem;font-weight:700;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;margin-bottom:12px;opacity:.8}
-    .pg-hero h1{font-size:clamp(2rem,4vw,3rem);font-weight:800;color:#fff;line-height:1.18;margin-bottom:12px}
-    .pg-hero p{font-size:.92rem;color:rgba(255,255,255,.68);line-height:1.7;max-width:480px}
-    .pg-count{display:inline-flex;align-items:center;gap:8px;margin-top:20px;padding:8px 18px;background:rgba(62,205,196,.12);border:1px solid rgba(62,205,196,.25);border-radius:50px;font-size:.82rem;color:rgba(255,255,255,.75)}
-    .pg-count strong{color:var(--gold);font-weight:700}
+    .pg-hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center;transform:scale(1.04)}
+    .pg-hero-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(110deg,rgba(6,22,22,.92) 0%,rgba(12,36,36,.86) 42%,rgba(8,28,28,.70) 100%)}
+    .pg-hero-glow{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse at 15% 50%,rgba(62,205,196,.22),transparent 55%)}
+    .pg-hero-dots{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.18;background-image:radial-gradient(circle,rgba(255,255,255,.7) 1px,transparent 1px);background-size:28px 28px}
+    .pg-hero-inner{position:relative;z-index:3;max-width:640px}
+    .pg-hero .lbl{display:inline-flex;align-items:center;gap:8px;font-size:.65rem;font-weight:700;letter-spacing:.22em;color:var(--gold);text-transform:uppercase;margin-bottom:16px;opacity:.9}
+    .pg-hero .lbl::before{content:'';width:28px;height:2px;background:var(--gold);border-radius:2px;display:inline-block}
+    .pg-hero h1{font-size:clamp(2.2rem,4.5vw,3.4rem);font-weight:900;color:#fff;line-height:1.12;margin-bottom:16px;letter-spacing:-.01em}
+    .pg-hero p{font-size:.94rem;color:rgba(255,255,255,.65);line-height:1.75;max-width:500px}
+    .pg-hero-meta{display:flex;align-items:center;gap:14px;margin-top:28px;flex-wrap:wrap}
+    .pg-count{display:inline-flex;align-items:center;gap:8px;padding:9px 20px;background:rgba(62,205,196,.1);border:1px solid rgba(62,205,196,.28);border-radius:50px;font-size:.82rem;color:rgba(255,255,255,.72)}
+    .pg-count strong{color:var(--gold);font-weight:800;font-size:.95rem}
+    .pg-hero-badge{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:50px;font-size:.78rem;color:rgba(255,255,255,.55)}
+    .pg-hero-badge span{width:6px;height:6px;border-radius:50%;background:#3ECDC4;animation:heroPulse 2s infinite}
+    @keyframes heroPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
 
-    /* ── FILTERS ── */
-    .pg-filters{background:#fff;border-bottom:1px solid rgba(62,205,196,.1);padding:0 40px;display:flex;align-items:center;gap:0;position:sticky;top:73px;z-index:90;overflow-x:auto;-ms-overflow-style:none;scrollbar-width:none}
+    /* ── FILTERS BAR ── */
+    .pg-filters-wrap{background:#fff;border-bottom:1px solid rgba(0,0,0,.06);position:sticky;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.04)}
+    .pg-filters{padding:0 40px;display:flex;align-items:center;gap:0;overflow-x:auto;-ms-overflow-style:none;scrollbar-width:none}
     .pg-filters::-webkit-scrollbar{display:none}
-    .filter-btn{flex-shrink:0;padding:16px 24px;background:transparent;border:none;border-bottom:2px solid transparent;cursor:pointer;font-family:'Tajawal',sans-serif;font-size:.88rem;font-weight:500;color:rgba(15,42,42,.55);transition:all .25s;white-space:nowrap}
+    .filter-btn{flex-shrink:0;padding:15px 22px;background:transparent;border:none;border-bottom:2.5px solid transparent;cursor:pointer;font-family:'Tajawal',sans-serif;font-size:.88rem;font-weight:600;color:rgba(15,42,42,.45);transition:all .22s;white-space:nowrap;display:flex;align-items:center;gap:6px}
     .filter-btn:hover{color:var(--gold-d)}
-    .filter-btn.active{color:var(--gold-d);border-bottom-color:var(--gold-d);font-weight:700}
-    .pg-search{margin-right:auto;padding:8px 16px;display:flex;align-items:center;gap:8px;background:#f0fafa;border:1px solid rgba(62,205,196,.2);border-radius:10px;flex-shrink:0}
+    .filter-btn.active{color:var(--gold-d);border-bottom-color:var(--gold-d)}
+    .filter-count{font-size:.7rem;padding:2px 7px;border-radius:20px;background:rgba(62,205,196,.1);color:var(--gold-d);font-weight:700;transition:background .22s}
+    .filter-btn.active .filter-count{background:rgba(62,205,196,.2)}
+    .pg-filters-right{margin-right:auto;display:flex;align-items:center;gap:10px;padding:8px 0;flex-shrink:0}
+    .pg-search{padding:8px 14px;display:flex;align-items:center;gap:8px;background:#f0fafa;border:1px solid rgba(62,205,196,.2);border-radius:10px}
     .pg-search input{border:none;background:transparent;font-family:'Tajawal',sans-serif;font-size:.85rem;color:#0f2a2a;outline:none;width:180px}
-    .pg-search input::placeholder{color:rgba(15,42,42,.4)}
-    .pg-search svg{flex-shrink:0;color:rgba(15,42,42,.35)}
+    .pg-search input::placeholder{color:rgba(15,42,42,.38)}
+    .pg-search svg{flex-shrink:0;color:rgba(15,42,42,.3)}
+
+    /* ── BODY ── */
+    .pg-body{padding:36px 40px 80px;max-width:1440px;margin:0 auto}
+    .pg-sort{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+    .pg-sort-label{font-size:.82rem;color:rgba(15,42,42,.45)}
+    .pg-sort-label strong{color:#0f2a2a;font-weight:700}
 
     /* ── GRID ── */
-    .pg-body{padding:40px 40px 80px;max-width:1400px;margin:0 auto}
-    .pg-sort{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}
-    .pg-sort-label{font-size:.82rem;color:rgba(15,42,42,.5)}
-    .pg-sort-label strong{color:#0f2a2a}
     #projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
-    .proj-card{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.06);transition:transform .32s ease,box-shadow .32s ease;cursor:pointer}
-    .proj-card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(0,0,0,.12)}
-    .proj-img{position:relative;height:220px;background:#0d2020;overflow:hidden}
-    .proj-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
-    .proj-card:hover .proj-img img{transform:scale(1.06)}
-    .proj-img-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0f2a2a,#1a4040)}
-    .proj-img-placeholder svg{width:44px;height:44px;stroke:rgba(62,205,196,.3)}
-    .proj-badge{position:absolute;top:14px;right:14px;font-size:.65rem;font-weight:700;letter-spacing:.08em;padding:4px 12px;border-radius:20px;background:rgba(62,205,196,.18);border:1px solid rgba(62,205,196,.4);color:#3ECDC4;backdrop-filter:blur(6px)}
-    .proj-body{padding:20px 22px 22px}
-    .proj-title{font-size:1rem;font-weight:700;color:#0f2a2a;margin-bottom:7px;line-height:1.4}
-    .proj-meta{font-size:.76rem;color:rgba(15,42,42,.5);margin-bottom:10px;display:flex;align-items:center;gap:8px}
-    .proj-meta-dot{width:3px;height:3px;border-radius:50%;background:rgba(15,42,42,.3)}
-    .proj-desc{font-size:.82rem;line-height:1.65;color:rgba(15,42,42,.68);display:-webkit-box;-webkit-line-clamp:3;line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:16px}
-    .proj-footer{display:flex;align-items:center;justify-content:space-between;padding-top:14px;border-top:1px solid rgba(62,205,196,.1)}
-    .proj-link{font-size:.78rem;font-weight:600;color:var(--gold-d);display:flex;align-items:center;gap:5px;transition:gap .22s}
-    .proj-card:hover .proj-link{gap:9px}
-    .proj-year{font-size:.75rem;color:rgba(15,42,42,.38);font-weight:500}
 
-    /* ── EMPTY / LOADING ── */
+    /* ── SKELETON ── */
+    .skel{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+    .skel-img{height:240px;background:linear-gradient(90deg,#eef3f3 25%,#e4eaea 50%,#eef3f3 75%);background-size:200% 100%;animation:shimmer 1.4s infinite}
+    .skel-body{padding:20px 22px}
+    .skel-line{height:12px;border-radius:6px;background:linear-gradient(90deg,#eef3f3 25%,#e4eaea 50%,#eef3f3 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;margin-bottom:10px}
+    .skel-line.wide{width:70%}
+    .skel-line.mid{width:45%}
+    .skel-line.short{width:30%}
+    @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+    /* ── CARD ── */
+    .proj-card{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 2px 14px rgba(0,0,0,.06);transition:transform .32s var(--tr),box-shadow .32s var(--tr),border-color .22s;cursor:pointer;border:1px solid transparent;display:flex;flex-direction:column}
+    .proj-card:hover{transform:translateY(-8px);box-shadow:0 24px 56px rgba(0,0,0,.13);border-color:rgba(62,205,196,.22)}
+    .proj-img{position:relative;height:240px;background:#0d2020;overflow:hidden;flex-shrink:0}
+    .proj-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s var(--tr)}
+    .proj-card:hover .proj-img img{transform:scale(1.07)}
+    .proj-img-gradient{position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(8,22,22,.55) 100%);z-index:1}
+    .proj-img-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0f2a2a 0%,#1a4a4a 100%);position:relative}
+    .proj-img-placeholder::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 60% 40%,rgba(62,205,196,.18),transparent 60%)}
+    .proj-img-placeholder svg{width:48px;height:48px;stroke:rgba(62,205,196,.4);position:relative;z-index:1}
+    .proj-badge{position:absolute;top:14px;right:14px;z-index:2;font-size:.64rem;font-weight:700;letter-spacing:.07em;padding:5px 13px;border-radius:20px;background:rgba(10,30,30,.55);border:1px solid rgba(62,205,196,.4);color:#3ECDC4;backdrop-filter:blur(8px)}
+    .proj-body{padding:20px 22px 22px;display:flex;flex-direction:column;flex:1}
+    .proj-title{font-size:1.02rem;font-weight:800;color:#0f2a2a;margin-bottom:8px;line-height:1.38}
+    .proj-meta{font-size:.76rem;color:rgba(15,42,42,.45);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+    .proj-meta-dot{width:3px;height:3px;border-radius:50%;background:rgba(15,42,42,.3);flex-shrink:0}
+    .proj-desc{font-size:.82rem;line-height:1.68;color:rgba(15,42,42,.62);display:-webkit-box;-webkit-line-clamp:3;line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:auto;padding-bottom:16px}
+    .proj-footer{display:flex;align-items:center;justify-content:space-between;padding-top:14px;border-top:1px solid rgba(62,205,196,.1);margin-top:auto}
+    .proj-link{font-size:.78rem;font-weight:700;color:var(--gold-d);display:flex;align-items:center;gap:5px;transition:gap .22s,color .22s}
+    .proj-card:hover .proj-link{gap:10px;color:var(--gold-dk)}
+    .proj-year{font-size:.74rem;color:rgba(15,42,42,.32);font-weight:500}
+
+    /* ── EMPTY / ERROR ── */
     .pg-state{grid-column:1/-1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px;gap:14px}
-    .pg-state svg{width:52px;height:52px;stroke:rgba(15,42,42,.2)}
-    .pg-state p{font-size:.92rem;color:rgba(15,42,42,.35)}
-    .pg-spinner{width:36px;height:36px;border:3px solid rgba(42,171,163,.15);border-top-color:#2AABA3;border-radius:50%;animation:spin .8s linear infinite}
-    @keyframes spin{to{transform:rotate(360deg)}}
+    .pg-state svg{width:52px;height:52px;stroke:rgba(15,42,42,.18)}
+    .pg-state p{font-size:.92rem;color:rgba(15,42,42,.32)}
+    .no-results{grid-column:1/-1;text-align:center;padding:72px 20px;color:rgba(15,42,42,.35);font-size:.92rem;display:flex;flex-direction:column;align-items:center;gap:12px}
+    .no-results svg{width:44px;height:44px;stroke:rgba(15,42,42,.15)}
 
-    /* ── NO RESULTS ── */
-    .no-results{grid-column:1/-1;text-align:center;padding:60px 20px;color:rgba(15,42,42,.38);font-size:.92rem}
+    /* ── FADE IN ── */
+    .proj-card{opacity:0;transform:translateY(24px);animation:cardIn .5s var(--tr) forwards}
+    @keyframes cardIn{to{opacity:1;transform:translateY(0)}}
+
+    /* ── CTA ── */
+    .pg-cta{margin:0 40px 80px;background:linear-gradient(135deg,#0f2a2a 0%,#1a4444 100%);border-radius:24px;padding:56px 48px;display:flex;align-items:center;justify-content:space-between;gap:32px;position:relative;overflow:hidden}
+    .pg-cta::before{content:'';position:absolute;inset:-30% -10%;background:radial-gradient(circle at 85% 50%,rgba(62,205,196,.2),transparent 55%);pointer-events:none}
+    .pg-cta-text{position:relative;z-index:1}
+    .pg-cta-text h2{font-size:clamp(1.4rem,2.5vw,2rem);font-weight:800;color:#fff;margin-bottom:8px}
+    .pg-cta-text p{font-size:.9rem;color:rgba(255,255,255,.58);max-width:420px;line-height:1.65}
+    .pg-cta-btn{position:relative;z-index:1;flex-shrink:0;display:inline-flex;align-items:center;gap:10px;background:var(--gold-d);color:#fff;text-decoration:none;font-family:'Tajawal',sans-serif;font-size:.95rem;font-weight:700;padding:14px 32px;border-radius:50px;transition:all var(--tr);white-space:nowrap;border:none;cursor:pointer}
+    .pg-cta-btn:hover{background:#fff;color:var(--gold-dk);transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,.2)}
+
+    /* ── FOOTER ── */
+    .pg-footer{border-top:1px solid rgba(62,205,196,.1);padding:28px 40px;display:flex;align-items:center;justify-content:space-between;background:#fff;gap:16px;flex-wrap:wrap}
+    .pg-footer-copy{font-size:.78rem;color:rgba(15,42,42,.38)}
+    .pg-footer-logo img{height:34px;object-fit:contain;opacity:.7}
 
     /* ── RESPONSIVE ── */
-    @media(max-width:1200px){
-      .pnav{padding:12px 28px}
-      .pg-hero{padding:60px 28px 50px}
-      .pg-filters{padding:0 28px}
-      .pg-body{padding:32px 28px 72px}
+    @media(max-width:1100px){
       #projects-grid{grid-template-columns:repeat(2,1fr)}
     }
     @media(max-width:768px){
-      .pnav{padding:10px 16px;min-height:60px}
+      .pnav{padding:10px 16px}
       .pnav-logo img{height:38px}
-      .pnav-back{font-size:.8rem;gap:5px}
-      .pg-hero{padding:40px 16px 36px;min-height:260px}
-      .pg-hero h1{font-size:clamp(1.5rem,6vw,2.2rem)}
-      .pg-hero p{font-size:.84rem}
+      .pnav-back{font-size:.78rem;padding:7px 13px}
+      .pg-hero{padding:48px 20px 44px;min-height:320px}
       .pg-filters{padding:0 16px}
-      .filter-btn{padding:13px 14px;font-size:.82rem}
       .pg-search{display:none}
       .pg-body{padding:20px 16px 52px}
-      .pg-sort{margin-bottom:18px}
       #projects-grid{grid-template-columns:1fr;gap:16px}
-      .proj-img{height:180px}
+      .proj-img{height:200px}
       .proj-body{padding:16px 18px 18px}
-      .proj-title{font-size:.95rem}
+      .pg-cta{margin:0 16px 56px;padding:36px 24px;flex-direction:column;align-items:flex-start;border-radius:18px}
+      .pg-footer{padding:20px 16px}
     }
     @media(max-width:480px){
       .pnav{padding:10px 14px}
-      .pnav-logo img{height:34px}
-      .pg-hero{padding:28px 14px 24px;min-height:220px}
-      .pg-count{font-size:.74rem;padding:6px 14px}
-      .pg-body{padding:16px 12px 48px}
-      .proj-img{height:160px}
-      .proj-title{font-size:.9rem}
-      .proj-desc{font-size:.8rem;-webkit-line-clamp:2;line-clamp:2}
+      .pg-hero{padding:36px 14px 32px;min-height:260px}
+      .pg-hero h1{font-size:1.9rem}
+      .pg-body{padding:16px 12px 44px}
+      .proj-img{height:180px}
+      .proj-title{font-size:.96rem}
+      .proj-desc{-webkit-line-clamp:2;line-clamp:2}
     }
   </style>
 </head>
@@ -123,7 +156,7 @@
     <img src="assets/logo-jawdah-full.png" alt="جودة العقارية">
   </div>
   <a href="index.html" class="pnav-back">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"/></svg>
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
     العودة للرئيسية
   </a>
 </nav>
@@ -134,23 +167,32 @@
     <img src="dist/assets/section-3.png" alt="">
   </div>
   <div class="pg-hero-overlay"></div>
+  <div class="pg-hero-glow"></div>
+  <div class="pg-hero-dots"></div>
   <div class="pg-hero-inner">
     <div class="lbl">مشاريعنا</div>
     <h1>إنجازات <span style="color:var(--gold)">متميزة</span></h1>
     <p>نفتخر بما حققناه من مشاريع عقارية متنوعة تعكس خبرتنا وجودتنا في السوق السعودي</p>
-    <div class="pg-count">إجمالي المشاريع: <strong id="total-count">—</strong></div>
+    <div class="pg-hero-meta">
+      <div class="pg-count">إجمالي المشاريع: <strong id="total-count">—</strong></div>
+      <div class="pg-hero-badge"><span></span> مشاريع منشورة</div>
+    </div>
   </div>
 </div>
 
 <!-- FILTERS -->
-<div class="pg-filters" id="pg-filters">
-  <button class="filter-btn active" data-cat="all">الكل</button>
-  <button class="filter-btn" data-cat="residential">سكني</button>
-  <button class="filter-btn" data-cat="commercial">تجاري</button>
-  <button class="filter-btn" data-cat="administrative">إداري</button>
-  <div class="pg-search">
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-    <input type="text" id="search-input" placeholder="ابحث في المشاريع...">
+<div class="pg-filters-wrap" id="pg-filters-wrap">
+  <div class="pg-filters">
+    <button class="filter-btn active" data-cat="all">الكل <span class="filter-count" id="fc-all">—</span></button>
+    <button class="filter-btn" data-cat="residential">سكني <span class="filter-count" id="fc-residential">0</span></button>
+    <button class="filter-btn" data-cat="commercial">تجاري <span class="filter-count" id="fc-commercial">0</span></button>
+    <button class="filter-btn" data-cat="administrative">إداري <span class="filter-count" id="fc-administrative">0</span></button>
+    <div class="pg-filters-right">
+      <div class="pg-search">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="search-input" placeholder="ابحث في المشاريع...">
+      </div>
+    </div>
   </div>
 </div>
 
@@ -159,13 +201,28 @@
   <div class="pg-sort">
     <div class="pg-sort-label">عرض <strong id="shown-count">—</strong> مشروع</div>
   </div>
-  <div id="projects-grid">
-    <div class="pg-state">
-      <div class="pg-spinner"></div>
-      <p>جارٍ تحميل المشاريع...</p>
-    </div>
-  </div>
+  <div id="projects-grid"></div>
 </div>
+
+<!-- CTA -->
+<div class="pg-cta">
+  <div class="pg-cta-text">
+    <h2>هل لديك مشروع في ذهنك؟</h2>
+    <p>تواصل مع فريقنا المتخصص ونحن سنساعدك في تحقيق مشروعك العقاري بأعلى معايير الجودة</p>
+  </div>
+  <a href="index.html#contact" class="pg-cta-btn">
+    تواصل معنا
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+  </a>
+</div>
+
+<!-- FOOTER -->
+<footer class="pg-footer">
+  <div class="pg-footer-logo">
+    <img src="assets/logo-jawdah-full.png" alt="جودة العقارية">
+  </div>
+  <div class="pg-footer-copy">© 2025 جودة العقارية — جميع الحقوق محفوظة</div>
+</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
@@ -174,31 +231,50 @@
   const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNoZWN3eGNwZndidmpmdmJ1amF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2Mjc0NDQsImV4cCI6MjA5MzIwMzQ0NH0.52n-Mg8_JxoWdDompJ2c9q2-LkRuc7bX0IB7XblGdgw';
   const db = window.supabase.createClient(SB_URL, SB_KEY);
 
-  const grid      = document.getElementById('projects-grid');
-  const totalEl   = document.getElementById('total-count');
-  const shownEl   = document.getElementById('shown-count');
-  const searchEl  = document.getElementById('search-input');
-  const catMap    = { residential: 'سكني', commercial: 'تجاري', administrative: 'إداري' };
+  const grid     = document.getElementById('projects-grid');
+  const totalEl  = document.getElementById('total-count');
+  const shownEl  = document.getElementById('shown-count');
+  const searchEl = document.getElementById('search-input');
+  const catMap   = { residential:'سكني', commercial:'تجاري', administrative:'إداري' };
 
   let allProjects = [];
   let currentCat  = 'all';
   let searchQ     = '';
 
+  // Skeleton loader
+  function showSkeletons(n = 6) {
+    grid.innerHTML = Array(n).fill(0).map((_, i) => `
+      <div class="skel" style="animation-delay:${i * .07}s">
+        <div class="skel-img"></div>
+        <div class="skel-body">
+          <div class="skel-line wide" style="margin-bottom:14px"></div>
+          <div class="skel-line mid"></div>
+          <div class="skel-line mid"></div>
+          <div class="skel-line short" style="margin-top:18px"></div>
+        </div>
+      </div>`).join('');
+  }
+
   async function loadProjects() {
+    showSkeletons();
     try {
       const { data, error } = await db
-        .from('projects')
-        .select('*')
-        .eq('status', 'published')
+        .from('projects').select('*').eq('status','published')
         .order('order_index', { ascending: true });
-
       if (error || !data) throw error;
-
       allProjects = data;
       totalEl.textContent = data.length;
+      // Category counts
+      ['all','residential','commercial','administrative'].forEach(cat => {
+        const el = document.getElementById('fc-' + cat);
+        if (!el) return;
+        el.textContent = cat === 'all' ? data.length : data.filter(p => p.category === cat).length;
+      });
       render();
-    } catch (e) {
-      grid.innerHTML = '<div class="pg-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><p>حدث خطأ في تحميل المشاريع</p></div>';
+    } catch(e) {
+      grid.innerHTML = `<div class="pg-state">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <p>حدث خطأ في تحميل المشاريع</p></div>`;
     }
   }
 
@@ -208,27 +284,25 @@
     if (searchQ) {
       const q = searchQ.toLowerCase();
       list = list.filter(p =>
-        (p.title_ar || '').toLowerCase().includes(q) ||
-        (p.title || '').toLowerCase().includes(q) ||
-        (p.description || '').toLowerCase().includes(q) ||
-        (p.client_name || '').toLowerCase().includes(q)
-      );
+        (p.title_ar||'').toLowerCase().includes(q) ||
+        (p.title||'').toLowerCase().includes(q) ||
+        (p.description||'').toLowerCase().includes(q) ||
+        (p.client_name||'').toLowerCase().includes(q));
     }
-
     shownEl.textContent = list.length;
-
-    if (list.length === 0) {
-      grid.innerHTML = '<div class="no-results">لا توجد مشاريع تطابق البحث</div>';
+    if (!list.length) {
+      grid.innerHTML = `<div class="no-results">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        لا توجد مشاريع تطابق البحث</div>`;
       return;
     }
-
-    grid.innerHTML = list.map(p => {
-      const cat  = catMap[p.category] || p.category || '';
-      const img  = p.image_url
-        ? `<img src="${p.image_url}" alt="${(p.title_ar||'').replace(/"/g,'')}" loading="lazy">`
+    grid.innerHTML = list.map((p, i) => {
+      const cat = catMap[p.category] || p.category || '';
+      const img = p.image_url
+        ? `<img src="${p.image_url}" alt="${(p.title_ar||'').replace(/"/g,'')}" loading="lazy"><div class="proj-img-gradient"></div>`
         : `<div class="proj-img-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M3 9.5L12 3l9 6.5V21a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 22V12h6v10"/></svg></div>`;
       return `
-        <div class="proj-card">
+        <div class="proj-card" style="animation-delay:${Math.min(i,.8) * .09}s">
           <div class="proj-img">
             ${img}
             ${cat ? `<div class="proj-badge">${cat}</div>` : ''}
@@ -242,7 +316,9 @@
             </div>
             ${p.description ? `<div class="proj-desc">${p.description}</div>` : ''}
             <div class="proj-footer">
-              <span class="proj-link">عرض التفاصيل <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="9 18 15 12 9 6"/></svg></span>
+              <span class="proj-link">عرض التفاصيل
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+              </span>
               ${p.year ? `<span class="proj-year">${p.year}</span>` : ''}
             </div>
           </div>
@@ -250,7 +326,6 @@
     }).join('');
   }
 
-  // Filter tabs
   document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -260,24 +335,18 @@
     });
   });
 
-  // Search
-  if (searchEl) {
-    searchEl.addEventListener('input', () => {
-      searchQ = searchEl.value.trim();
-      render();
-    });
-  }
+  if (searchEl) searchEl.addEventListener('input', () => { searchQ = searchEl.value.trim(); render(); });
 
-  loadProjects();
-
-  // Fix sticky filters top to always sit right below the nav
+  // Sticky filters: stick right below nav
   function fixFiltersTop() {
     const nav = document.querySelector('.pnav');
-    const filters = document.querySelector('.pg-filters');
-    if (nav && filters) filters.style.top = nav.offsetHeight + 'px';
+    const fw  = document.querySelector('.pg-filters-wrap');
+    if (nav && fw) fw.style.top = nav.offsetHeight + 'px';
   }
   fixFiltersTop();
   window.addEventListener('resize', fixFiltersTop);
+
+  loadProjects();
 })();
 </script>
 </body>
