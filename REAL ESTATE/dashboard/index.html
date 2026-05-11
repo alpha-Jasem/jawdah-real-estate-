@@ -303,16 +303,27 @@ tr:hover td { background: var(--bg-subtle); }
 .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
 .cal-day-header { font-size: 11px; text-align: center; color: var(--fg-muted); font-weight: 600; padding: 8px 0; text-transform: uppercase; letter-spacing: 0.06em; }
 .cal-day {
-  min-height: 90px; padding: 6px; border-radius: 8px;
+  min-height: 100px; padding: 6px; border-radius: 8px;
   border: 1px solid var(--border); background: var(--bg-elevated);
   font-size: 12px; cursor: pointer; transition: all var(--dur-fast);
 }
 .cal-day:hover { border-color: var(--border-strong); }
-.cal-day.today { border-color: var(--brand-teal-500); background: var(--brand-teal-50); }
+.cal-day.today { border-color: var(--brand-teal-500); background: rgba(62,205,196,.08); }
 .cal-day.other-month { opacity: 0.35; }
 .cal-day-num { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
-.cal-day.today .cal-day-num { color: var(--brand-teal-700); }
-.cal-event { font-size: 10px; background: var(--brand-teal-100); color: var(--brand-teal-700); border-radius: 4px; padding: 2px 5px; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; }
+.cal-day.today .cal-day-num {
+  background: var(--brand-teal-600); color: #fff;
+  width: 26px; height: 26px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+.cal-event {
+  font-size: 11px; background: rgba(62,205,196,.15); color: var(--brand-teal-700);
+  border-radius: 5px; padding: 3px 7px; margin-top: 3px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-weight: 600; cursor: pointer; transition: background .15s;
+  border-right: 3px solid var(--brand-teal-600);
+}
+.cal-event:hover { background: rgba(62,205,196,.3); }
 
 /* ── Messages ── */
 .msg-layout { display: grid; grid-template-columns: 300px 1fr; gap: 0; height: calc(100vh - 124px); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
@@ -488,6 +499,48 @@ canvas { max-width: 100%; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--ink-200); border-radius: 999px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--ink-300); }
+
+/* ── Sidebar header row ── */
+.sidebar-header-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 14px; border-bottom: 1px solid var(--border); min-height: 72px; gap: 8px;
+  flex-shrink: 0;
+}
+.brand-card-badge {
+  font-size: 12px; font-weight: 800; color: var(--brand-teal-700);
+  background: var(--brand-teal-50); border: 1px solid var(--brand-teal-200);
+  border-radius: 10px; padding: 6px 11px; line-height: 1.4; white-space: nowrap;
+}
+.sidebar.collapsed .brand-card-badge { display: none; }
+.admin-card { position: relative; flex-shrink: 0; }
+.admin-card-btn {
+  display: flex; align-items: center; gap: 6px; border: 1px solid rgba(62,205,196,.2);
+  background: rgba(255,255,255,.5); border-radius: 10px; padding: 5px 9px; cursor: pointer;
+  transition: background .2s;
+}
+.admin-card-btn:hover { background: rgba(62,205,196,.1); }
+.admin-card-name { font-size: 11px; font-weight: 700; }
+.admin-card-role { font-size: 10px; color: var(--fg-muted); }
+.sidebar.collapsed .admin-card-name, .sidebar.collapsed .admin-card-role { display: none; }
+.admin-dropdown {
+  position: absolute; top: calc(100% + 6px); left: 0; z-index: 200;
+  background: rgba(255,255,255,.98); border: 1px solid var(--border);
+  border-radius: 10px; box-shadow: 0 8px 32px rgba(0,0,0,.12);
+  min-width: 150px; display: none; backdrop-filter: blur(12px);
+}
+.admin-dropdown.open { display: block; }
+.admin-dropdown button {
+  width: 100%; padding: 10px 14px; background: none; border: none;
+  font-size: 13px; font-family: inherit; cursor: pointer; text-align: right;
+  display: flex; align-items: center; gap: 8px; color: var(--danger-500);
+  border-radius: 10px; transition: background .15s;
+}
+.admin-dropdown button:hover { background: var(--danger-50); }
+
+/* ── Chart legend manual ── */
+.chart-legend { display: flex; gap: 16px; justify-content: flex-end; margin-top: 8px; }
+.chart-legend-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: rgba(15,42,42,.65); }
+.chart-legend-dot { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
 </style>
 </head>
 <body>
@@ -522,9 +575,22 @@ canvas { max-width: 100%; }
     <button class="collapse-btn" onclick="toggleSidebar()" id="collapse-btn">
       <i data-lucide="chevron-left" width="14" height="14"></i>
     </button>
-    <div class="sidebar-logo">
-      <img src="../assets/logo-jawdah-mark.png" alt="Jawdah">
-      <span class="logo-text">جودة العقارية</span>
+    <div class="sidebar-header-row">
+      <div class="brand-card-badge">جودة<br>العقارية</div>
+      <div class="admin-card">
+        <button class="admin-card-btn" onclick="toggleAdminMenu()">
+          <div style="text-align:right">
+            <div class="admin-card-name" id="admin-name-display">فيصل الحربي</div>
+            <div class="admin-card-role">مدير النظام</div>
+          </div>
+          <div class="avatar" style="width:28px;height:28px;font-size:10px;flex-shrink:0" id="admin-avatar-display">FA</div>
+        </button>
+        <div class="admin-dropdown" id="admin-dropdown">
+          <button onclick="doLogout()">
+            <i data-lucide="log-out" width="14" height="14"></i> تسجيل الخروج
+          </button>
+        </div>
+      </div>
     </div>
 
     <div style="flex:1;overflow-y:auto">
@@ -557,7 +623,7 @@ canvas { max-width: 100%; }
         <button class="nav-item" onclick="navTo('leads')" data-page="leads">
           <i data-lucide="users" width="18" height="18"></i>
           <span class="nav-label-text">العملاء</span>
-          <span class="badge">7</span>
+          <span class="badge" id="badge-leads" style="display:none"></span>
         </button>
         <button class="nav-item" onclick="navTo('calendar')" data-page="calendar">
           <i data-lucide="calendar" width="18" height="18"></i>
@@ -565,8 +631,8 @@ canvas { max-width: 100%; }
         </button>
         <button class="nav-item" onclick="navTo('messages')" data-page="messages">
           <i data-lucide="message-square" width="18" height="18"></i>
-          <span class="nav-label-text">الرسائل</span>
-          <span class="badge">3</span>
+          <span class="nav-label-text">رسائل الشات بوت</span>
+          <span class="badge" id="badge-msgs" style="display:none"></span>
         </button>
       </div>
 
@@ -587,13 +653,6 @@ canvas { max-width: 100%; }
       </div>
     </div>
 
-    <div class="sidebar-footer">
-      <div class="avatar">FA</div>
-      <div class="user-info">
-        <div class="user-name">فيصل الحربي</div>
-        <div class="user-role">مدير النظام</div>
-      </div>
-    </div>
   </aside>
 
   <!-- MAIN -->
@@ -613,12 +672,6 @@ canvas { max-width: 100%; }
         <button class="icon-btn" title="Dark Mode" onclick="toggleDark()" id="dark-btn">
           <i data-lucide="moon" width="18" height="18"></i>
         </button>
-        <button class="icon-btn" title="تبديل اللغة" onclick="toggleLang()">
-          <i data-lucide="languages" width="18" height="18"></i>
-        </button>
-        <button class="btn btn-primary btn-sm" onclick="openQuickAdd()">
-          <i data-lucide="plus" width="14" height="14"></i> إضافة سريعة
-        </button>
       </div>
     </div>
 
@@ -630,7 +683,7 @@ canvas { max-width: 100%; }
           <h1 style="font-family:var(--font-display);font-size:32px;font-weight:500;margin-top:6px">نظرة عامة · Q2 2026</h1>
         </div>
         <div style="display:flex;gap:10px">
-          <button class="btn btn-secondary btn-sm"><i data-lucide="download" width="14" height="14"></i> تصدير</button>
+          <button class="btn btn-secondary btn-sm" onclick="exportOverviewCSV()"><i data-lucide="download" width="14" height="14"></i> تصدير</button>
           <button class="btn btn-primary btn-sm" onclick="openAddProject()"><i data-lucide="plus" width="14" height="14"></i> مشروع جديد</button>
         </div>
       </div>
@@ -655,15 +708,20 @@ canvas { max-width: 100%; }
       <div class="panel" style="margin-bottom:24px;background:linear-gradient(135deg,rgba(62,205,196,.18) 0%,rgba(255,255,255,.75) 100%);position:relative;overflow:hidden">
         <div class="section-header" style="position:relative;z-index:1">
           <div>
-            <span class="section-title" style="font-size:16px">نشاط الموقع التعريفي</span>
+            <span class="section-title" style="font-size:16px">نشاط الموقع التعريفي <span id="visits-year-label" style="font-weight:400;color:var(--fg-muted);font-size:13px"></span></span>
             <div style="font-size:12px;color:var(--fg-muted);margin-top:2px">الزيارات والتفاعل خلال الفترة المحددة</div>
           </div>
           <div style="display:flex;gap:6px">
             <button class="btn btn-sm" id="period-week" onclick="setChartPeriod('week',this)" style="background:rgba(62,205,196,.25);color:#1a8a84;border:1px solid rgba(62,205,196,.4);font-weight:600">أسبوع</button>
             <button class="btn btn-sm" id="period-month" onclick="setChartPeriod('month',this)" style="background:rgba(0,0,0,.06);color:var(--fg-muted);border:1px solid rgba(0,0,0,.1)">شهر</button>
+            <button class="btn btn-sm" id="period-year" onclick="setChartPeriod('year',this)" style="background:rgba(0,0,0,.06);color:var(--fg-muted);border:1px solid rgba(0,0,0,.1)">سنة</button>
           </div>
         </div>
         <div style="position:relative;z-index:1;height:280px;margin-top:8px"><canvas id="visitsChart"></canvas></div>
+        <div class="chart-legend" style="position:relative;z-index:1">
+          <span class="chart-legend-item"><span class="chart-legend-dot" style="background:#3ECDC4"></span> الزيارات</span>
+          <span class="chart-legend-item"><span class="chart-legend-dot" style="background:#A88A4F"></span> التفاعل</span>
+        </div>
       </div>
 
       <div class="grid-2">
@@ -689,10 +747,6 @@ canvas { max-width: 100%; }
               <div class="kpi-value" id="kpi-visits" style="font-family:var(--font-display);font-size:28px;font-weight:500">0</div>
               <div style="font-size:11px;color:var(--fg-muted);margin-top:2px">زيارة هذا الشهر</div>
             </div>
-          </div>
-          <div style="margin-top:14px;padding:12px;background:var(--brand-teal-50);border-radius:8px;display:flex;align-items:center;justify-content:space-between">
-            <span style="font-size:13px;color:var(--brand-teal-700)">آخر نشر: مشروع الأبراج · اليوم 10:24</span>
-            <a href="#" style="font-size:13px;font-weight:600;color:var(--brand-teal-700)">معاينة الموقع ←</a>
           </div>
         </div>
 
@@ -833,8 +887,9 @@ canvas { max-width: 100%; }
           <div class="eyebrow">إدارة العملاء</div>
           <h1 style="font-family:var(--font-display);font-size:32px;font-weight:500;margin-top:6px">العملاء المحتملون</h1>
         </div>
-        <div style="display:flex;gap:10px">
-          <button class="btn btn-secondary btn-sm"><i data-lucide="download" width="14" height="14"></i> تصدير CSV</button>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-secondary btn-sm" onclick="exportLeadsCSV()"><i data-lucide="download" width="14" height="14"></i> تصدير Google Sheet</button>
+          <button class="btn btn-secondary btn-sm" onclick="openBulkImport()"><i data-lucide="upload" width="14" height="14"></i> إضافة عملاء BULK</button>
           <button class="btn btn-primary" onclick="openAddLead()"><i data-lucide="user-plus" width="14" height="14"></i> إضافة عميل</button>
         </div>
       </div>
@@ -846,7 +901,7 @@ canvas { max-width: 100%; }
           </div>
           <button class="btn btn-secondary btn-sm">المرحلة</button>
           <button class="btn btn-secondary btn-sm">المصدر</button>
-          <div style="margin-right:auto;font-size:13px;color:var(--fg-muted)">47 عميل</div>
+          <div style="margin-right:auto;font-size:13px;color:var(--fg-muted)"><span id="leads-count">0</span> عميل</div>
         </div>
         <div class="table-wrap">
           <table>
@@ -870,24 +925,43 @@ canvas { max-width: 100%; }
           <button class="btn btn-primary btn-sm" onclick="openAddAppointment()"><i data-lucide="plus" width="14" height="14"></i> موعد جديد</button>
         </div>
       </div>
-      <div class="panel" style="padding:16px">
-        <div class="cal-grid" id="cal-headers"></div>
-        <div class="cal-grid" id="cal-grid" style="margin-top:4px"></div>
+      <div style="display:grid;grid-template-columns:1fr 280px;gap:16px">
+        <div class="panel" style="padding:16px">
+          <div class="cal-grid" id="cal-headers"></div>
+          <div class="cal-grid" id="cal-grid" style="margin-top:4px"></div>
+        </div>
+        <div class="panel" style="padding:16px">
+          <div class="section-title" style="margin-bottom:12px">المواعيد القادمة</div>
+          <div id="upcoming-appointments">
+            <div style="color:var(--fg-muted);font-size:13px;text-align:center;padding:24px">لا مواعيد قادمة</div>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- ══ PAGE: MESSAGES ══ -->
     <div class="page" id="page-messages" data-screen-label="07 Messages">
-      <div class="eyebrow" style="margin-bottom:16px">الرسائل</div>
+      <div class="eyebrow" style="margin-bottom:16px">رسائل الشات بوت</div>
       <div class="msg-layout">
         <div class="msg-list" id="msg-list"></div>
         <div class="msg-chat">
           <div class="msg-chat-header" id="msg-chat-header">
             <div class="avatar" style="width:38px;height:38px;font-size:13px">نو</div>
-            <div><div style="font-size:14px;font-weight:700">نورة الشهري</div><div style="font-size:12px;color:var(--fg-muted)">متصلة منذ 12 دقيقة</div></div>
+            <div><div style="font-size:14px;font-weight:700">نورة الشهري</div><div style="font-size:12px;color:var(--fg-muted)">عبر الشات بوت</div></div>
             <div style="margin-right:auto;display:flex;gap:6px">
-              <button class="icon-btn"><i data-lucide="phone" width="16" height="16"></i></button>
-              <button class="icon-btn"><i data-lucide="more-vertical" width="16" height="16"></i></button>
+              <button class="icon-btn" id="wa-btn" title="فتح واتساب" onclick="openWhatsApp()" style="color:#25D366">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.025.507 3.934 1.395 5.608L0 24l6.545-1.371A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.007-1.371l-.36-.214-3.727.979 1.001-3.636-.234-.374A9.775 9.775 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
+              </button>
+              <div style="position:relative" id="msg-more-wrap">
+                <button class="icon-btn" onclick="toggleMsgMenu()">
+                  <i data-lucide="more-vertical" width="16" height="16"></i>
+                </button>
+                <div id="msg-menu" style="display:none;position:absolute;top:100%;left:0;background:rgba(255,255,255,.98);border:1px solid var(--border);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.12);min-width:150px;z-index:50;backdrop-filter:blur(8px)">
+                  <button onclick="deleteConversation()" style="width:100%;padding:10px 14px;background:none;border:none;font-size:13px;font-family:inherit;cursor:pointer;text-align:right;display:flex;gap:8px;align-items:center;color:var(--danger-500);border-radius:10px">
+                    <i data-lucide="trash-2" width="14" height="14"></i> حذف المحادثة
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
           <div class="msg-chat-body" id="msg-body"></div>
@@ -906,10 +980,10 @@ canvas { max-width: 100%; }
         <h1 style="font-family:var(--font-display);font-size:32px;font-weight:500;margin-top:6px">تقارير الأداء</h1>
       </div>
       <div class="kpi-grid" style="margin-bottom:24px">
-        <div class="kpi-card"><div class="kpi-label">إجمالي الزيارات</div><div class="kpi-value">89.4K</div><div class="kpi-delta up"><i data-lucide="trending-up" width="12" height="12"></i>+24% سنوياً</div></div>
-        <div class="kpi-card"><div class="kpi-label">معدل التحويل</div><div class="kpi-value">3.2%</div><div class="kpi-delta up"><i data-lucide="trending-up" width="12" height="12"></i>+0.4%</div></div>
-        <div class="kpi-card"><div class="kpi-label">متوسط وقت الاستجابة</div><div class="kpi-value">1.8س</div><div class="kpi-delta up"><i data-lucide="trending-down" width="12" height="12"></i>أسرع بـ 22%</div></div>
-        <div class="kpi-card"><div class="kpi-label">رضا العملاء</div><div class="kpi-value">94%</div><div class="kpi-delta up"><i data-lucide="trending-up" width="12" height="12"></i>+2%</div></div>
+        <div class="kpi-card"><div class="kpi-label">إجمالي الزيارات</div><div class="kpi-value" id="rep-visits">—</div><div class="kpi-delta up"><i data-lucide="activity" width="12" height="12"></i> إجمالي السجلات</div></div>
+        <div class="kpi-card"><div class="kpi-label">إجمالي العملاء</div><div class="kpi-value" id="rep-leads">—</div><div class="kpi-delta up"><i data-lucide="users" width="12" height="12"></i> إجمالي</div></div>
+        <div class="kpi-card"><div class="kpi-label">عملاء جدد هذا الشهر</div><div class="kpi-value" id="rep-new-leads">—</div><div class="kpi-delta up"><i data-lucide="user-plus" width="12" height="12"></i> هذا الشهر</div></div>
+        <div class="kpi-card"><div class="kpi-label">مشاريع منشورة</div><div class="kpi-value" id="rep-projects">—</div><div class="kpi-delta up"><i data-lucide="folder" width="12" height="12"></i> على الموقع</div></div>
       </div>
       <div class="grid-2" style="margin-bottom:24px">
         <div class="panel">
@@ -942,38 +1016,11 @@ canvas { max-width: 100%; }
       <div style="max-width:680px;display:flex;flex-direction:column;gap:20px">
 
         <div class="panel">
-          <div class="section-title" style="margin-bottom:20px">معلومات الشركة</div>
-          <div style="padding:16px;background:var(--brand-teal-50);border-radius:10px;display:flex;align-items:center;justify-content:space-between;gap:12px">
-            <div>
-              <div style="font-size:14px;font-weight:600;color:var(--brand-teal-700)">إعدادات الموقع التعريفي</div>
-              <div style="font-size:12px;color:var(--brand-teal-600);margin-top:2px">الهاتف، البريد، العنوان، واتساب، نصوص الموقع</div>
-            </div>
-            <button class="btn btn-primary btn-sm" onclick="navTo('website');toggleSiteSettings()"><i data-lucide="settings" width="14" height="14"></i> فتح الإعدادات</button>
-          </div>
-        </div>
-
-
-        <div class="panel">
           <div class="section-title" style="margin-bottom:20px">التفضيلات</div>
           <div style="display:flex;flex-direction:column;gap:14px">
             <div style="display:flex;align-items:center;justify-content:space-between">
               <div><div style="font-size:14px;font-weight:600">الوضع الليلي</div><div style="font-size:12px;color:var(--fg-muted)">تبديل بين الوضع الفاتح والداكن</div></div>
               <label class="toggle"><input type="checkbox" id="dark-toggle" onchange="toggleDark()"><span class="toggle-track"></span><span class="toggle-thumb"></span></label>
-            </div>
-            <div style="display:flex;align-items:center;justify-content:space-between">
-              <div><div style="font-size:14px;font-weight:600">اللغة الافتراضية</div><div style="font-size:12px;color:var(--fg-muted)">عربي / إنجليزي</div></div>
-              <div style="display:flex;gap:6px">
-                <button class="btn btn-secondary btn-sm" style="background:var(--brand-teal-50);border-color:var(--brand-teal-500);color:var(--brand-teal-700)">عربي</button>
-                <button class="btn btn-ghost btn-sm">English</button>
-              </div>
-            </div>
-            <div style="display:flex;align-items:center;justify-content:space-between">
-              <div><div style="font-size:14px;font-weight:600">الإشعارات بالبريد</div><div style="font-size:12px;color:var(--fg-muted)">إشعار عند وصول عميل جديد</div></div>
-              <label class="toggle"><input type="checkbox" checked><span class="toggle-track"></span><span class="toggle-thumb"></span></label>
-            </div>
-            <div style="display:flex;align-items:center;justify-content:space-between">
-              <div><div style="font-size:14px;font-weight:600">الملخص اليومي</div><div style="font-size:12px;color:var(--fg-muted)">ملخص يومي تلقائي على بريدك</div></div>
-              <label class="toggle"><input type="checkbox" checked><span class="toggle-track"></span><span class="toggle-thumb"></span></label>
             </div>
           </div>
         </div>
@@ -1124,6 +1171,49 @@ canvas { max-width: 100%; }
   </div>
 </div>
 
+<!-- Bulk Import Modal -->
+<div class="overlay" id="modal-bulk-import">
+  <div class="modal" style="max-width:560px">
+    <div class="modal-header">
+      <h2 class="modal-title">إضافة عملاء BULK</h2>
+      <button class="icon-btn" onclick="closeModal('modal-bulk-import')"><i data-lucide="x" width="16" height="16"></i></button>
+    </div>
+    <div style="background:var(--brand-teal-50);border-radius:10px;padding:12px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <div style="font-size:13px;font-weight:600">حمّل قالب Google Sheet</div>
+        <div style="font-size:11px;color:var(--fg-muted);margin-top:2px">الأعمدة يجب أن تتطابق تماماً مع الجدول</div>
+      </div>
+      <button class="btn btn-secondary btn-sm" onclick="downloadBulkTemplate()">
+        <i data-lucide="file-spreadsheet" width="13" height="13"></i> قالب CSV
+      </button>
+    </div>
+    <div style="font-size:11px;color:var(--fg-muted);margin-bottom:8px;background:var(--bg-subtle);padding:8px 12px;border-radius:8px;direction:ltr;text-align:left">
+      اسم العميل | رقم الجوال | العقار | الميزانية | المرحلة | المصدر
+    </div>
+    <div class="upload-zone" id="bulk-drop" style="margin-bottom:16px" onclick="document.getElementById('bulk-file').click()">
+      <div class="upload-icon"><i data-lucide="upload" width="28" height="28"></i></div>
+      <p>اسحب ملف CSV أو اضغط للاختيار (بحد أقصى 9 عملاء)</p>
+      <input type="file" id="bulk-file" accept=".csv" style="display:none" onchange="parseBulkCSV(this)">
+    </div>
+    <div id="bulk-preview" style="display:none">
+      <div style="font-size:13px;font-weight:600;margin-bottom:8px">معاينة البيانات</div>
+      <div class="table-wrap" style="max-height:200px;overflow-y:auto">
+        <table>
+          <thead><tr><th>الاسم</th><th>الجوال</th><th>العقار</th><th>المرحلة</th><th>المصدر</th></tr></thead>
+          <tbody id="bulk-preview-body"></tbody>
+        </table>
+      </div>
+      <div id="bulk-warning" style="display:none;color:var(--danger-500);font-size:12px;margin-top:6px"></div>
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
+      <button class="btn btn-ghost" onclick="closeModal('modal-bulk-import')">إلغاء</button>
+      <button class="btn btn-primary" id="bulk-save-btn" onclick="saveBulkLeads()" disabled>
+        <i data-lucide="save" width="14" height="14"></i> حفظ العملاء
+      </button>
+    </div>
+  </div>
+</div>
+
 <!-- Notifications panel -->
 <div class="overlay" id="notif-panel" onclick="if(event.target===this)document.getElementById('notif-panel').classList.remove('open')">
   <div style="position:fixed;top:72px;left:24px;width:340px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:16px;padding:20px;z-index:51;box-shadow:var(--shadow-xl)">
@@ -1171,11 +1261,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 function showApp(user) {
   document.getElementById('login-screen').style.display = 'none';
   document.getElementById('app').style.display = 'flex';
-  // Update user info in sidebar
+  // Update admin card in sidebar
   const name = user.email?.split('@')[0] || 'Admin';
   const initials = name.substring(0,2).toUpperCase();
-  document.querySelector('.sidebar-footer .user-name').textContent = user.email;
-  document.querySelector('.sidebar-footer .avatar').textContent = initials;
+  const nameEl = document.getElementById('admin-name-display');
+  const avatarEl = document.getElementById('admin-avatar-display');
+  if (nameEl) nameEl.textContent = user.email;
+  if (avatarEl) avatarEl.textContent = initials;
   lucide.createIcons();
   // Load real data
   loadAllData();
@@ -1204,6 +1296,17 @@ async function loadAllData() {
   renderFunnel();
   loadAnalytics();
   initGlobalSearch();
+  // Realtime subscription — leads INSERT
+  sb.channel('leads-realtime')
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'leads' }, async payload => {
+      await loadLeads();
+      rebuildKanbanData();
+      renderActivityFeed();
+      updateSidebarBadges();
+      loadNotifications();
+      showToast(`عميل جديد: ${payload.new?.name || ''}`, 'info');
+    })
+    .subscribe();
 }
 
 // ═══════════════════════════════════════════════════════
@@ -1248,7 +1351,13 @@ function navTo(page) {
   }
   const btn = document.querySelector(`[data-page="${page}"]`);
   if (btn) btn.classList.add('active');
-  if (page === 'reports') { setTimeout(renderCharts, 50); setReportYearLabels(); }
+  if (page === 'reports') {
+    setTimeout(renderCharts, 50);
+    setReportYearLabels();
+    loadReportKPIs();
+    setTimeout(updateSourceChart, 200);
+    setTimeout(updateCatChart, 200);
+  }
   if (page === 'calendar') renderCalendar();
   if (page === 'settings') loadActivityLog();
 }
@@ -1439,6 +1548,7 @@ async function loadLeads() {
   rebuildKanbanData();
   updateKPI('kpi-leads', LEADS.filter(l=>l.stage!=='closed').length);
   renderActivityFeed();
+  updateSidebarBadges();
 }
 
 async function loadAnalytics() {
@@ -1488,11 +1598,9 @@ function renderActivityFeed() {
   const el = document.getElementById('activity-feed');
   if (!el) return;
   const items = [];
-  LEADS.slice(0,5).forEach(l => {
-    items.push({ icon:'user', color:'var(--brand-teal-600)', text:`عميل جديد: ${l.name}`, sub: l.property !== '—' ? l.property : l.source, time: l.date });
-  });
-  PROPERTIES.slice(0,3).forEach(p => {
-    items.push({ icon:'home', color:'var(--sand-500)', text:`عقار: ${p.title}`, sub: p.location, time:'' });
+  LEADS.slice(0,8).forEach(l => {
+    const icon = l.source === 'chatbot' ? 'message-square' : 'user';
+    items.push({ icon, color:'var(--brand-teal-600)', text:`عميل جديد: ${l.name}`, sub: l.property !== '—' ? l.property : (SOURCE_LABELS[l.source]||l.source), time: l.date });
   });
   if (!items.length) {
     el.innerHTML = '<div style="padding:16px;text-align:center;color:var(--fg-muted);font-size:13px">لا توجد نشاطات بعد</div>';
@@ -1605,7 +1713,13 @@ async function loadMessages() {
     if (!m.read && m.sender_type!=='admin') map[m.conversation_id].unread++;
   });
   MSGS = Object.values(map);
+  // Attach phone from LEADS by name match
+  MSGS.forEach(conv => {
+    const lead = LEADS.find(l => l.name === conv.name);
+    if (lead) conv.phone = lead.phone;
+  });
   if (MSGS.length && !activeConvId) activeConvId = MSGS[0].id;
+  updateSidebarBadges();
   renderMessages();
 }
 
@@ -1932,7 +2046,7 @@ function renderLeadsTable() {
   const tbody = document.getElementById('leads-tbody');
   if (!tbody) return;
   tbody.innerHTML = LEADS.map(l => `
-    <tr onclick="viewLead(${l.id})" style="cursor:pointer">
+    <tr id="lead-row-${l.id}" onclick="viewLead(${l.id})" style="cursor:pointer">
       <td>
         <div style="display:flex;align-items:center;gap:10px">
           <div class="avatar" style="width:34px;height:34px;font-size:12px">${l.name.substring(0,2)}</div>
@@ -1949,12 +2063,14 @@ function renderLeadsTable() {
       <td style="font-size:12px;color:var(--fg-muted)">${l.date}</td>
       <td>
         <div style="display:flex;gap:4px" onclick="event.stopPropagation()">
-          <button class="btn btn-ghost btn-sm" title="رسالة" onclick="navTo('messages')"><i data-lucide="message-square" width="13" height="13"></i></button>
-          <button class="btn btn-ghost btn-sm" title="موعد" onclick="openAddAppointment()"><i data-lucide="calendar" width="13" height="13"></i></button>
+          <button class="btn btn-ghost btn-sm" title="تعديل" onclick="startEditLead(${l.id})"><i data-lucide="pencil" width="13" height="13"></i></button>
+          <button class="btn btn-ghost btn-sm" title="حذف" style="color:var(--danger-500)" onclick="deleteLead(${l.id})"><i data-lucide="trash-2" width="13" height="13"></i></button>
         </div>
       </td>
     </tr>
   `).join('');
+  const cnt = document.getElementById('leads-count');
+  if (cnt) cnt.textContent = LEADS.length;
   lucide.createIcons();
 }
 function viewLead(id) {
@@ -2105,27 +2221,19 @@ function timeAgo(iso) {
 
 async function loadNotifications() {
   try {
-    const [{ data: leads }, { data: events }] = await Promise.all([
-      sb.from('leads').select('id,name,created_at,source').order('created_at', { ascending: false }).limit(5),
-      sb.from('analytics').select('event,created_at').order('created_at', { ascending: false }).limit(5)
-    ]);
+    const { data: leads } = await sb.from('leads')
+      .select('id,name,created_at,source,stage')
+      .neq('source', 'portal')
+      .order('created_at', { ascending: false })
+      .limit(10);
 
-    const items = [
-      ...(leads || []).map(l => ({
-        icon: 'user', color: 'var(--brand-teal-700)',
-        title: `عميل جديد: ${l.name || '—'}`,
-        desc: l.source || 'الموقع التعريفي',
-        time: timeAgo(l.created_at),
-        _raw: l.created_at
-      })),
-      ...(events || []).map(e => ({
-        icon: 'activity', color: 'var(--fg-muted)',
-        title: e.event || 'نشاط',
-        desc: 'الموقع التعريفي',
-        time: timeAgo(e.created_at),
-        _raw: e.created_at
-      }))
-    ].sort((a, b) => new Date(b._raw) - new Date(a._raw)).slice(0, 8);
+    const items = (leads || []).map(l => ({
+      icon: l.source === 'chatbot' ? 'message-square' : 'user',
+      color: l.stage === 'new' ? 'var(--brand-teal-700)' : 'var(--fg-muted)',
+      title: `عميل جديد: ${l.name || '—'}`,
+      desc: SOURCE_LABELS[l.source] || l.source || 'الموقع',
+      time: timeAgo(l.created_at),
+    }));
 
     const panel = document.getElementById('notif-list');
     if (!panel) return;
@@ -2145,8 +2253,9 @@ async function loadNotifications() {
       </div>`).join('');
     lucide.createIcons();
 
+    const newCount = (leads || []).filter(l => l.stage === 'new').length;
     const dot = document.querySelector('.notif-dot');
-    if (dot) dot.textContent = items.length > 9 ? '9+' : items.length;
+    if (dot) { dot.style.display = newCount > 0 ? '' : 'none'; }
   } catch(e) {}
 }
 
@@ -2182,9 +2291,11 @@ async function loadAppointments() {
     const d = new Date(a.date);
     const key = `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
     if (!CAL_EVENTS[key]) CAL_EVENTS[key] = [];
-    CAL_EVENTS[key].push(`${a.customer_name}${a.property_name?' · '+a.property_name:''}`);
+    const label = `${a.time ? a.time + ' · ' : ''}${a.customer_name}${a.property_name?' · '+a.property_name:''}`;
+    CAL_EVENTS[key].push(label);
   });
   renderCalendar();
+  renderUpcomingAppointments();
 }
 function renderCalendar() {
   const title = document.getElementById('cal-title');
@@ -2208,6 +2319,7 @@ function renderCalendar() {
   const rem=42-(first+days);
   for (let i=1; i<=rem; i++) cells+=`<div class="cal-day other-month"><div class="cal-day-num">${i}</div></div>`;
   grid.innerHTML=cells;
+  renderUpcomingAppointments();
 }
 function calNav(dir) { calMonth+=dir; if(calMonth>11){calMonth=0;calYear++;} if(calMonth<0){calMonth=11;calYear--;} renderCalendar(); }
 
@@ -2245,10 +2357,19 @@ function openChat(id) {
   const header=document.getElementById('msg-chat-header');
   header.innerHTML=`
     <div class="avatar" style="width:38px;height:38px;font-size:13px">${m.initials}</div>
-    <div><div style="font-size:14px;font-weight:700">${m.name}</div><div style="font-size:12px;color:var(--fg-muted)">عبر البوابة</div></div>
+    <div><div style="font-size:14px;font-weight:700">${m.name}</div><div style="font-size:12px;color:var(--fg-muted)">عبر الشات بوت</div></div>
     <div style="margin-right:auto;display:flex;gap:6px">
-      <button class="icon-btn"><i data-lucide="phone" width="16" height="16"></i></button>
-      <button class="icon-btn"><i data-lucide="more-vertical" width="16" height="16"></i></button>
+      <button class="icon-btn" title="فتح واتساب" onclick="openWhatsApp()" style="color:#25D366">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.025.507 3.934 1.395 5.608L0 24l6.545-1.371A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.007-1.371l-.36-.214-3.727.979 1.001-3.636-.234-.374A9.775 9.775 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
+      </button>
+      <div style="position:relative" id="msg-more-wrap">
+        <button class="icon-btn" onclick="toggleMsgMenu()"><i data-lucide="more-vertical" width="16" height="16"></i></button>
+        <div id="msg-menu" style="display:none;position:absolute;top:100%;left:0;background:rgba(255,255,255,.98);border:1px solid var(--border);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.12);min-width:150px;z-index:50;backdrop-filter:blur(8px)">
+          <button onclick="deleteConversation()" style="width:100%;padding:10px 14px;background:none;border:none;font-size:13px;font-family:inherit;cursor:pointer;text-align:right;display:flex;gap:8px;align-items:center;color:var(--danger-500);border-radius:10px">
+            <i data-lucide="trash-2" width="14" height="14"></i> حذف المحادثة
+          </button>
+        </div>
+      </div>
     </div>`;
   const body=document.getElementById('msg-body');
   body.innerHTML=m.messages.map(msg=>`
@@ -2284,12 +2405,18 @@ async function sendMsg() {
 // ═══════════════════════════════════════════════════════
 // CHARTS
 // ═══════════════════════════════════════════════════════
+// Global Chart.js defaults — must run before any chart is created
+if (window.Chart) {
+  Chart.defaults.color = 'rgba(15,42,42,.65)';
+  Chart.defaults.font.family = "'Tajawal', 'Noto Naskh Arabic', sans-serif";
+  Chart.defaults.plugins.legend.labels.color = 'rgba(15,42,42,.65)';
+}
 let chartsInit={};
 const TEAL='rgba(42,138,148,1)', TEAL_LIGHT='rgba(85,198,208,0.15)';
 function getChartDefaults() {
   return {
     responsive:true, maintainAspectRatio:false,
-    plugins:{ legend:{ display:false }, tooltip:{ rtl:true, textDirection:'rtl', bodyFont:{family:'var(--font-sans)'}, padding:10, cornerRadius:8, backgroundColor:'#0F1214', titleColor:'#fff', bodyColor:'rgba(255,255,255,0.7)' } },
+    plugins:{ legend:{ display:false }, tooltip:{ rtl:true, textDirection:'rtl', bodyFont:{family:'var(--font-sans)'}, padding:10, cornerRadius:8, backgroundColor:'rgba(255,255,255,.95)', titleColor:'#0f2a2a', bodyColor:'rgba(15,42,42,.6)', borderColor:'rgba(62,205,196,.4)', borderWidth:1 } },
     scales:{
       x:{ grid:{ color:'var(--border)', drawBorder:false }, ticks:{ color:'var(--fg-muted)', font:{size:11} } },
       y:{ grid:{ color:'var(--border)', drawBorder:false }, ticks:{ color:'var(--fg-muted)', font:{size:11} }, beginAtZero:true }
@@ -2313,6 +2440,10 @@ function renderSparklines() {
   });
 }
 function renderCharts() {
+  // Year label for visits chart header
+  const ylEl = document.getElementById('visits-year-label');
+  if (ylEl) ylEl.textContent = new Date().getFullYear();
+
   // Visits — animated gradient multi-dataset
   if (!chartsInit.visits) {
     const ctx = document.getElementById('visitsChart');
@@ -2357,13 +2488,10 @@ function renderCharts() {
           animation: { duration: 1200, easing: 'easeInOutQuart' },
           interaction: { mode: 'index', intersect: false },
           plugins: {
-            legend: {
-              display: true, position: 'top', align: 'end',
-              labels: { color: 'rgba(255,255,255,.6)', font: { size: 12 }, boxWidth: 12, boxHeight: 12, useBorderRadius: true, borderRadius: 3 }
-            },
+            legend: { display: false },
             tooltip: {
-              backgroundColor: 'rgba(10,20,20,.95)', borderColor: 'rgba(62,205,196,.3)', borderWidth: 1,
-              titleColor: '#fff', bodyColor: 'rgba(255,255,255,.7)',
+              backgroundColor: 'rgba(255,255,255,.95)', borderColor: 'rgba(62,205,196,.4)', borderWidth: 1,
+              titleColor: '#0f2a2a', bodyColor: 'rgba(15,42,42,.6)',
               padding: 12, cornerRadius: 10, rtl: true,
             }
           },
@@ -2389,7 +2517,7 @@ function renderCharts() {
           labels: [`يناير ${year}`,`فبراير ${year}`,`مارس ${year}`,`أبريل ${year}`,`مايو ${year}`,`يونيو ${year}`,`يوليو ${year}`,`أغسطس ${year}`,`سبتمبر ${year}`,`أكتوبر ${year}`,`نوفمبر ${year}`,`ديسمبر ${year}`],
           datasets: [{ label:`الزيارات ${year}`, data:[320,480,410,620,580,740,690,810,760,920,870,1050], borderColor:'#3ECDC4', backgroundColor:mg, fill:true, tension:0.45, borderWidth:2.5, pointRadius:4, pointBackgroundColor:'#3ECDC4', pointBorderColor:'#060f0f', pointBorderWidth:2 }]
         },
-        options: { responsive:true, maintainAspectRatio:false, animation:{duration:1000,easing:'easeInOutQuart'}, plugins:{ legend:{display:true,labels:{color:'rgba(255,255,255,.6)',font:{size:12}}}, tooltip:{backgroundColor:'rgba(10,20,20,.95)',titleColor:'#fff',bodyColor:'rgba(255,255,255,.7)',borderColor:'rgba(62,205,196,.3)',borderWidth:1,padding:10,cornerRadius:8,rtl:true} }, scales:{ x:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'rgba(255,255,255,.4)',font:{size:10},maxRotation:45}}, y:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'rgba(255,255,255,.4)',font:{size:11}},beginAtZero:true} } }
+        options: { responsive:true, maintainAspectRatio:false, animation:{duration:1000,easing:'easeInOutQuart'}, plugins:{ legend:{display:true,labels:{color:'rgba(15,42,42,.6)',font:{size:12}}}, tooltip:{backgroundColor:'rgba(255,255,255,.95)',titleColor:'#0f2a2a',bodyColor:'rgba(15,42,42,.6)',borderColor:'rgba(62,205,196,.4)',borderWidth:1,padding:10,cornerRadius:8,rtl:true} }, scales:{ x:{grid:{color:'rgba(0,0,0,.06)'},ticks:{color:'rgba(15,42,42,.5)',font:{size:10},maxRotation:45}}, y:{grid:{color:'rgba(0,0,0,.06)'},ticks:{color:'rgba(15,42,42,.5)',font:{size:11}},beginAtZero:true} } }
       });
     }
   }
@@ -2400,7 +2528,7 @@ function renderCharts() {
       chartsInit.source = new Chart(ctx, {
         type: 'doughnut',
         data: { labels:['الموقع التعريفي','مباشر','إحالة','واتساب'], datasets:[{data:[45,28,17,10],backgroundColor:['#3ECDC4','#A88A4F','#6366f1','#2A8A94'],borderWidth:0,hoverOffset:6}] },
-        options: { responsive:true, maintainAspectRatio:false, cutout:'70%', animation:{duration:1000}, plugins:{ legend:{display:true,position:'left',rtl:true,labels:{color:'rgba(255,255,255,.7)',font:{size:12},padding:12}}, tooltip:{backgroundColor:'rgba(10,20,20,.95)',titleColor:'#fff',bodyColor:'rgba(255,255,255,.7)',borderColor:'rgba(62,205,196,.3)',borderWidth:1,padding:10,cornerRadius:8} } }
+        options: { responsive:true, maintainAspectRatio:false, cutout:'70%', animation:{duration:1000}, plugins:{ legend:{display:true,position:'left',rtl:true,labels:{color:'rgba(15,42,42,.6)',font:{size:12},padding:12}}, tooltip:{backgroundColor:'rgba(255,255,255,.95)',titleColor:'#0f2a2a',bodyColor:'rgba(15,42,42,.6)',borderColor:'rgba(62,205,196,.4)',borderWidth:1,padding:10,cornerRadius:8} } }
       });
     }
   }
@@ -2412,7 +2540,7 @@ function renderCharts() {
       chartsInit.cat = new Chart(ctx, {
         type: 'bar',
         data: { labels:[`سكني ${year}`,`تجاري ${year}`,`إداري ${year}`], datasets:[{label:'المشاريع',data:[4,2,1],backgroundColor:['#3ECDC4','#A88A4F','#6366f1'],borderRadius:8,borderWidth:0}] },
-        options: { responsive:true, maintainAspectRatio:false, animation:{duration:1000,easing:'easeOutQuart'}, plugins:{ legend:{display:false}, tooltip:{backgroundColor:'rgba(10,20,20,.95)',titleColor:'#fff',bodyColor:'rgba(255,255,255,.7)',borderColor:'rgba(62,205,196,.3)',borderWidth:1,padding:10,cornerRadius:8} }, scales:{ x:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'rgba(255,255,255,.5)',font:{size:12}}}, y:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'rgba(255,255,255,.5)',font:{size:11}},beginAtZero:true} } }
+        options: { responsive:true, maintainAspectRatio:false, animation:{duration:1000,easing:'easeOutQuart'}, plugins:{ legend:{display:false}, tooltip:{backgroundColor:'rgba(255,255,255,.95)',titleColor:'#0f2a2a',bodyColor:'rgba(15,42,42,.6)',borderColor:'rgba(62,205,196,.4)',borderWidth:1,padding:10,cornerRadius:8} }, scales:{ x:{grid:{color:'rgba(0,0,0,.06)'},ticks:{color:'rgba(15,42,42,.5)',font:{size:12}}}, y:{grid:{color:'rgba(0,0,0,.06)'},ticks:{color:'rgba(15,42,42,.5)',font:{size:11}},beginAtZero:true} } }
       });
     }
   }
@@ -2426,18 +2554,27 @@ function setReportYearLabels() {
 }
 
 function setChartPeriod(period, btn) {
-  ['period-week','period-month'].forEach(id => {
+  ['period-week','period-month','period-year'].forEach(id => {
     const el = document.getElementById(id);
     if (el) { el.style.background='rgba(0,0,0,.06)'; el.style.color='var(--fg-muted)'; el.style.borderColor='rgba(0,0,0,.1)'; el.style.fontWeight=''; }
   });
   btn.style.background='rgba(62,205,196,.25)'; btn.style.color='#1a8a84'; btn.style.borderColor='rgba(62,205,196,.4)'; btn.style.fontWeight='600';
   if (chartsInit.visits) {
-    const isWeek = period === 'week';
-    chartsInit.visits.data.labels = isWeek
-      ? ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت']
-      : ['الأسبوع 1','الأسبوع 2','الأسبوع 3','الأسبوع 4'];
-    chartsInit.visits.data.datasets[0].data = isWeek ? [12,29,18,41,35,52,47] : [89,134,112,167];
-    chartsInit.visits.data.datasets[1].data = isWeek ? [5,14,9,22,17,31,26]   : [41,68,55,89];
+    const yr = new Date().getFullYear();
+    const months = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'].map(m=>`${m} ${yr}`);
+    if (period === 'week') {
+      chartsInit.visits.data.labels = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+      chartsInit.visits.data.datasets[0].data = [12,29,18,41,35,52,47];
+      chartsInit.visits.data.datasets[1].data = [5,14,9,22,17,31,26];
+    } else if (period === 'month') {
+      chartsInit.visits.data.labels = ['الأسبوع 1','الأسبوع 2','الأسبوع 3','الأسبوع 4'];
+      chartsInit.visits.data.datasets[0].data = [89,134,112,167];
+      chartsInit.visits.data.datasets[1].data = [41,68,55,89];
+    } else {
+      chartsInit.visits.data.labels = months;
+      chartsInit.visits.data.datasets[0].data = [210,285,340,420,380,510,465,590,540,680,620,750];
+      chartsInit.visits.data.datasets[1].data = [90,130,155,190,170,230,205,265,240,305,275,335];
+    }
     chartsInit.visits.update('active');
   }
 }
@@ -2497,6 +2634,278 @@ function handleFileDrop(e, prefix) {
 let dragProj=null;
 function dragStart(e,id,type) { dragProj=id; }
 function dragEnd(e) { dragProj=null; }
+
+// ═══════════════════════════════════════════════════════
+// ADMIN CARD
+// ═══════════════════════════════════════════════════════
+function toggleAdminMenu() {
+  document.getElementById('admin-dropdown')?.classList.toggle('open');
+}
+document.addEventListener('click', e => {
+  if (!e.target.closest('.admin-card')) {
+    document.getElementById('admin-dropdown')?.classList.remove('open');
+  }
+});
+
+// ═══════════════════════════════════════════════════════
+// SIDEBAR BADGES
+// ═══════════════════════════════════════════════════════
+function updateSidebarBadges() {
+  const n = LEADS.filter(l => l.stage === 'new').length;
+  const b1 = document.getElementById('badge-leads');
+  if (b1) { b1.textContent = n; b1.style.display = n > 0 ? '' : 'none'; }
+  const u = MSGS.reduce((s, m) => s + (m.unread || 0), 0);
+  const b2 = document.getElementById('badge-msgs');
+  if (b2) { b2.textContent = u; b2.style.display = u > 0 ? '' : 'none'; }
+}
+
+// ═══════════════════════════════════════════════════════
+// EXPORT CSV
+// ═══════════════════════════════════════════════════════
+function exportOverviewCSV() {
+  const BOM = '﻿';
+  const headers = ['الاسم', 'الهاتف', 'الإيميل', 'المرحلة', 'المصدر', 'التاريخ'];
+  const rows = LEADS.map(l => [l.name, l.phone, l.email, STAGE_LABELS[l.stage]||l.stage, SOURCE_LABELS[l.source]||l.source, l.date]);
+  const csv = BOM + [headers, ...rows].map(r => r.map(v => `"${(v||'').replace(/"/g,'""')}"`).join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+  a.download = `jawdah-overview-${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+}
+
+function exportLeadsCSV() {
+  const BOM = '﻿';
+  const headers = ['اسم العميل', 'رقم الجوال', 'العقار', 'الميزانية', 'المرحلة', 'المصدر', 'التاريخ'];
+  const rows = LEADS.map(l => [l.name, l.phone, l.property !== '—' ? l.property : '', l.budget !== '—' ? l.budget : '', STAGE_LABELS[l.stage]||l.stage, SOURCE_LABELS[l.source]||l.source, l.date]);
+  const csv = BOM + [headers, ...rows].map(r => r.map(v => `"${(v||'').replace(/"/g,'""')}"`).join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+  a.download = `jawdah-clients-${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+}
+
+// ═══════════════════════════════════════════════════════
+// BULK IMPORT
+// ═══════════════════════════════════════════════════════
+let _bulkRows = [];
+const STAGE_MAP_AR = { 'جديد':'new', 'مؤهل':'qualified', 'معاينة':'viewing', 'عرض':'offer', 'مغلق':'closed' };
+const SOURCE_MAP_AR = { 'الموقع':'website', 'شات بوت':'chatbot', 'مباشر':'direct', 'إحالة':'referral', 'البوابة':'portal' };
+
+function openBulkImport() {
+  _bulkRows = [];
+  document.getElementById('bulk-preview').style.display = 'none';
+  document.getElementById('bulk-file').value = '';
+  document.getElementById('bulk-save-btn').disabled = true;
+  openModal('modal-bulk-import');
+}
+
+function downloadBulkTemplate() {
+  const BOM = '﻿';
+  const csv = BOM + '"اسم العميل","رقم الجوال","العقار","الميزانية","المرحلة","المصدر"\n"مثال: محمد العتيبي","0501234567","شقة الرياض","500000","جديد","الموقع"';
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+  a.download = 'jawdah-template.csv';
+  a.click();
+}
+
+function parseBulkCSV(input) {
+  const file = input.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    let text = e.target.result;
+    if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+    const lines = text.trim().split('\n');
+    if (lines.length < 2) { showToast('الملف فارغ', 'error'); return; }
+    const dataLines = lines.slice(1).filter(l => l.trim());
+    const warn = document.getElementById('bulk-warning');
+    if (dataLines.length > 9) {
+      warn.textContent = 'تم اقتطاع الملف إلى 9 عملاء كحد أقصى.';
+      warn.style.display = '';
+    } else { warn.style.display = 'none'; }
+    _bulkRows = dataLines.slice(0, 9).map(line => {
+      const cols = line.split(',').map(c => c.trim().replace(/^"|"$/g, ''));
+      return { name: cols[0]||'', phone: cols[1]||'', property: cols[2]||'', budget: cols[3]||'', stage: STAGE_MAP_AR[cols[4]]||'new', source: SOURCE_MAP_AR[cols[5]]||'direct' };
+    }).filter(r => r.name);
+    document.getElementById('bulk-preview-body').innerHTML = _bulkRows.map(r => `
+      <tr><td>${r.name}</td><td>${r.phone||'—'}</td><td>${r.property||'—'}</td><td>${STAGE_LABELS[r.stage]}</td><td>${SOURCE_LABELS[r.source]||r.source}</td></tr>`).join('');
+    document.getElementById('bulk-preview').style.display = '';
+    document.getElementById('bulk-save-btn').disabled = _bulkRows.length === 0;
+    lucide.createIcons();
+  };
+  reader.readAsText(file, 'utf-8');
+}
+
+async function saveBulkLeads() {
+  if (!_bulkRows.length) return;
+  const btn = document.getElementById('bulk-save-btn');
+  btn.disabled = true; btn.textContent = 'جارٍ الحفظ...';
+  const { error } = await sb.from('leads').insert(_bulkRows.map(r => ({
+    name: r.name, phone: r.phone, budget: r.budget,
+    stage: r.stage, source: r.source, notes: 'مستورد BULK'
+  })));
+  if (error) { showToast('خطأ: ' + error.message, 'error'); btn.disabled = false; btn.innerHTML = '<i data-lucide="save" width="14" height="14"></i> حفظ العملاء'; lucide.createIcons(); return; }
+  showToast(`تم إضافة ${_bulkRows.length} عميل ✓`, 'success');
+  closeModal('modal-bulk-import');
+  await loadLeads();
+}
+
+// ═══════════════════════════════════════════════════════
+// INLINE LEAD EDITING
+// ═══════════════════════════════════════════════════════
+function startEditLead(id) {
+  const l = LEADS.find(x => x.id === id); if (!l) return;
+  const row = document.getElementById('lead-row-' + id); if (!row) return;
+  const stageOpts = Object.entries(STAGE_LABELS).map(([v,t]) => `<option value="${v}" ${l.stage===v?'selected':''}>${t}</option>`).join('');
+  const sourceOpts = Object.entries(SOURCE_LABELS).map(([v,t]) => `<option value="${v}" ${l.source===v?'selected':''}>${t}</option>`).join('') +
+    `<option value="chatbot" ${l.source==='chatbot'?'selected':''}>شات بوت</option>`;
+  row.onclick = null;
+  row.style.cursor = 'default';
+  row.innerHTML = `
+    <td colspan="2" onclick="event.stopPropagation()">
+      <input value="${l.name}" id="ei-name" class="form-input" style="width:48%;margin-left:4%" placeholder="الاسم">
+      <input value="${l.phone}" id="ei-phone" class="form-input" style="width:48%" placeholder="الجوال">
+    </td>
+    <td onclick="event.stopPropagation()"><input value="${l.budget!=='—'?l.budget:''}" id="ei-budget" class="form-input" style="font-size:12px" placeholder="الميزانية"></td>
+    <td onclick="event.stopPropagation()"><select id="ei-stage" class="form-input" style="font-size:12px">${stageOpts}</select></td>
+    <td onclick="event.stopPropagation()"><select id="ei-source" class="form-input" style="font-size:12px">${sourceOpts}</select></td>
+    <td></td>
+    <td onclick="event.stopPropagation()">
+      <div style="display:flex;gap:4px">
+        <button class="btn btn-primary btn-sm" onclick="saveLeadInline(${id})">✓</button>
+        <button class="btn btn-ghost btn-sm" onclick="renderLeadsTable()">✕</button>
+      </div>
+    </td>`;
+}
+
+async function saveLeadInline(id) {
+  const name   = document.getElementById('ei-name')?.value.trim();
+  const phone  = document.getElementById('ei-phone')?.value.trim();
+  const budget = document.getElementById('ei-budget')?.value.trim();
+  const stage  = document.getElementById('ei-stage')?.value;
+  const source = document.getElementById('ei-source')?.value;
+  if (!name) { showToast('أدخل اسم العميل', 'error'); return; }
+  const { error } = await sb.from('leads').update({ name, phone, budget, stage, source }).eq('id', id);
+  if (error) { showToast('خطأ في التعديل', 'error'); return; }
+  showToast('تم التعديل ✓', 'success');
+  await loadLeads();
+}
+
+async function deleteLead(id) {
+  if (!confirm('هل تريد حذف هذا العميل؟')) return;
+  const { error } = await sb.from('leads').delete().eq('id', id);
+  if (error) { showToast('خطأ في الحذف', 'error'); return; }
+  showToast('تم حذف العميل ✓', 'success');
+  await loadLeads();
+}
+
+// ═══════════════════════════════════════════════════════
+// UPCOMING APPOINTMENTS
+// ═══════════════════════════════════════════════════════
+function renderUpcomingAppointments() {
+  const el = document.getElementById('upcoming-appointments');
+  if (!el) return;
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const upcoming = [];
+  Object.entries(CAL_EVENTS).forEach(([key, evs]) => {
+    const [y, m, d] = key.split('-').map(Number);
+    const date = new Date(y, m - 1, d);
+    if (date >= today) evs.forEach(e => upcoming.push({ date, label: e }));
+  });
+  upcoming.sort((a, b) => a.date - b.date);
+  if (!upcoming.length) {
+    el.innerHTML = '<div style="color:var(--fg-muted);font-size:13px;text-align:center;padding:24px">لا مواعيد قادمة</div>';
+    return;
+  }
+  el.innerHTML = upcoming.slice(0, 8).map(u => `
+    <div style="padding:10px 0;border-bottom:1px solid var(--border);display:flex;gap:10px">
+      <div style="width:36px;height:36px;border-radius:8px;background:var(--brand-teal-50);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--brand-teal-700);flex-shrink:0">
+        ${u.date.getDate()}
+      </div>
+      <div>
+        <div style="font-size:13px;font-weight:500">${u.label}</div>
+        <div style="font-size:11px;color:var(--fg-muted)">${MONTH_NAMES_AR[u.date.getMonth()]} ${u.date.getFullYear()}</div>
+      </div>
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════════════════════
+// MESSAGES — WA + DELETE CONVERSATION
+// ═══════════════════════════════════════════════════════
+function openWhatsApp() {
+  const conv = MSGS.find(m => m.id === activeConvId);
+  if (!conv?.phone) { showToast('لا يوجد رقم واتساب لهذا العميل', 'error'); return; }
+  const phone = conv.phone.replace(/\D/g, '');
+  window.open(`https://wa.me/${phone}`, '_blank');
+}
+
+function toggleMsgMenu() {
+  const m = document.getElementById('msg-menu');
+  if (m) m.style.display = m.style.display === 'none' ? '' : 'none';
+}
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('#msg-more-wrap')) {
+    const m = document.getElementById('msg-menu');
+    if (m) m.style.display = 'none';
+  }
+});
+
+async function deleteConversation() {
+  if (!activeConvId || !confirm('هل تريد حذف هذه المحادثة؟')) return;
+  const { error } = await sb.from('messages').delete().eq('conversation_id', activeConvId);
+  if (error) { showToast('خطأ في الحذف', 'error'); return; }
+  showToast('تم حذف المحادثة ✓', 'success');
+  activeConvId = null;
+  await loadMessages();
+}
+
+// ═══════════════════════════════════════════════════════
+// REPORTS — REAL KPIs + CHARTS
+// ═══════════════════════════════════════════════════════
+async function loadReportKPIs() {
+  try {
+    const monthStart = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString();
+    const [r1, r2, r3, r4] = await Promise.all([
+      sb.from('analytics').select('*', { count: 'exact', head: true }),
+      sb.from('leads').select('*', { count: 'exact', head: true }),
+      sb.from('leads').select('*', { count: 'exact', head: true }).gte('created_at', monthStart),
+      sb.from('projects').select('*', { count: 'exact', head: true }).eq('status', 'published'),
+    ]);
+    const set = (id, val) => { const el = document.getElementById(id); if (el) countUp(el, val || 0); };
+    set('rep-visits', r1.count || 0);
+    set('rep-leads', r2.count || 0);
+    set('rep-new-leads', r3.count || 0);
+    set('rep-projects', r4.count || 0);
+  } catch(e) {}
+}
+
+async function updateSourceChart() {
+  if (!chartsInit.source) return;
+  try {
+    const sources = ['website', 'chatbot', 'direct', 'referral'];
+    const counts = await Promise.all(sources.map(s =>
+      sb.from('leads').select('*', { count: 'exact', head: true }).eq('source', s)
+    ));
+    const data = counts.map(r => r.count || 0);
+    chartsInit.source.data.labels = ['الموقع التعريفي', 'شات بوت', 'مباشر', 'إحالة'];
+    chartsInit.source.data.datasets[0].data = data;
+    chartsInit.source.update();
+  } catch(e) {}
+}
+
+async function updateCatChart() {
+  if (!chartsInit.cat) return;
+  try {
+    const yr = new Date().getFullYear();
+    const cats = ['residential', 'commercial', 'administrative'];
+    const catData = await Promise.all(cats.map(c =>
+      sb.from('projects').select('*', { count: 'exact', head: true }).eq('category', c).eq('status', 'published')
+    ));
+    chartsInit.cat.data.labels = [`سكني ${yr}`, `تجاري ${yr}`, `إداري ${yr}`];
+    chartsInit.cat.data.datasets[0].data = catData.map(r => r.count || 0);
+    chartsInit.cat.update();
+  } catch(e) {}
+}
 
 // ═══════════════════════════════════════════════════════
 // GLOBAL SEARCH
