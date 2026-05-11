@@ -1251,10 +1251,8 @@ canvas { max-width: 100%; }
     </div>
     <div class="form-group"><label class="form-label">العميل</label><input class="form-input" id="appt-customer" placeholder="اسم العميل"></div>
     <div class="form-group"><label class="form-label">العقار</label><input class="form-input" id="appt-property" placeholder="اسم أو رقم العقار"></div>
-    <div class="form-row">
-      <div class="form-group"><label class="form-label">التاريخ</label><input class="form-input" id="appt-date" type="date"></div>
-      <div class="form-group"><label class="form-label">الوقت</label><input class="form-input" id="appt-time" type="time" value="14:00"></div>
-    </div>
+    <input type="hidden" id="appt-date">
+    <div class="form-group"><label class="form-label">الوقت</label><input class="form-input" id="appt-time" type="time" value="10:00"></div>
     <div class="form-group"><label class="form-label">ملاحظات</label><textarea class="form-input" id="appt-notes" placeholder="..."></textarea></div>
     <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:8px">
       <button class="btn btn-secondary" onclick="closeModal('modal-appointment')">إلغاء</button>
@@ -2599,8 +2597,8 @@ async function loadAppointments() {
     const d = new Date(a.date);
     const key = `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
     if (!CAL_EVENTS[key]) CAL_EVENTS[key] = [];
-    const label = `${a.time ? a.time + ' · ' : ''}${a.customer_name}${a.property_name?' · '+a.property_name:''}`;
-    CAL_EVENTS[key].push(label);
+    const label = `${a.time ? a.time + ' · ' : ''}${a.customer_name||''}${a.property_name?' · '+a.property_name:''}`;
+    CAL_EVENTS[key].push({ id: a.id, label });
   });
   renderCalendar();
   renderUpcomingAppointments();
@@ -2621,7 +2619,7 @@ function renderCalendar() {
   for (let d=1; d<=days; d++) {
     const isToday=today.getFullYear()===calYear&&today.getMonth()===calMonth&&today.getDate()===d;
     const key=`${calYear}-${calMonth+1}-${d}`;
-    const evs=(CAL_EVENTS[key]||[]).map(e=>`<div class="cal-event">${e}</div>`).join('');
+    const evs=(CAL_EVENTS[key]||[]).map(e=>`<div class="cal-event" style="display:flex;align-items:center;justify-content:space-between;gap:4px"><span style="overflow:hidden;text-overflow:ellipsis">${e.label}</span><span onclick="event.stopPropagation();deleteAppointment('${e.id}')" style="flex-shrink:0;cursor:pointer;opacity:.6;font-size:11px" title="حذف">✕</span></div>`).join('');
     const dateStr=`${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
     cells+=`<div class="cal-day ${isToday?'today':''}" onclick="openAddAppointment('${dateStr}')"><div class="cal-day-num">${d}</div>${evs}</div>`;
   }
@@ -3199,7 +3197,7 @@ function renderUpcomingAppointments() {
   Object.entries(CAL_EVENTS).forEach(([key, evs]) => {
     const [y, m, d] = key.split('-').map(Number);
     const date = new Date(y, m - 1, d);
-    if (date >= today) evs.forEach(e => upcoming.push({ date, label: e }));
+    if (date >= today) evs.forEach(e => upcoming.push({ date, label: e.label, id: e.id }));
   });
   upcoming.sort((a, b) => a.date - b.date);
   if (!upcoming.length) {
@@ -3207,15 +3205,24 @@ function renderUpcomingAppointments() {
     return;
   }
   el.innerHTML = upcoming.slice(0, 8).map(u => `
-    <div style="padding:10px 0;border-bottom:1px solid var(--border);display:flex;gap:10px">
+    <div style="padding:10px 0;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:center">
       <div style="width:36px;height:36px;border-radius:8px;background:var(--brand-teal-50);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--brand-teal-700);flex-shrink:0">
         ${u.date.getDate()}
       </div>
-      <div>
+      <div style="flex:1;min-width:0">
         <div style="font-size:13px;font-weight:500">${u.label}</div>
         <div style="font-size:11px;color:var(--fg-muted)">${MONTH_NAMES_AR[u.date.getMonth()]} ${u.date.getFullYear()}</div>
       </div>
+      <button onclick="deleteAppointment('${u.id}')" style="flex-shrink:0;background:none;border:none;cursor:pointer;color:var(--danger-500);font-size:13px;padding:4px" title="حذف">✕</button>
     </div>`).join('');
+}
+
+async function deleteAppointment(id) {
+  if (!confirm('هل تريد حذف هذا الموعد؟')) return;
+  const { error } = await sb.from('appointments').delete().eq('id', id);
+  if (error) { showToast('خطأ في الحذف', 'error'); return; }
+  showToast('تم حذف الموعد ✓', 'success');
+  await loadAppointments();
 }
 
 // ═══════════════════════════════════════════════════════
