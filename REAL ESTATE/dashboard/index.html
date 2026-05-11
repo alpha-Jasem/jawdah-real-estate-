@@ -684,7 +684,7 @@ canvas { max-width: 100%; }
         </button>
         <button class="nav-item" onclick="navTo('messages')" data-page="messages">
           <i data-lucide="message-square" width="18" height="18"></i>
-          <span class="nav-label-text">رسائل الشات بوت</span>
+          <span class="nav-label-text">رسائل الشات بوت <span style="font-size:11px;font-weight:700;padding:2px 7px;border-radius:20px;border:1.5px solid #000;color:#000;background:#fff;margin-right:4px">قريباً</span></span>
           <span class="badge" id="badge-msgs" style="display:none"></span>
         </button>
       </div>
@@ -1022,7 +1022,12 @@ canvas { max-width: 100%; }
     </div>
 
     <!-- ══ PAGE: MESSAGES ══ -->
-    <div class="page" id="page-messages" data-screen-label="07 Messages">
+    <div class="page" id="page-messages" data-screen-label="07 Messages" style="position:relative">
+      <div style="position:absolute;inset:0;z-index:50;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);background:rgba(15,42,42,.45);border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;pointer-events:all">
+        <div style="font-size:56px">💬</div>
+        <div style="font-family:'Tajawal',sans-serif;font-size:36px;font-weight:800;color:#fff;letter-spacing:.04em">قريباً</div>
+        <div style="font-size:14px;color:rgba(255,255,255,.6)">رسائل الشات بوت قيد التطوير</div>
+      </div>
       <div class="eyebrow" style="margin-bottom:16px">رسائل الشات بوت</div>
       <div class="msg-layout">
         <div class="msg-list" id="msg-list"></div>
@@ -1572,7 +1577,15 @@ function openAddProject() {
   openModal('modal-project');
 }
 function openAddProperty() { openModal('modal-property'); }
-function openAddAppointment() { openModal('modal-appointment'); }
+function openAddAppointment(dateStr) {
+  const dateEl = document.getElementById('appt-date');
+  if (dateEl) dateEl.value = dateStr || '';
+  document.getElementById('appt-customer').value = '';
+  document.getElementById('appt-property').value = '';
+  document.getElementById('appt-time').value = '10:00';
+  document.getElementById('appt-notes').value = '';
+  openModal('modal-appointment');
+}
 function openAddLead() {
   document.getElementById('drawer-lead-title').textContent = 'عميل جديد';
   document.getElementById('overlay-lead').classList.add('open');
@@ -2609,7 +2622,8 @@ function renderCalendar() {
     const isToday=today.getFullYear()===calYear&&today.getMonth()===calMonth&&today.getDate()===d;
     const key=`${calYear}-${calMonth+1}-${d}`;
     const evs=(CAL_EVENTS[key]||[]).map(e=>`<div class="cal-event">${e}</div>`).join('');
-    cells+=`<div class="cal-day ${isToday?'today':''}" onclick="openAddAppointment()"><div class="cal-day-num">${d}</div>${evs}</div>`;
+    const dateStr=`${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    cells+=`<div class="cal-day ${isToday?'today':''}" onclick="openAddAppointment('${dateStr}')"><div class="cal-day-num">${d}</div>${evs}</div>`;
   }
   const rem=42-(first+days);
   for (let i=1; i<=rem; i++) cells+=`<div class="cal-day other-month"><div class="cal-day-num">${i}</div></div>`;
