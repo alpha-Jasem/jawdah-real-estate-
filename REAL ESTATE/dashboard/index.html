@@ -465,8 +465,12 @@ select.form-input { cursor: pointer; }
   background: var(--bg); display: flex; align-items: center; justify-content: center;
 }
 .login-box {
-  width: 420px; background: var(--bg-elevated); border: 1px solid var(--border);
+  width: min(420px, calc(100vw - 32px)); background: var(--bg-elevated); border: 1px solid var(--border);
   border-radius: 20px; padding: 40px; text-align: center;
+}
+@media (max-width: 480px) {
+  .login-box { padding: 28px 20px; border-radius: 16px; }
+  .login-box h2 { font-size: 22px; }
 }
 .login-box img { height: 52px; margin: 0 auto 24px; }
 .login-box h2 { font-family: var(--font-display); font-size: 28px; font-weight: 500; margin-bottom: 6px; }
@@ -1505,7 +1509,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (session) {
     showApp(session.user);
   } else {
-    hideSplash();
+    showLogin();
   }
 
   // Listen for auth changes
