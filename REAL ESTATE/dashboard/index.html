@@ -1245,7 +1245,7 @@ canvas { max-width: 100%; }
     <div class="form-group"><label class="form-label">الميزانية</label><input class="form-input" id="lead-budget" placeholder="2.5M ر.س"></div>
   </div>
   <div class="form-group"><label class="form-label">العقار المطلوب</label><input class="form-input" id="lead-property" placeholder="شقة، العليا..."></div>
-  <div class="form-group"><label class="form-label">المصدر</label><select class="form-input" id="lead-source"><option value="website">الموقع التعريفي</option><option value="portal">بوابة العقارات</option><option value="direct">مباشر</option><option value="referral">إحالة</option></select></div>
+  <div class="form-group"><label class="form-label">المصدر</label><select class="form-input" id="lead-source"><option value="website">الموقع التعريفي</option><option value="chatbot">شات بوت</option><option value="portal">بوابة العقارات</option><option value="direct">مباشر</option><option value="referral">إحالة</option></select></div>
   <div class="form-group"><label class="form-label">ملاحظات</label><textarea class="form-input" id="lead-notes" placeholder="تفاصيل إضافية..."></textarea></div>
   <div style="display:flex;gap:8px;margin-top:8px">
     <button class="btn btn-primary" style="flex:1;justify-content:center" onclick="saveLead()"><i data-lucide="save" width="14" height="14"></i> حفظ</button>
@@ -1597,13 +1597,21 @@ function openAddAppointment(dateStr) {
   document.getElementById('appt-notes').value = '';
   openModal('modal-appointment');
 }
+let _editingLeadId = null;
 function openAddLead() {
+  _editingLeadId = null;
   document.getElementById('drawer-lead-title').textContent = 'عميل جديد';
+  ['lead-name','lead-phone','lead-email','lead-budget','lead-property','lead-notes'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = '';
+  });
+  document.getElementById('lead-stage').value = 'new';
+  document.getElementById('lead-source').value = 'website';
   document.getElementById('overlay-lead').classList.add('open');
   document.getElementById('drawer-lead').classList.add('open');
   lucide.createIcons();
 }
 function closeDrawer() {
+  _editingLeadId = null;
   document.getElementById('overlay-lead').classList.remove('open');
   document.getElementById('drawer-lead').classList.remove('open');
 }
@@ -2341,7 +2349,7 @@ function kbDrop(e,stage) {
 // ═══════════════════════════════════════════════════════
 const STAGE_LABELS = { new:'جديد', qualified:'مؤهل', viewing:'معاينة', offer:'عرض', closed:'مغلق' };
 const STAGE_BADGES = { new:'badge-teal', qualified:'badge-teal', viewing:'badge-sand', offer:'badge-amber', closed:'badge-green' };
-const SOURCE_LABELS = { website:'الموقع', portal:'البوابة', direct:'مباشر', referral:'إحالة' };
+const SOURCE_LABELS = { website:'الموقع', portal:'البوابة', direct:'مباشر', referral:'إحالة', chatbot:'شات بوت' };
 const LEADS_PAGE_SIZE = 9;
 let leadsPage = 1;
 
@@ -2401,14 +2409,16 @@ function renderLeadsTable() {
 function viewLead(id) {
   const l = LEADS.find(x=>x.id===id);
   if (!l) return;
-  document.getElementById('drawer-lead-title').textContent=l.name;
-  document.getElementById('lead-name').value=l.name;
-  document.getElementById('lead-phone').value=l.phone;
-  document.getElementById('lead-email').value=l.email||'';
-  document.getElementById('lead-stage').value=l.stage;
-  document.getElementById('lead-budget').value=l.budget;
-  document.getElementById('lead-property').value=l.property;
-  document.getElementById('lead-source').value=l.source;
+  _editingLeadId = id;
+  document.getElementById('drawer-lead-title').textContent = l.name;
+  document.getElementById('lead-name').value = l.name;
+  document.getElementById('lead-phone').value = l.phone;
+  document.getElementById('lead-email').value = l.email || '';
+  document.getElementById('lead-stage').value = l.stage;
+  document.getElementById('lead-budget').value = l.budget !== '—' ? l.budget : '';
+  document.getElementById('lead-property').value = l.property !== '—' ? l.property : '';
+  document.getElementById('lead-notes').value = '';
+  document.getElementById('lead-source').value = l.source;
   document.getElementById('overlay-lead').classList.add('open');
   document.getElementById('drawer-lead').classList.add('open');
   lucide.createIcons();
@@ -2420,11 +2430,18 @@ async function saveLead() {
   const stage  = document.getElementById('lead-stage').value;
   const budget = document.getElementById('lead-budget').value.trim();
   const source = document.getElementById('lead-source').value;
-  const notes  = document.getElementById('lead-notes').value.trim();
+  const property = document.getElementById('lead-property').value.trim();
+  const notesRaw = document.getElementById('lead-notes').value.trim();
+  const notes = property || notesRaw || null;
   if (!name) { showToast('أدخل اسم العميل','error'); return; }
-  const { error } = await sb.from('leads').insert([{ name, phone, email, stage, budget, notes, source }]);
+  let error;
+  if (_editingLeadId) {
+    ({ error } = await sb.from('leads').update({ name, phone, email, stage, budget, notes, source }).eq('id', _editingLeadId));
+  } else {
+    ({ error } = await sb.from('leads').insert([{ name, phone, email, stage, budget, notes, source }]));
+  }
   if (error) { showToast('خطأ: ' + error.message,'error'); return; }
-  showToast('تم حفظ بيانات العميل ✓','success');
+  showToast(_editingLeadId ? 'تم تحديث بيانات العميل ✓' : 'تم حفظ بيانات العميل ✓','success');
   trackEvent('dashboard','save_lead');
   closeDrawer();
   await loadLeads();
@@ -3177,7 +3194,7 @@ async function saveBulkLeads() {
   try {
     const { error } = await sb.from('leads').insert(_bulkRows.map(r => ({
       name: r.name, phone: r.phone || null, budget: r.budget || null,
-      stage: r.stage, source: r.source, notes: 'مستورد BULK'
+      stage: r.stage, source: r.source, notes: r.property || null
     })));
     if (error) { showToast('خطأ: ' + error.message, 'error'); resetBtn(); return; }
     showToast(`تم إضافة ${_bulkRows.length} عميل ✓`, 'success');
@@ -3193,8 +3210,7 @@ function startEditLead(id) {
   const l = LEADS.find(x => x.id === id); if (!l) return;
   const row = document.getElementById('lead-row-' + id); if (!row) return;
   const stageOpts = Object.entries(STAGE_LABELS).map(([v,t]) => `<option value="${v}" ${l.stage===v?'selected':''}>${t}</option>`).join('');
-  const sourceOpts = Object.entries(SOURCE_LABELS).map(([v,t]) => `<option value="${v}" ${l.source===v?'selected':''}>${t}</option>`).join('') +
-    `<option value="chatbot" ${l.source==='chatbot'?'selected':''}>شات بوت</option>`;
+  const sourceOpts = Object.entries(SOURCE_LABELS).map(([v,t]) => `<option value="${v}" ${l.source===v?'selected':''}>${t}</option>`).join('');
   row.onclick = null;
   row.style.cursor = 'default';
   row.innerHTML = `
