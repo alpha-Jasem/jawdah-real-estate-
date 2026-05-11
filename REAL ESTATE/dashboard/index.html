@@ -865,9 +865,33 @@ canvas { max-width: 100%; }
           <div class="eyebrow">إدارة المبيعات</div>
           <h1 style="font-family:var(--font-display);font-size:32px;font-weight:500;margin-top:6px">Pipeline · Q2 2026</h1>
         </div>
-        <button class="btn btn-primary" onclick="openAddLead()"><i data-lucide="plus" width="14" height="14"></i> عميل جديد</button>
+        <button class="btn btn-primary" onclick="openPipelineSearch()">
+          <i data-lucide="search" width="14" height="14"></i> إضافة عميل للبايب لاين
+        </button>
       </div>
       <div class="kanban" id="kanban-board"></div>
+    </div>
+
+    <!-- PIPELINE SEARCH MODAL -->
+    <div class="modal" id="modal-pipeline-search">
+      <div class="modal-box" style="max-width:520px">
+        <div class="modal-header">
+          <h2 class="modal-title">إضافة عميل للبايب لاين</h2>
+          <button class="icon-btn" onclick="closeModal('modal-pipeline-search')"><i data-lucide="x" width="16" height="16"></i></button>
+        </div>
+        <div class="modal-body">
+          <div class="search-bar" style="margin-bottom:14px">
+            <i data-lucide="search" width="15" height="15" style="color:var(--fg-muted);flex-shrink:0"></i>
+            <input type="text" id="pipeline-search-input" placeholder="ابحث باسم العميل أو رقم الجوال..." oninput="renderPipelineSearchResults()">
+          </div>
+          <div id="pipeline-search-results" style="max-height:340px;overflow-y:auto;display:flex;flex-direction:column;gap:6px">
+            <div style="text-align:center;padding:24px;color:var(--fg-muted);font-size:13px">ابدأ بالبحث عن عميل</div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-ghost" onclick="closeModal('modal-pipeline-search')">إغلاق</button>
+        </div>
+      </div>
     </div>
 
     <!-- ══ PAGE: LEADS ══ -->
@@ -1551,11 +1575,76 @@ async function loadAnalytics() {
   if (monthCount !== null) updateKPI('kpi-visits', monthCount.toLocaleString('ar-SA'));
 }
 
+// IDs of leads manually added to pipeline (persisted in localStorage)
+let pipelineManualIds = new Set(JSON.parse(localStorage.getItem('pipelineManualIds') || '[]'));
+
+function savePipelineIds() {
+  localStorage.setItem('pipelineManualIds', JSON.stringify([...pipelineManualIds]));
+}
+
+function addLeadToPipeline(id) {
+  pipelineManualIds.add(String(id));
+  savePipelineIds();
+  rebuildKanbanData();
+  closeModal('modal-pipeline-search');
+  const lead = LEADS.find(l => String(l.id) === String(id));
+  if (lead) showToast(`تمت إضافة ${lead.name} للبايب لاين ✓`, 'success');
+}
+
+function removeLeadFromPipeline(id) {
+  pipelineManualIds.delete(String(id));
+  savePipelineIds();
+  rebuildKanbanData();
+}
+
+function openPipelineSearch() {
+  document.getElementById('pipeline-search-input').value = '';
+  renderPipelineSearchResults();
+  openModal('modal-pipeline-search');
+}
+
+function renderPipelineSearchResults() {
+  const q = (document.getElementById('pipeline-search-input')?.value || '').trim().toLowerCase();
+  const el = document.getElementById('pipeline-search-results');
+  if (!el) return;
+
+  // Filter: not already in pipeline, match search query
+  const inPipeline = new Set(
+    LEADS.filter(l => l.source === 'chatbot' || pipelineManualIds.has(String(l.id))).map(l => String(l.id))
+  );
+  let results = LEADS.filter(l => !inPipeline.has(String(l.id)));
+  if (q) results = results.filter(l =>
+    l.name.toLowerCase().includes(q) || (l.phone||'').includes(q)
+  );
+
+  if (!results.length) {
+    el.innerHTML = `<div style="text-align:center;padding:24px;color:var(--fg-muted);font-size:13px">${q ? 'لا توجد نتائج' : 'جميع العملاء موجودون في البايب لاين'}</div>`;
+    return;
+  }
+
+  el.innerHTML = results.map(l => `
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:var(--bg-elevated)">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="avatar" style="width:34px;height:34px;font-size:12px;flex-shrink:0">${l.name.substring(0,2)}</div>
+        <div>
+          <div style="font-size:13px;font-weight:600">${l.name}</div>
+          <div style="font-size:11px;color:var(--fg-muted)">${l.phone || '—'} · ${SOURCE_LABELS[l.source]||l.source}</div>
+        </div>
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="addLeadToPipeline('${l.id}')">
+        <i data-lucide="plus" width="13" height="13"></i> إضافة
+      </button>
+    </div>`).join('');
+  lucide.createIcons();
+}
+
 function rebuildKanbanData() {
   kanbanData = { new:[], qualified:[], viewing:[], offer:[], closed:[] };
   LEADS.forEach(l => {
+    // Only chatbot leads auto-appear; others only if manually added
+    if (l.source !== 'chatbot' && !pipelineManualIds.has(String(l.id))) return;
     const stage = kanbanData[l.stage] ? l.stage : 'new';
-    kanbanData[stage].push({ id: l.id, name: l.name, prop: l.property, budget: l.budget, time: l.date });
+    kanbanData[stage].push({ id: l.id, name: l.name, prop: l.property, budget: l.budget, time: l.date, manual: l.source !== 'chatbot' });
   });
   renderKanban();
 }
@@ -1991,8 +2080,11 @@ function renderKanban() {
         ondragleave="this.classList.remove('drag-over')">
         ${(kanbanData[s.k]||[]).map(c => `
           <div class="kanban-card" draggable="true" id="kc-${c.id}"
-            ondragstart="kbDragStart(event,${c.id},'${s.k}')" ondragend="kbDragEnd(event)">
-            <div class="kanban-card-name">${c.name}</div>
+            ondragstart="kbDragStart(event,'${c.id}','${s.k}')" ondragend="kbDragEnd(event)">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start">
+              <div class="kanban-card-name">${c.name}</div>
+              ${c.manual ? `<button onclick="removeLeadFromPipeline('${c.id}')" title="إزالة من البايب لاين" style="background:none;border:none;cursor:pointer;color:var(--fg-subtle);padding:0;line-height:1;font-size:14px">✕</button>` : ''}
+            </div>
             <div class="kanban-card-prop">${c.prop}</div>
             <div class="kanban-card-footer">
               <span class="kanban-card-budget">${c.budget}</span>
@@ -2000,7 +2092,7 @@ function renderKanban() {
             </div>
           </div>
         `).join('')}
-        <button class="btn btn-ghost btn-sm" style="width:100%;justify-content:center;color:var(--fg-subtle);border:1px dashed var(--border);margin-top:4px" onclick="openAddLead()">
+        <button class="btn btn-ghost btn-sm" style="width:100%;justify-content:center;color:var(--fg-subtle);border:1px dashed var(--border);margin-top:4px" onclick="openPipelineSearch()">
           <i data-lucide="plus" width="12" height="12"></i> إضافة
         </button>
       </div>
@@ -2008,16 +2100,16 @@ function renderKanban() {
   `).join('');
   lucide.createIcons();
 }
-function kbDragStart(e,id,stage) { dragItemId=id; dragItemStage=stage; setTimeout(()=>{ const el=document.getElementById('kc-'+id); if(el)el.classList.add('dragging'); },0); }
+function kbDragStart(e,id,stage) { dragItemId=String(id); dragItemStage=stage; setTimeout(()=>{ const el=document.getElementById('kc-'+id); if(el)el.classList.add('dragging'); },0); }
 function kbDragEnd(e) { document.querySelectorAll('.kanban-card').forEach(c=>c.classList.remove('dragging')); document.querySelectorAll('.kanban-body').forEach(b=>b.classList.remove('drag-over')); }
 function kbDragOver(e,stage) { e.preventDefault(); document.getElementById('kb-'+stage).classList.add('drag-over'); }
 function kbDrop(e,stage) {
   e.preventDefault();
   document.querySelectorAll('.kanban-body').forEach(b=>b.classList.remove('drag-over'));
   if (!dragItemId || dragItemStage===stage) return;
-  const card = kanbanData[dragItemStage].find(c=>c.id===dragItemId);
+  const card = kanbanData[dragItemStage].find(c=>String(c.id)===String(dragItemId));
   if (!card) return;
-  kanbanData[dragItemStage] = kanbanData[dragItemStage].filter(c=>c.id!==dragItemId);
+  kanbanData[dragItemStage] = kanbanData[dragItemStage].filter(c=>String(c.id)!==String(dragItemId));
   kanbanData[stage] = [card, ...(kanbanData[stage]||[])];
   renderKanban();
   showToast(`نُقل ${card.name} إلى "${STAGES.find(s=>s.k===stage)?.label}"`, 'success');
