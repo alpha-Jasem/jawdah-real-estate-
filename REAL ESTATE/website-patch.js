@@ -53,21 +53,7 @@
 
   document.addEventListener('click', function (e) {
     const wa = e.target.closest('.wa-float');
-    if (wa) {
-      e.preventDefault();
-      const href = wa.href;
-      fetch(`${SB_URL}/rest/v1/analytics`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'apikey': SB_KEY,
-          'Authorization': `Bearer ${SB_KEY}`,
-          'Prefer': 'return=minimal',
-        },
-        body: JSON.stringify([{ page: 'website', event: 'click_whatsapp', referrer: document.referrer || null, user_agent: navigator.userAgent }]),
-      }).finally(() => { window.open(href, '_blank'); });
-      return;
-    }
+    if (wa) { trackBeacon('click_whatsapp'); return; }
     const btn = e.target.closest('[data-track], .btn-ph, .btn-p, .btn-gd, .nav-cta');
     if (!btn) return;
     const label = btn.dataset?.track || btn.textContent?.trim()?.slice(0, 60) || 'button';
