@@ -943,8 +943,8 @@ canvas { max-width: 100%; }
     </div>
 
     <!-- PIPELINE SEARCH MODAL -->
-    <div class="modal" id="modal-pipeline-search">
-      <div class="modal-box" style="max-width:520px">
+    <div class="overlay" id="modal-pipeline-search" onclick="if(event.target===this)closeModal('modal-pipeline-search')">
+      <div class="modal" style="max-width:520px;width:520px">
         <div class="modal-header">
           <h2 class="modal-title">إضافة عميل للبايب لاين</h2>
           <button class="icon-btn" onclick="closeModal('modal-pipeline-search')"><i data-lucide="x" width="16" height="16"></i></button>
