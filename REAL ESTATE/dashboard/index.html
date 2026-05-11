@@ -769,7 +769,7 @@ canvas { max-width: 100%; }
         <div class="section-header" style="position:relative;z-index:1">
           <div>
             <span class="section-title" style="font-size:16px">نشاط الموقع التعريفي <span id="visits-year-label" style="font-weight:400;color:var(--fg-muted);font-size:13px"></span></span>
-            <div style="font-size:12px;color:var(--fg-muted);margin-top:2px">الزيارات والتفاعل خلال الفترة المحددة</div>
+            <div style="font-size:12px;color:var(--fg-muted);margin-top:2px">الزيارات وعدد العملاء خلال الفترة المحددة</div>
           </div>
           <div style="display:flex;gap:6px">
             <button class="btn btn-sm" id="period-week" onclick="setChartPeriod('week',this)" style="background:rgba(62,205,196,.25);color:#1a8a84;border:1px solid rgba(62,205,196,.4);font-weight:600">أسبوع</button>
@@ -780,7 +780,7 @@ canvas { max-width: 100%; }
         <div style="position:relative;z-index:1;height:280px;margin-top:8px"><canvas id="visitsChart"></canvas></div>
         <div class="chart-legend" style="position:relative;z-index:1">
           <span class="chart-legend-item"><span class="chart-legend-dot" style="background:#3ECDC4"></span> الزيارات</span>
-          <span class="chart-legend-item"><span class="chart-legend-dot" style="background:#A88A4F"></span> التفاعل</span>
+          <span class="chart-legend-item"><span class="chart-legend-dot" style="background:#A88A4F"></span> عدد العملاء</span>
         </div>
       </div>
 
@@ -2341,27 +2341,6 @@ function renderLeadsTable() {
       </td>
     </tr>`).join('');
 
-  // inline add row
-  tbody.innerHTML += `
-    <tr id="lead-row-new" style="background:var(--brand-teal-50)">
-      <td onclick="event.stopPropagation()">
-        <input id="ni-name" class="form-input" style="width:52%;margin-left:3%" placeholder="الاسم *">
-        <input id="ni-phone" class="form-input" style="width:43%" placeholder="الجوال">
-      </td>
-      <td onclick="event.stopPropagation()"><input id="ni-property" class="form-input" style="font-size:12px;width:100%" placeholder="العقار"></td>
-      <td onclick="event.stopPropagation()"><input id="ni-budget" class="form-input" style="font-size:12px;width:100%" placeholder="الميزانية"></td>
-      <td onclick="event.stopPropagation()"><select id="ni-stage" class="form-input" style="font-size:12px">
-        ${Object.entries(STAGE_LABELS).map(([v,t])=>`<option value="${v}">${t}</option>`).join('')}
-      </select></td>
-      <td onclick="event.stopPropagation()"><select id="ni-source" class="form-input" style="font-size:12px">
-        ${Object.entries(SOURCE_LABELS).map(([v,t])=>`<option value="${v}">${t}</option>`).join('')}
-        <option value="chatbot">شات بوت</option>
-      </select></td>
-      <td style="font-size:11px;color:var(--fg-muted)">الآن</td>
-      <td onclick="event.stopPropagation()">
-        <button class="btn btn-primary btn-sm" onclick="saveNewLeadInline()"><i data-lucide="check" width="13" height="13"></i></button>
-      </td>
-    </tr>`;
 
   if (hasMore) {
     tbody.innerHTML += `<tr><td colspan="7" style="text-align:center;padding:10px">
@@ -2743,7 +2722,7 @@ function renderCharts() {
   const ylEl = document.getElementById('visits-year-label');
   if (ylEl) ylEl.textContent = new Date().getFullYear();
 
-  // Visits — animated gradient multi-dataset
+  // Visits — animated gradient, visits + clients
   if (!chartsInit.visits) {
     const ctx = document.getElementById('visitsChart');
     if (ctx) {
@@ -2757,23 +2736,21 @@ function renderCharts() {
       chartsInit.visits = new Chart(ctx, {
         type: 'line',
         data: {
-          labels: ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'],
+          labels: buildVisitsLabels('week'),
           datasets: [
             {
               label: 'الزيارات',
-              data: [12,29,18,41,35,52,47],
-              borderColor: '#3ECDC4',
-              backgroundColor: g1,
+              data: buildVisitsData('week'),
+              borderColor: '#3ECDC4', backgroundColor: g1,
               fill: true, tension: 0.45, borderWidth: 2.5,
               pointRadius: 5, pointBackgroundColor: '#3ECDC4',
               pointBorderColor: '#0f2a2a', pointBorderWidth: 2,
               pointHoverRadius: 8, pointHoverBackgroundColor: '#fff',
             },
             {
-              label: 'التفاعل',
-              data: [5,14,9,22,17,31,26],
-              borderColor: '#A88A4F',
-              backgroundColor: g2,
+              label: 'عدد العملاء',
+              data: buildClientsData('week'),
+              borderColor: '#A88A4F', backgroundColor: g2,
               fill: true, tension: 0.45, borderWidth: 2.5,
               pointRadius: 5, pointBackgroundColor: '#A88A4F',
               pointBorderColor: '#0f2a2a', pointBorderWidth: 2,
@@ -2852,6 +2829,65 @@ function setReportYearLabels() {
   });
 }
 
+const MONTH_AR = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+const DAY_AR   = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+
+function buildVisitsLabels(period) {
+  const now = new Date();
+  if (period === 'week') {
+    // Current week days with dates
+    const start = new Date(now); start.setDate(now.getDate() - now.getDay());
+    return Array.from({length:7}, (_,i) => {
+      const d = new Date(start); d.setDate(start.getDate()+i);
+      return `${DAY_AR[d.getDay()]} ${d.getDate()}/${d.getMonth()+1}`;
+    });
+  } else if (period === 'month') {
+    // Weeks of current month
+    return [`الأسبوع 1 ${MONTH_AR[now.getMonth()]}`, `الأسبوع 2 ${MONTH_AR[now.getMonth()]}`,
+            `الأسبوع 3 ${MONTH_AR[now.getMonth()]}`, `الأسبوع 4 ${MONTH_AR[now.getMonth()]}`];
+  } else {
+    // 12 months starting from current month
+    return Array.from({length:12}, (_,i) => {
+      const d = new Date(now.getFullYear(), now.getMonth()+i, 1);
+      return `${MONTH_AR[d.getMonth()]} ${d.getFullYear()}`;
+    });
+  }
+}
+
+function buildVisitsData(period) {
+  // Sample visit data (replace with real analytics query if available)
+  if (period === 'week')  return [12,29,18,41,35,52,47];
+  if (period === 'month') return [89,134,112,167];
+  return Array.from({length:12}, (_,i) => Math.floor(200 + i*40 + Math.random()*60));
+}
+
+function buildClientsData(period) {
+  const now = new Date();
+  if (period === 'week') {
+    // Count leads per day of current week
+    const start = new Date(now); start.setDate(now.getDate() - now.getDay()); start.setHours(0,0,0,0);
+    return Array.from({length:7}, (_,i) => {
+      const day = new Date(start); day.setDate(start.getDate()+i);
+      const next = new Date(day); next.setDate(day.getDate()+1);
+      return LEADS.filter(l => { const d=new Date(l.created_at||0); return d>=day && d<next; }).length;
+    });
+  } else if (period === 'month') {
+    // Count leads per week of current month
+    const y = now.getFullYear(), m = now.getMonth();
+    return [1,2,3,4].map(w => {
+      const wStart = new Date(y,m,(w-1)*7+1), wEnd = new Date(y,m,w*7+1);
+      return LEADS.filter(l => { const d=new Date(l.created_at||0); return d>=wStart && d<wEnd; }).length;
+    });
+  } else {
+    // Count leads per month for next 12 months from now
+    return Array.from({length:12}, (_,i) => {
+      const d = new Date(now.getFullYear(), now.getMonth()+i, 1);
+      const next = new Date(now.getFullYear(), now.getMonth()+i+1, 1);
+      return LEADS.filter(l => { const ld=new Date(l.created_at||0); return ld>=d && ld<next; }).length;
+    });
+  }
+}
+
 function setChartPeriod(period, btn) {
   ['period-week','period-month','period-year'].forEach(id => {
     const el = document.getElementById(id);
@@ -2859,21 +2895,9 @@ function setChartPeriod(period, btn) {
   });
   btn.style.background='rgba(62,205,196,.25)'; btn.style.color='#1a8a84'; btn.style.borderColor='rgba(62,205,196,.4)'; btn.style.fontWeight='600';
   if (chartsInit.visits) {
-    const yr = new Date().getFullYear();
-    const months = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'].map(m=>`${m} ${yr}`);
-    if (period === 'week') {
-      chartsInit.visits.data.labels = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
-      chartsInit.visits.data.datasets[0].data = [12,29,18,41,35,52,47];
-      chartsInit.visits.data.datasets[1].data = [5,14,9,22,17,31,26];
-    } else if (period === 'month') {
-      chartsInit.visits.data.labels = ['الأسبوع 1','الأسبوع 2','الأسبوع 3','الأسبوع 4'];
-      chartsInit.visits.data.datasets[0].data = [89,134,112,167];
-      chartsInit.visits.data.datasets[1].data = [41,68,55,89];
-    } else {
-      chartsInit.visits.data.labels = months;
-      chartsInit.visits.data.datasets[0].data = [210,285,340,420,380,510,465,590,540,680,620,750];
-      chartsInit.visits.data.datasets[1].data = [90,130,155,190,170,230,205,265,240,305,275,335];
-    }
+    chartsInit.visits.data.labels              = buildVisitsLabels(period);
+    chartsInit.visits.data.datasets[0].data   = buildVisitsData(period);
+    chartsInit.visits.data.datasets[1].data   = buildClientsData(period);
     chartsInit.visits.update('active');
   }
 }
