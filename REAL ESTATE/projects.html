@@ -76,14 +76,39 @@
     .no-results{grid-column:1/-1;text-align:center;padding:60px 20px;color:rgba(15,42,42,.38);font-size:.92rem}
 
     /* ── RESPONSIVE ── */
-    @media(max-width:1024px){#projects-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:1200px){
+      .pnav{padding:14px 40px}
+      .pg-hero{padding:60px 40px 50px}
+      .pg-filters{padding:0 40px;top:73px}
+      .pg-body{padding:32px 40px 72px}
+      #projects-grid{grid-template-columns:repeat(2,1fr)}
+    }
     @media(max-width:768px){
-      .pnav{padding:14px 20px}
-      .pg-hero{padding:52px 20px 44px}
-      .pg-filters{padding:0 20px}
+      .pnav{padding:12px 16px;min-height:60px}
+      .pnav-logo img{height:38px}
+      .pnav-back{font-size:.8rem;gap:5px}
+      .pg-hero{padding:40px 16px 36px}
+      .pg-hero h1{font-size:clamp(1.5rem,6vw,2.2rem)}
+      .pg-hero p{font-size:.84rem}
+      .pg-filters{padding:0 16px;top:60px}
+      .filter-btn{padding:13px 14px;font-size:.82rem}
       .pg-search{display:none}
-      .pg-body{padding:28px 20px 60px}
-      #projects-grid{grid-template-columns:1fr;gap:18px}
+      .pg-body{padding:20px 16px 52px}
+      .pg-sort{margin-bottom:18px}
+      #projects-grid{grid-template-columns:1fr;gap:16px}
+      .proj-img{height:180px}
+      .proj-body{padding:16px 18px 18px}
+      .proj-title{font-size:.95rem}
+    }
+    @media(max-width:480px){
+      .pnav{padding:10px 14px}
+      .pnav-logo img{height:34px}
+      .pg-hero{padding:32px 14px 28px}
+      .pg-count{font-size:.74rem;padding:6px 14px}
+      .pg-body{padding:16px 12px 48px}
+      .proj-img{height:160px}
+      .proj-title{font-size:.9rem}
+      .proj-desc{font-size:.8rem;-webkit-line-clamp:2;line-clamp:2}
     }
   </style>
 </head>
@@ -237,6 +262,15 @@
   }
 
   loadProjects();
+
+  // Fix sticky filters top to always sit right below the nav
+  function fixFiltersTop() {
+    const nav = document.querySelector('.pnav');
+    const filters = document.querySelector('.pg-filters');
+    if (nav && filters) filters.style.top = nav.offsetHeight + 'px';
+  }
+  fixFiltersTop();
+  window.addEventListener('resize', fixFiltersTop);
 })();
 </script>
 </body>
