@@ -2035,7 +2035,7 @@ function renderLeadsTable() {
   const tbody = document.getElementById('leads-tbody');
   if (!tbody) return;
   tbody.innerHTML = LEADS.map(l => `
-    <tr id="lead-row-${l.id}" onclick="viewLead(${l.id})" style="cursor:pointer">
+    <tr id="lead-row-${l.id}" onclick="viewLead('${l.id}')" style="cursor:pointer">
       <td>
         <div style="display:flex;align-items:center;gap:10px">
           <div class="avatar" style="width:34px;height:34px;font-size:12px">${l.name.substring(0,2)}</div>
@@ -2052,8 +2052,8 @@ function renderLeadsTable() {
       <td style="font-size:12px;color:var(--fg-muted)">${l.date}</td>
       <td>
         <div style="display:flex;gap:4px" onclick="event.stopPropagation()">
-          <button class="btn btn-ghost btn-sm" title="تعديل" onclick="startEditLead(${l.id})"><i data-lucide="pencil" width="13" height="13"></i></button>
-          <button class="btn btn-ghost btn-sm" title="حذف" style="color:var(--danger-500)" onclick="deleteLead(${l.id})"><i data-lucide="trash-2" width="13" height="13"></i></button>
+          <button class="btn btn-ghost btn-sm" title="تعديل" onclick="startEditLead('${l.id}')"><i data-lucide="pencil" width="13" height="13"></i></button>
+          <button class="btn btn-ghost btn-sm" title="حذف" style="color:var(--danger-500)" onclick="deleteLead('${l.id}')"><i data-lucide="trash-2" width="13" height="13"></i></button>
         </div>
       </td>
     </tr>
@@ -2727,15 +2727,18 @@ function parseBulkCSV(input) {
 async function saveBulkLeads() {
   if (!_bulkRows.length) return;
   const btn = document.getElementById('bulk-save-btn');
+  const resetBtn = () => { btn.disabled = false; btn.innerHTML = '<i data-lucide="save" width="14" height="14"></i> حفظ العملاء'; lucide.createIcons(); };
   btn.disabled = true; btn.textContent = 'جارٍ الحفظ...';
-  const { error } = await sb.from('leads').insert(_bulkRows.map(r => ({
-    name: r.name, phone: r.phone, budget: r.budget,
-    stage: r.stage, source: r.source, notes: 'مستورد BULK'
-  })));
-  if (error) { showToast('خطأ: ' + error.message, 'error'); btn.disabled = false; btn.innerHTML = '<i data-lucide="save" width="14" height="14"></i> حفظ العملاء'; lucide.createIcons(); return; }
-  showToast(`تم إضافة ${_bulkRows.length} عميل ✓`, 'success');
-  closeModal('modal-bulk-import');
-  await loadLeads();
+  try {
+    const { error } = await sb.from('leads').insert(_bulkRows.map(r => ({
+      name: r.name, phone: r.phone || null, budget: r.budget || null,
+      stage: r.stage, source: r.source, notes: 'مستورد BULK'
+    })));
+    if (error) { showToast('خطأ: ' + error.message, 'error'); resetBtn(); return; }
+    showToast(`تم إضافة ${_bulkRows.length} عميل ✓`, 'success');
+    closeModal('modal-bulk-import');
+    await loadLeads();
+  } catch(e) { showToast('خطأ غير متوقع: ' + e.message, 'error'); resetBtn(); }
 }
 
 // ═══════════════════════════════════════════════════════
@@ -2760,7 +2763,7 @@ function startEditLead(id) {
     <td></td>
     <td onclick="event.stopPropagation()">
       <div style="display:flex;gap:4px">
-        <button class="btn btn-primary btn-sm" onclick="saveLeadInline(${id})">✓</button>
+        <button class="btn btn-primary btn-sm" onclick="saveLeadInline('${id}')">✓</button>
         <button class="btn btn-ghost btn-sm" onclick="renderLeadsTable()">✕</button>
       </div>
     </td>`;
