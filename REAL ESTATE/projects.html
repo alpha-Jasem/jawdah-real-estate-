@@ -372,7 +372,7 @@
         ? `<img src="${p.image_url}" alt="${(p.title_ar||'').replace(/"/g,'')}" loading="lazy"><div class="proj-img-gradient"></div>`
         : `<div class="proj-img-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M3 9.5L12 3l9 6.5V21a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 22V12h6v10"/></svg></div>`;
       return `
-        <div class="proj-card" style="animation-delay:${Math.min(i,.8) * .09}s" onclick="openProjectModal(${p.id})" role="button" tabindex="0">
+        <div class="proj-card" style="animation-delay:${Math.min(i,.8) * .09}s" data-idx="${allProjects.indexOf(p)}" onclick="openProjectModal(this.dataset.idx)" role="button" tabindex="0">
           <div class="proj-img">
             ${img}
             ${cat ? `<div class="proj-badge">${cat}</div>` : ''}
@@ -408,8 +408,8 @@
   if (searchEl) searchEl.addEventListener('input', () => { searchQ = searchEl.value.trim(); render(); });
 
   // Open project modal
-  window.openProjectModal = function(id) {
-    const p = allProjects.find(x => x.id === id);
+  window.openProjectModal = function(idx) {
+    const p = allProjects[parseInt(idx)];
     if (!p) return;
     const cat = catMap[p.category] || p.category || '';
     const wrap = document.getElementById('modal-img-wrap');
