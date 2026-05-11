@@ -1622,6 +1622,18 @@ function editProject(id) {
   const descEl = document.getElementById('proj-desc');
   if (descEl) descEl.value=p.description_ar||p.description||'';
   document.getElementById('proj-published').checked=p.status==='published';
+  // Show existing image preview
+  const mediaGrid = document.getElementById('proj-media-grid');
+  if (mediaGrid) {
+    mediaGrid.innerHTML = p.image_url
+      ? `<div style="position:relative;display:inline-block">
+           <img src="${p.image_url}" style="width:80px;height:60px;object-fit:cover;border-radius:6px;border:2px solid var(--brand-teal-700)">
+           <div style="font-size:10px;color:var(--fg-muted);margin-top:4px;text-align:center">الصورة الحالية</div>
+         </div>`
+      : '';
+  }
+  const filesEl = document.getElementById('proj-files');
+  if (filesEl) filesEl.value = '';
   openModal('modal-project');
 }
 async function saveProject() {
@@ -1636,7 +1648,8 @@ async function saveProject() {
 
   // Upload images first
   const files = document.getElementById('proj-files').files;
-  let image_url = null;
+  const existingProject = _editingProjectId ? PROJECTS.find(x => x.id === _editingProjectId) : null;
+  let image_url = existingProject?.image_url || null;
   const gallery_urls = [];
   if (files.length > 0) {
     showToast('جاري رفع الصور...','info');
@@ -1654,7 +1667,8 @@ async function saveProject() {
 
   const payload = { title_ar, title, category, year, client_name: client,
     description_ar: desc, status: published ? 'published' : 'draft',
-    order_index: PROJECTS.length, image_url, gallery_urls };
+    image_url, gallery_urls };
+  if (!_editingProjectId) payload.order_index = PROJECTS.length;
 
   const isEditing = !!_editingProjectId;
   let error;
