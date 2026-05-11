@@ -972,7 +972,8 @@ canvas { max-width: 100%; }
           <h1 style="font-family:var(--font-display);font-size:32px;font-weight:500;margin-top:6px">العملاء المحتملون</h1>
         </div>
         <div style="display:flex;gap:8px">
-<button class="btn btn-secondary btn-sm" onclick="openBulkImport()"><i data-lucide="upload" width="14" height="14"></i> إضافة عملاء BULK</button>
+          <button class="btn btn-secondary btn-sm" onclick="exportLeadsCSV()"><i data-lucide="download" width="14" height="14"></i> تصدير</button>
+          <button class="btn btn-secondary btn-sm" onclick="openBulkImport()"><i data-lucide="upload" width="14" height="14"></i> إضافة BULK</button>
           <button class="btn btn-primary" onclick="openAddLead()"><i data-lucide="user-plus" width="14" height="14"></i> إضافة عميل</button>
         </div>
       </div>
@@ -2186,36 +2187,50 @@ async function deleteProperty(id) {
 // ═══════════════════════════════════════════════════════
 // PIPELINE (Kanban + Drag & Drop)
 // ═══════════════════════════════════════════════════════
-const STAGES = [
-  { k:'new',       label:'جديد',    color:'var(--ink-200)',       count:12 },
-  { k:'qualified', label:'مؤهل',    color:'var(--brand-teal-100)',count:8  },
-  { k:'viewing',   label:'معاينة',  color:'#F3EDDF',              count:5  },
-  { k:'offer',     label:'عرض',     color:'var(--warning-50)',    count:3  },
-  { k:'closed',    label:'مغلق ✓', color:'var(--success-50)',    count:3  },
+const STAGES_DEFAULT = [
+  { k:'new',       label:'جديد',    color:'var(--ink-200)'        },
+  { k:'qualified', label:'مؤهل',    color:'var(--brand-teal-100)' },
+  { k:'viewing',   label:'معاينة',  color:'#F3EDDF'               },
+  { k:'offer',     label:'عرض',     color:'var(--warning-50)'     },
+  { k:'closed',    label:'مغلق ✓', color:'var(--success-50)'     },
 ];
+// Load custom labels from localStorage
+const _customLabels = JSON.parse(localStorage.getItem('kanbanLabels') || '{}');
+const STAGES = STAGES_DEFAULT.map(s => ({ ...s, label: _customLabels[s.k] || s.label }));
+const KANBAN_LIMIT = 7;
+// track expanded cols
+const _kanbanExpanded = new Set();
 let kanbanData = { new:[], qualified:[], viewing:[], offer:[], closed:[] };
 let dragItemId=null, dragItemStage=null;
 
 function renderKanban() {
   const board = document.getElementById('kanban-board');
   if (!board) return;
-  board.innerHTML = STAGES.map(s => `
+  board.innerHTML = STAGES.map(s => {
+    const all     = kanbanData[s.k] || [];
+    const expanded = _kanbanExpanded.has(s.k);
+    const visible  = expanded ? all : all.slice(0, KANBAN_LIMIT);
+    const hidden   = all.length - visible.length;
+    const borderColor = s.color === 'var(--ink-200)' ? 'var(--ink-400)' : s.color;
+    return `
     <div class="kanban-col">
-      <div class="kanban-header" style="border-top:3px solid ${s.color==='var(--ink-200)'?'var(--ink-400)':s.color}">
-        <span>${s.label}</span>
-        <span style="font-size:12px;color:var(--fg-muted);background:var(--bg);padding:2px 8px;border-radius:999px;border:1px solid var(--border)">${(kanbanData[s.k]||[]).length}</span>
+      <div class="kanban-header" style="border-top:3px solid ${borderColor};cursor:default">
+        <span class="kb-label" title="انقر مرتين لتعديل الاسم" ondblclick="startEditStageLabel('${s.k}',this)"
+          style="cursor:pointer;padding:2px 4px;border-radius:4px;transition:background .15s"
+          onmouseenter="this.style.background='rgba(0,0,0,.05)'" onmouseleave="this.style.background=''">${s.label}</span>
+        <span style="font-size:12px;color:var(--fg-muted);background:var(--bg);padding:2px 8px;border-radius:999px;border:1px solid var(--border)">${all.length}</span>
       </div>
       <div class="kanban-body" id="kb-${s.k}"
         ondragover="kbDragOver(event,'${s.k}')"
         ondrop="kbDrop(event,'${s.k}')"
         ondragleave="this.classList.remove('drag-over')">
-        ${!(kanbanData[s.k]||[]).length ? `<div style="text-align:center;padding:20px 10px;color:var(--fg-subtle);font-size:12px">لا يوجد عملاء</div>` : ''}
-        ${(kanbanData[s.k]||[]).map(c => `
+        ${!all.length ? `<div style="text-align:center;padding:20px 10px;color:var(--fg-subtle);font-size:12px">لا يوجد عملاء</div>` : ''}
+        ${visible.map(c => `
           <div class="kanban-card" draggable="true" id="kc-${c.id}"
             ondragstart="kbDragStart(event,'${c.id}','${s.k}')" ondragend="kbDragEnd(event)">
             <div style="display:flex;justify-content:space-between;align-items:flex-start">
               <div class="kanban-card-name">${c.name}</div>
-              ${c.manual ? `<button onclick="removeLeadFromPipeline('${c.id}')" title="إزالة من البايب لاين" style="background:none;border:none;cursor:pointer;color:var(--fg-subtle);padding:0;line-height:1;font-size:14px">✕</button>` : ''}
+              ${c.manual ? `<button onclick="removeLeadFromPipeline('${c.id}')" title="إزالة" style="background:none;border:none;cursor:pointer;color:var(--fg-subtle);padding:0;line-height:1;font-size:13px">✕</button>` : ''}
             </div>
             <div class="kanban-card-prop">${c.prop}</div>
             <div class="kanban-card-footer">
@@ -2224,13 +2239,40 @@ function renderKanban() {
             </div>
           </div>
         `).join('')}
+        ${hidden > 0 ? `
+          <button class="btn btn-ghost btn-sm" style="width:100%;justify-content:center;color:var(--brand-teal-700);border:1px solid var(--brand-teal-200);margin-top:4px;font-size:11px" onclick="_kanbanExpanded.add('${s.k}');renderKanban()">
+            + ${hidden} عميل إضافي
+          </button>` : ''}
+        ${expanded && all.length > KANBAN_LIMIT ? `
+          <button class="btn btn-ghost btn-sm" style="width:100%;justify-content:center;color:var(--fg-subtle);border:1px dashed var(--border);margin-top:2px;font-size:11px" onclick="_kanbanExpanded.delete('${s.k}');renderKanban()">
+            طي القائمة ↑
+          </button>` : ''}
         <button class="btn btn-ghost btn-sm" style="width:100%;justify-content:center;color:var(--fg-subtle);border:1px dashed var(--border);margin-top:4px" onclick="openPipelineSearch()">
           <i data-lucide="plus" width="12" height="12"></i> إضافة
         </button>
       </div>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
   lucide.createIcons();
+}
+
+function startEditStageLabel(stageKey, el) {
+  const current = el.textContent.trim();
+  const inp = document.createElement('input');
+  inp.value = current;
+  inp.style.cssText = 'font-size:13px;font-weight:700;font-family:inherit;border:1px solid var(--brand-teal-400);border-radius:4px;padding:2px 6px;width:90px;outline:none;background:var(--bg-elevated)';
+  el.replaceWith(inp);
+  inp.focus(); inp.select();
+  const save = () => {
+    const val = inp.value.trim() || current;
+    _customLabels[stageKey] = val;
+    localStorage.setItem('kanbanLabels', JSON.stringify(_customLabels));
+    const s = STAGES.find(s => s.k === stageKey);
+    if (s) s.label = val;
+    renderKanban();
+  };
+  inp.addEventListener('blur', save);
+  inp.addEventListener('keydown', e => { if (e.key === 'Enter') inp.blur(); if (e.key === 'Escape') { inp.value = current; inp.blur(); } });
 }
 function kbDragStart(e,id,stage) { dragItemId=String(id); dragItemStage=stage; setTimeout(()=>{ const el=document.getElementById('kc-'+id); if(el)el.classList.add('dragging'); },0); }
 function kbDragEnd(e) { document.querySelectorAll('.kanban-card').forEach(c=>c.classList.remove('dragging')); document.querySelectorAll('.kanban-body').forEach(b=>b.classList.remove('drag-over')); }
