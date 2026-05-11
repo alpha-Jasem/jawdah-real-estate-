@@ -623,28 +623,30 @@ canvas { max-width: 100%; }
 
 /* Tablet: 768px – 1100px */
 @media (max-width: 1100px) {
-  /* Sidebar: slide-in drawer */
+  /* Sidebar: slide-in drawer — no transform (iOS Safari backdrop-filter bug) */
   .sidebar {
     position: fixed !important;
-    top: 0; right: 0; bottom: 0;
-    transform: translateX(110%);
-    transition: transform .28s cubic-bezier(.22,1,.36,1) !important;
+    top: 0; right: -280px; bottom: 0;
+    transition: right .28s cubic-bezier(.22,1,.36,1) !important;
     z-index: 50;
-    width: 240px !important; min-width: 240px !important;
-    box-shadow: -8px 0 40px rgba(0,0,0,.18);
+    width: 260px !important; min-width: 260px !important;
+    box-shadow: -8px 0 40px rgba(0,0,0,.22);
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(255,255,255,.98) !important;
   }
-  .sidebar.mobile-open { transform: translateX(0); }
-  .sidebar.collapsed { transform: translateX(110%); }
-  .sidebar.collapsed.mobile-open { transform: translateX(0); width: 240px !important; min-width: 240px !important; }
+  .sidebar.mobile-open { right: 0 !important; }
+  .sidebar.collapsed { right: -280px !important; }
+  .sidebar.collapsed.mobile-open { right: 0 !important; width: 260px !important; min-width: 260px !important; }
   .sidebar.collapsed .nav-label-text { display: block !important; }
   .sidebar.collapsed .nav-label { opacity: 1 !important; }
   .sidebar.collapsed .badge { display: inline-block !important; }
   .collapse-btn { display: none !important; }
   .mob-menu-btn { display: flex; }
 
-  /* Main: full width */
-  #app { flex-direction: column; }
-  .main { width: 100%; }
+  /* Main: full width — sidebar is fixed so main takes all space */
+  #app { flex-direction: row; }
+  .main { width: 100% !important; flex: 1; min-width: 0; }
 
   /* Topbar */
   .topbar { padding: 0 16px; gap: 10px; }
