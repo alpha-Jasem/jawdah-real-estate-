@@ -931,9 +931,9 @@ canvas { max-width: 100%; }
           <div class="kpi-spark"><canvas id="spark1"></canvas></div>
         </div>
         <div class="kpi-card" style="background:linear-gradient(135deg,rgba(168,138,79,.2) 0%,rgba(255,255,255,.7) 100%)">
-          <div class="kpi-label">عملاء محتملون</div>
+          <div class="kpi-label">إجمالي العملاء</div>
           <div class="kpi-value" id="kpi-leads" style="font-size:40px">—</div>
-          <div class="kpi-delta up"><i data-lucide="users" width="12" height="12"></i> إجمالي العملاء</div>
+          <div class="kpi-delta up" id="kpi-leads-delta"><i data-lucide="user-plus" width="12" height="12"></i> <span id="kpi-leads-new">0</span> تم الإضافة هذا الشهر</div>
           <div class="kpi-spark"><canvas id="spark3"></canvas></div>
         </div>
         <div class="kpi-card" style="background:linear-gradient(135deg,rgba(37,211,102,.15) 0%,rgba(255,255,255,.7) 100%)">
@@ -1905,11 +1905,17 @@ async function loadLeads() {
     budget: l.budget || '—', stage: l.stage || 'new',
     source: l.source || 'direct',
     date: timeAgo(l.created_at),
+    created_at: l.created_at,
     notes: l.notes || '',
   }));
   renderLeadsTable();
   rebuildKanbanData();
-  updateKPI('kpi-leads', LEADS.filter(l=>l.stage!=='closed').length);
+  updateKPI('kpi-leads', LEADS.length);
+  // delta: new leads added this month
+  const monthStart = new Date(); monthStart.setDate(1); monthStart.setHours(0,0,0,0);
+  const newThisMonth = LEADS.filter(l => l.created_at && new Date(l.created_at) >= monthStart).length;
+  const deltaEl = document.getElementById('kpi-leads-new');
+  if (deltaEl) deltaEl.textContent = '+' + newThisMonth;
   renderActivityFeed();
   updateSidebarBadges();
 }
