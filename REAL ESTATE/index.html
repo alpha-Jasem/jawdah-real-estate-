@@ -53,17 +53,17 @@
     }
 
     /* ── HERO ── */
-    #hero{position:relative;min-height:100svh;overflow:hidden;background:#05070b;display:flex;flex-direction:column;--hero-fade:0;--hero-zoom:1.04;--hero-shift:0px;--hero-copy-y:0px;--hero-copy-scale:1;--hero-copy-o:1;--hero-glow-o:.5;--hero-line-scale:.35}
-    .hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;transform:translate3d(0,var(--hero-shift),0) scale(var(--hero-zoom));z-index:0;will-change:transform;filter:saturate(1.08) contrast(1.04) brightness(.88)}
+    #hero{position:relative;min-height:100svh;overflow:hidden;background:#05070b;display:flex;flex-direction:column;--hero-fade:0;--hero-copy-y:0px;--hero-copy-o:1;--hero-line-scale:.35}
+    .hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;transform:translate3d(0,0,0) scale(1.06);z-index:0;filter:saturate(1.08) contrast(1.04) brightness(.88)}
     .hero-overlay{position:absolute;inset:0;background:rgba(0,0,0,.18);z-index:1;pointer-events:none}
     .hero-overlay::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.04) 0%,rgba(0,0,0,.08) 60%,rgba(0,0,0,.18) 100%)}
-    .hero-overlay-b{position:absolute;inset:-10% -12% auto auto;width:52vw;height:52vw;max-width:760px;max-height:760px;background:radial-gradient(circle,rgba(62,205,196,.28) 0%,rgba(62,205,196,.12) 24%,rgba(62,205,196,0) 62%);mix-blend-mode:screen;opacity:var(--hero-glow-o);z-index:1;pointer-events:none;filter:blur(6px);transform:translate3d(calc(var(--hero-shift) * -.55),calc(var(--hero-shift) * -.35),0) scale(calc(1 + var(--hero-fade) * .18))}
+    .hero-overlay-b{position:absolute;inset:-10% -12% auto auto;width:52vw;height:52vw;max-width:760px;max-height:760px;background:radial-gradient(circle,rgba(62,205,196,.28) 0%,rgba(62,205,196,.12) 24%,rgba(62,205,196,0) 62%);mix-blend-mode:screen;opacity:.22;z-index:1;pointer-events:none;filter:blur(6px)}
     .hero-vignette{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(circle at 72% 28%,rgba(255,255,255,.08),transparent 22%),radial-gradient(circle at 50% 50%,transparent 40%,rgba(3,4,8,.24) 72%,rgba(2,3,6,.7) 100%);opacity:calc(.72 + var(--hero-fade) * .2)}
     #hero::after{content:'';position:absolute;bottom:0;width:100%;height:100px;background:linear-gradient(to bottom,rgba(5,7,11,0) 0%,rgba(5,7,11,.7) 100%);z-index:2}
     /* Hero body */
-    .hero-body{position:relative;z-index:3;max-width:520px;padding:160px 80px 90px;flex:1;display:flex;flex-direction:column;justify-content:center;transform:translate3d(0,var(--hero-copy-y),0) scale(var(--hero-copy-scale));transform-origin:right center;opacity:var(--hero-copy-o);will-change:transform,opacity}
+    .hero-body{position:relative;z-index:3;max-width:520px;padding:160px 80px 90px;flex:1;display:flex;flex-direction:column;justify-content:center;transform:translate3d(0,var(--hero-copy-y),0);transform-origin:right center;opacity:var(--hero-copy-o);will-change:transform,opacity}
     .hero-kicker{display:flex;align-items:center;gap:18px;margin-bottom:20px}
-    .hero-kicker-line{width:110px;height:1px;background:linear-gradient(90deg,rgba(62,205,196,0),rgba(62,205,196,.95),rgba(255,255,255,.85));transform-origin:right center;transform:scaleX(var(--hero-line-scale));transition:transform .2s linear}
+    .hero-kicker-line{width:110px;height:1px;background:linear-gradient(90deg,rgba(62,205,196,0),rgba(62,205,196,.95),rgba(255,255,255,.85));transform-origin:right center;transform:scaleX(1)}
     .eyebrow{color:var(--gold);font-size:.78rem;font-weight:500;letter-spacing:.08em;margin-bottom:14px}
     .hero-h1{font-size:clamp(22px,3vw,38px);font-weight:800;line-height:1.12;margin-bottom:12px;color:#fff;text-shadow:0 12px 28px rgba(0,0,0,.18);transition:text-shadow 1.35s cubic-bezier(.22,1,.36,1)}
     .hero-desc{font-size:.82rem;line-height:1.7;color:rgba(255,255,255,.78);max-width:420px;margin-bottom:22px}
@@ -387,7 +387,7 @@
       nav.menu-open .nav-toggle span:nth-child(1){transform:translateY(7px) rotate(45deg)}
       nav.menu-open .nav-toggle span:nth-child(2){opacity:0}
       nav.menu-open .nav-toggle span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-      .hero-video{object-position:center center;transform:translate3d(0,var(--hero-shift),0) scale(1.08);filter:saturate(1.05) contrast(1.01) brightness(.99)}
+      .hero-video{object-position:center center;transform:translate3d(0,0,0) scale(1.08);filter:saturate(1.05) contrast(1.01) brightness(.99)}
       .hero-overlay{background:rgba(0,0,0,.18)}
       .hero-overlay::after{background:linear-gradient(180deg,rgba(0,0,0,.04) 0%,rgba(0,0,0,.08) 60%,rgba(0,0,0,.18) 100%)}
       .hero-vignette{display:none}
@@ -1075,18 +1075,19 @@
     @keyframes ldFadeIn{to{opacity:.7}}
 
     /* ── PARTNERS STRIP ── */
-    .partners-strip{background:#f8fafa;border-top:1px solid rgba(62,205,196,.12);border-bottom:1px solid rgba(62,205,196,.12);padding:28px 0;overflow:hidden;direction:ltr}
-    .partners-label{text-align:center;font-size:.62rem;font-weight:700;letter-spacing:.22em;color:#2AABA3;text-transform:uppercase;margin-bottom:20px;opacity:.45;direction:rtl}
+    .partners-strip{background:#f8fafa;border-top:1px solid rgba(62,205,196,.12);border-bottom:1px solid rgba(62,205,196,.12);padding:32px 0;overflow:hidden;direction:ltr}
+    .partners-label{text-align:center;font-size:.82rem;font-weight:700;letter-spacing:.14em;color:#2AABA3;text-transform:uppercase;margin-bottom:24px;opacity:.75;direction:rtl}
     .partners-outer{-webkit-mask-image:linear-gradient(to right,transparent 0%,#000 8%,#000 92%,transparent 100%);mask-image:linear-gradient(to right,transparent 0%,#000 8%,#000 92%,transparent 100%)}
-    .partners-track{display:flex;flex-wrap:nowrap;align-items:center;gap:16px;width:max-content;animation:partners-marquee 36s linear infinite;padding-right:16px}
+    .partners-track{display:flex;flex-wrap:nowrap;align-items:center;gap:20px;width:max-content;animation:partners-marquee 36s linear infinite;padding-right:20px}
     .partners-track.paused{animation-play-state:paused}
     @keyframes partners-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
     .partner-item{display:flex;align-items:center;justify-content:center;flex-shrink:0}
-    .partner-card{display:flex;align-items:center;justify-content:center;width:150px;height:80px;background:#fff;border-radius:14px;border:1px solid rgba(0,0,0,.07);box-shadow:0 2px 12px rgba(0,0,0,.06);padding:14px 20px;transition:box-shadow .3s,transform .3s;flex-shrink:0}
-    .partner-item:hover .partner-card{box-shadow:0 8px 28px rgba(62,205,196,.18);transform:translateY(-3px);border-color:rgba(62,205,196,.3)}
-    .partner-logo{width:100%;height:100%;object-fit:contain;filter:grayscale(1) opacity(.55);transition:filter .35s}
+    .partner-card{display:flex;align-items:center;justify-content:center;width:190px;height:100px;background:#fff;border-radius:16px;border:1px solid rgba(0,0,0,.07);box-shadow:0 2px 14px rgba(0,0,0,.07);padding:16px 24px;transition:box-shadow .3s,transform .3s;flex-shrink:0}
+    .partner-item:hover .partner-card{box-shadow:0 10px 32px rgba(62,205,196,.2);transform:translateY(-4px);border-color:rgba(62,205,196,.35)}
+    .partner-logo{width:100%;height:100%;object-fit:contain;filter:grayscale(1) opacity(.6);transition:filter .35s}
     .partner-item:hover .partner-logo{filter:grayscale(0) opacity(1)}
-    @media(max-width:640px){.partner-card{width:110px;height:60px;padding:10px 14px;border-radius:10px}}
+    @media(max-width:768px){.partner-card{width:150px;height:80px;padding:12px 18px;border-radius:12px}}
+    @media(max-width:480px){.partner-card{width:120px;height:66px;padding:10px 14px;border-radius:10px}}
 
     /* ── ACHIEVEMENTS GALLERY ── */
     #our-achievements{padding:90px 0!important;overflow:visible}
@@ -1183,7 +1184,7 @@
 </nav>
 
 <!-- HERO -->
-<section id="hero" style="--hero-fade: 0.450; --hero-zoom: 1.120; --hero-shift: 482.8px; --hero-copy-y: -34.0px; --hero-copy-scale: 1; --hero-copy-o: 1; --hero-glow-o: .18; --hero-line-scale: 1;">
+<section id="hero">
   <video class="hero-video" autoplay="" muted="" playsinline="" loop="">
     <source src="animate_this_202605011222.mp4" type="video/mp4">
   </video>
@@ -1737,25 +1738,17 @@
     nav.classList.toggle('scrolled', y > scrolledThreshold);
     if (hero) {
       const heroHeight = Math.max(hero.offsetHeight, 1);
-      const heroProgress = Math.min(y / (heroHeight * 0.9), 1);
+      const heroProgress = Math.min(y / (heroHeight * 0.85), 1);
       if (isMobileView) {
+        // Mobile: only fade + slide the copy, video is static
         hero.style.setProperty('--hero-fade', heroProgress.toFixed(3));
-        hero.style.setProperty('--hero-zoom', '1.04');
-        hero.style.setProperty('--hero-shift', '0px');
-        hero.style.setProperty('--hero-copy-y', `${(heroProgress * -60).toFixed(1)}px`);
-        hero.style.setProperty('--hero-copy-scale', '1');
-        hero.style.setProperty('--hero-copy-o', `${Math.max(.15, 1 - heroProgress * 1.2).toFixed(3)}`);
-        hero.style.setProperty('--hero-glow-o', '0');
-        hero.style.setProperty('--hero-line-scale', '1');
+        hero.style.setProperty('--hero-copy-y', `${(heroProgress * -56).toFixed(1)}px`);
+        hero.style.setProperty('--hero-copy-o', `${Math.max(0, 1 - heroProgress * 1.4).toFixed(3)}`);
       } else {
-        hero.style.setProperty('--hero-fade', `${(heroProgress * 0.45).toFixed(3)}`);
-        hero.style.setProperty('--hero-zoom', `${(1.04 + heroProgress * 0.08).toFixed(3)}`);
-        hero.style.setProperty('--hero-shift', `${(y * 0.08).toFixed(1)}px`);
-        hero.style.setProperty('--hero-copy-y', `${(heroProgress * -34).toFixed(1)}px`);
-        hero.style.setProperty('--hero-copy-scale', '1');
-        hero.style.setProperty('--hero-copy-o', '1');
-        hero.style.setProperty('--hero-glow-o', '.18');
-        hero.style.setProperty('--hero-line-scale', '1');
+        // Desktop: fade vignette + slide copy up + fade copy — video stays frozen
+        hero.style.setProperty('--hero-fade', `${(heroProgress * 0.5).toFixed(3)}`);
+        hero.style.setProperty('--hero-copy-y', `${(heroProgress * -48).toFixed(1)}px`);
+        hero.style.setProperty('--hero-copy-o', `${Math.max(0, 1 - heroProgress * 1.6).toFixed(3)}`);
       }
     }
 
