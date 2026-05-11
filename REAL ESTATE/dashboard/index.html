@@ -1694,15 +1694,32 @@ async function loadLeads() {
   updateSidebarBadges();
 }
 
+let ANALYTICS_ROWS = [];
+
 async function loadAnalytics() {
+  // Fetch total count for KPI
   const { count } = await sb.from('analytics').select('*', { count:'exact', head:true });
   if (count !== null) updateKPI('kpi-analytics', count.toLocaleString('ar-SA'));
-  // Monthly visits (current month)
+
+  // Fetch rows from past 13 months for chart (created_at only)
+  const since = new Date(); since.setFullYear(since.getFullYear() - 1); since.setDate(1); since.setHours(0,0,0,0);
+  const { data: rows } = await sb.from('analytics')
+    .select('created_at')
+    .gte('created_at', since.toISOString())
+    .order('created_at', { ascending: true });
+  ANALYTICS_ROWS = rows || [];
+
+  // Monthly visits KPI (current month)
   const start = new Date(); start.setDate(1); start.setHours(0,0,0,0);
-  const { count: monthCount } = await sb.from('analytics')
-    .select('*', { count:'exact', head:true })
-    .gte('created_at', start.toISOString());
+  const monthCount = ANALYTICS_ROWS.filter(r => new Date(r.created_at) >= start).length;
   if (monthCount !== null) updateKPI('kpi-visits', monthCount.toLocaleString('ar-SA'));
+
+  // Refresh chart if already rendered
+  if (chartsInit.visits) {
+    const activePeriod = document.querySelector('[id^="period-"][style*="1a8a84"]')?.id?.replace('period-','') || 'week';
+    chartsInit.visits.data.datasets[0].data = buildVisitsData(activePeriod);
+    chartsInit.visits.update('active');
+  }
 }
 
 // IDs of leads manually added to pipeline (persisted in localStorage)
@@ -2855,10 +2872,27 @@ function buildVisitsLabels(period) {
 }
 
 function buildVisitsData(period) {
-  // Sample visit data (replace with real analytics query if available)
-  if (period === 'week')  return [12,29,18,41,35,52,47];
-  if (period === 'month') return [89,134,112,167];
-  return Array.from({length:12}, (_,i) => Math.floor(200 + i*40 + Math.random()*60));
+  const now = new Date();
+  if (period === 'week') {
+    const start = new Date(now); start.setDate(now.getDate() - now.getDay()); start.setHours(0,0,0,0);
+    return Array.from({length:7}, (_,i) => {
+      const day = new Date(start); day.setDate(start.getDate()+i);
+      const next = new Date(day); next.setDate(day.getDate()+1);
+      return ANALYTICS_ROWS.filter(r => { const d=new Date(r.created_at); return d>=day && d<next; }).length;
+    });
+  } else if (period === 'month') {
+    const y = now.getFullYear(), m = now.getMonth();
+    return [1,2,3,4].map(w => {
+      const wStart = new Date(y,m,(w-1)*7+1), wEnd = new Date(y,m,w*7+1);
+      return ANALYTICS_ROWS.filter(r => { const d=new Date(r.created_at); return d>=wStart && d<wEnd; }).length;
+    });
+  } else {
+    return Array.from({length:12}, (_,i) => {
+      const d = new Date(now.getFullYear(), now.getMonth()+i, 1);
+      const next = new Date(now.getFullYear(), now.getMonth()+i+1, 1);
+      return ANALYTICS_ROWS.filter(r => { const rd=new Date(r.created_at); return rd>=d && rd<next; }).length;
+    });
+  }
 }
 
 function buildClientsData(period) {
