@@ -33,6 +33,8 @@
   trackVisit('view');
 
   document.addEventListener('click', function (e) {
+    const wa = e.target.closest('.wa-float');
+    if (wa) { trackVisit('click_whatsapp'); return; }
     const btn = e.target.closest('[data-track], .btn-ph, .btn-p, .btn-gd, .nav-cta');
     if (!btn) return;
     const label = btn.dataset?.track || btn.textContent?.trim()?.slice(0, 60) || 'button';

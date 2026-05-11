@@ -1074,7 +1074,7 @@ canvas { max-width: 100%; }
       <div class="kpi-grid" style="margin-bottom:24px">
         <div class="kpi-card"><div class="kpi-label">إجمالي الزيارات</div><div class="kpi-value" id="rep-visits">—</div><div class="kpi-delta up"><i data-lucide="activity" width="12" height="12"></i> إجمالي السجلات</div></div>
         <div class="kpi-card"><div class="kpi-label">إجمالي العملاء</div><div class="kpi-value" id="rep-leads">—</div><div class="kpi-delta up"><i data-lucide="users" width="12" height="12"></i> إجمالي</div></div>
-        <div class="kpi-card"><div class="kpi-label">عملاء جدد هذا الشهر</div><div class="kpi-value" id="rep-new-leads">—</div><div class="kpi-delta up"><i data-lucide="user-plus" width="12" height="12"></i> هذا الشهر</div></div>
+        <div class="kpi-card"><div class="kpi-label">ضغطات الواتساب</div><div class="kpi-value" id="rep-wa">—</div><div class="kpi-delta up" style="color:#25D366"><i data-lucide="message-circle" width="12" height="12"></i> من الموقع</div></div>
         <div class="kpi-card"><div class="kpi-label">مشاريع منشورة</div><div class="kpi-value" id="rep-projects">—</div><div class="kpi-delta up"><i data-lucide="folder" width="12" height="12"></i> على الموقع</div></div>
       </div>
       <div class="grid-2" style="margin-bottom:24px">
@@ -3276,16 +3276,17 @@ async function deleteConversation() {
 async function loadReportKPIs() {
   try {
     const monthStart = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString();
-    const [r1, r2, r3, r4] = await Promise.all([
+    const [r1, r2, r3, r4, r5] = await Promise.all([
       sb.from('analytics').select('*', { count: 'exact', head: true }),
       sb.from('leads').select('*', { count: 'exact', head: true }),
       sb.from('leads').select('*', { count: 'exact', head: true }).gte('created_at', monthStart),
       sb.from('projects').select('*', { count: 'exact', head: true }).eq('status', 'published'),
+      sb.from('analytics').select('*', { count: 'exact', head: true }).eq('event', 'click_whatsapp'),
     ]);
     const set = (id, val) => { const el = document.getElementById(id); if (el) countUp(el, val || 0); };
     set('rep-visits', r1.count || 0);
     set('rep-leads', r2.count || 0);
-    set('rep-new-leads', r3.count || 0);
+    set('rep-wa', r5.count || 0);
     set('rep-projects', r4.count || 0);
   } catch(e) {}
 }
