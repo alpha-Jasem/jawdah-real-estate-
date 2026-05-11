@@ -541,27 +541,93 @@ canvas { max-width: 100%; }
 .chart-legend { display: flex; gap: 16px; justify-content: flex-end; margin-top: 8px; }
 .chart-legend-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: rgba(15,42,42,.65); }
 .chart-legend-dot { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+
+/* ── Splash screen ── */
+#splash {
+  position: fixed; inset: 0; z-index: 9999;
+  background: linear-gradient(135deg, #0f2a2a 0%, #1a4040 60%, #0d3030 100%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px;
+  transition: opacity .5s ease;
+}
+#splash.fade-out { opacity: 0; pointer-events: none; }
+#splash img { height: 64px; object-fit: contain; }
+.splash-bar { width: 200px; height: 3px; background: rgba(255,255,255,.12); border-radius: 99px; overflow: hidden; }
+.splash-bar-fill { height: 100%; background: #3ECDC4; border-radius: 99px; width: 0; transition: width 2s ease; }
+#splash p { font-size: 13px; color: rgba(255,255,255,.45); letter-spacing: .08em; }
+
+/* ── Realtime indicator ── */
+.rt-indicator {
+  display: flex; align-items: center; gap: 6px;
+  padding: 4px 10px; border-radius: 20px;
+  background: rgba(47,158,107,.1); border: 1px solid rgba(47,158,107,.25);
+  font-size: 11px; font-weight: 600; color: #2F9E6B; flex-shrink: 0;
+}
+.rt-indicator.offline { background: rgba(200,66,45,.08); border-color: rgba(200,66,45,.25); color: var(--danger-500); }
+.rt-dot { width: 7px; height: 7px; border-radius: 50%; background: #2F9E6B; animation: rtPulse 2s infinite; flex-shrink: 0; }
+.rt-indicator.offline .rt-dot { background: var(--danger-500); animation: none; }
+@keyframes rtPulse { 0%,100%{opacity:1} 50%{opacity:.35} }
+
+/* ── Empty states ── */
+.empty-state {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 64px 24px; gap: 12px; color: var(--fg-muted);
+}
+.empty-state svg { width: 48px; height: 48px; stroke: var(--ink-300); margin-bottom: 4px; }
+.empty-state h3 { font-size: 15px; font-weight: 600; color: var(--fg); }
+.empty-state p { font-size: 13px; text-align: center; max-width: 280px; line-height: 1.6; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Password toggle ── */
+.pw-wrap { position: relative; }
+.pw-wrap .form-input { padding-left: 40px; }
+.pw-toggle { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--fg-muted); padding: 4px; display: flex; }
+.pw-toggle:hover { color: var(--fg); }
+
+/* ── Print / PDF ── */
+@media print {
+  #splash, #login-screen, .sidebar, .topbar, .quick-actions { display: none !important; }
+  .page { display: block !important; opacity: 1 !important; transform: none !important; padding: 20px !important; }
+  .page:not(#page-reports) { display: none !important; }
+  #page-reports { display: block !important; }
+  body { background: #fff !important; }
+  .btn { display: none !important; }
+  .kpi-card { break-inside: avoid; }
+  .panel { break-inside: avoid; }
+}
 </style>
 </head>
 <body>
 
+<!-- ═══════════════ SPLASH ═══════════════ -->
+<div id="splash">
+  <img src="../assets/logo-jawdah-full.png" alt="جودة العقارية" onerror="this.style.display='none'">
+  <div class="splash-bar"><div class="splash-bar-fill" id="splash-fill"></div></div>
+  <p>جودة العقارية · جاري التحميل...</p>
+</div>
+
 <!-- ═══════════════ LOGIN ═══════════════ -->
-<div id="login-screen">
+<div id="login-screen" style="display:none">
   <div class="login-box">
-    <img src="../assets/logo-jawdah-full.png" alt="Jawdah">
+    <img src="../assets/logo-jawdah-full.png" alt="Jawdah" onerror="this.style.display='none'">
     <h2>لوحة التحكم</h2>
     <p>مخصصة للإدارة فقط · Admin access only</p>
-    <div class="login-error" id="login-error">البريد الإلكتروني أو كلمة المرور غير صحيحة</div>
+    <div class="login-error" id="login-error"></div>
     <div class="form-group" style="text-align:right">
       <label class="form-label">البريد الإلكتروني</label>
-      <input class="form-input" type="email" id="login-email" placeholder="admin@jawdah.sa" value="admin@jawdah.sa">
+      <input class="form-input" type="email" id="login-email" placeholder="admin@jawdah.sa">
     </div>
     <div class="form-group" style="text-align:right">
       <label class="form-label">كلمة المرور</label>
-      <input class="form-input" type="password" id="login-password" placeholder="••••••••" value="password">
+      <div class="pw-wrap">
+        <input class="form-input" type="password" id="login-password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+        <button type="button" class="pw-toggle" onclick="togglePw()" title="إظهار/إخفاء">
+          <i data-lucide="eye" width="16" height="16" id="pw-eye"></i>
+        </button>
+      </div>
     </div>
-    <button class="btn btn-primary btn-lg" style="width:100%;justify-content:center;margin-top:8px" onclick="doLogin()">
-      دخول
+    <button class="btn btn-primary btn-lg" style="width:100%;justify-content:center;margin-top:8px" onclick="doLogin()" id="login-btn">
+      <i data-lucide="log-in" width="16" height="16"></i> دخول
     </button>
     <p style="font-size:12px;color:var(--fg-muted);margin-top:16px">جودة العقارية · نظام إدارة داخلي</p>
   </div>
@@ -645,6 +711,10 @@ canvas { max-width: 100%; }
         <input placeholder="بحث سريع... (عميل، عقار، مشروع)" id="global-search">
       </div>
       <div class="topbar-actions">
+        <div class="rt-indicator" id="rt-indicator" title="حالة الاتصال بقاعدة البيانات">
+          <span class="rt-dot"></span>
+          <span id="rt-label">متصل</span>
+        </div>
         <button class="icon-btn" title="الإشعارات" onclick="toggleNotifications()">
           <i data-lucide="bell" width="18" height="18"></i>
           <span class="notif-dot"></span>
@@ -988,9 +1058,14 @@ canvas { max-width: 100%; }
 
     <!-- ══ PAGE: REPORTS ══ -->
     <div class="page" id="page-reports" data-screen-label="08 Reports">
-      <div style="margin-bottom:24px">
-        <div class="eyebrow">التقارير</div>
-        <h1 style="font-family:var(--font-display);font-size:32px;font-weight:500;margin-top:6px">تقارير الأداء</h1>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
+        <div>
+          <div class="eyebrow">التقارير</div>
+          <h1 style="font-family:var(--font-display);font-size:32px;font-weight:500;margin-top:6px">تقارير الأداء</h1>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="exportReportPDF()">
+          <i data-lucide="file-text" width="14" height="14"></i> تصدير PDF
+        </button>
       </div>
       <div class="kpi-grid" style="margin-bottom:24px">
         <div class="kpi-card"><div class="kpi-label">إجمالي الزيارات</div><div class="kpi-value" id="rep-visits">—</div><div class="kpi-delta up"><i data-lucide="activity" width="12" height="12"></i> إجمالي السجلات</div></div>
@@ -1257,11 +1332,14 @@ const sb = window.supabase.createClient(
 // ═══════════════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', async () => {
   lucide.createIcons();
+  startSplashBar();
 
   // Check existing session
   const { data: { session } } = await sb.auth.getSession();
   if (session) {
     showApp(session.user);
+  } else {
+    hideSplash();
   }
 
   // Listen for auth changes
@@ -1274,7 +1352,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 function showApp(user) {
   document.getElementById('login-screen').style.display = 'none';
   document.getElementById('app').style.display = 'flex';
-  // Update admin card in sidebar
   const name = user.email?.split('@')[0] || 'Admin';
   const initials = name.substring(0,2).toUpperCase();
   const nameEl = document.getElementById('admin-name-display');
@@ -1282,13 +1359,14 @@ function showApp(user) {
   if (nameEl) nameEl.textContent = user.email;
   if (avatarEl) avatarEl.textContent = initials;
   lucide.createIcons();
-  // Load real data
+  startSplashBar();
   loadAllData();
 }
 
 function showLogin() {
   document.getElementById('app').style.display = 'none';
   document.getElementById('login-screen').style.display = 'flex';
+  hideSplash();
 }
 
 async function loadAllData() {
@@ -1309,6 +1387,8 @@ async function loadAllData() {
   renderFunnel();
   loadAnalytics();
   initGlobalSearch();
+  finishSplashBar();
+  setTimeout(hideSplash, 400);
   // Realtime subscription — leads INSERT
   sb.channel('leads-realtime')
     .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'leads' }, async payload => {
@@ -1319,23 +1399,74 @@ async function loadAllData() {
       loadNotifications();
       showToast(`عميل جديد: ${payload.new?.name || ''}`, 'info');
     })
-    .subscribe();
+    .subscribe(status => {
+      setRealtimeStatus(status === 'SUBSCRIBED');
+    });
 }
 
 // ═══════════════════════════════════════════════════════
 // AUTH — Supabase حقيقي
+// ═══════════════════════════════════════════════════════
+// SPLASH
+// ═══════════════════════════════════════════════════════
+function hideSplash() {
+  const splash = document.getElementById('splash');
+  if (!splash) return;
+  splash.classList.add('fade-out');
+  setTimeout(() => { splash.style.display = 'none'; }, 520);
+}
+function startSplashBar() {
+  const fill = document.getElementById('splash-fill');
+  if (fill) setTimeout(() => { fill.style.width = '85%'; }, 50);
+}
+function finishSplashBar() {
+  const fill = document.getElementById('splash-fill');
+  if (fill) { fill.style.transition = 'width .3s ease'; fill.style.width = '100%'; }
+}
+
+// ═══════════════════════════════════════════════════════
+// REALTIME INDICATOR
+// ═══════════════════════════════════════════════════════
+function setRealtimeStatus(online) {
+  const el = document.getElementById('rt-indicator');
+  const lbl = document.getElementById('rt-label');
+  if (!el) return;
+  el.classList.toggle('offline', !online);
+  if (lbl) lbl.textContent = online ? 'متصل' : 'غير متصل';
+}
+
+// ═══════════════════════════════════════════════════════
+// PASSWORD TOGGLE
+// ═══════════════════════════════════════════════════════
+function togglePw() {
+  const inp = document.getElementById('login-password');
+  const eye = document.getElementById('pw-eye');
+  if (!inp) return;
+  const show = inp.type === 'password';
+  inp.type = show ? 'text' : 'password';
+  if (eye) { eye.setAttribute('data-lucide', show ? 'eye-off' : 'eye'); lucide.createIcons(); }
+}
+
+// ═══════════════════════════════════════════════════════
+// PDF EXPORT
+// ═══════════════════════════════════════════════════════
+function exportReportPDF() {
+  showToast('جاري تحضير PDF...', 'info');
+  setTimeout(() => { window.print(); }, 300);
+}
+
 // ═══════════════════════════════════════════════════════
 async function doLogin() {
   const email = document.getElementById('login-email').value.trim();
   const pass  = document.getElementById('login-password').value;
   const err   = document.getElementById('login-error');
   const btn   = document.querySelector('#login-screen .btn-primary');
-  if (!email || !pass) { err.classList.add('show'); err.textContent='يرجى إدخال البريد وكلمة المرور'; return; }
-  btn.textContent = 'جاري الدخول...';
+  if (!email || !pass) { err.classList.add('show'); err.textContent = 'يرجى إدخال البريد وكلمة المرور'; return; }
+  btn.innerHTML = '<svg style="animation:spin .7s linear infinite;width:16px;height:16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> جاري الدخول...';
   btn.disabled = true;
   const { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
-  btn.textContent = 'دخول';
-  btn.disabled = false;
+  btn.innerHTML = '<i data-lucide="log-in" width="16" height="16"></i> دخول';
+  btn.disabled = false; lucide.createIcons();
   if (error) {
     err.classList.add('show');
     err.textContent = 'البريد الإلكتروني أو كلمة المرور غير صحيحة';
@@ -1723,7 +1854,7 @@ function initGlobalSearch() {
       .slice(0,3).forEach(p => results.push({ icon:'layers', label: p.title, sub: p.cat, action: ()=>navTo('website') }));
 
     if (!results.length) {
-      dropdown.innerHTML = '<div style="padding:14px;text-align:center;color:var(--fg-muted);font-size:13px">لا توجد نتائج</div>';
+      dropdown.innerHTML = '<div style="padding:16px;text-align:center;color:var(--fg-muted);font-size:13px;display:flex;flex-direction:column;align-items:center;gap:6px"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:.4"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>لا توجد نتائج لـ «' + q + '»</div>';
     } else {
       dropdown.innerHTML = results.map((r,i) => `
         <div data-idx="${i}" style="display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;border-bottom:1px solid var(--border)" onmouseenter="this.style.background='var(--bg-subtle)'" onmouseleave="this.style.background=''" onclick="this.closest('#gs-dropdown').style.display='none'">
@@ -2078,6 +2209,7 @@ function renderKanban() {
         ondragover="kbDragOver(event,'${s.k}')"
         ondrop="kbDrop(event,'${s.k}')"
         ondragleave="this.classList.remove('drag-over')">
+        ${!(kanbanData[s.k]||[]).length ? `<div style="text-align:center;padding:20px 10px;color:var(--fg-subtle);font-size:12px">لا يوجد عملاء</div>` : ''}
         ${(kanbanData[s.k]||[]).map(c => `
           <div class="kanban-card" draggable="true" id="kc-${c.id}"
             ondragstart="kbDragStart(event,'${c.id}','${s.k}')" ondragend="kbDragEnd(event)">
@@ -2126,6 +2258,17 @@ const SOURCE_LABELS = { website:'الموقع', portal:'البوابة', direct:
 function renderLeadsTable() {
   const tbody = document.getElementById('leads-tbody');
   if (!tbody) return;
+  if (!LEADS.length) {
+    tbody.innerHTML = `<tr><td colspan="7"><div class="empty-state">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+      <h3>لا يوجد عملاء بعد</h3>
+      <p>أضف أول عميل أو انتظر وصول العملاء من الشات بوت</p>
+      <button class="btn btn-primary btn-sm" onclick="openAddLead()" style="margin-top:8px"><i data-lucide="user-plus" width="13" height="13"></i> إضافة عميل</button>
+    </div></td></tr>`;
+    lucide.createIcons();
+    const cnt = document.getElementById('leads-count'); if (cnt) cnt.textContent = '0';
+    return;
+  }
   tbody.innerHTML = LEADS.map(l => `
     <tr id="lead-row-${l.id}" onclick="viewLead('${l.id}')" style="cursor:pointer">
       <td>
