@@ -1083,7 +1083,7 @@ canvas { max-width: 100%; }
           <div class="chart-wrap" style="height:240px"><canvas id="monthlyChart"></canvas></div>
         </div>
         <div class="panel">
-          <div class="section-header"><span class="section-title">مصادر العملاء</span><span class="section-link" id="source-year-label"></span></div>
+          <div class="section-header"><span class="section-title">عملاء الشات بوت</span><span class="section-link" id="source-year-label"></span></div>
           <div class="chart-wrap" style="height:240px"><canvas id="sourceChart"></canvas></div>
         </div>
       </div>
@@ -2829,14 +2829,25 @@ function renderCharts() {
       });
     }
   }
-  // Source doughnut
+  // Chatbot leads bar chart (monthly)
   if (!chartsInit.source) {
     const ctx = document.getElementById('sourceChart');
     if (ctx) {
+      const yr = new Date().getFullYear();
+      const months = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+      const gc = ctx.getContext('2d');
+      const bg = gc.createLinearGradient(0,0,0,240);
+      bg.addColorStop(0,'rgba(62,205,196,.7)'); bg.addColorStop(1,'rgba(62,205,196,.15)');
       chartsInit.source = new Chart(ctx, {
-        type: 'doughnut',
-        data: { labels:['الموقع التعريفي','شات بوت','مباشر','إحالة'], datasets:[{data:[0,0,0,0],backgroundColor:['#3ECDC4','#A88A4F','#6366f1','#2A8A94'],borderWidth:0,hoverOffset:6}] },
-        options: { responsive:true, maintainAspectRatio:false, cutout:'70%', animation:{duration:1000}, plugins:{ legend:{display:true,position:'left',rtl:true,labels:{color:'rgba(15,42,42,.6)',font:{size:12},padding:12}}, tooltip:{backgroundColor:'rgba(255,255,255,.95)',titleColor:'#0f2a2a',bodyColor:'rgba(15,42,42,.6)',borderColor:'rgba(62,205,196,.4)',borderWidth:1,padding:10,cornerRadius:8} } }
+        type: 'bar',
+        data: {
+          labels: months.map(m => `${m}`),
+          datasets: [{ label:'عملاء الشات بوت', data:[0,0,0,0,0,0,0,0,0,0,0,0], backgroundColor: bg, borderRadius:8, borderWidth:0 }]
+        },
+        options: { responsive:true, maintainAspectRatio:false, animation:{duration:1000,easing:'easeOutQuart'},
+          plugins:{ legend:{display:false}, tooltip:{backgroundColor:'rgba(255,255,255,.95)',titleColor:'#0f2a2a',bodyColor:'rgba(15,42,42,.6)',borderColor:'rgba(62,205,196,.4)',borderWidth:1,padding:10,cornerRadius:8,callbacks:{label: ctx => ` ${ctx.parsed.y} عميل`}} },
+          scales:{ x:{grid:{display:false},ticks:{color:'rgba(15,42,42,.5)',font:{size:10}}}, y:{grid:{color:'rgba(0,0,0,.06)'},ticks:{color:'rgba(15,42,42,.5)',font:{size:11}},beginAtZero:true,precision:0} }
+        }
       });
     }
   }
@@ -3294,13 +3305,16 @@ function updateMonthlyChart() {
 async function updateSourceChart() {
   if (!chartsInit.source) return;
   try {
-    const sources = ['website', 'chatbot', 'direct', 'referral'];
-    const counts = await Promise.all(sources.map(s =>
-      sb.from('leads').select('*', { count: 'exact', head: true }).eq('source', s)
-    ));
-    const data = counts.map(r => r.count || 0);
-    chartsInit.source.data.labels = ['الموقع التعريفي', 'شات بوت', 'مباشر', 'إحالة'];
-    chartsInit.source.data.datasets[0].data = data;
+    const yr = new Date().getFullYear();
+    const { data: rows } = await sb.from('leads')
+      .select('created_at')
+      .eq('source', 'chatbot')
+      .gte('created_at', `${yr}-01-01`)
+      .lte('created_at', `${yr}-12-31`);
+    const monthly = Array.from({length:12}, (_, m) => {
+      return (rows||[]).filter(r => new Date(r.created_at).getMonth() === m).length;
+    });
+    chartsInit.source.data.datasets[0].data = monthly;
     chartsInit.source.update();
   } catch(e) {}
 }
