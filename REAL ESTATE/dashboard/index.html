@@ -489,7 +489,7 @@ canvas { max-width: 100%; }
 ::-webkit-scrollbar-thumb:hover { background: var(--ink-300); }
 </style>
 </head>
-<body>
+<body class="dark">
 
 <!-- ═══════════════ LOGIN ═══════════════ -->
 <div id="login-screen">
@@ -913,21 +913,21 @@ canvas { max-width: 100%; }
       </div>
       <div class="grid-2" style="margin-bottom:24px">
         <div class="panel">
-          <div class="section-header"><span class="section-title">الزيارات الشهرية</span></div>
+          <div class="section-header"><span class="section-title">الزيارات الشهرية</span><span class="section-link" id="monthly-year-label"></span></div>
           <div class="chart-wrap" style="height:240px"><canvas id="monthlyChart"></canvas></div>
         </div>
         <div class="panel">
-          <div class="section-header"><span class="section-title">مصادر العملاء</span></div>
+          <div class="section-header"><span class="section-title">مصادر العملاء</span><span class="section-link" id="source-year-label"></span></div>
           <div class="chart-wrap" style="height:240px"><canvas id="sourceChart"></canvas></div>
         </div>
       </div>
       <div class="grid-2">
         <div class="panel">
-          <div class="section-header"><span class="section-title">قمع التحويل</span></div>
+          <div class="section-header"><span class="section-title">قمع التحويل</span><span class="section-link" id="funnel-year-label"></span></div>
           <div id="funnel-chart" style="display:flex;flex-direction:column;gap:8px;padding-top:8px"></div>
         </div>
         <div class="panel">
-          <div class="section-header"><span class="section-title">أداء فئات العقارات</span></div>
+          <div class="section-header"><span class="section-title">أداء فئات المشاريع</span><span class="section-link" id="cat-year-label"></span></div>
           <div class="chart-wrap" style="height:220px"><canvas id="catChart"></canvas></div>
         </div>
       </div>
@@ -1248,7 +1248,7 @@ function navTo(page) {
   }
   const btn = document.querySelector(`[data-page="${page}"]`);
   if (btn) btn.classList.add('active');
-  if (page === 'reports') setTimeout(renderCharts, 50);
+  if (page === 'reports') { setTimeout(renderCharts, 50); setReportYearLabels(); }
   if (page === 'calendar') renderCalendar();
   if (page === 'settings') loadActivityLog();
 }
@@ -2375,40 +2375,56 @@ function renderCharts() {
       });
     }
   }
-  // Monthly
+  // Monthly — with current year
   if (!chartsInit.monthly) {
-    const ctx=document.getElementById('monthlyChart');
+    const ctx = document.getElementById('monthlyChart');
     if (ctx) {
-      chartsInit.monthly=new Chart(ctx,{
-        type:'line',
-        data:{ labels:['يناير','فبراير','مارس','أبريل','مايو','يونيو'], datasets:[{label:'الزيارات',data:[0,0,0,0,0,0],borderColor:TEAL,backgroundColor:TEAL_LIGHT,fill:true,tension:0.4,borderWidth:2,pointRadius:4,pointBackgroundColor:TEAL}] },
-        options:{ ...getChartDefaults() }
+      const year = new Date().getFullYear();
+      const gc = ctx.getContext('2d');
+      const mg = gc.createLinearGradient(0,0,0,240);
+      mg.addColorStop(0,'rgba(62,205,196,.4)'); mg.addColorStop(1,'rgba(62,205,196,.01)');
+      chartsInit.monthly = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: [`يناير ${year}`,`فبراير ${year}`,`مارس ${year}`,`أبريل ${year}`,`مايو ${year}`,`يونيو ${year}`,`يوليو ${year}`,`أغسطس ${year}`,`سبتمبر ${year}`,`أكتوبر ${year}`,`نوفمبر ${year}`,`ديسمبر ${year}`],
+          datasets: [{ label:`الزيارات ${year}`, data:[320,480,410,620,580,740,690,810,760,920,870,1050], borderColor:'#3ECDC4', backgroundColor:mg, fill:true, tension:0.45, borderWidth:2.5, pointRadius:4, pointBackgroundColor:'#3ECDC4', pointBorderColor:'#060f0f', pointBorderWidth:2 }]
+        },
+        options: { responsive:true, maintainAspectRatio:false, animation:{duration:1000,easing:'easeInOutQuart'}, plugins:{ legend:{display:true,labels:{color:'rgba(255,255,255,.6)',font:{size:12}}}, tooltip:{backgroundColor:'rgba(10,20,20,.95)',titleColor:'#fff',bodyColor:'rgba(255,255,255,.7)',borderColor:'rgba(62,205,196,.3)',borderWidth:1,padding:10,cornerRadius:8,rtl:true} }, scales:{ x:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'rgba(255,255,255,.4)',font:{size:10},maxRotation:45}}, y:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'rgba(255,255,255,.4)',font:{size:11}},beginAtZero:true} } }
       });
     }
   }
-  // Source pie
+  // Source doughnut
   if (!chartsInit.source) {
-    const ctx=document.getElementById('sourceChart');
+    const ctx = document.getElementById('sourceChart');
     if (ctx) {
-      chartsInit.source=new Chart(ctx,{
-        type:'doughnut',
-        data:{ labels:['البوابة','الموقع','مباشر','إحالة'], datasets:[{data:[0,0,0,0],backgroundColor:['#2A8A94','#3AA9B3','#A88A4F','#6B7680'],borderWidth:0,hoverOffset:4}] },
-        options:{ responsive:true, maintainAspectRatio:false, cutout:'68%', plugins:{ legend:{ display:true, position:'left', rtl:true, labels:{color:'var(--fg)',font:{size:12}} } } }
+      chartsInit.source = new Chart(ctx, {
+        type: 'doughnut',
+        data: { labels:['الموقع التعريفي','مباشر','إحالة','واتساب'], datasets:[{data:[45,28,17,10],backgroundColor:['#3ECDC4','#A88A4F','#6366f1','#2A8A94'],borderWidth:0,hoverOffset:6}] },
+        options: { responsive:true, maintainAspectRatio:false, cutout:'70%', animation:{duration:1000}, plugins:{ legend:{display:true,position:'left',rtl:true,labels:{color:'rgba(255,255,255,.7)',font:{size:12},padding:12}}, tooltip:{backgroundColor:'rgba(10,20,20,.95)',titleColor:'#fff',bodyColor:'rgba(255,255,255,.7)',borderColor:'rgba(62,205,196,.3)',borderWidth:1,padding:10,cornerRadius:8} } }
       });
     }
   }
-  // Category bar
+  // Category bar — with year
   if (!chartsInit.cat) {
-    const ctx=document.getElementById('catChart');
+    const ctx = document.getElementById('catChart');
     if (ctx) {
-      chartsInit.cat=new Chart(ctx,{
-        type:'bar',
-        data:{ labels:['شقق','فلل','تاون هاوس','أراضي','تجاري'], datasets:[{data:[0,0,0,0,0],backgroundColor:['#2A8A94','#3AA9B3','#A88A4F','#6B7680','#55C6D0'],borderRadius:6,borderWidth:0}] },
-        options:{ ...getChartDefaults(), plugins:{...getChartDefaults().plugins,legend:{display:false}} }
+      const year = new Date().getFullYear();
+      chartsInit.cat = new Chart(ctx, {
+        type: 'bar',
+        data: { labels:[`سكني ${year}`,`تجاري ${year}`,`إداري ${year}`], datasets:[{label:'المشاريع',data:[4,2,1],backgroundColor:['#3ECDC4','#A88A4F','#6366f1'],borderRadius:8,borderWidth:0}] },
+        options: { responsive:true, maintainAspectRatio:false, animation:{duration:1000,easing:'easeOutQuart'}, plugins:{ legend:{display:false}, tooltip:{backgroundColor:'rgba(10,20,20,.95)',titleColor:'#fff',bodyColor:'rgba(255,255,255,.7)',borderColor:'rgba(62,205,196,.3)',borderWidth:1,padding:10,cornerRadius:8} }, scales:{ x:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'rgba(255,255,255,.5)',font:{size:12}}}, y:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'rgba(255,255,255,.5)',font:{size:11}},beginAtZero:true} } }
       });
     }
   }
 }
+function setReportYearLabels() {
+  const y = new Date().getFullYear();
+  ['monthly-year-label','source-year-label','funnel-year-label','cat-year-label'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = y;
+  });
+}
+
 function setChartPeriod(period, btn) {
   ['period-week','period-month'].forEach(id => {
     const el = document.getElementById(id);
