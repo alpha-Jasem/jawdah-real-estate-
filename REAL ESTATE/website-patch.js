@@ -18,11 +18,30 @@
   }
 
   // ─── 1. Track page visit ───────────────────────────────
+  function trackBeacon(event, extra = {}) {
+    const body = JSON.stringify([{
+      page: 'website', event,
+      referrer: document.referrer || null,
+      user_agent: navigator.userAgent,
+      ...extra,
+    }]);
+    // keepalive ensures request completes even if page navigates away
+    fetch(`${SB_URL}/rest/v1/analytics`, {
+      method: 'POST', keepalive: true,
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SB_KEY,
+        'Authorization': `Bearer ${SB_KEY}`,
+        'Prefer': 'return=minimal',
+      },
+      body,
+    }).catch(() => {});
+  }
+
   async function trackVisit(event = 'view', extra = {}) {
     try {
       await db.from('analytics').insert([{
-        page: 'website',
-        event,
+        page: 'website', event,
         referrer: document.referrer || null,
         user_agent: navigator.userAgent,
         ...extra,
@@ -34,7 +53,7 @@
 
   document.addEventListener('click', function (e) {
     const wa = e.target.closest('.wa-float');
-    if (wa) { trackVisit('click_whatsapp'); return; }
+    if (wa) { trackBeacon('click_whatsapp'); return; }
     const btn = e.target.closest('[data-track], .btn-ph, .btn-p, .btn-gd, .nav-cta');
     if (!btn) return;
     const label = btn.dataset?.track || btn.textContent?.trim()?.slice(0, 60) || 'button';
