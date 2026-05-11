@@ -1501,8 +1501,10 @@ function navTo(page) {
     setTimeout(renderCharts, 50);
     setReportYearLabels();
     loadReportKPIs();
+    renderFunnel();
     setTimeout(updateSourceChart, 200);
     setTimeout(updateCatChart, 200);
+    setTimeout(updateMonthlyChart, 200);
   }
   if (page === 'calendar') renderCalendar();
   if (page === 'settings') loadActivityLog();
@@ -1725,12 +1727,13 @@ async function loadAnalytics() {
   const monthCount = ANALYTICS_ROWS.filter(r => new Date(r.created_at) >= start).length;
   if (monthCount !== null) updateKPI('kpi-visits', monthCount.toLocaleString('ar-SA'));
 
-  // Refresh chart if already rendered
+  // Refresh charts if already rendered
   if (chartsInit.visits) {
     const activePeriod = document.querySelector('[id^="period-"][style*="1a8a84"]')?.id?.replace('period-','') || 'week';
     chartsInit.visits.data.datasets[0].data = buildVisitsData(activePeriod);
     chartsInit.visits.update('active');
   }
+  updateMonthlyChart();
 }
 
 // IDs of leads manually added to pipeline (persisted in localStorage)
@@ -2820,7 +2823,7 @@ function renderCharts() {
         type: 'line',
         data: {
           labels: [`يناير ${year}`,`فبراير ${year}`,`مارس ${year}`,`أبريل ${year}`,`مايو ${year}`,`يونيو ${year}`,`يوليو ${year}`,`أغسطس ${year}`,`سبتمبر ${year}`,`أكتوبر ${year}`,`نوفمبر ${year}`,`ديسمبر ${year}`],
-          datasets: [{ label:`الزيارات ${year}`, data:[320,480,410,620,580,740,690,810,760,920,870,1050], borderColor:'#3ECDC4', backgroundColor:mg, fill:true, tension:0.45, borderWidth:2.5, pointRadius:4, pointBackgroundColor:'#3ECDC4', pointBorderColor:'#060f0f', pointBorderWidth:2 }]
+          datasets: [{ label:`الزيارات ${year}`, data:[0,0,0,0,0,0,0,0,0,0,0,0], borderColor:'#3ECDC4', backgroundColor:mg, fill:true, tension:0.45, borderWidth:2.5, pointRadius:4, pointBackgroundColor:'#3ECDC4', pointBorderColor:'#060f0f', pointBorderWidth:2 }]
         },
         options: { responsive:true, maintainAspectRatio:false, animation:{duration:1000,easing:'easeInOutQuart'}, plugins:{ legend:{display:true,labels:{color:'rgba(15,42,42,.6)',font:{size:12}}}, tooltip:{backgroundColor:'rgba(255,255,255,.95)',titleColor:'#0f2a2a',bodyColor:'rgba(15,42,42,.6)',borderColor:'rgba(62,205,196,.4)',borderWidth:1,padding:10,cornerRadius:8,rtl:true} }, scales:{ x:{grid:{color:'rgba(0,0,0,.06)'},ticks:{color:'rgba(15,42,42,.5)',font:{size:10},maxRotation:45}}, y:{grid:{color:'rgba(0,0,0,.06)'},ticks:{color:'rgba(15,42,42,.5)',font:{size:11}},beginAtZero:true} } }
       });
@@ -2832,7 +2835,7 @@ function renderCharts() {
     if (ctx) {
       chartsInit.source = new Chart(ctx, {
         type: 'doughnut',
-        data: { labels:['الموقع التعريفي','مباشر','إحالة','واتساب'], datasets:[{data:[45,28,17,10],backgroundColor:['#3ECDC4','#A88A4F','#6366f1','#2A8A94'],borderWidth:0,hoverOffset:6}] },
+        data: { labels:['الموقع التعريفي','شات بوت','مباشر','إحالة'], datasets:[{data:[0,0,0,0],backgroundColor:['#3ECDC4','#A88A4F','#6366f1','#2A8A94'],borderWidth:0,hoverOffset:6}] },
         options: { responsive:true, maintainAspectRatio:false, cutout:'70%', animation:{duration:1000}, plugins:{ legend:{display:true,position:'left',rtl:true,labels:{color:'rgba(15,42,42,.6)',font:{size:12},padding:12}}, tooltip:{backgroundColor:'rgba(255,255,255,.95)',titleColor:'#0f2a2a',bodyColor:'rgba(15,42,42,.6)',borderColor:'rgba(62,205,196,.4)',borderWidth:1,padding:10,cornerRadius:8} } }
       });
     }
@@ -2844,7 +2847,7 @@ function renderCharts() {
       const year = new Date().getFullYear();
       chartsInit.cat = new Chart(ctx, {
         type: 'bar',
-        data: { labels:[`سكني ${year}`,`تجاري ${year}`,`إداري ${year}`], datasets:[{label:'المشاريع',data:[4,2,1],backgroundColor:['#3ECDC4','#A88A4F','#6366f1'],borderRadius:8,borderWidth:0}] },
+        data: { labels:[`سكني ${year}`,`تجاري ${year}`,`إداري ${year}`], datasets:[{label:'المشاريع',data:[0,0,0],backgroundColor:['#3ECDC4','#A88A4F','#6366f1'],borderRadius:8,borderWidth:0}] },
         options: { responsive:true, maintainAspectRatio:false, animation:{duration:1000,easing:'easeOutQuart'}, plugins:{ legend:{display:false}, tooltip:{backgroundColor:'rgba(255,255,255,.95)',titleColor:'#0f2a2a',bodyColor:'rgba(15,42,42,.6)',borderColor:'rgba(62,205,196,.4)',borderWidth:1,padding:10,cornerRadius:8} }, scales:{ x:{grid:{color:'rgba(0,0,0,.06)'},ticks:{color:'rgba(15,42,42,.5)',font:{size:12}}}, y:{grid:{color:'rgba(0,0,0,.06)'},ticks:{color:'rgba(15,42,42,.5)',font:{size:11}},beginAtZero:true} } }
       });
     }
@@ -3274,6 +3277,18 @@ async function loadReportKPIs() {
     set('rep-new-leads', r3.count || 0);
     set('rep-projects', r4.count || 0);
   } catch(e) {}
+}
+
+function updateMonthlyChart() {
+  if (!chartsInit.monthly) return;
+  const yr = new Date().getFullYear();
+  const data = Array.from({length: 12}, (_, m) => {
+    const start = new Date(yr, m, 1);
+    const end   = new Date(yr, m + 1, 1);
+    return ANALYTICS_ROWS.filter(r => { const d = new Date(r.created_at); return d >= start && d < end; }).length;
+  });
+  chartsInit.monthly.data.datasets[0].data = data;
+  chartsInit.monthly.update();
 }
 
 async function updateSourceChart() {
