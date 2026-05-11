@@ -983,8 +983,6 @@ canvas { max-width: 100%; }
             <i data-lucide="search" width="14" height="14" style="color:var(--fg-muted)"></i>
             <input placeholder="بحث عن عميل...">
           </div>
-          <button class="btn btn-secondary btn-sm">المرحلة</button>
-          <button class="btn btn-secondary btn-sm">المصدر</button>
           <div style="margin-right:auto;font-size:13px;color:var(--fg-muted)"><span id="leads-count">0</span> عميل</div>
         </div>
         <div class="table-wrap">
@@ -1683,7 +1681,7 @@ async function loadLeads() {
   LEADS = (data || []).map(l => ({
     id: l.id, name: l.name || '—', phone: l.phone || '',
     email: l.email || '',
-    property: l.properties?.title_ar || l.properties?.title || l.property_id || '—',
+    property: l.properties?.title_ar || l.properties?.title || (l.notes && !l.notes.startsWith('مستورد') ? l.notes : '') || '—',
     budget: l.budget || '—', stage: l.stage || 'new',
     source: l.source || 'direct',
     date: timeAgo(l.created_at),
@@ -2297,9 +2295,15 @@ function kbDrop(e,stage) {
 const STAGE_LABELS = { new:'جديد', qualified:'مؤهل', viewing:'معاينة', offer:'عرض', closed:'مغلق' };
 const STAGE_BADGES = { new:'badge-teal', qualified:'badge-teal', viewing:'badge-sand', offer:'badge-amber', closed:'badge-green' };
 const SOURCE_LABELS = { website:'الموقع', portal:'البوابة', direct:'مباشر', referral:'إحالة' };
+const LEADS_PAGE_SIZE = 9;
+let leadsPage = 1;
+
 function renderLeadsTable() {
   const tbody = document.getElementById('leads-tbody');
   if (!tbody) return;
+  const cnt = document.getElementById('leads-count');
+  if (cnt) cnt.textContent = LEADS.length;
+
   if (!LEADS.length) {
     tbody.innerHTML = `<tr><td colspan="7"><div class="empty-state">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
@@ -2307,11 +2311,13 @@ function renderLeadsTable() {
       <p>أضف أول عميل أو انتظر وصول العملاء من الشات بوت</p>
       <button class="btn btn-primary btn-sm" onclick="openAddLead()" style="margin-top:8px"><i data-lucide="user-plus" width="13" height="13"></i> إضافة عميل</button>
     </div></td></tr>`;
-    lucide.createIcons();
-    const cnt = document.getElementById('leads-count'); if (cnt) cnt.textContent = '0';
-    return;
+    lucide.createIcons(); return;
   }
-  tbody.innerHTML = LEADS.map(l => `
+
+  const visible = LEADS.slice(0, leadsPage * LEADS_PAGE_SIZE);
+  const hasMore = LEADS.length > visible.length;
+
+  tbody.innerHTML = visible.map(l => `
     <tr id="lead-row-${l.id}" onclick="viewLead('${l.id}')" style="cursor:pointer">
       <td>
         <div style="display:flex;align-items:center;gap:10px">
@@ -2333,10 +2339,37 @@ function renderLeadsTable() {
           <button class="btn btn-ghost btn-sm" title="حذف" style="color:var(--danger-500)" onclick="deleteLead('${l.id}')"><i data-lucide="trash-2" width="13" height="13"></i></button>
         </div>
       </td>
-    </tr>
-  `).join('');
-  const cnt = document.getElementById('leads-count');
-  if (cnt) cnt.textContent = LEADS.length;
+    </tr>`).join('');
+
+  // inline add row
+  tbody.innerHTML += `
+    <tr id="lead-row-new" style="background:var(--brand-teal-50)">
+      <td onclick="event.stopPropagation()">
+        <input id="ni-name" class="form-input" style="width:52%;margin-left:3%" placeholder="الاسم *">
+        <input id="ni-phone" class="form-input" style="width:43%" placeholder="الجوال">
+      </td>
+      <td onclick="event.stopPropagation()"><input id="ni-property" class="form-input" style="font-size:12px;width:100%" placeholder="العقار"></td>
+      <td onclick="event.stopPropagation()"><input id="ni-budget" class="form-input" style="font-size:12px;width:100%" placeholder="الميزانية"></td>
+      <td onclick="event.stopPropagation()"><select id="ni-stage" class="form-input" style="font-size:12px">
+        ${Object.entries(STAGE_LABELS).map(([v,t])=>`<option value="${v}">${t}</option>`).join('')}
+      </select></td>
+      <td onclick="event.stopPropagation()"><select id="ni-source" class="form-input" style="font-size:12px">
+        ${Object.entries(SOURCE_LABELS).map(([v,t])=>`<option value="${v}">${t}</option>`).join('')}
+        <option value="chatbot">شات بوت</option>
+      </select></td>
+      <td style="font-size:11px;color:var(--fg-muted)">الآن</td>
+      <td onclick="event.stopPropagation()">
+        <button class="btn btn-primary btn-sm" onclick="saveNewLeadInline()"><i data-lucide="check" width="13" height="13"></i></button>
+      </td>
+    </tr>`;
+
+  if (hasMore) {
+    tbody.innerHTML += `<tr><td colspan="7" style="text-align:center;padding:10px">
+      <button class="btn btn-ghost btn-sm" style="color:var(--brand-teal-700)" onclick="leadsPage++;renderLeadsTable()">
+        عرض المزيد (${LEADS.length - visible.length} متبقي)
+      </button></td></tr>`;
+  }
+
   lucide.createIcons();
 }
 function viewLead(id) {
@@ -3030,32 +3063,48 @@ function startEditLead(id) {
   row.onclick = null;
   row.style.cursor = 'default';
   row.innerHTML = `
-    <td colspan="2" onclick="event.stopPropagation()">
-      <input value="${l.name}" id="ei-name" class="form-input" style="width:48%;margin-left:4%" placeholder="الاسم">
-      <input value="${l.phone}" id="ei-phone" class="form-input" style="width:48%" placeholder="الجوال">
+    <td onclick="event.stopPropagation()">
+      <input value="${l.name}" id="ei-name" class="form-input" style="width:52%;margin-left:3%" placeholder="الاسم *">
+      <input value="${l.phone}" id="ei-phone" class="form-input" style="width:43%" placeholder="الجوال">
     </td>
-    <td onclick="event.stopPropagation()"><input value="${l.budget!=='—'?l.budget:''}" id="ei-budget" class="form-input" style="font-size:12px" placeholder="الميزانية"></td>
+    <td onclick="event.stopPropagation()"><input value="${l.property!=='—'?l.property:''}" id="ei-property" class="form-input" style="font-size:12px;width:100%" placeholder="العقار"></td>
+    <td onclick="event.stopPropagation()"><input value="${l.budget!=='—'?l.budget:''}" id="ei-budget" class="form-input" style="font-size:12px;width:100%" placeholder="الميزانية"></td>
     <td onclick="event.stopPropagation()"><select id="ei-stage" class="form-input" style="font-size:12px">${stageOpts}</select></td>
     <td onclick="event.stopPropagation()"><select id="ei-source" class="form-input" style="font-size:12px">${sourceOpts}</select></td>
-    <td></td>
+    <td style="font-size:11px;color:var(--fg-muted)">${l.date}</td>
     <td onclick="event.stopPropagation()">
       <div style="display:flex;gap:4px">
-        <button class="btn btn-primary btn-sm" onclick="saveLeadInline('${id}')">✓</button>
-        <button class="btn btn-ghost btn-sm" onclick="renderLeadsTable()">✕</button>
+        <button class="btn btn-primary btn-sm" onclick="saveLeadInline('${id}')"><i data-lucide="check" width="13" height="13"></i></button>
+        <button class="btn btn-ghost btn-sm" onclick="renderLeadsTable()"><i data-lucide="x" width="13" height="13"></i></button>
       </div>
     </td>`;
 }
 
 async function saveLeadInline(id) {
-  const name   = document.getElementById('ei-name')?.value.trim();
-  const phone  = document.getElementById('ei-phone')?.value.trim();
-  const budget = document.getElementById('ei-budget')?.value.trim();
-  const stage  = document.getElementById('ei-stage')?.value;
-  const source = document.getElementById('ei-source')?.value;
+  const name     = document.getElementById('ei-name')?.value.trim();
+  const phone    = document.getElementById('ei-phone')?.value.trim();
+  const property = document.getElementById('ei-property')?.value.trim();
+  const budget   = document.getElementById('ei-budget')?.value.trim();
+  const stage    = document.getElementById('ei-stage')?.value;
+  const source   = document.getElementById('ei-source')?.value;
   if (!name) { showToast('أدخل اسم العميل', 'error'); return; }
-  const { error } = await sb.from('leads').update({ name, phone, budget, stage, source }).eq('id', id);
+  const { error } = await sb.from('leads').update({ name, phone, budget, stage, source, notes: property || null }).eq('id', id);
   if (error) { showToast('خطأ في التعديل', 'error'); return; }
   showToast('تم التعديل ✓', 'success');
+  await loadLeads();
+}
+
+async function saveNewLeadInline() {
+  const name     = document.getElementById('ni-name')?.value.trim();
+  const phone    = document.getElementById('ni-phone')?.value.trim();
+  const property = document.getElementById('ni-property')?.value.trim();
+  const budget   = document.getElementById('ni-budget')?.value.trim();
+  const stage    = document.getElementById('ni-stage')?.value;
+  const source   = document.getElementById('ni-source')?.value;
+  if (!name) { showToast('أدخل اسم العميل', 'error'); document.getElementById('ni-name')?.focus(); return; }
+  const { error } = await sb.from('leads').insert([{ name, phone, budget, stage, source, notes: property || null }]);
+  if (error) { showToast('خطأ: ' + error.message, 'error'); return; }
+  showToast(`تمت إضافة ${name} ✓`, 'success');
   await loadLeads();
 }
 
