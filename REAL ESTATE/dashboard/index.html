@@ -505,7 +505,7 @@ canvas { max-width: 100%; }
         </button>
         <button class="nav-item" onclick="navTo('properties')" data-page="properties">
           <i data-lucide="home" width="18" height="18"></i>
-          <span class="nav-label-text">بوابة العقارات</span>
+          <span class="nav-label-text">بوابة العقارات <span style="font-size:10px;opacity:.6;font-weight:400">(قريباً)</span></span>
         </button>
       </div>
 
@@ -726,7 +726,12 @@ canvas { max-width: 100%; }
     </div>
 
     <!-- ══ PAGE: PROPERTIES ══ -->
-    <div class="page" id="page-properties" data-screen-label="03 Properties">
+    <div class="page" id="page-properties" data-screen-label="03 Properties" style="position:relative">
+      <div style="position:absolute;inset:0;z-index:50;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);background:rgba(15,42,42,.45);border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;pointer-events:all">
+        <div style="font-size:56px">🏗️</div>
+        <div style="font-family:'Tajawal',sans-serif;font-size:36px;font-weight:800;color:#fff;letter-spacing:.04em">قريباً</div>
+        <div style="font-size:14px;color:rgba(255,255,255,.6)">بوابة العقارات قيد التطوير</div>
+      </div>
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
         <div>
           <div class="eyebrow">بوابة العقارات</div>
