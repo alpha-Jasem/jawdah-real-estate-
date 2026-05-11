@@ -2007,11 +2007,11 @@ function showPublishBar() {
 
 async function publishChanges() {
   if (_pendingOrder) {
-    const { error } = await sb.from('projects').upsert(
-      _pendingOrder.map(u => ({ id: u.id, order_index: u.order_index })),
-      { onConflict: 'id' }
+    const results = await Promise.all(
+      _pendingOrder.map(u => sb.from('projects').update({ order_index: u.order_index }).eq('id', u.id))
     );
-    if (error) { showToast('خطأ في النشر: ' + error.message, 'error'); return; }
+    const failed = results.find(r => r.error);
+    if (failed) { showToast('خطأ في النشر: ' + failed.error.message, 'error'); return; }
     _pendingOrder = null;
   }
   document.getElementById('publish-bar').classList.remove('visible');
