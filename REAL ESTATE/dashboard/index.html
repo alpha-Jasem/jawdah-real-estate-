@@ -162,7 +162,7 @@ img { display: block; max-width: 100%; }
 .page.active { display: block; }
 
 /* ── Cards / KPIs ── */
-.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+.kpi-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 24px; }
 .kpi-card {
   background: var(--bg-elevated); border: 1px solid var(--border);
   border-radius: 12px; padding: 20px;
@@ -598,50 +598,34 @@ canvas { max-width: 100%; }
 
       <!-- KPI Cards -->
       <div class="kpi-grid">
-        <div class="kpi-card">
-          <div class="kpi-label">زيارات الموقع التعريفي</div>
-          <div class="kpi-value" id="kpi-analytics">—</div>
-          <div class="kpi-delta up"><i data-lucide="trending-up" width="12" height="12"></i> +18% هذا الشهر</div>
+        <div class="kpi-card" style="background:linear-gradient(135deg,#0f2a2a 0%,#1a4040 100%);border-color:rgba(62,205,196,.2)">
+          <div class="kpi-label" style="color:rgba(255,255,255,.6)">زيارات الموقع التعريفي</div>
+          <div class="kpi-value" id="kpi-analytics" style="color:#fff;font-size:40px">—</div>
+          <div class="kpi-delta up" style="color:#3ECDC4"><i data-lucide="trending-up" width="12" height="12"></i> هذا الشهر</div>
           <div class="kpi-spark"><canvas id="spark1"></canvas></div>
         </div>
-        <div class="kpi-card" style="display:none">
-          <div class="kpi-label">عقارات نشطة</div>
-          <div class="kpi-value" id="kpi-properties">—</div>
-          <div class="kpi-delta up"><i data-lucide="trending-up" width="12" height="12"></i> +3 هذا الأسبوع</div>
-          <div class="kpi-spark"><canvas id="spark2"></canvas></div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-label">عملاء محتملون</div>
-          <div class="kpi-value" id="kpi-leads">—</div>
-          <div class="kpi-delta up"><i data-lucide="trending-up" width="12" height="12"></i> +12 جديد</div>
+        <div class="kpi-card" style="background:linear-gradient(135deg,#1a3a1a 0%,#0f2a2a 100%);border-color:rgba(62,205,196,.2)">
+          <div class="kpi-label" style="color:rgba(255,255,255,.6)">عملاء محتملون</div>
+          <div class="kpi-value" id="kpi-leads" style="color:#fff;font-size:40px">—</div>
+          <div class="kpi-delta up" style="color:#3ECDC4"><i data-lucide="users" width="12" height="12"></i> إجمالي العملاء</div>
           <div class="kpi-spark"><canvas id="spark3"></canvas></div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-label">صفقات مغلقة (MTD)</div>
-          <div class="kpi-value">3</div>
-          <div class="kpi-delta up" style="font-size:11px">8.4M SAR إجمالي</div>
-          <div class="kpi-spark"><canvas id="spark4"></canvas></div>
         </div>
       </div>
 
-      <div class="grid-2" style="margin-bottom:24px">
-        <!-- Main chart -->
-        <div class="panel">
-          <div class="section-header">
-            <span class="section-title">الزيارات الأسبوعية</span>
-            <div style="display:flex;gap:6px">
-              <button class="btn btn-ghost btn-sm" onclick="setChartPeriod('week',this)" style="color:var(--brand-teal-700)">أسبوع</button>
-              <button class="btn btn-ghost btn-sm" onclick="setChartPeriod('month',this)">شهر</button>
-            </div>
+      <!-- Main chart — full width -->
+      <div class="panel" style="margin-bottom:24px;background:linear-gradient(135deg,#0a1f1f 0%,#0f2a2a 60%,#0d2525 100%);border-color:rgba(62,205,196,.15);position:relative;overflow:hidden">
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 80% 0%,rgba(62,205,196,.08),transparent 60%);pointer-events:none"></div>
+        <div class="section-header" style="position:relative;z-index:1">
+          <div>
+            <span class="section-title" style="color:#fff;font-size:16px">نشاط الموقع التعريفي</span>
+            <div style="font-size:12px;color:rgba(255,255,255,.4);margin-top:2px">الزيارات والتفاعل خلال الفترة المحددة</div>
           </div>
-          <div class="chart-wrap" style="height:220px"><canvas id="visitsChart"></canvas></div>
+          <div style="display:flex;gap:6px">
+            <button class="btn btn-sm" id="period-week" onclick="setChartPeriod('week',this)" style="background:rgba(62,205,196,.2);color:#3ECDC4;border:1px solid rgba(62,205,196,.3)">أسبوع</button>
+            <button class="btn btn-sm" id="period-month" onclick="setChartPeriod('month',this)" style="background:rgba(255,255,255,.06);color:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.1)">شهر</button>
+          </div>
         </div>
-
-        <!-- Quick stats -->
-        <div class="panel" style="display:none">
-          <div class="section-header"><span class="section-title">أكثر العقارات مشاهدة</span><a class="section-link" onclick="navTo('properties')">عرض الكل</a></div>
-          <div id="top-props"><div style="padding:16px;text-align:center;color:var(--fg-muted);font-size:13px">جارٍ التحميل...</div></div>
-        </div>
+        <div style="position:relative;z-index:1;height:280px;margin-top:8px"><canvas id="visitsChart"></canvas></div>
       </div>
 
       <div class="grid-2">
@@ -2274,14 +2258,65 @@ function renderSparklines() {
   });
 }
 function renderCharts() {
-  // Visits
+  // Visits — animated gradient multi-dataset
   if (!chartsInit.visits) {
-    const ctx=document.getElementById('visitsChart');
+    const ctx = document.getElementById('visitsChart');
     if (ctx) {
-      chartsInit.visits=new Chart(ctx,{
-        type:'bar',
-        data:{ labels:['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'], datasets:[{data:[0,0,0,0,0,0,0],backgroundColor:TEAL_LIGHT,borderColor:TEAL,borderWidth:2,borderRadius:6}] },
-        options:{ ...getChartDefaults() }
+      const c = ctx.getContext('2d');
+      const g1 = c.createLinearGradient(0, 0, 0, 280);
+      g1.addColorStop(0, 'rgba(62,205,196,.55)');
+      g1.addColorStop(1, 'rgba(62,205,196,.01)');
+      const g2 = c.createLinearGradient(0, 0, 0, 280);
+      g2.addColorStop(0, 'rgba(168,138,79,.45)');
+      g2.addColorStop(1, 'rgba(168,138,79,.01)');
+      chartsInit.visits = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'],
+          datasets: [
+            {
+              label: 'الزيارات',
+              data: [12,29,18,41,35,52,47],
+              borderColor: '#3ECDC4',
+              backgroundColor: g1,
+              fill: true, tension: 0.45, borderWidth: 2.5,
+              pointRadius: 5, pointBackgroundColor: '#3ECDC4',
+              pointBorderColor: '#0f2a2a', pointBorderWidth: 2,
+              pointHoverRadius: 8, pointHoverBackgroundColor: '#fff',
+            },
+            {
+              label: 'التفاعل',
+              data: [5,14,9,22,17,31,26],
+              borderColor: '#A88A4F',
+              backgroundColor: g2,
+              fill: true, tension: 0.45, borderWidth: 2.5,
+              pointRadius: 5, pointBackgroundColor: '#A88A4F',
+              pointBorderColor: '#0f2a2a', pointBorderWidth: 2,
+              pointHoverRadius: 8, pointHoverBackgroundColor: '#fff',
+              borderDash: [6, 3],
+            }
+          ]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          animation: { duration: 1200, easing: 'easeInOutQuart' },
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: {
+              display: true, position: 'top', align: 'end',
+              labels: { color: 'rgba(255,255,255,.6)', font: { size: 12 }, boxWidth: 12, boxHeight: 12, useBorderRadius: true, borderRadius: 3 }
+            },
+            tooltip: {
+              backgroundColor: 'rgba(10,20,20,.95)', borderColor: 'rgba(62,205,196,.3)', borderWidth: 1,
+              titleColor: '#fff', bodyColor: 'rgba(255,255,255,.7)',
+              padding: 12, cornerRadius: 10, rtl: true,
+            }
+          },
+          scales: {
+            x: { grid: { color: 'rgba(255,255,255,.04)' }, ticks: { color: 'rgba(255,255,255,.45)', font: { size: 12 } } },
+            y: { grid: { color: 'rgba(255,255,255,.04)' }, ticks: { color: 'rgba(255,255,255,.45)', font: { size: 12 } }, beginAtZero: true }
+          }
+        }
       });
     }
   }
@@ -2320,13 +2355,19 @@ function renderCharts() {
   }
 }
 function setChartPeriod(period, btn) {
-  document.querySelectorAll('#page-overview .btn-ghost').forEach(b=>b.style.color='');
-  btn.style.color='var(--brand-teal-700)';
+  ['period-week','period-month'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.style.background='rgba(255,255,255,.06)'; el.style.color='rgba(255,255,255,.5)'; el.style.borderColor='rgba(255,255,255,.1)'; }
+  });
+  btn.style.background='rgba(62,205,196,.2)'; btn.style.color='#3ECDC4'; btn.style.borderColor='rgba(62,205,196,.3)';
   if (chartsInit.visits) {
-    const isWeek=period==='week';
-    chartsInit.visits.data.labels=isWeek?['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت']:['الأسبوع 1','الأسبوع 2','الأسبوع 3','الأسبوع 4'];
-    chartsInit.visits.data.datasets[0].data=isWeek?[0,0,0,0,0,0,0]:[0,0,0,0];
-    chartsInit.visits.update();
+    const isWeek = period === 'week';
+    chartsInit.visits.data.labels = isWeek
+      ? ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت']
+      : ['الأسبوع 1','الأسبوع 2','الأسبوع 3','الأسبوع 4'];
+    chartsInit.visits.data.datasets[0].data = isWeek ? [12,29,18,41,35,52,47] : [89,134,112,167];
+    chartsInit.visits.data.datasets[1].data = isWeek ? [5,14,9,22,17,31,26]   : [41,68,55,89];
+    chartsInit.visits.update('active');
   }
 }
 function renderFunnel() {
