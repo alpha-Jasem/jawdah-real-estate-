@@ -694,8 +694,8 @@ canvas { max-width: 100%; }
   .topbar { height: 56px; padding: 0 12px; gap: 8px; }
   .topbar-title { font-size: 15px; }
   .admin-card-name, .admin-card-role { display: none; }
-  .rt-indicator span:not(.rt-dot) { display: none; }
-  #rt-label { display: none; }
+  .rt-indicator { padding: 4px 10px; }
+  #rt-label { display: inline; }
 
   /* Pages */
   .page { padding: 12px; }
@@ -741,6 +741,21 @@ canvas { max-width: 100%; }
 
   /* Login screen */
   .login-box { padding: 28px 20px; margin: 16px; }
+
+  /* Reports: hide PDF export on mobile */
+  button[onclick="exportReportPDF()"] { display: none !important; }
+
+  /* Visits chart: reduce height on mobile */
+  #visitsChart { max-height: 180px; }
+  #visitsChart + * { display: none; } /* hide legend if cramped */
+
+  /* Messages layout: single column */
+  .msg-layout { grid-template-columns: 1fr !important; height: auto !important; }
+  .msg-chat { display: none; }
+  .msg-list { height: calc(100vh - 200px); min-height: 300px; }
+
+  /* Overview Q2 title: smaller on mobile */
+  #page-overview h1 { font-size: 22px !important; }
 }
 
 /* Landscape mobile */
@@ -900,7 +915,7 @@ canvas { max-width: 100%; }
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
         <div>
           <div class="eyebrow">لوحة التحكم</div>
-          <h1 style="font-family:var(--font-display);font-size:32px;font-weight:500;margin-top:6px">نظرة عامة · Q2 2026</h1>
+          <h1 style="font-family:var(--font-display);font-size:32px;font-weight:500;margin-top:6px">الرئيسية</h1>
         </div>
         <div style="display:flex;gap:10px">
 <button class="btn btn-primary btn-sm" onclick="openAddProject()"><i data-lucide="plus" width="14" height="14"></i> مشروع جديد</button>
