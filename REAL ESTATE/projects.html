@@ -14,16 +14,19 @@
     :root{--gold:#3ECDC4;--gold-d:#2AABA3;--dark:#0f2a2a}
 
     /* ── NAV ── */
-    .pnav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.96);backdrop-filter:blur(14px);border-bottom:1px solid rgba(62,205,196,.14);padding:16px 80px;display:flex;align-items:center;justify-content:space-between}
+    .pnav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.96);backdrop-filter:blur(14px);border-bottom:1px solid rgba(62,205,196,.14);padding:12px 40px;display:flex;align-items:center;justify-content:space-between}
     .pnav-logo img{height:48px;object-fit:contain}
     .pnav-back{display:inline-flex;align-items:center;gap:8px;color:var(--gold-d);text-decoration:none;font-size:.88rem;font-weight:600;transition:gap .25s}
     .pnav-back:hover{gap:12px}
     .pnav-back svg{flex-shrink:0}
 
     /* ── HERO ── */
-    .pg-hero{background:linear-gradient(135deg,#0f2a2a 0%,#1a4040 60%,#0d3030 100%);padding:72px 80px 60px;position:relative;overflow:hidden}
-    .pg-hero::before{content:'';position:absolute;inset:-20% -10%;background:radial-gradient(circle at 80% 50%,rgba(62,205,196,.18),transparent 55%);pointer-events:none}
-    .pg-hero-inner{position:relative;z-index:1;max-width:620px}
+    .pg-hero{position:relative;min-height:340px;display:flex;align-items:center;overflow:hidden;padding:72px 40px 60px}
+    .pg-hero-bg{position:absolute;inset:0;z-index:0}
+    .pg-hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center}
+    .pg-hero-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(135deg,rgba(8,26,26,.88) 0%,rgba(15,42,42,.82) 45%,rgba(10,35,35,.65) 100%)}
+    .pg-hero-overlay::after{content:'';position:absolute;inset:-20% -10%;background:radial-gradient(circle at 80% 50%,rgba(62,205,196,.18),transparent 55%);pointer-events:none}
+    .pg-hero-inner{position:relative;z-index:2;max-width:620px}
     .pg-hero .lbl{font-size:.68rem;font-weight:700;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;margin-bottom:12px;opacity:.8}
     .pg-hero h1{font-size:clamp(2rem,4vw,3rem);font-weight:800;color:#fff;line-height:1.18;margin-bottom:12px}
     .pg-hero p{font-size:.92rem;color:rgba(255,255,255,.68);line-height:1.7;max-width:480px}
@@ -31,7 +34,7 @@
     .pg-count strong{color:var(--gold);font-weight:700}
 
     /* ── FILTERS ── */
-    .pg-filters{background:#fff;border-bottom:1px solid rgba(62,205,196,.1);padding:0 80px;display:flex;align-items:center;gap:0;position:sticky;top:81px;z-index:90;overflow-x:auto;-ms-overflow-style:none;scrollbar-width:none}
+    .pg-filters{background:#fff;border-bottom:1px solid rgba(62,205,196,.1);padding:0 40px;display:flex;align-items:center;gap:0;position:sticky;top:73px;z-index:90;overflow-x:auto;-ms-overflow-style:none;scrollbar-width:none}
     .pg-filters::-webkit-scrollbar{display:none}
     .filter-btn{flex-shrink:0;padding:16px 24px;background:transparent;border:none;border-bottom:2px solid transparent;cursor:pointer;font-family:'Tajawal',sans-serif;font-size:.88rem;font-weight:500;color:rgba(15,42,42,.55);transition:all .25s;white-space:nowrap}
     .filter-btn:hover{color:var(--gold-d)}
@@ -42,7 +45,7 @@
     .pg-search svg{flex-shrink:0;color:rgba(15,42,42,.35)}
 
     /* ── GRID ── */
-    .pg-body{padding:40px 80px 80px;max-width:1400px;margin:0 auto}
+    .pg-body{padding:40px 40px 80px;max-width:1400px;margin:0 auto}
     .pg-sort{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}
     .pg-sort-label{font-size:.82rem;color:rgba(15,42,42,.5)}
     .pg-sort-label strong{color:#0f2a2a}
@@ -77,20 +80,20 @@
 
     /* ── RESPONSIVE ── */
     @media(max-width:1200px){
-      .pnav{padding:14px 40px}
-      .pg-hero{padding:60px 40px 50px}
-      .pg-filters{padding:0 40px;top:73px}
-      .pg-body{padding:32px 40px 72px}
+      .pnav{padding:12px 28px}
+      .pg-hero{padding:60px 28px 50px}
+      .pg-filters{padding:0 28px}
+      .pg-body{padding:32px 28px 72px}
       #projects-grid{grid-template-columns:repeat(2,1fr)}
     }
     @media(max-width:768px){
-      .pnav{padding:12px 16px;min-height:60px}
+      .pnav{padding:10px 16px;min-height:60px}
       .pnav-logo img{height:38px}
       .pnav-back{font-size:.8rem;gap:5px}
-      .pg-hero{padding:40px 16px 36px}
+      .pg-hero{padding:40px 16px 36px;min-height:260px}
       .pg-hero h1{font-size:clamp(1.5rem,6vw,2.2rem)}
       .pg-hero p{font-size:.84rem}
-      .pg-filters{padding:0 16px;top:60px}
+      .pg-filters{padding:0 16px}
       .filter-btn{padding:13px 14px;font-size:.82rem}
       .pg-search{display:none}
       .pg-body{padding:20px 16px 52px}
@@ -103,7 +106,7 @@
     @media(max-width:480px){
       .pnav{padding:10px 14px}
       .pnav-logo img{height:34px}
-      .pg-hero{padding:32px 14px 28px}
+      .pg-hero{padding:28px 14px 24px;min-height:220px}
       .pg-count{font-size:.74rem;padding:6px 14px}
       .pg-body{padding:16px 12px 48px}
       .proj-img{height:160px}
@@ -117,7 +120,7 @@
 <!-- NAV -->
 <nav class="pnav">
   <div class="pnav-logo">
-    <img src="images/logo.png" alt="جودة العقارية" onerror="this.style.display='none'">
+    <img src="assets/logo-jawdah-full.png" alt="جودة العقارية">
   </div>
   <a href="index.html" class="pnav-back">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"/></svg>
@@ -127,6 +130,10 @@
 
 <!-- HERO -->
 <div class="pg-hero">
+  <div class="pg-hero-bg">
+    <img src="dist/assets/section-3.png" alt="">
+  </div>
+  <div class="pg-hero-overlay"></div>
   <div class="pg-hero-inner">
     <div class="lbl">مشاريعنا</div>
     <h1>إنجازات <span style="color:var(--gold)">متميزة</span></h1>
