@@ -35,6 +35,7 @@
     nav>*{position:relative;z-index:1}
     .nav-logo img{height:56px;object-fit:contain}
     .nav-links{display:flex;gap:36px;list-style:none;flex:1;justify-content:center;padding-bottom:12px}
+    .nav-mobile-only{display:none}
     .nav-links a{color:#0f2a2a;text-decoration:none;font-size:.92rem;font-weight:400;position:relative;transition:color var(--tr),letter-spacing .28s ease,transform .28s ease}
     .nav-links a.active{color:#2AABA3;font-weight:600}
     .nav-links a::after{content:'';position:absolute;bottom:-5px;right:0;width:0;height:1px;background:var(--gold);transition:width var(--tr);opacity:0}
@@ -61,12 +62,12 @@
     .hero-vignette{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(circle at 72% 28%,rgba(255,255,255,.08),transparent 22%),radial-gradient(circle at 50% 50%,transparent 40%,rgba(3,4,8,.24) 72%,rgba(2,3,6,.7) 100%);opacity:calc(.72 + var(--hero-fade) * .2)}
     #hero::after{content:'';position:absolute;bottom:0;width:100%;height:100px;background:linear-gradient(to bottom,rgba(5,7,11,0) 0%,rgba(5,7,11,.7) 100%);z-index:2}
     /* Hero body */
-    .hero-body{position:relative;z-index:3;max-width:520px;padding:160px 80px 90px;flex:1;display:flex;flex-direction:column;justify-content:center;transform:translate3d(0,var(--hero-copy-y),0);transform-origin:right center;opacity:var(--hero-copy-o);will-change:transform,opacity}
+    .hero-body{position:relative;z-index:3;max-width:600px;padding:160px 80px 90px;flex:1;display:flex;flex-direction:column;justify-content:center;transform:translate3d(0,var(--hero-copy-y),0);transform-origin:right center;opacity:var(--hero-copy-o);will-change:transform,opacity}
     .hero-kicker{display:flex;align-items:center;gap:18px;margin-bottom:20px}
     .hero-kicker-line{width:110px;height:1px;background:linear-gradient(90deg,rgba(62,205,196,0),rgba(62,205,196,.95),rgba(255,255,255,.85));transform-origin:right center;transform:scaleX(1)}
     .eyebrow{color:var(--gold);font-size:.78rem;font-weight:500;letter-spacing:.08em;margin-bottom:14px}
-    .hero-h1{font-size:clamp(22px,3vw,38px);font-weight:800;line-height:1.12;margin-bottom:12px;color:#fff;text-shadow:0 12px 28px rgba(0,0,0,.18);transition:text-shadow 1.35s cubic-bezier(.22,1,.36,1)}
-    .hero-desc{font-size:.82rem;line-height:1.7;color:rgba(255,255,255,.78);max-width:420px;margin-bottom:22px}
+    .hero-h1{font-size:clamp(26px,3.2vw,44px);font-weight:800;line-height:1.12;margin-bottom:14px;color:#fff;text-shadow:0 12px 28px rgba(0,0,0,.18);transition:text-shadow 1.35s cubic-bezier(.22,1,.36,1)}
+    .hero-desc{font-size:.88rem;line-height:1.75;color:rgba(255,255,255,.82);max-width:480px;margin-bottom:24px}
     /* Actions */
     .hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:36px}
     .btn-ph{display:inline-flex;align-items:center;justify-content:center;padding:15px 28px;background:#3ECDC4;color:#111;font-family:'Tajawal',sans-serif;font-size:.95rem;font-weight:700;text-decoration:none;border-radius:14px;transition:background .3s,transform .3s,box-shadow .3s}
@@ -382,6 +383,7 @@
       .nav-logo img{height:82px}
       .nav-links{display:none;order:3;position:absolute;top:72px;left:16px;right:16px;transform:none;width:auto;justify-content:flex-start;flex-direction:column;gap:6px;padding:12px;background:#fff;border:1px solid rgba(0,0,0,.07);border-radius:14px;backdrop-filter:none;box-shadow:0 8px 24px rgba(0,0,0,.10)}
       nav.menu-open .nav-links{display:flex}
+      .nav-mobile-only{display:block}
       .nav-links a{font-size:.88rem;padding:11px 14px;border:none;background:transparent;border-radius:10px;display:block;color:#1a1a1a!important;border-bottom:1px solid rgba(0,0,0,.05)}
       .nav-links li:last-child a{border-bottom:none}
       nav.menu-open .nav-toggle span:nth-child(1){transform:translateY(7px) rotate(45deg)}
@@ -1172,7 +1174,7 @@
     <li><a href="#services" class="">الخدمات</a></li>
     <li><a href="#stats" class="">إنجازاتنا</a></li>
     <li><a href="#contact" class="">تواصل معنا</a></li>
-    <li><a href="./dashboard/" style="color:#2AABA3!important;font-weight:700!important;display:flex;align-items:center;gap:6px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg>دخول لوحة التحكم</a></li>
+    <li class="nav-mobile-only"><a href="./dashboard/" style="color:#2AABA3!important;font-weight:700!important;display:flex;align-items:center;gap:6px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg>دخول لوحة التحكم</a></li>
   </ul>
   <div style="display:flex;align-items:center;gap:8px">
     <a href="./dashboard/" class="nav-cta" style="background:rgba(42,171,163,0.1);font-size:.82rem;padding:10px 18px">
