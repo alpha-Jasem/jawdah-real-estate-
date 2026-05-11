@@ -708,7 +708,10 @@ canvas { max-width: 100%; }
       <!-- Publish bar -->
       <div id="publish-bar" style="align-items:center;justify-content:space-between;gap:12px;background:#0f2a2a;color:#fff;padding:12px 20px;border-radius:12px;margin-bottom:16px">
         <span style="font-size:14px;opacity:.85">⚡ لديك تغييرات — اضغط نشر لتطبيقها على الموقع</span>
-        <button class="btn btn-primary btn-sm" onclick="publishChanges()"><i data-lucide="send" width="14" height="14"></i> نشر</button>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-sm" style="background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.2)" onclick="undoChanges()"><i data-lucide="rotate-ccw" width="14" height="14"></i> تراجع</button>
+          <button class="btn btn-primary btn-sm" onclick="publishChanges()"><i data-lucide="send" width="14" height="14"></i> نشر</button>
+        </div>
       </div>
 
       <!-- Projects grid -->
@@ -1992,6 +1995,13 @@ async function publishChanges() {
   }
   document.getElementById('publish-bar').classList.remove('visible');
   showToast('تم النشر على الموقع ✓', 'success');
+  await loadProjects();
+}
+
+async function undoChanges() {
+  _pendingOrder = null;
+  document.getElementById('publish-bar').classList.remove('visible');
+  showToast('تم التراجع عن التغييرات', 'info');
   await loadProjects();
 }
 
