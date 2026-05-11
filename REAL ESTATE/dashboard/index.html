@@ -99,6 +99,8 @@ img { display: block; max-width: 100%; }
 .sidebar-footer {
   margin-top: auto; padding: 12px 8px;
   border-top: 1px solid var(--border);
+  position: sticky; bottom: 0;
+  background: var(--bg-elevated);
   display: flex; align-items: center; gap: 10px;
 }
 .avatar {
@@ -386,8 +388,11 @@ select.form-input { cursor: pointer; }
 }
 .project-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
 .project-card.dragging { opacity: 0.4; }
-.project-card-img { height: 160px; background: linear-gradient(135deg, #3AA9B3, #174F55); position: relative; }
-.project-card-img img { width: 100%; height: 100%; object-fit: cover; }
+.project-card-img { height: 160px; background: linear-gradient(135deg, #1a4040, #0f2a2a); position: relative; overflow: hidden; }
+.project-card-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.sortable-ghost { opacity: .35; border: 2px dashed #3ECDC4 !important; }
+#publish-bar { display: none; }
+#publish-bar.visible { display: flex; }
 .project-card-body { padding: 14px 16px; }
 .project-card-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
 .project-card-meta { font-size: 12px; color: var(--fg-muted); display: flex; gap: 12px; flex-wrap: wrap; }
@@ -680,8 +685,6 @@ canvas { max-width: 100%; }
           <h1 style="font-family:var(--font-display);font-size:32px;font-weight:500;margin-top:6px">إدارة المشاريع والإنجازات</h1>
         </div>
         <div style="display:flex;gap:10px">
-          <button class="btn btn-secondary btn-sm"><i data-lucide="eye" width="14" height="14"></i> معاينة الموقع</button>
-          <button class="btn btn-secondary btn-sm" onclick="toggleSiteSettings()"><i data-lucide="settings" width="14" height="14"></i> إعدادات الموقع</button>
           <button class="btn btn-primary" onclick="openAddProject()"><i data-lucide="plus" width="14" height="14"></i> مشروع جديد</button>
         </div>
       </div>
@@ -702,25 +705,10 @@ canvas { max-width: 100%; }
         <div style="margin-right:auto;font-size:13px;color:var(--fg-muted)">اسحب الكروت لإعادة الترتيب</div>
       </div>
 
-      <!-- ── Site Settings Panel ── -->
-      <div class="panel" id="site-settings-panel" style="margin-bottom:24px;display:none">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
-          <div class="section-title">إعدادات الموقع التعريفي</div>
-          <button class="btn btn-ghost btn-sm" onclick="toggleSiteSettings()"><i data-lucide="x" width="14" height="14"></i></button>
-        </div>
-        <div class="form-row">
-          <div class="form-group"><label class="form-label">الهاتف</label><input class="form-input" id="ss-phone" placeholder="+966 5X XXX XXXX"></div>
-          <div class="form-group"><label class="form-label">البريد الإلكتروني</label><input class="form-input" id="ss-email" placeholder="info@jawdah.sa"></div>
-        </div>
-        <div class="form-group"><label class="form-label">العنوان</label><input class="form-input" id="ss-address" placeholder="الرياض، المملكة العربية السعودية"></div>
-        <div class="form-group"><label class="form-label">رابط واتساب</label><input class="form-input" id="ss-whatsapp" placeholder="https://wa.me/9665XXXXXXXX"></div>
-        <div class="form-group"><label class="form-label">عنوان الهيرو (الجملة الرئيسية على الموقع)</label><input class="form-input" id="ss-hero-title" placeholder="شركة إدارة أملاك عقارية في السعودية"></div>
-        <div class="form-group"><label class="form-label">وصف الهيرو</label><textarea class="form-input" id="ss-hero-desc" rows="2" placeholder="نقدم حلول إدارة العقارات..."></textarea></div>
-        <div class="form-group"><label class="form-label">نص من نحن</label><textarea class="form-input" id="ss-about" rows="3" placeholder="جودة العقارية شركة متخصصة في..."></textarea></div>
-        <div style="display:flex;gap:8px;margin-top:4px">
-          <button class="btn btn-primary btn-sm" onclick="saveSiteSettings()"><i data-lucide="save" width="14" height="14"></i> حفظ وتطبيق</button>
-          <button class="btn btn-ghost btn-sm" onclick="toggleSiteSettings()">إلغاء</button>
-        </div>
+      <!-- Publish bar -->
+      <div id="publish-bar" style="align-items:center;justify-content:space-between;gap:12px;background:#0f2a2a;color:#fff;padding:12px 20px;border-radius:12px;margin-bottom:16px">
+        <span style="font-size:14px;opacity:.85">⚡ لديك تغييرات — اضغط نشر لتطبيقها على الموقع</span>
+        <button class="btn btn-primary btn-sm" onclick="publishChanges()"><i data-lucide="send" width="14" height="14"></i> نشر</button>
       </div>
 
       <!-- Projects grid -->
@@ -929,15 +917,6 @@ canvas { max-width: 100%; }
           </div>
         </div>
 
-        <div class="panel">
-          <div class="section-title" style="margin-bottom:20px">ربط Supabase</div>
-          <div class="form-group"><label class="form-label">Supabase URL</label><input class="form-input" id="sb-url" placeholder="https://xxxx.supabase.co"></div>
-          <div class="form-group"><label class="form-label">Anon Key</label><input class="form-input" id="sb-key" placeholder="eyJh..."></div>
-          <button class="btn btn-primary btn-sm" onclick="saveSupabaseConfig()"><i data-lucide="link" width="14" height="14"></i> حفظ وربط</button>
-          <div style="margin-top:12px;padding:12px;background:var(--warning-50);border-radius:8px;font-size:13px;color:#8A5A18">
-            <b>تلميح:</b> ضع بيانات Supabase هنا أو في ملف config.js قبل الرفع على Vercel.
-          </div>
-        </div>
 
         <div class="panel">
           <div class="section-title" style="margin-bottom:20px">التفضيلات</div>
@@ -967,9 +946,7 @@ canvas { max-width: 100%; }
         <div class="panel">
           <div class="section-title" style="margin-bottom:16px">سجل النشاط</div>
           <div id="activity-log">
-            <div class="activity-item"><div class="activity-icon"><i data-lucide="log-in" width="14" height="14" style="color:var(--brand-teal-700)"></i></div><div class="activity-content"><div class="activity-title">تسجيل دخول</div><div class="activity-desc">admin@jawdah.sa · Chrome · الرياض</div></div><div class="activity-time">الآن</div></div>
-            <div class="activity-item"><div class="activity-icon"><i data-lucide="upload" width="14" height="14" style="color:var(--fg-muted)"></i></div><div class="activity-content"><div class="activity-title">رفع مشروع</div><div class="activity-desc">مجمع الأبراج · 8 صور</div></div><div class="activity-time">3س</div></div>
-            <div class="activity-item"><div class="activity-icon"><i data-lucide="edit" width="14" height="14" style="color:var(--warning-500)"></i></div><div class="activity-content"><div class="activity-title">تعديل عقار</div><div class="activity-desc">شقة العليا · تحديث السعر</div></div><div class="activity-time">أمس</div></div>
+            <div style="padding:16px;color:var(--fg-muted);font-size:13px">جارٍ التحميل...</div>
           </div>
         </div>
 
@@ -1119,10 +1096,8 @@ canvas { max-width: 100%; }
       <span style="font-size:16px;font-weight:700">الإشعارات</span>
       <button class="btn btn-ghost btn-sm" onclick="document.getElementById('notif-panel').classList.remove('open')">تمييز كمقروء</button>
     </div>
-    <div style="display:flex;flex-direction:column;gap:2px">
-      <div class="activity-item"><div class="activity-icon" style="background:var(--brand-teal-50)"><i data-lucide="user-plus" width="14" height="14" style="color:var(--brand-teal-700)"></i></div><div class="activity-content"><div class="activity-title">عميل جديد</div><div class="activity-desc">نورة الشهري · شقة العليا</div></div><div class="activity-time">12د</div></div>
-      <div class="activity-item"><div class="activity-icon" style="background:var(--success-50)"><i data-lucide="calendar-check" width="14" height="14" style="color:var(--success-500)"></i></div><div class="activity-content"><div class="activity-title">موعد مؤكد</div><div class="activity-desc">فهد الرشيد · السبت 14:00</div></div><div class="activity-time">1س</div></div>
-      <div class="activity-item"><div class="activity-icon" style="background:var(--warning-50)"><i data-lucide="alert-triangle" width="14" height="14" style="color:var(--warning-500)"></i></div><div class="activity-content"><div class="activity-title">إعلان على وشك الانتهاء</div><div class="activity-desc">استوديو كافد · ينتهي الجمعة</div></div><div class="activity-time">3س</div></div>
+    <div id="notif-list" style="display:flex;flex-direction:column;gap:2px">
+      <div style="text-align:center;padding:24px;color:var(--fg-muted);font-size:13px">جارٍ التحميل...</div>
     </div>
   </div>
 </div>
@@ -1183,6 +1158,8 @@ async function loadAllData() {
     loadLeads(),
     loadAppointments(),
     loadMessages(),
+    loadNotifications(),
+    loadActivityLog(),
   ]);
   renderKanban();
   renderCalendar();
@@ -1236,6 +1213,7 @@ function navTo(page) {
   // Re-render charts if needed
   if (page === 'reports') setTimeout(renderCharts, 50);
   if (page === 'calendar') renderCalendar();
+  if (page === 'settings') loadActivityLog();
 }
 
 // ═══════════════════════════════════════════════════════
@@ -1342,7 +1320,9 @@ function openQuickAdd() {
 
 // Notifications
 function toggleNotifications() {
-  document.getElementById('notif-panel').classList.toggle('open');
+  const panel = document.getElementById('notif-panel');
+  panel.classList.toggle('open');
+  if (panel.classList.contains('open')) loadNotifications();
 }
 
 // ═══════════════════════════════════════════════════════
@@ -1587,22 +1567,21 @@ function renderProjects(filter='all', cat='all') {
   if (filter !== 'all') data = data.filter(p => p.status === filter);
   if (cat !== 'all') data = data.filter(p => p.cat === cat);
   grid.innerHTML = data.map(p => `
-    <div class="project-card" draggable="true" id="proj-card-${p.id}"
-      ondragstart="dragStart(event,'${p.id}','proj')" ondragend="dragEnd(event)">
-      <div class="project-card-img" style="background:${p.bg}">
+    <div class="project-card" data-id="${p.id}">
+      <div class="project-card-img" style="${p.image_url?'':'background:linear-gradient(135deg,#1a4040,#0f2a2a)'}">
+        ${p.image_url?`<img src="${p.image_url}" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy">`:''}
         <div style="position:absolute;top:10px;right:10px">
           <span class="badge ${p.status==='published'?'badge-green':'badge-amber'}">
             ${p.status==='published'?'منشور':'مسودة'}
           </span>
         </div>
-        <div style="position:absolute;bottom:10px;right:10px;font-size:11px;color:rgba(255,255,255,0.7)">${p.titleEn}</div>
       </div>
       <div class="project-card-body">
-        <div class="project-card-title">${p.title}</div>
+        <div class="project-card-title">${p.title_ar||p.title||'—'}</div>
         <div class="project-card-meta">
-          <span>${getCatLabel(p.cat)}</span>
-          <span>${p.year}</span>
-          ${p.client ? `<span>${p.client}</span>` : ''}
+          <span>${getCatLabel(p.category||p.cat)}</span>
+          ${p.year?`<span>${p.year}</span>`:''}
+          ${(p.client_name||p.client)?`<span>${p.client_name||p.client}</span>`:''}
         </div>
       </div>
       <div class="project-card-actions">
@@ -1616,6 +1595,7 @@ function renderProjects(filter='all', cat='all') {
     </div>
   `).join('');
   lucide.createIcons();
+  initSortable();
 }
 function getCatLabel(c) { return {residential:'سكني',commercial:'تجاري',administrative:'إداري'}[c]||c; }
 function filterProjects(f,btn) { document.querySelectorAll('.nav-item').length; renderProjects(f); }
@@ -1686,55 +1666,8 @@ async function saveProject() {
   if (filesEl) filesEl.value = '';
   showToast(isEditing ? 'تم تحديث المشروع ✓' : 'تم حفظ المشروع بنجاح ✓','success');
   closeModal('modal-project');
+  showPublishBar();
   await loadProjects();
-}
-
-// ═══════════════════════════════════════════════════════
-// SITE SETTINGS
-// ═══════════════════════════════════════════════════════
-function toggleSiteSettings() {
-  const panel = document.getElementById('site-settings-panel');
-  const isOpen = panel.style.display !== 'none';
-  panel.style.display = isOpen ? 'none' : 'block';
-  if (!isOpen) loadSiteSettingsForm();
-}
-
-async function loadSiteSettingsForm() {
-  try {
-    const { data } = await sb.from('site_settings').select('key, value');
-    if (!data) return;
-    const s = {};
-    data.forEach(r => s[r.key] = r.value);
-    const map = {
-      'ss-phone': s.phone, 'ss-email': s.email, 'ss-address': s.address,
-      'ss-whatsapp': s.whatsapp, 'ss-hero-title': s.hero_title,
-      'ss-hero-desc': s.hero_desc, 'ss-about': s.about_text
-    };
-    Object.entries(map).forEach(([id, val]) => {
-      const el = document.getElementById(id);
-      if (el && val) el.value = val;
-    });
-  } catch(e) {}
-}
-
-async function saveSiteSettings() {
-  const fields = [
-    { key: 'phone',       id: 'ss-phone' },
-    { key: 'email',       id: 'ss-email' },
-    { key: 'address',     id: 'ss-address' },
-    { key: 'whatsapp',    id: 'ss-whatsapp' },
-    { key: 'hero_title',  id: 'ss-hero-title' },
-    { key: 'hero_desc',   id: 'ss-hero-desc' },
-    { key: 'about_text',  id: 'ss-about' },
-  ];
-  const rows = fields
-    .map(f => ({ key: f.key, value: (document.getElementById(f.id)?.value || '').trim() }))
-    .filter(r => r.value !== '');
-  if (!rows.length) { showToast('لا توجد تغييرات للحفظ','error'); return; }
-  const { error } = await sb.from('site_settings').upsert(rows, { onConflict: 'key' });
-  if (error) { showToast('خطأ: ' + error.message, 'error'); return; }
-  showToast('تم حفظ إعدادات الموقع ✓', 'success');
-  document.getElementById('site-settings-panel').style.display = 'none';
 }
 
 // ═══════════════════════════════════════════════════════
@@ -2023,6 +1956,7 @@ async function toggleProjectStatusDB(id, published) {
   const status = published ? 'published' : 'draft';
   await sb.from('projects').update({ status }).eq('id', id);
   showToast(published ? 'تم نشر المشروع ✓' : 'تم إلغاء النشر', 'success');
+  showPublishBar();
 }
 
 async function deleteProject(id) {
@@ -2030,11 +1964,127 @@ async function deleteProject(id) {
   const { error } = await sb.from('projects').delete().eq('id', id);
   if (error) { showToast('خطأ في الحذف','error'); return; }
   showToast('تم حذف المشروع ✓','success');
+  showPublishBar();
   await loadProjects();
 }
 
 async function trackEvent(page, event, extra={}) {
   await sb.from('analytics').insert([{ page, event, ...extra }]);
+}
+
+// ═══════════════════════════════════════════════════════
+// PUBLISH BAR + SORTABLE
+// ═══════════════════════════════════════════════════════
+let _pendingOrder = null;
+let _sortable = null;
+
+function showPublishBar() {
+  document.getElementById('publish-bar').classList.add('visible');
+  lucide.createIcons();
+}
+
+async function publishChanges() {
+  if (_pendingOrder) {
+    for (const u of _pendingOrder) {
+      await sb.from('projects').update({ order_index: u.order_index }).eq('id', u.id);
+    }
+    _pendingOrder = null;
+  }
+  document.getElementById('publish-bar').classList.remove('visible');
+  showToast('تم النشر على الموقع ✓', 'success');
+  await loadProjects();
+}
+
+function initSortable() {
+  const grid = document.getElementById('projects-grid');
+  if (!grid || typeof Sortable === 'undefined') return;
+  if (_sortable) _sortable.destroy();
+  _sortable = new Sortable(grid, {
+    animation: 180,
+    ghostClass: 'sortable-ghost',
+    onEnd() {
+      _pendingOrder = [...grid.querySelectorAll('.project-card')]
+        .map((el, i) => ({ id: el.dataset.id, order_index: i }));
+      showPublishBar();
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+// NOTIFICATIONS — real data
+// ═══════════════════════════════════════════════════════
+function timeAgo(iso) {
+  const diff = Date.now() - new Date(iso);
+  const m = Math.floor(diff / 60000);
+  if (m < 1) return 'الآن';
+  if (m < 60) return `${m}د`;
+  const h = Math.floor(m / 60);
+  if (h < 24) return `${h}س`;
+  return `${Math.floor(h / 24)}ي`;
+}
+
+async function loadNotifications() {
+  try {
+    const [{ data: leads }, { data: events }] = await Promise.all([
+      sb.from('leads').select('id,name,created_at,source').order('created_at', { ascending: false }).limit(5),
+      sb.from('analytics').select('event,created_at').order('created_at', { ascending: false }).limit(5)
+    ]);
+
+    const items = [
+      ...(leads || []).map(l => ({
+        icon: 'user', color: 'var(--brand-teal-700)',
+        title: `عميل جديد: ${l.name || '—'}`,
+        desc: l.source || 'الموقع التعريفي',
+        time: timeAgo(l.created_at),
+        _raw: l.created_at
+      })),
+      ...(events || []).map(e => ({
+        icon: 'activity', color: 'var(--fg-muted)',
+        title: e.event || 'نشاط',
+        desc: 'الموقع التعريفي',
+        time: timeAgo(e.created_at),
+        _raw: e.created_at
+      }))
+    ].sort((a, b) => new Date(b._raw) - new Date(a._raw)).slice(0, 8);
+
+    const panel = document.getElementById('notif-list');
+    if (!panel) return;
+
+    if (!items.length) {
+      panel.innerHTML = '<div style="text-align:center;padding:24px;color:var(--fg-muted);font-size:13px">لا توجد تنبيهات</div>';
+      return;
+    }
+    panel.innerHTML = items.map(n => `
+      <div class="activity-item">
+        <div class="activity-icon"><i data-lucide="${n.icon}" width="14" height="14" style="color:${n.color}"></i></div>
+        <div class="activity-content">
+          <div class="activity-title">${n.title}</div>
+          <div class="activity-desc">${n.desc}</div>
+        </div>
+        <div class="activity-time">${n.time}</div>
+      </div>`).join('');
+    lucide.createIcons();
+
+    const dot = document.querySelector('.notif-dot');
+    if (dot) dot.textContent = items.length > 9 ? '9+' : items.length;
+  } catch(e) {}
+}
+
+async function loadActivityLog() {
+  const { data } = await sb.from('analytics')
+    .select('event,page,created_at').order('created_at', { ascending: false }).limit(10);
+  const el = document.getElementById('activity-log');
+  if (!el || !data) return;
+  el.innerHTML = data.map(a => `
+    <div class="activity-item">
+      <div class="activity-icon"><i data-lucide="activity" width="14" height="14" style="color:var(--brand-teal-700)"></i></div>
+      <div class="activity-content">
+        <div class="activity-title">${a.event || 'نشاط'}</div>
+        <div class="activity-desc">${a.page || ''}</div>
+      </div>
+      <div class="activity-time">${timeAgo(a.created_at)}</div>
+    </div>`).join('') || '<div style="padding:16px;color:var(--fg-muted);font-size:13px">لا يوجد نشاط بعد</div>';
+  lucide.createIcons();
 }
 
 // ═══════════════════════════════════════════════════════
@@ -2305,5 +2355,6 @@ document.addEventListener('keydown', e => {
   }
 });
 </script>
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
 </body>
 </html>
