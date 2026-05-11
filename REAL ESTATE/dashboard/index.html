@@ -391,6 +391,7 @@ select.form-input { cursor: pointer; }
 .project-card-img { height: 160px; background: linear-gradient(135deg, #1a4040, #0f2a2a); position: relative; overflow: hidden; }
 .project-card-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .sortable-ghost { opacity: .35; border: 2px dashed #3ECDC4 !important; }
+.sortable-chosen { cursor: grabbing !important; box-shadow: 0 12px 32px rgba(0,0,0,.25) !important; transform: scale(1.02); }
 #publish-bar { display: none; }
 #publish-bar.visible { display: flex; }
 .project-card-body { padding: 14px 16px; }
@@ -2002,9 +2003,11 @@ function showPublishBar() {
 
 async function publishChanges() {
   if (_pendingOrder) {
-    for (const u of _pendingOrder) {
-      await sb.from('projects').update({ order_index: u.order_index }).eq('id', u.id);
-    }
+    const { error } = await sb.from('projects').upsert(
+      _pendingOrder.map(u => ({ id: u.id, order_index: u.order_index })),
+      { onConflict: 'id' }
+    );
+    if (error) { showToast('خطأ في النشر: ' + error.message, 'error'); return; }
     _pendingOrder = null;
   }
   document.getElementById('publish-bar').classList.remove('visible');
@@ -2024,9 +2027,14 @@ function initSortable() {
   if (!grid || typeof Sortable === 'undefined') return;
   if (_sortable) _sortable.destroy();
   _sortable = new Sortable(grid, {
-    animation: 180,
+    animation: 150,
     ghostClass: 'sortable-ghost',
-    onEnd() {
+    filter: '.project-card-actions, button, input, label',
+    preventOnFilter: true,
+    delay: 80,
+    delayOnTouchOnly: true,
+    onEnd(evt) {
+      if (evt.oldIndex === evt.newIndex) return;
       _pendingOrder = [...grid.querySelectorAll('.project-card')]
         .map((el, i) => ({ id: el.dataset.id, order_index: i }));
       showPublishBar();
