@@ -1686,18 +1686,17 @@ function navTo(page) {
   const btn = document.querySelector(`[data-page="${page}"]`);
   if (btn) btn.classList.add('active');
   if (page === 'reports') {
-    setTimeout(renderCharts, 50);
+    // Destroy and recreate monthly + cat charts so Chart.js sizes correctly
+    if (chartsInit.monthly) { chartsInit.monthly.destroy(); chartsInit.monthly = null; }
+    if (chartsInit.cat)     { chartsInit.cat.destroy();     chartsInit.cat = null; }
+    if (chartsInit.source)  { chartsInit.source.destroy();  chartsInit.source = null; }
+    setTimeout(renderCharts, 80);
     setReportYearLabels();
     loadReportKPIs();
     renderFunnel();
-    setTimeout(updateSourceChart, 200);
-    setTimeout(updateCatChart, 200);
-    setTimeout(updateMonthlyChart, 200);
-    setTimeout(() => {
-      if (chartsInit.monthly) chartsInit.monthly.resize();
-      if (chartsInit.cat) chartsInit.cat.resize();
-      if (chartsInit.source) chartsInit.source.resize();
-    }, 300);
+    setTimeout(updateSourceChart, 300);
+    setTimeout(updateCatChart, 300);
+    setTimeout(updateMonthlyChart, 300);
   }
   if (page === 'calendar') renderCalendar();
   if (page === 'settings') loadActivityLog();
