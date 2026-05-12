@@ -731,6 +731,8 @@ canvas { max-width: 100%; }
 
   /* Report charts: reduce height */
   canvas { max-height: 220px; }
+  #page-reports .chart-wrap { height: 200px !important; min-height: 160px; }
+  #page-reports .grid-2 { grid-template-columns: 1fr !important; }
 
   /* Notification panel */
   #notif-panel { width: calc(100vw - 16px); right: 8px; left: 8px; }
@@ -1691,6 +1693,11 @@ function navTo(page) {
     setTimeout(updateSourceChart, 200);
     setTimeout(updateCatChart, 200);
     setTimeout(updateMonthlyChart, 200);
+    setTimeout(() => {
+      if (chartsInit.monthly) chartsInit.monthly.resize();
+      if (chartsInit.cat) chartsInit.cat.resize();
+      if (chartsInit.source) chartsInit.source.resize();
+    }, 300);
   }
   if (page === 'calendar') renderCalendar();
   if (page === 'settings') loadActivityLog();
