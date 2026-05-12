@@ -71,8 +71,6 @@
         document.querySelectorAll('[data-field="phone"], .fci-phone').forEach(el => { el.textContent = s.phone; });
         const wa = document.querySelector('.wa-float');
         if (wa) wa.href = `https://wa.me/${s.phone.replace(/\D/g, '')}`;
-        const phoneBtn = document.getElementById('phone-float-btn');
-        if (phoneBtn) phoneBtn.href = `tel:+${s.phone.replace(/\D/g, '')}`;
       }
       if (s.whatsapp) {
         const wa = document.querySelector('.wa-float');
