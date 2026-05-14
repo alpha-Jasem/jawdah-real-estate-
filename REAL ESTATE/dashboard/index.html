@@ -769,11 +769,27 @@ canvas { max-width: 100%; }
 /* ══ SITE EDITOR ══════════════════════════════════════ */
 #page-site-editor { padding: 0 !important; overflow: hidden; }
 .se-layout {
-  display: grid; grid-template-columns: 420px 1fr;
+  position: relative;
   height: calc(100vh - 64px); overflow: hidden;
 }
-/* ─ Editor Panel ─ */
-.se-panel { display: flex; flex-direction: column; border-left: 1px solid var(--border); overflow: hidden; background: var(--bg); width: 420px; min-width: 420px; }
+/* ─ Overlay backdrop ─ */
+.se-overlay {
+  display: none; position: absolute; inset: 0; z-index: 19;
+  background: rgba(0,0,0,.28); backdrop-filter: blur(2px);
+  cursor: pointer;
+}
+.se-overlay.show { display: block; }
+/* ─ Editor Panel (drawer) ─ */
+.se-panel {
+  position: absolute; top: 0; right: 0; height: 100%;
+  width: 440px; display: flex; flex-direction: column;
+  border-left: 1px solid var(--border); background: var(--bg);
+  z-index: 20; overflow: hidden;
+  transform: translateX(100%);
+  transition: transform .32s cubic-bezier(.4,0,.2,1);
+  box-shadow: -14px 0 48px rgba(0,0,0,.22);
+}
+.se-panel.open { transform: translateX(0); }
 .se-panel-head {
   padding: 10px 14px; border-bottom: 1px solid var(--border);
   background: var(--bg); flex-shrink: 0;
@@ -838,7 +854,7 @@ canvas { max-width: 100%; }
 .se-status.saved  { color: var(--brand-teal-700); background: rgba(62,205,196,.15); }
 .se-status.err    { color: var(--danger-500); background: var(--danger-50); }
 /* ─ Preview Pane ─ */
-.se-preview-wrap { display: flex; flex-direction: column; overflow: hidden; background: #0d1117; }
+.se-preview-wrap { display: flex; flex-direction: column; overflow: hidden; background: #0d1117; width: 100%; height: 100%; }
 .se-preview-bar {
   padding: 7px 14px; background: #161b22; display: flex; align-items: center; gap: 8px;
   border-bottom: 1px solid rgba(255,255,255,.07); flex-shrink: 0;
@@ -872,10 +888,8 @@ canvas { max-width: 100%; }
   width: 80px; height: 6px; background: rgba(255,255,255,.15);
   border-radius: 3px; flex-shrink: 0;
 }
-@media (max-width: 1000px) {
-  .se-layout { grid-template-columns: 1fr; height: auto; }
-  .se-preview-wrap { display: none; }
-  .se-panel { height: calc(100vh - 120px); }
+@media (max-width: 768px) {
+  .se-panel { width: 100%; right: 0; }
 }
 </style>
 </head>
@@ -1442,18 +1456,24 @@ canvas { max-width: 100%; }
     <div class="page" id="page-site-editor" data-screen-label="10 Site Editor">
       <div class="se-layout">
 
-        <!-- RIGHT: editor panel -->
-        <div class="se-panel">
+        <!-- Overlay (click to close drawer) -->
+        <div class="se-overlay" id="se-overlay" onclick="seClosePanel()"></div>
+
+        <!-- Drawer: editor panel -->
+        <div class="se-panel" id="se-panel">
           <div class="se-panel-head">
             <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
               <div>
                 <div class="eyebrow" style="margin-bottom:2px">الموقع الإلكتروني</div>
-                <div style="font-size:16px;font-weight:700;line-height:1.2">تعديل محتوى الموقع</div>
+                <div style="font-size:15px;font-weight:700;line-height:1.2">تعديل محتوى الموقع</div>
               </div>
               <div style="display:flex;align-items:center;gap:6px">
                 <span class="se-status" id="se-status"></span>
                 <button class="btn btn-ghost btn-sm" onclick="seRefreshPreview()" title="تحديث المعاينة" style="padding:6px 8px">
                   <i data-lucide="refresh-cw" width="14" height="14"></i>
+                </button>
+                <button class="btn btn-ghost btn-sm" onclick="seClosePanel()" style="padding:6px 8px" title="إغلاق">
+                  <i data-lucide="x" width="16" height="16"></i>
                 </button>
               </div>
             </div>
@@ -1892,6 +1912,10 @@ canvas { max-width: 100%; }
             <span class="se-url-pill">jawdah-real-estate.vercel.app</span>
             <button class="se-dev-btn" onclick="seRefreshPreview()">↺ تحديث</button>
             <a href="https://jawdah-real-estate.vercel.app" target="_blank" class="se-dev-btn" style="text-decoration:none">↗ فتح</a>
+            <button class="se-dev-btn" id="se-edit-btn" onclick="seOpenPanel()" style="background:rgba(62,205,196,.18);border-color:rgba(62,205,196,.5);color:#3ECDC4;font-weight:600;gap:5px;display:flex;align-items:center">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              تعديل
+            </button>
           </div>
           <div class="se-iframe-box" id="se-iframe-box">
             <iframe id="se-iframe" src="https://jawdah-real-estate.vercel.app"></iframe>
@@ -4208,6 +4232,15 @@ document.addEventListener('keydown', e => {
 // ═══════════════════════════════════════════════════════
 let SE = {}; // current settings cache
 
+function seOpenPanel() {
+  document.getElementById('se-panel')?.classList.add('open');
+  document.getElementById('se-overlay')?.classList.add('show');
+}
+function seClosePanel() {
+  document.getElementById('se-panel')?.classList.remove('open');
+  document.getElementById('se-overlay')?.classList.remove('show');
+}
+
 async function loadSiteEditor() {
   try {
     const { data } = await sb.from('site_settings').select('key, value');
@@ -4257,6 +4290,7 @@ async function loadSiteEditor() {
         if (wrap) wrap.innerHTML = `<img src="${SE[k]}" style="max-width:100%;max-height:100%;object-fit:contain;padding:4px">`;
       }
     }
+    seOpenPanel();
   } catch(e) { console.error('[SE] loadSiteEditor', e); }
 }
 
