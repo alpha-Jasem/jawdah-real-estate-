@@ -159,6 +159,25 @@
         const el = document.getElementById('cta-btn');
         if (el) el.textContent = s.cta_btn_text;
       }
+      // process section
+      const dfSet = (field, val) => document.querySelectorAll(`[data-field="${field}"]`).forEach(el => { el.textContent = val; });
+      if (s.process_h2) { const el = document.getElementById('process-h2'); if (el) el.innerHTML = s.process_h2; }
+      if (s.process_desc) { const el = document.getElementById('process-desc'); if (el) el.textContent = s.process_desc; }
+      for (let i = 1; i <= 5; i++) {
+        if (s[`process_step${i}_title`]) dfSet(`process_step${i}_title`, s[`process_step${i}_title`]);
+        if (s[`process_step${i}_desc`]) dfSet(`process_step${i}_desc`, s[`process_step${i}_desc`]);
+      }
+      if (s.process_cta_h3) { const el = document.getElementById('process-cta-h3'); if (el) el.textContent = s.process_cta_h3; }
+      if (s.process_cta_desc) { const el = document.getElementById('process-cta-desc'); if (el) el.textContent = s.process_cta_desc; }
+      if (s.process_cta_btn) { const el = document.getElementById('process-cta-btn'); if (el) el.textContent = s.process_cta_btn; }
+      // reviews / testimonials
+      if (s.reviews_h2) { const el = document.getElementById('reviews-h2'); if (el) el.innerHTML = s.reviews_h2; }
+      if (s.reviews_count_text) { const el = document.getElementById('reviews-count-text'); if (el) el.textContent = s.reviews_count_text; }
+      for (let i = 1; i <= 6; i++) {
+        if (s[`review${i}_text`]) dfSet(`review${i}_text`, s[`review${i}_text`]);
+        if (s[`review${i}_name`]) dfSet(`review${i}_name`, s[`review${i}_name`]);
+        if (s[`review${i}_initial`]) dfSet(`review${i}_initial`, s[`review${i}_initial`]);
+      }
       // footer
       if (s.footer_desc) document.querySelectorAll('[data-field="footer_desc"]').forEach(el => { el.textContent = s.footer_desc; });
       // partners — dynamic, unlimited count

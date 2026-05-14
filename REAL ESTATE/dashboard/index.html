@@ -1792,7 +1792,109 @@ canvas { max-width: 100%; }
               </div>
             </div>
 
-            <!-- ⑩ التذييل -->
+            <!-- ⑪ خطوات العمل (Process) -->
+            <div class="se-section se-wide">
+              <div class="se-section-head">
+                <span><i data-lucide="list-checks" width="14" height="14" style="color:var(--brand-teal-600)"></i> ما تشمله إدارة الأملاك</span>
+              </div>
+              <div class="se-section-body">
+                <div class="se-body-inner">
+                  <div class="se-field">
+                    <span class="se-label">عنوان القسم</span>
+                    <input type="text" class="se-input" id="se-process_h2" placeholder="ما تشمله إدارة الأملاك" onblur="seSave('process_h2',this.value)">
+                  </div>
+                  <div class="se-field">
+                    <span class="se-label">وصف مختصر</span>
+                    <textarea class="se-textarea" id="se-process_desc" rows="2" placeholder="نتولى جميع مسؤوليات إدارة عقارك..." onblur="seSave('process_desc',this.value)"></textarea>
+                  </div>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px">
+                    <div style="display:flex;flex-direction:column;gap:6px">
+                      <div class="se-field"><span class="se-label">الخطوة 1 — عنوان</span><input type="text" class="se-input" id="se-process_step1_title" placeholder="التسويق للعقار" onblur="seSave('process_step1_title',this.value)"></div>
+                      <div class="se-field"><span class="se-label">الخطوة 1 — وصف</span><textarea class="se-textarea" id="se-process_step1_desc" rows="2" placeholder="إطلاق حملات إعلانية..." onblur="seSave('process_step1_desc',this.value)"></textarea></div>
+                    </div>
+                    <div style="display:flex;flex-direction:column;gap:6px">
+                      <div class="se-field"><span class="se-label">الخطوة 2 — عنوان</span><input type="text" class="se-input" id="se-process_step2_title" placeholder="فرز المستأجرين" onblur="seSave('process_step2_title',this.value)"></div>
+                      <div class="se-field"><span class="se-label">الخطوة 2 — وصف</span><textarea class="se-textarea" id="se-process_step2_desc" rows="2" placeholder="بحث وتحرٍّ دقيق..." onblur="seSave('process_step2_desc',this.value)"></textarea></div>
+                    </div>
+                    <div style="display:flex;flex-direction:column;gap:6px">
+                      <div class="se-field"><span class="se-label">الخطوة 3 — عنوان</span><input type="text" class="se-input" id="se-process_step3_title" placeholder="عقود الإيجار" onblur="seSave('process_step3_title',this.value)"></div>
+                      <div class="se-field"><span class="se-label">الخطوة 3 — وصف</span><textarea class="se-textarea" id="se-process_step3_desc" rows="2" placeholder="توقيع العقود وتجديدها..." onblur="seSave('process_step3_desc',this.value)"></textarea></div>
+                    </div>
+                    <div style="display:flex;flex-direction:column;gap:6px">
+                      <div class="se-field"><span class="se-label">الخطوة 4 — عنوان</span><input type="text" class="se-input" id="se-process_step4_title" placeholder="التحصيل والصيانة" onblur="seSave('process_step4_title',this.value)"></div>
+                      <div class="se-field"><span class="se-label">الخطوة 4 — وصف</span><textarea class="se-textarea" id="se-process_step4_desc" rows="2" placeholder="تحصيل الإيجارات..." onblur="seSave('process_step4_desc',this.value)"></textarea></div>
+                    </div>
+                    <div style="display:flex;flex-direction:column;gap:6px;grid-column:span 2">
+                      <div class="se-field"><span class="se-label">الخطوة 5 — عنوان</span><input type="text" class="se-input" id="se-process_step5_title" placeholder="التقارير والميزانيات" onblur="seSave('process_step5_title',this.value)"></div>
+                      <div class="se-field"><span class="se-label">الخطوة 5 — وصف</span><textarea class="se-textarea" id="se-process_step5_desc" rows="2" placeholder="تقارير دورية شفافة..." onblur="seSave('process_step5_desc',this.value)"></textarea></div>
+                    </div>
+                  </div>
+                  <div style="border-top:1px solid var(--border);margin-top:8px;padding-top:8px">
+                    <div style="font-size:11px;font-weight:700;color:var(--fg-muted);margin-bottom:6px">زر الدعوة للعمل (CTA)</div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                      <div class="se-field"><span class="se-label">عنوان CTA</span><input type="text" class="se-input" id="se-process_cta_h3" placeholder="جاهز لتسليم إدارة عقارك لمحترفين؟" onblur="seSave('process_cta_h3',this.value)"></div>
+                      <div class="se-field"><span class="se-label">نص الزر</span><input type="text" class="se-input" id="se-process_cta_btn" placeholder="احجز استشارة الآن" onblur="seSave('process_cta_btn',this.value)"></div>
+                      <div class="se-field" style="grid-column:span 2"><span class="se-label">وصف CTA</span><textarea class="se-textarea" id="se-process_cta_desc" rows="2" placeholder="تواصل معنا الآن..." onblur="seSave('process_cta_desc',this.value)"></textarea></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ⑫ آراء العملاء (Testimonials) -->
+            <div class="se-section se-wide">
+              <div class="se-section-head">
+                <span><i data-lucide="star" width="14" height="14" style="color:var(--brand-teal-600)"></i> آراء العملاء</span>
+              </div>
+              <div class="se-section-body">
+                <div class="se-body-inner">
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                    <div class="se-field"><span class="se-label">عنوان القسم</span><input type="text" class="se-input" id="se-reviews_h2" placeholder="ثقة عملائنا هي أكبر إنجاز لنا" onblur="seSave('reviews_h2',this.value)"></div>
+                    <div class="se-field"><span class="se-label">نص التقييمات (مثال: 6 تقييمات)</span><input type="text" class="se-input" id="se-reviews_count_text" placeholder=" 6 تقييمات على جوجل" onblur="seSave('reviews_count_text',this.value)"></div>
+                  </div>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px">
+                    <div style="border:1px solid var(--border);border-radius:8px;padding:8px">
+                      <div style="font-size:11px;font-weight:700;color:var(--brand-teal-700);margin-bottom:6px">تقييم 1</div>
+                      <div class="se-field"><span class="se-label">اسم العميل</span><input type="text" class="se-input" id="se-review1_name" placeholder="الاسم" onblur="seSave('review1_name',this.value)"></div>
+                      <div class="se-field" style="margin-top:4px"><span class="se-label">الحرف الأول</span><input type="text" class="se-input" id="se-review1_initial" maxlength="2" placeholder="B" style="width:60px" onblur="seSave('review1_initial',this.value)"></div>
+                      <div class="se-field" style="margin-top:4px"><span class="se-label">نص التقييم</span><textarea class="se-textarea" id="se-review1_text" rows="3" placeholder="نص التقييم..." onblur="seSave('review1_text',this.value)"></textarea></div>
+                    </div>
+                    <div style="border:1px solid var(--border);border-radius:8px;padding:8px">
+                      <div style="font-size:11px;font-weight:700;color:var(--brand-teal-700);margin-bottom:6px">تقييم 2</div>
+                      <div class="se-field"><span class="se-label">اسم العميل</span><input type="text" class="se-input" id="se-review2_name" placeholder="الاسم" onblur="seSave('review2_name',this.value)"></div>
+                      <div class="se-field" style="margin-top:4px"><span class="se-label">الحرف الأول</span><input type="text" class="se-input" id="se-review2_initial" maxlength="2" placeholder="A" style="width:60px" onblur="seSave('review2_initial',this.value)"></div>
+                      <div class="se-field" style="margin-top:4px"><span class="se-label">نص التقييم</span><textarea class="se-textarea" id="se-review2_text" rows="3" placeholder="نص التقييم..." onblur="seSave('review2_text',this.value)"></textarea></div>
+                    </div>
+                    <div style="border:1px solid var(--border);border-radius:8px;padding:8px">
+                      <div style="font-size:11px;font-weight:700;color:var(--brand-teal-700);margin-bottom:6px">تقييم 3</div>
+                      <div class="se-field"><span class="se-label">اسم العميل</span><input type="text" class="se-input" id="se-review3_name" placeholder="الاسم" onblur="seSave('review3_name',this.value)"></div>
+                      <div class="se-field" style="margin-top:4px"><span class="se-label">الحرف الأول</span><input type="text" class="se-input" id="se-review3_initial" maxlength="2" placeholder="I" style="width:60px" onblur="seSave('review3_initial',this.value)"></div>
+                      <div class="se-field" style="margin-top:4px"><span class="se-label">نص التقييم</span><textarea class="se-textarea" id="se-review3_text" rows="3" placeholder="نص التقييم..." onblur="seSave('review3_text',this.value)"></textarea></div>
+                    </div>
+                    <div style="border:1px solid var(--border);border-radius:8px;padding:8px">
+                      <div style="font-size:11px;font-weight:700;color:var(--brand-teal-700);margin-bottom:6px">تقييم 4</div>
+                      <div class="se-field"><span class="se-label">اسم العميل</span><input type="text" class="se-input" id="se-review4_name" placeholder="الاسم" onblur="seSave('review4_name',this.value)"></div>
+                      <div class="se-field" style="margin-top:4px"><span class="se-label">الحرف الأول</span><input type="text" class="se-input" id="se-review4_initial" maxlength="2" placeholder="W" style="width:60px" onblur="seSave('review4_initial',this.value)"></div>
+                      <div class="se-field" style="margin-top:4px"><span class="se-label">نص التقييم</span><textarea class="se-textarea" id="se-review4_text" rows="3" placeholder="نص التقييم..." onblur="seSave('review4_text',this.value)"></textarea></div>
+                    </div>
+                    <div style="border:1px solid var(--border);border-radius:8px;padding:8px">
+                      <div style="font-size:11px;font-weight:700;color:var(--brand-teal-700);margin-bottom:6px">تقييم 5</div>
+                      <div class="se-field"><span class="se-label">اسم العميل</span><input type="text" class="se-input" id="se-review5_name" placeholder="الاسم" onblur="seSave('review5_name',this.value)"></div>
+                      <div class="se-field" style="margin-top:4px"><span class="se-label">الحرف الأول</span><input type="text" class="se-input" id="se-review5_initial" maxlength="2" placeholder="A" style="width:60px" onblur="seSave('review5_initial',this.value)"></div>
+                      <div class="se-field" style="margin-top:4px"><span class="se-label">نص التقييم</span><textarea class="se-textarea" id="se-review5_text" rows="3" placeholder="نص التقييم..." onblur="seSave('review5_text',this.value)"></textarea></div>
+                    </div>
+                    <div style="border:1px solid var(--border);border-radius:8px;padding:8px">
+                      <div style="font-size:11px;font-weight:700;color:var(--brand-teal-700);margin-bottom:6px">تقييم 6</div>
+                      <div class="se-field"><span class="se-label">اسم العميل</span><input type="text" class="se-input" id="se-review6_name" placeholder="الاسم" onblur="seSave('review6_name',this.value)"></div>
+                      <div class="se-field" style="margin-top:4px"><span class="se-label">الحرف الأول</span><input type="text" class="se-input" id="se-review6_initial" maxlength="2" placeholder="M" style="width:60px" onblur="seSave('review6_initial',this.value)"></div>
+                      <div class="se-field" style="margin-top:4px"><span class="se-label">نص التقييم</span><textarea class="se-textarea" id="se-review6_text" rows="3" placeholder="نص التقييم..." onblur="seSave('review6_text',this.value)"></textarea></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ⑬ التذييل -->
             <div class="se-section">
               <div class="se-section-head" >
                 <span><i data-lucide="align-bottom" width="14" height="14" style="color:var(--brand-teal-600)"></i> التذييل (Footer)</span>
@@ -4195,6 +4297,20 @@ async function loadSiteEditor() {
       'license1_num','license2_num','license3_num',
       'stat1_num','stat1_label','stat2_num','stat2_label','stat3_num','stat3_label','stat4_num','stat4_label',
       'cta_title','cta_desc','cta_btn_text','cta_btn_url',
+      'process_h2','process_desc',
+      'process_step1_title','process_step1_desc',
+      'process_step2_title','process_step2_desc',
+      'process_step3_title','process_step3_desc',
+      'process_step4_title','process_step4_desc',
+      'process_step5_title','process_step5_desc',
+      'process_cta_h3','process_cta_desc','process_cta_btn',
+      'reviews_h2','reviews_count_text',
+      'review1_name','review1_initial','review1_text',
+      'review2_name','review2_initial','review2_text',
+      'review3_name','review3_initial','review3_text',
+      'review4_name','review4_initial','review4_text',
+      'review5_name','review5_initial','review5_text',
+      'review6_name','review6_initial','review6_text',
       'footer_desc',
       'partners_label',
       'phone','whatsapp','email','address',
