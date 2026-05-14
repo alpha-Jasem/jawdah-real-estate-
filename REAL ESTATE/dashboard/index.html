@@ -802,15 +802,16 @@ canvas { max-width: 100%; }
 }
 .se-body { flex: 1; overflow-y: auto; padding: 14px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; align-items: start; scroll-behavior: smooth; }
 /* ─ Cards ─ */
-.se-section { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--bg); transition: box-shadow .2s; }
+.se-section { border: 1px solid var(--border); border-radius: 12px; background: var(--bg); transition: box-shadow .2s; }
 .se-section:hover { box-shadow: 0 2px 12px rgba(62,205,196,.1); }
 .se-section-head {
   padding: 9px 12px; display: flex; align-items: center; gap: 6px;
   background: var(--bg-subtle); font-size: 12px; font-weight: 700;
   border-bottom: 1px solid var(--border); color: var(--fg);
+  border-radius: 12px 12px 0 0;
 }
 .se-section-head > span { display: flex; align-items: center; gap: 6px; }
-.se-section-body { display: block; }
+.se-section-body { display: block !important; max-height: none !important; overflow: visible !important; }
 .se-chev { display: none; }
 .se-wide { grid-column: span 2; }
 .se-body-inner { padding: 10px 12px; display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--border); }
