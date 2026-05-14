@@ -552,15 +552,20 @@ canvas { max-width: 100%; }
 /* ── Splash screen ── */
 #splash {
   position: fixed; inset: 0; z-index: 9999;
-  background: linear-gradient(135deg, #0f2a2a 0%, #1a4040 60%, #0d3030 100%);
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px;
-  transition: opacity .5s ease;
+  background: #ffffff;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px;
+  transition: opacity .35s ease;
 }
 #splash.fade-out { opacity: 0; pointer-events: none; }
-#splash img { height: 64px; object-fit: contain; }
-.splash-bar { width: 200px; height: 3px; background: rgba(255,255,255,.12); border-radius: 99px; overflow: hidden; }
-.splash-bar-fill { height: 100%; background: #3ECDC4; border-radius: 99px; width: 0; transition: width 2s ease; }
-#splash p { font-size: 13px; color: rgba(255,255,255,.45); letter-spacing: .08em; }
+#splash img { height: 60px; object-fit: contain; }
+.splash-spinner {
+  width: 36px; height: 36px;
+  border: 3px solid rgba(62,205,196,.18);
+  border-top-color: #3ECDC4;
+  border-radius: 50%;
+  animation: spin .65s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
 
 /* ── Realtime indicator ── */
 .rt-indicator {
@@ -906,8 +911,7 @@ canvas { max-width: 100%; }
 <!-- ═══════════════ SPLASH ═══════════════ -->
 <div id="splash">
   <img src="../assets/logo-jawdah-full.png" alt="جودة العقارية" onerror="this.style.display='none'">
-  <div class="splash-bar"><div class="splash-bar-fill" id="splash-fill"></div></div>
-  <p>جودة العقارية · جاري التحميل...</p>
+  <div class="splash-spinner"></div>
 </div>
 
 <!-- ═══════════════ LOGIN ═══════════════ -->
@@ -2284,14 +2288,8 @@ function hideSplash() {
   splash.classList.add('fade-out');
   setTimeout(() => { splash.style.display = 'none'; }, 520);
 }
-function startSplashBar() {
-  const fill = document.getElementById('splash-fill');
-  if (fill) setTimeout(() => { fill.style.width = '85%'; }, 50);
-}
-function finishSplashBar() {
-  const fill = document.getElementById('splash-fill');
-  if (fill) { fill.style.transition = 'width .3s ease'; fill.style.width = '100%'; }
-}
+function startSplashBar() {}
+function finishSplashBar() {}
 
 // ═══════════════════════════════════════════════════════
 // REALTIME INDICATOR
