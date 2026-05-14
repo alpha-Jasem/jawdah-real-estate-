@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
@@ -800,21 +800,19 @@ canvas { max-width: 100%; }
   background: var(--bg); flex-shrink: 0;
   box-shadow: 0 1px 6px rgba(0,0,0,.04);
 }
-.se-body { flex: 1; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; gap: 5px; scroll-behavior: smooth; }
-/* ─ Accordion ─ */
-.se-section { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: var(--bg); transition: box-shadow .2s; }
-.se-section:hover { box-shadow: 0 2px 10px rgba(62,205,196,.08); }
+.se-body { flex: 1; overflow-y: auto; padding: 14px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; align-items: start; scroll-behavior: smooth; }
+/* ─ Cards ─ */
+.se-section { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--bg); transition: box-shadow .2s; }
+.se-section:hover { box-shadow: 0 2px 12px rgba(62,205,196,.1); }
 .se-section-head {
-  padding: 9px 12px; display: flex; align-items: center; justify-content: space-between;
-  cursor: pointer; background: var(--bg-subtle); font-size: 12.5px; font-weight: 600;
-  user-select: none; gap: 6px; transition: background .15s;
+  padding: 9px 12px; display: flex; align-items: center; gap: 6px;
+  background: var(--bg-subtle); font-size: 12px; font-weight: 700;
+  border-bottom: 1px solid var(--border); color: var(--fg);
 }
-.se-section-head:hover { background: rgba(62,205,196,.07); }
-.se-section-head > span { display: flex; align-items: center; gap: 6px; color: var(--fg); }
-.se-chev { flex-shrink: 0; transition: transform .28s cubic-bezier(.4,0,.2,1); transform: rotate(-90deg); color: var(--fg-muted); }
-.se-section.open .se-chev { transform: rotate(0deg); }
-.se-section-body { max-height: 0; overflow: hidden; transition: max-height .42s cubic-bezier(.4,0,.2,1); }
-.se-section.open .se-section-body { max-height: 6000px; }
+.se-section-head > span { display: flex; align-items: center; gap: 6px; }
+.se-section-body { display: block; }
+.se-chev { display: none; }
+.se-wide { grid-column: span 2; }
 .se-body-inner { padding: 10px 12px; display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--border); }
 /* ─ Fields ─ */
 .se-field { display: flex; flex-direction: column; gap: 3px; }
@@ -1493,10 +1491,9 @@ canvas { max-width: 100%; }
           <div class="se-body">
 
             <!-- ① الشعار والهوية -->
-            <div class="se-section open">
-              <div class="se-section-head" onclick="seToggle(this)">
+            <div class="se-section">
+              <div class="se-section-head" >
                 <span><i data-lucide="badge-check" width="14" height="14" style="color:var(--brand-teal-600)"></i> الشعار والهوية</span>
-                <i data-lucide="chevron-down" width="15" height="15" class="se-chev"></i>
               </div>
               <div class="se-section-body">
                 <div class="se-body-inner">
@@ -1523,10 +1520,9 @@ canvas { max-width: 100%; }
             </div>
 
             <!-- ② القسم الرئيسي (Hero) -->
-            <div class="se-section">
-              <div class="se-section-head" onclick="seToggle(this)">
+            <div class="se-section se-wide">
+              <div class="se-section-head" >
                 <span><i data-lucide="layout-template" width="14" height="14" style="color:var(--brand-teal-600)"></i> القسم الرئيسي</span>
-                <i data-lucide="chevron-down" width="15" height="15" class="se-chev"></i>
               </div>
               <div class="se-section-body">
                 <div class="se-body-inner">
@@ -1597,9 +1593,8 @@ canvas { max-width: 100%; }
 
             <!-- ③ من نحن -->
             <div class="se-section">
-              <div class="se-section-head" onclick="seToggle(this)">
+              <div class="se-section-head" >
                 <span><i data-lucide="users" width="14" height="14" style="color:var(--brand-teal-600)"></i> من نحن</span>
-                <i data-lucide="chevron-down" width="15" height="15" class="se-chev"></i>
               </div>
               <div class="se-section-body">
                 <div class="se-body-inner">
@@ -1632,9 +1627,8 @@ canvas { max-width: 100%; }
 
             <!-- ④ الخدمات -->
             <div class="se-section">
-              <div class="se-section-head" onclick="seToggle(this)">
+              <div class="se-section-head" >
                 <span><i data-lucide="briefcase" width="14" height="14" style="color:var(--brand-teal-600)"></i> الخدمات</span>
-                <i data-lucide="chevron-down" width="15" height="15" class="se-chev"></i>
               </div>
               <div class="se-section-body">
                 <div class="se-body-inner">
@@ -1648,9 +1642,8 @@ canvas { max-width: 100%; }
 
             <!-- ⑤ قسم إدارة الأملاك -->
             <div class="se-section">
-              <div class="se-section-head" onclick="seToggle(this)">
+              <div class="se-section-head" >
                 <span><i data-lucide="home" width="14" height="14" style="color:var(--brand-teal-600)"></i> قسم إدارة الأملاك</span>
-                <i data-lucide="chevron-down" width="15" height="15" class="se-chev"></i>
               </div>
               <div class="se-section-body">
                 <div class="se-body-inner">
@@ -1684,9 +1677,8 @@ canvas { max-width: 100%; }
 
             <!-- ⑥ التراخيص -->
             <div class="se-section">
-              <div class="se-section-head" onclick="seToggle(this)">
+              <div class="se-section-head" >
                 <span><i data-lucide="shield-check" width="14" height="14" style="color:var(--brand-teal-600)"></i> التراخيص الرسمية</span>
-                <i data-lucide="chevron-down" width="15" height="15" class="se-chev"></i>
               </div>
               <div class="se-section-body">
                 <div class="se-body-inner">
@@ -1707,10 +1699,9 @@ canvas { max-width: 100%; }
             </div>
 
             <!-- ⑦ الإحصائيات -->
-            <div class="se-section">
-              <div class="se-section-head" onclick="seToggle(this)">
+            <div class="se-section se-wide">
+              <div class="se-section-head" >
                 <span><i data-lucide="bar-chart-2" width="14" height="14" style="color:var(--brand-teal-600)"></i> الإحصائيات</span>
-                <i data-lucide="chevron-down" width="15" height="15" class="se-chev"></i>
               </div>
               <div class="se-section-body">
                 <div class="se-body-inner">
@@ -1754,9 +1745,8 @@ canvas { max-width: 100%; }
 
             <!-- ⑧ قسم الدعوة للعمل (CTA) -->
             <div class="se-section">
-              <div class="se-section-head" onclick="seToggle(this)">
+              <div class="se-section-head" >
                 <span><i data-lucide="megaphone" width="14" height="14" style="color:var(--brand-teal-600)"></i> قسم الدعوة للعمل</span>
-                <i data-lucide="chevron-down" width="15" height="15" class="se-chev"></i>
               </div>
               <div class="se-section-body">
                 <div class="se-body-inner">
@@ -1782,10 +1772,9 @@ canvas { max-width: 100%; }
             </div>
 
             <!-- ⑨ شريط الشركاء -->
-            <div class="se-section">
-              <div class="se-section-head" onclick="seToggle(this)">
+            <div class="se-section se-wide">
+              <div class="se-section-head" >
                 <span><i data-lucide="handshake" width="14" height="14" style="color:var(--brand-teal-600)"></i> شركاؤنا وعملاؤنا</span>
-                <i data-lucide="chevron-down" width="15" height="15" class="se-chev"></i>
               </div>
               <div class="se-section-body">
                 <div class="se-body-inner">
@@ -1867,9 +1856,8 @@ canvas { max-width: 100%; }
 
             <!-- ⑩ التذييل -->
             <div class="se-section">
-              <div class="se-section-head" onclick="seToggle(this)">
+              <div class="se-section-head" >
                 <span><i data-lucide="align-bottom" width="14" height="14" style="color:var(--brand-teal-600)"></i> التذييل (Footer)</span>
-                <i data-lucide="chevron-down" width="15" height="15" class="se-chev"></i>
               </div>
               <div class="se-section-body">
                 <div class="se-body-inner">
@@ -1883,9 +1871,8 @@ canvas { max-width: 100%; }
 
             <!-- ⑩ معلومات التواصل -->
             <div class="se-section">
-              <div class="se-section-head" onclick="seToggle(this)">
+              <div class="se-section-head" >
                 <span><i data-lucide="phone" width="14" height="14" style="color:var(--brand-teal-600)"></i> معلومات التواصل</span>
-                <i data-lucide="chevron-down" width="15" height="15" class="se-chev"></i>
               </div>
               <div class="se-section-body">
                 <div class="se-body-inner">
@@ -4431,3 +4418,7 @@ function seRefreshPreview() {
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
 </body>
 </html>
+
+
+
+
