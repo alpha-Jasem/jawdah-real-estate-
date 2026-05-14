@@ -769,7 +769,7 @@ canvas { max-width: 100%; }
 /* ══ SITE EDITOR ══════════════════════════════════════ */
 #page-site-editor { padding: 0 !important; overflow: hidden; }
 .se-layout {
-  display: flex; flex-direction: row;
+  display: flex; flex-direction: column;
   height: calc(100vh - 64px); overflow: hidden;
 }
 /* ─ Tab Bar ─ */
@@ -791,9 +791,10 @@ canvas { max-width: 100%; }
 .se-tab-btn:not(.active):hover { background: var(--bg-subtle); color: var(--fg); }
 /* ─ Editor Panel ─ */
 .se-panel {
-  width: 440px; flex-shrink: 0; display: flex; flex-direction: column;
-  overflow: hidden; background: var(--bg); border-left: 1px solid var(--border);
+  flex: 1; display: flex; flex-direction: column;
+  overflow: hidden; background: var(--bg);
 }
+.se-panel.hidden { display: none; }
 .se-panel-head {
   padding: 10px 14px; border-bottom: 1px solid var(--border);
   background: var(--bg); flex-shrink: 0;
@@ -857,13 +858,8 @@ canvas { max-width: 100%; }
 .se-status.saved  { color: var(--brand-teal-700); background: rgba(62,205,196,.15); }
 .se-status.err    { color: var(--danger-500); background: var(--danger-50); }
 /* ─ Preview Pane ─ */
-.se-preview-wrap { display: flex; flex-direction: column; overflow: hidden; background: #0d1117; flex: 1; min-width: 0; }
-/* ─ Drag & Drop ─ */
-.se-section { transition: box-shadow .2s, opacity .15s; }
-.se-section-head { cursor: grab; user-select: none; }
-.se-section-head::before { content: '⠿'; font-size: 13px; color: var(--fg-muted); margin-left: 4px; opacity: .4; }
-.se-section.se-dragging { opacity: .3; box-shadow: none !important; }
-.se-section.se-drag-over { outline: 2.5px solid var(--brand-teal-400); outline-offset: 2px; box-shadow: 0 0 0 6px rgba(62,205,196,.08); }
+.se-preview-wrap { display: none; flex-direction: column; overflow: hidden; background: #0d1117; flex: 1; }
+.se-preview-wrap.visible { display: flex; }
 .se-preview-bar {
   padding: 7px 14px; background: #161b22; display: flex; align-items: center; gap: 8px;
   border-bottom: 1px solid rgba(255,255,255,.07); flex-shrink: 0;
@@ -897,10 +893,8 @@ canvas { max-width: 100%; }
   width: 80px; height: 6px; background: rgba(255,255,255,.15);
   border-radius: 3px; flex-shrink: 0;
 }
-@media (max-width: 900px) {
-  .se-layout { flex-direction: column; }
-  .se-panel { width: 100%; border-left: none; border-bottom: 1px solid var(--border); max-height: 50vh; }
-  .se-preview-wrap { min-height: 50vh; }
+@media (max-width: 768px) {
+  .se-panel { width: 100%; right: 0; }
 }
 </style>
 </head>
@@ -1467,11 +1461,13 @@ canvas { max-width: 100%; }
     <div class="page" id="page-site-editor" data-screen-label="10 Site Editor">
       <div class="se-layout">
 
-        <!-- Editor header — split view, no tabs -->
         <div class="se-tab-bar">
-          <i data-lucide="layout-panel-left" width="15" height="15" style="color:var(--brand-teal-600)"></i>
-          <span style="font-size:13px;font-weight:700">تعديل الموقع</span>
-          <span style="font-size:10px;color:var(--fg-muted);background:var(--bg-subtle);padding:2px 8px;border-radius:10px;border:1px solid var(--border)">اسحب السيكشنات لإعادة الترتيب</span>
+          <button class="se-tab-btn active" id="se-tab-edit" onclick="seShowEdit()">
+            <i data-lucide="pencil" width="13" height="13"></i> تعديل
+          </button>
+          <button class="se-tab-btn" id="se-tab-preview" onclick="seShowPreview()">
+            <i data-lucide="eye" width="13" height="13"></i> معاينة
+          </button>
           <span style="flex:1"></span>
           <span class="se-status" id="se-status"></span>
         </div>
@@ -1893,6 +1889,36 @@ canvas { max-width: 100%; }
                       <div class="se-field" style="margin-top:4px"><span class="se-label">نص التقييم</span><textarea class="se-textarea" id="se-review6_text" rows="3" placeholder="نص التقييم..." onblur="seSave('review6_text',this.value)"></textarea></div>
                     </div>
                   </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ⑩ المشاريع والإنجازات -->
+            <div class="se-section se-wide">
+              <div class="se-section-head">
+                <span><i data-lucide="folder-open" width="14" height="14" style="color:var(--brand-teal-600)"></i> المشاريع والإنجازات</span>
+              </div>
+              <div class="se-section-body">
+                <div class="se-body-inner">
+                  <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:4px">
+                    <div style="display:flex;gap:4px;background:var(--bg-subtle);padding:3px;border-radius:8px">
+                      <button class="btn btn-sm" id="seproj-f-all" onclick="seFilterProjects('all',this)" style="background:var(--bg-elevated);border:1px solid var(--border)">الكل</button>
+                      <button class="btn btn-ghost btn-sm" onclick="seFilterProjects('published',this)">منشور</button>
+                      <button class="btn btn-ghost btn-sm" onclick="seFilterProjects('draft',this)">مسودة</button>
+                    </div>
+                    <button class="btn btn-primary btn-sm" onclick="openAddProject()">
+                      <i data-lucide="plus" width="12" height="12"></i> مشروع جديد
+                    </button>
+                    <span style="font-size:11px;color:var(--fg-muted);margin-right:auto">⠿ اسحب الكروت لإعادة الترتيب</span>
+                  </div>
+                  <div id="se-publish-bar" style="display:none;align-items:center;justify-content:space-between;gap:10px;background:#0f2a2a;color:#fff;padding:10px 14px;border-radius:10px;margin-bottom:8px">
+                    <span style="font-size:12px;opacity:.85">⚡ لديك تغييرات — اضغط نشر</span>
+                    <div style="display:flex;gap:6px">
+                      <button class="btn btn-sm" style="background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.2)" onclick="seUndoProjects()">تراجع</button>
+                      <button class="btn btn-primary btn-sm" onclick="sePublishProjects()">نشر</button>
+                    </div>
+                  </div>
+                  <div id="se-proj-grid" style="display:flex;flex-wrap:wrap;gap:10px"></div>
                 </div>
               </div>
             </div>
@@ -4269,63 +4295,87 @@ document.addEventListener('keydown', e => {
 // ═══════════════════════════════════════════════════════
 let SE = {}; // current settings cache
 
-function seShowEdit() {} // no-op (split view: always visible)
-function seShowPreview() {} // no-op
+// ── Site Editor — Projects section ──────────────────────
+let _seProjFilter = 'all';
+let _seSortable = null;
+let _sePendingOrder = null;
 
-// ── Drag-to-reorder section cards ───────────────────────
-let _seDrag = null;
-
-function initSeDragDrop() {
-  const body = document.querySelector('.se-body');
-  if (!body) return;
-  body.querySelectorAll('.se-section').forEach((card, i) => {
-    if (!card.dataset.seid) card.dataset.seid = 'sec' + i;
-    card.setAttribute('draggable', 'true');
-    card.addEventListener('dragstart', e => {
-      _seDrag = card;
-      setTimeout(() => card.classList.add('se-dragging'), 0);
-      e.dataTransfer.effectAllowed = 'move';
-    });
-    card.addEventListener('dragend', () => {
-      card.classList.remove('se-dragging');
-      body.querySelectorAll('.se-section').forEach(c => c.classList.remove('se-drag-over'));
-      seCardOrderSave();
-    });
-    card.addEventListener('dragover', e => {
-      e.preventDefault();
-      if (_seDrag && card !== _seDrag) {
-        body.querySelectorAll('.se-section').forEach(c => c.classList.remove('se-drag-over'));
-        card.classList.add('se-drag-over');
-      }
-    });
-    card.addEventListener('dragleave', e => {
-      if (!card.contains(e.relatedTarget)) card.classList.remove('se-drag-over');
-    });
-    card.addEventListener('drop', e => {
-      e.preventDefault();
-      card.classList.remove('se-drag-over');
-      if (_seDrag && _seDrag !== card) {
-        const all = [...body.querySelectorAll('.se-section')];
-        const si = all.indexOf(_seDrag), di = all.indexOf(card);
-        body.insertBefore(_seDrag, si < di ? card.nextSibling : card);
-      }
-    });
-  });
-  // Restore saved order from localStorage
-  try {
-    const saved = JSON.parse(localStorage.getItem('se-card-order') || '[]');
-    if (saved.length) {
-      saved.forEach(id => {
-        const c = body.querySelector(`.se-section[data-seid="${id}"]`);
-        if (c) body.appendChild(c);
-      });
-    }
-  } catch(_) {}
+function seRenderProjects(filter) {
+  filter = filter || _seProjFilter;
+  _seProjFilter = filter;
+  const grid = document.getElementById('se-proj-grid');
+  if (!grid) return;
+  let data = PROJECTS;
+  if (filter !== 'all') data = data.filter(p => p.status === filter);
+  grid.innerHTML = data.map(p => `
+    <div class="project-card" data-id="${p.id}" style="flex:0 0 calc(33% - 7px);max-width:calc(33% - 7px)">
+      <div class="project-card-img" style="height:110px;position:relative">
+        ${p.image_url ? `<img src="${p.image_url}" loading="lazy" style="width:100%;height:100%;object-fit:cover">` : ''}
+        <div style="position:absolute;top:8px;right:8px">
+          <span class="badge ${p.status==='published'?'badge-success':'badge-gray'}" style="font-size:10px">${p.status==='published'?'منشور':'مسودة'}</span>
+        </div>
+      </div>
+      <div class="project-card-body" style="padding:10px 12px">
+        <div class="project-card-title" style="font-size:13px">${p.title}</div>
+        <div class="project-card-meta">${getCatLabel(p.category)} · ${p.year||''}</div>
+      </div>
+      <div class="project-card-actions" style="display:flex;gap:4px;padding:6px 10px;border-top:1px solid var(--border);justify-content:flex-end">
+        <button class="btn btn-ghost btn-sm" onclick="openEditProject('${p.id}')"><i data-lucide="pencil" width="12" height="12"></i></button>
+        <button class="btn btn-ghost btn-sm" style="color:var(--danger-500)" onclick="deleteProject('${p.id}')"><i data-lucide="trash-2" width="12" height="12"></i></button>
+      </div>
+    </div>`).join('');
+  lucide.createIcons();
+  seInitSortable();
 }
 
-function seCardOrderSave() {
-  const cards = [...document.querySelectorAll('.se-section[data-seid]')];
-  localStorage.setItem('se-card-order', JSON.stringify(cards.map(c => c.dataset.seid)));
+function seFilterProjects(f, btn) {
+  seRenderProjects(f);
+}
+
+function seInitSortable() {
+  const grid = document.getElementById('se-proj-grid');
+  if (!grid || typeof Sortable === 'undefined') return;
+  if (_seSortable) _seSortable.destroy();
+  _seSortable = new Sortable(grid, {
+    animation: 150, ghostClass: 'sortable-ghost',
+    filter: '.project-card-actions, button', preventOnFilter: true,
+    delay: 80, delayOnTouchOnly: true,
+    onEnd() {
+      _sePendingOrder = [...grid.querySelectorAll('.project-card')].map(el => el.dataset.id);
+      document.getElementById('se-publish-bar').style.display = 'flex';
+    }
+  });
+}
+
+async function sePublishProjects() {
+  if (!_sePendingOrder) return;
+  for (let i = 0; i < _sePendingOrder.length; i++) {
+    await sb.from('projects').update({ order_index: i }).eq('id', _sePendingOrder[i]);
+  }
+  _sePendingOrder = null;
+  document.getElementById('se-publish-bar').style.display = 'none';
+  showToast('تم نشر الترتيب ✓', 'success');
+  seRefreshPreview();
+}
+
+async function seUndoProjects() {
+  _sePendingOrder = null;
+  document.getElementById('se-publish-bar').style.display = 'none';
+  await loadProjects();
+  seRenderProjects();
+}
+
+function seShowEdit() {
+  document.getElementById('se-panel')?.classList.remove('hidden');
+  document.getElementById('se-preview-wrap')?.classList.remove('visible');
+  document.getElementById('se-tab-edit')?.classList.add('active');
+  document.getElementById('se-tab-preview')?.classList.remove('active');
+}
+function seShowPreview() {
+  document.getElementById('se-panel')?.classList.add('hidden');
+  document.getElementById('se-preview-wrap')?.classList.add('visible');
+  document.getElementById('se-tab-preview')?.classList.add('active');
+  document.getElementById('se-tab-edit')?.classList.remove('active');
 }
 
 async function loadSiteEditor() {
@@ -4390,8 +4440,9 @@ async function loadSiteEditor() {
     }
     if (SE_PARTNER_COUNT === 0) SE_PARTNER_COUNT = 3;
     seRenderPartners();
-    // init drag-to-reorder
-    setTimeout(initSeDragDrop, 100);
+    // render projects in site editor
+    if (PROJECTS.length) seRenderProjects();
+    else loadProjects().then(() => seRenderProjects());
   } catch(e) { console.error('[SE] loadSiteEditor', e); }
 }
 
@@ -4461,9 +4512,6 @@ async function seSave(key, value) {
     if (error) throw error;
     SE[key] = value;
     if (st) { st.textContent = 'تم الحفظ ✓'; st.className = 'se-save-bar saved'; setTimeout(() => { st.textContent=''; st.className='se-save-bar'; }, 2000); }
-    // auto-refresh preview after save
-    clearTimeout(window._seRefreshTimer);
-    window._seRefreshTimer = setTimeout(seRefreshPreview, 1200);
   } catch(e) {
     if (st) { st.textContent = 'خطأ'; st.className = 'se-save-bar err'; }
     console.error('[SE] seSave', e);
