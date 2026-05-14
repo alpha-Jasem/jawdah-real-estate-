@@ -744,9 +744,6 @@ canvas { max-width: 100%; }
   /* Login screen */
   .login-box { padding: 28px 20px; margin: 16px; }
 
-  /* Reports: hide PDF export on mobile */
-  button[onclick="exportReportPDF()"] { display: none !important; }
-
   /* Visits chart: reduce height on mobile */
   #visitsChart { max-height: 180px; }
   #visitsChart + * { display: none; } /* hide legend if cramped */
@@ -758,6 +755,9 @@ canvas { max-width: 100%; }
 
   /* Overview Q2 title: smaller on mobile */
   #page-overview h1 { font-size: 22px !important; }
+}
+@media (max-width: 1024px) {
+  button[onclick="exportReportPDF()"] { display: none !important; }
 }
 
 /* Landscape mobile */
@@ -1053,9 +1053,6 @@ canvas { max-width: 100%; }
         <div>
           <div class="eyebrow">لوحة التحكم</div>
           <h1 style="font-family:var(--font-display);font-size:32px;font-weight:500;margin-top:6px">الرئيسية</h1>
-        </div>
-        <div style="display:flex;gap:10px">
-<button class="btn btn-primary btn-sm" onclick="openAddProject()"><i data-lucide="plus" width="14" height="14"></i> مشروع جديد</button>
         </div>
       </div>
 
@@ -1428,6 +1425,19 @@ canvas { max-width: 100%; }
         <h1 style="font-family:var(--font-display);font-size:32px;font-weight:500;margin-top:6px">الإعدادات</h1>
       </div>
       <div style="max-width:680px;display:flex;flex-direction:column;gap:20px">
+
+        <div class="panel">
+          <div class="section-title" style="margin-bottom:16px">شعار الشركة</div>
+          <div id="set-logo-wrap" onclick="document.getElementById('set-logo-file').click()" onmouseenter="this.style.borderColor='var(--brand-teal-400)'" onmouseleave="this.style.borderColor='var(--border)'" style="width:200px;height:80px;border:2px dashed var(--border);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;background:var(--bg-subtle);margin-bottom:12px;transition:border-color .2s">
+            <span style="color:var(--fg-muted);font-size:12px">اضغط لرفع الشعار</span>
+          </div>
+          <input type="file" id="set-logo-file" accept="image/*" style="display:none" onchange="setLogoUpload(this)">
+          <div style="display:flex;gap:6px;max-width:400px">
+            <input type="url" id="set-logo-url" class="form-input" style="font-size:12px" placeholder="أو الصق رابط الشعار مباشرة...">
+            <button class="btn btn-secondary btn-sm" onclick="setLogoApplyUrl()">تطبيق</button>
+          </div>
+          <div style="font-size:11px;color:var(--fg-muted);margin-top:8px">PNG شفاف مُفضَّل · يظهر في رأس الموقع التعريفي</div>
+        </div>
 
         <div class="panel">
           <div class="section-title" style="margin-bottom:20px">التفضيلات</div>
@@ -2365,7 +2375,7 @@ function navTo(page) {
     setTimeout(updateMonthlyChart, 300);
   }
   if (page === 'calendar') renderCalendar();
-  if (page === 'settings') loadActivityLog();
+  if (page === 'settings') { loadActivityLog(); loadLogoSetting(); }
   if (page === 'site-editor') loadSiteEditor();
 }
 
@@ -3466,6 +3476,44 @@ async function loadNotifications() {
     const dot = document.querySelector('.notif-dot');
     if (dot) { dot.style.display = newCount > 0 ? '' : 'none'; }
   } catch(e) {}
+}
+
+// ── Settings — Logo ─────────────────────────────────────
+async function loadLogoSetting() {
+  const { data } = await sb.from('site_settings').select('value').eq('key', 'logo_url').single();
+  if (data?.value) {
+    const wrap = document.getElementById('set-logo-wrap');
+    if (wrap) wrap.innerHTML = `<img src="${data.value}" style="max-width:100%;max-height:100%;object-fit:contain;padding:8px">`;
+    const urlEl = document.getElementById('set-logo-url');
+    if (urlEl) urlEl.value = data.value;
+  }
+}
+async function setLogoSave(url) {
+  const { error } = await sb.from('site_settings').upsert({ key: 'logo_url', value: url }, { onConflict: 'key' });
+  if (error) { showToast('خطأ في الحفظ', 'error'); return; }
+  const wrap = document.getElementById('set-logo-wrap');
+  if (wrap) wrap.innerHTML = `<img src="${url}" style="max-width:100%;max-height:100%;object-fit:contain;padding:8px">`;
+  const urlEl = document.getElementById('set-logo-url');
+  if (urlEl) urlEl.value = url;
+  if (window.SE) SE.logo_url = url;
+  showToast('تم حفظ الشعار ✓', 'success');
+}
+async function setLogoUpload(input) {
+  const file = input.files[0]; if (!file) return;
+  showToast('جارٍ الرفع...', 'info');
+  try {
+    const ext = file.name.split('.').pop().toLowerCase();
+    const path = `site/logo_url-${Date.now()}.${ext}`;
+    const { error: upErr } = await sb.storage.from('site-assets').upload(path, file, { upsert: true, contentType: file.type });
+    if (upErr) throw upErr;
+    const { data: { publicUrl } } = sb.storage.from('site-assets').getPublicUrl(path);
+    await setLogoSave(publicUrl);
+  } catch(e) { showToast('خطأ في رفع الشعار: ' + (e.message || ''), 'error'); }
+}
+async function setLogoApplyUrl() {
+  const url = document.getElementById('set-logo-url')?.value?.trim();
+  if (!url) { showToast('أدخل رابط الشعار', 'error'); return; }
+  await setLogoSave(url);
 }
 
 async function loadActivityLog() {
