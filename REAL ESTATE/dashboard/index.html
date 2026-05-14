@@ -1491,7 +1491,7 @@ canvas { max-width: 100%; }
               </div>
             </div>
 
-            <!-- ② القسم الرئيسي -->
+            <!-- ② القسم الرئيسي (Hero) -->
             <div class="se-section">
               <div class="se-section-head" onclick="seToggle(this)">
                 <span><i data-lucide="layout-template" width="14" height="14" style="color:var(--brand-teal-600)"></i> القسم الرئيسي</span>
@@ -1507,6 +1507,43 @@ canvas { max-width: 100%; }
                   <div class="se-field">
                     <span class="se-label">الوصف التعريفي</span>
                     <textarea class="se-textarea" id="se-hero_desc" rows="3" placeholder="نقدم حلول إدارة العقارات..." onblur="seSave('hero_desc',this.value)"></textarea>
+                  </div>
+                  <div class="se-field">
+                    <span class="se-label">نص زر الدعوة للعمل</span>
+                    <input type="text" class="se-input" id="se-hero_btn_text" placeholder="ابدأ إدارة عقارك الآن" onblur="seSave('hero_btn_text',this.value)">
+                  </div>
+                  <div class="se-field">
+                    <span class="se-label">رابط زر الدعوة للعمل</span>
+                    <input type="url" class="se-input" id="se-hero_btn_url" placeholder="https://wa.me/..." onblur="seSave('hero_btn_url',this.value)">
+                  </div>
+                  <div style="background:var(--bg-subtle);border-radius:8px;padding:10px 12px;margin-top:4px">
+                    <div style="font-size:11px;font-weight:600;color:var(--fg-muted);margin-bottom:8px">إحصائيات شريط الهيرو</div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                      <div class="se-field" style="margin:0">
+                        <span class="se-label">رقم ١</span>
+                        <input type="text" class="se-input" id="se-hero_stat1_num" placeholder="+300" onblur="seSave('hero_stat1_num',this.value)">
+                      </div>
+                      <div class="se-field" style="margin:0">
+                        <span class="se-label">وصف ١</span>
+                        <input type="text" class="se-input" id="se-hero_stat1_label" placeholder="مشروع عقاري" onblur="seSave('hero_stat1_label',this.value)">
+                      </div>
+                      <div class="se-field" style="margin:0">
+                        <span class="se-label">رقم ٢</span>
+                        <input type="text" class="se-input" id="se-hero_stat2_num" placeholder="+300" onblur="seSave('hero_stat2_num',this.value)">
+                      </div>
+                      <div class="se-field" style="margin:0">
+                        <span class="se-label">وصف ٢</span>
+                        <input type="text" class="se-input" id="se-hero_stat2_label" placeholder="موقع استراتيجي" onblur="seSave('hero_stat2_label',this.value)">
+                      </div>
+                      <div class="se-field" style="margin:0">
+                        <span class="se-label">رقم ٣</span>
+                        <input type="text" class="se-input" id="se-hero_stat3_num" placeholder="+10 آلاف" onblur="seSave('hero_stat3_num',this.value)">
+                      </div>
+                      <div class="se-field" style="margin:0">
+                        <span class="se-label">وصف ٣</span>
+                        <input type="text" class="se-input" id="se-hero_stat3_label" placeholder="عميل" onblur="seSave('hero_stat3_label',this.value)">
+                      </div>
+                    </div>
                   </div>
                   <div class="se-field">
                     <span class="se-label">صورة خلفية (تستبدل الفيديو — اختياري)</span>
@@ -1536,8 +1573,12 @@ canvas { max-width: 100%; }
               <div class="se-section-body">
                 <div class="se-body-inner">
                   <div class="se-field">
-                    <span class="se-label">نص التعريف</span>
-                    <textarea class="se-textarea" id="se-about_text" rows="5" placeholder="جودة العقارية شركة متخصصة..." onblur="seSave('about_text',this.value)"></textarea>
+                    <span class="se-label">الفقرة الأولى</span>
+                    <textarea class="se-textarea" id="se-about_text" rows="4" placeholder="جودة العقارية شركة متخصصة في إدارة الأملاك..." onblur="seSave('about_text',this.value)"></textarea>
+                  </div>
+                  <div class="se-field">
+                    <span class="se-label">الفقرة الثانية</span>
+                    <textarea class="se-textarea" id="se-about_text2" rows="3" placeholder="نهدف إلى تحقيق التوازن بين رضا المستأجرين..." onblur="seSave('about_text2',this.value)"></textarea>
                   </div>
                   <div class="se-field">
                     <span class="se-label">صورة القسم</span>
@@ -1558,7 +1599,23 @@ canvas { max-width: 100%; }
               </div>
             </div>
 
-            <!-- ④ قسم إدارة الأملاك -->
+            <!-- ④ الخدمات -->
+            <div class="se-section">
+              <div class="se-section-head" onclick="seToggle(this)">
+                <span><i data-lucide="briefcase" width="14" height="14" style="color:var(--brand-teal-600)"></i> الخدمات</span>
+                <i data-lucide="chevron-down" width="15" height="15" class="se-chev"></i>
+              </div>
+              <div class="se-section-body">
+                <div class="se-body-inner">
+                  <div class="se-field">
+                    <span class="se-label">وصف قسم الخدمات</span>
+                    <textarea class="se-textarea" id="se-services_desc" rows="2" placeholder="نغطي جميع جوانب إدارة وتشغيل العقارات..." onblur="seSave('services_desc',this.value)"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ⑤ قسم إدارة الأملاك -->
             <div class="se-section">
               <div class="se-section-head" onclick="seToggle(this)">
                 <span><i data-lucide="home" width="14" height="14" style="color:var(--brand-teal-600)"></i> قسم إدارة الأملاك</span>
@@ -1567,8 +1624,17 @@ canvas { max-width: 100%; }
               <div class="se-section-body">
                 <div class="se-body-inner">
                   <div class="se-field">
+                    <span class="se-label">العنوان</span>
+                    <textarea class="se-textarea" id="se-interior_title" rows="2" placeholder="عقارك يحتاج من يديره باحترافية" onblur="seSave('interior_title',this.value)"></textarea>
+                    <span class="se-hint">يمكن استخدام br لفاصل السطر</span>
+                  </div>
+                  <div class="se-field">
+                    <span class="se-label">النص التعريفي</span>
+                    <textarea class="se-textarea" id="se-interior_desc" rows="4" placeholder="إدارة الأملاك هي الإشراف اليومي الكامل..." onblur="seSave('interior_desc',this.value)"></textarea>
+                  </div>
+                  <div class="se-field">
                     <span class="se-label">صورة الخلفية</span>
-                    <span class="se-hint">موصى به: 1920×1080px · تُعرض تلقائياً مع طبقة تعتيم</span>
+                    <span class="se-hint">موصى به: 1920×1080px · تُعرض مع طبقة تعتيم تلقائية</span>
                     <div id="wrap-interior_bg_url">
                       <div class="se-img-drop" onclick="document.getElementById('file-interior_bg_url').click()">
                         <i data-lucide="image-plus" width="20" height="20"></i>
@@ -1585,7 +1651,122 @@ canvas { max-width: 100%; }
               </div>
             </div>
 
-            <!-- ⑤ معلومات التواصل -->
+            <!-- ⑥ التراخيص -->
+            <div class="se-section">
+              <div class="se-section-head" onclick="seToggle(this)">
+                <span><i data-lucide="shield-check" width="14" height="14" style="color:var(--brand-teal-600)"></i> التراخيص الرسمية</span>
+                <i data-lucide="chevron-down" width="15" height="15" class="se-chev"></i>
+              </div>
+              <div class="se-section-body">
+                <div class="se-body-inner">
+                  <div class="se-field">
+                    <span class="se-label">رقم الترخيص الأول (فال)</span>
+                    <input type="text" class="se-input" id="se-license1_num" placeholder="2200001290" onblur="seSave('license1_num',this.value)">
+                  </div>
+                  <div class="se-field">
+                    <span class="se-label">رقم الترخيص الثاني (فال)</span>
+                    <input type="text" class="se-input" id="se-license2_num" placeholder="3200000145" onblur="seSave('license2_num',this.value)">
+                  </div>
+                  <div class="se-field">
+                    <span class="se-label">رقم الترخيص الثالث (فال)</span>
+                    <input type="text" class="se-input" id="se-license3_num" placeholder="1200018434" onblur="seSave('license3_num',this.value)">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ⑦ الإحصائيات -->
+            <div class="se-section">
+              <div class="se-section-head" onclick="seToggle(this)">
+                <span><i data-lucide="bar-chart-2" width="14" height="14" style="color:var(--brand-teal-600)"></i> الإحصائيات</span>
+                <i data-lucide="chevron-down" width="15" height="15" class="se-chev"></i>
+              </div>
+              <div class="se-section-body">
+                <div class="se-body-inner">
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                    <div class="se-field" style="margin:0">
+                      <span class="se-label">رقم ١</span>
+                      <input type="text" class="se-input" id="se-stat1_num" placeholder="+300" onblur="seSave('stat1_num',this.value)">
+                    </div>
+                    <div class="se-field" style="margin:0">
+                      <span class="se-label">وصف ١</span>
+                      <input type="text" class="se-input" id="se-stat1_label" placeholder="مشروع عقاري منجز" onblur="seSave('stat1_label',this.value)">
+                    </div>
+                    <div class="se-field" style="margin:0">
+                      <span class="se-label">رقم ٢</span>
+                      <input type="text" class="se-input" id="se-stat2_num" placeholder="+10,000" onblur="seSave('stat2_num',this.value)">
+                    </div>
+                    <div class="se-field" style="margin:0">
+                      <span class="se-label">وصف ٢</span>
+                      <input type="text" class="se-input" id="se-stat2_label" placeholder="عميل راضٍ" onblur="seSave('stat2_label',this.value)">
+                    </div>
+                    <div class="se-field" style="margin:0">
+                      <span class="se-label">رقم ٣</span>
+                      <input type="text" class="se-input" id="se-stat3_num" placeholder="10+" onblur="seSave('stat3_num',this.value)">
+                    </div>
+                    <div class="se-field" style="margin:0">
+                      <span class="se-label">وصف ٣</span>
+                      <input type="text" class="se-input" id="se-stat3_label" placeholder="سنوات من الخبرة" onblur="seSave('stat3_label',this.value)">
+                    </div>
+                    <div class="se-field" style="margin:0">
+                      <span class="se-label">رقم ٤</span>
+                      <input type="text" class="se-input" id="se-stat4_num" placeholder="26" onblur="seSave('stat4_num',this.value)">
+                    </div>
+                    <div class="se-field" style="margin:0">
+                      <span class="se-label">وصف ٤</span>
+                      <input type="text" class="se-input" id="se-stat4_label" placeholder="مدينة مغطّاة" onblur="seSave('stat4_label',this.value)">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ⑧ قسم الدعوة للعمل (CTA) -->
+            <div class="se-section">
+              <div class="se-section-head" onclick="seToggle(this)">
+                <span><i data-lucide="megaphone" width="14" height="14" style="color:var(--brand-teal-600)"></i> قسم الدعوة للعمل</span>
+                <i data-lucide="chevron-down" width="15" height="15" class="se-chev"></i>
+              </div>
+              <div class="se-section-body">
+                <div class="se-body-inner">
+                  <div class="se-field">
+                    <span class="se-label">العنوان</span>
+                    <textarea class="se-textarea" id="se-cta_title" rows="2" placeholder="سلّم عقارك لجودة العقارية..." onblur="seSave('cta_title',this.value)"></textarea>
+                    <span class="se-hint">يمكن استخدام br لفاصل السطر</span>
+                  </div>
+                  <div class="se-field">
+                    <span class="se-label">النص الوصفي</span>
+                    <textarea class="se-textarea" id="se-cta_desc" rows="3" placeholder="نتولى الإدارة الكاملة لعقارك..." onblur="seSave('cta_desc',this.value)"></textarea>
+                  </div>
+                  <div class="se-field">
+                    <span class="se-label">نص الزر</span>
+                    <input type="text" class="se-input" id="se-cta_btn_text" placeholder="ابدأ استثمارك الآن" onblur="seSave('cta_btn_text',this.value)">
+                  </div>
+                  <div class="se-field">
+                    <span class="se-label">رابط الزر</span>
+                    <input type="url" class="se-input" id="se-cta_btn_url" placeholder="https://wa.me/..." onblur="seSave('cta_btn_url',this.value)">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ⑨ التذييل -->
+            <div class="se-section">
+              <div class="se-section-head" onclick="seToggle(this)">
+                <span><i data-lucide="align-bottom" width="14" height="14" style="color:var(--brand-teal-600)"></i> التذييل (Footer)</span>
+                <i data-lucide="chevron-down" width="15" height="15" class="se-chev"></i>
+              </div>
+              <div class="se-section-body">
+                <div class="se-body-inner">
+                  <div class="se-field">
+                    <span class="se-label">وصف الشركة في التذييل</span>
+                    <textarea class="se-textarea" id="se-footer_desc" rows="3" placeholder="شريكك الاستراتيجي في السوق العقاري السعودي..." onblur="seSave('footer_desc',this.value)"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ⑩ معلومات التواصل -->
             <div class="se-section">
               <div class="se-section-head" onclick="seToggle(this)">
                 <span><i data-lucide="phone" width="14" height="14" style="color:var(--brand-teal-600)"></i> معلومات التواصل</span>
@@ -3950,10 +4131,22 @@ async function loadSiteEditor() {
     SE = {};
     data.forEach(r => SE[r.key] = r.value);
 
-    // text fields
-    ['company_name','hero_title','hero_desc','about_text','phone','whatsapp','email','address'].forEach(k => {
+    // text fields — all editable keys
+    [
+      'company_name',
+      'hero_title','hero_desc','hero_btn_text','hero_btn_url',
+      'hero_stat1_num','hero_stat1_label','hero_stat2_num','hero_stat2_label','hero_stat3_num','hero_stat3_label',
+      'about_text','about_text2',
+      'services_desc',
+      'interior_title','interior_desc',
+      'license1_num','license2_num','license3_num',
+      'stat1_num','stat1_label','stat2_num','stat2_label','stat3_num','stat3_label','stat4_num','stat4_label',
+      'cta_title','cta_desc','cta_btn_text','cta_btn_url',
+      'footer_desc',
+      'phone','whatsapp','email','address',
+    ].forEach(k => {
       const el = document.getElementById('se-' + k);
-      if (el && SE[k]) el.value = SE[k];
+      if (el && SE[k] !== undefined) el.value = SE[k];
     });
 
     // image previews

@@ -88,8 +88,9 @@
         if (desc) desc.textContent = s.hero_desc;
       }
       if (s.about_text) document.querySelectorAll('[data-field="about_text"]').forEach(el => { el.textContent = s.about_text; });
+      if (s.about_text2) document.querySelectorAll('[data-field="about_text2"]').forEach(el => { el.textContent = s.about_text2; });
       if (s.logo_url) {
-        const logos = document.querySelectorAll('#site-logo, .site-logo, .nav-logo img, .footer-logo img');
+        const logos = document.querySelectorAll('#site-logo, .site-logo, .nav-logo img, .footer-logo img, .f-logo');
         logos.forEach(el => { el.src = s.logo_url; });
       }
       if (s.about_image_url) {
@@ -100,6 +101,14 @@
         const interior = document.getElementById('interior');
         if (interior) interior.style.backgroundImage = `url('${s.interior_bg_url}')`;
       }
+      if (s.interior_title) {
+        const el = document.getElementById('interior-h2');
+        if (el) el.innerHTML = s.interior_title;
+      }
+      if (s.interior_desc) {
+        const el = document.getElementById('interior-desc');
+        if (el) el.textContent = s.interior_desc;
+      }
       if (s.hero_bg_url) {
         const heroVideo = document.querySelector('#hero .hero-video');
         if (heroVideo) {
@@ -108,6 +117,50 @@
           if (hero) { hero.style.backgroundImage = `url('${s.hero_bg_url}')`; hero.style.backgroundSize = 'cover'; hero.style.backgroundPosition = 'center'; }
         }
       }
+      if (s.hero_btn_url) {
+        const btn = document.getElementById('hero-cta-btn');
+        if (btn) btn.href = s.hero_btn_url;
+      }
+      if (s.hero_btn_text) {
+        const btn = document.getElementById('hero-cta-btn');
+        if (btn) btn.textContent = s.hero_btn_text;
+      }
+      // hero stats
+      ['hero_stat1_num','hero_stat2_num','hero_stat3_num','hero_stat1_label','hero_stat2_label','hero_stat3_label'].forEach(k => {
+        if (s[k]) document.querySelectorAll(`[data-field="${k}"]`).forEach(el => { el.textContent = s[k]; });
+      });
+      // stats section
+      ['stat1_num','stat2_num','stat3_num','stat4_num','stat1_label','stat2_label','stat3_label','stat4_label'].forEach(k => {
+        if (s[k]) document.querySelectorAll(`[data-field="${k}"]`).forEach(el => { el.textContent = s[k]; });
+      });
+      // services
+      if (s.services_desc) {
+        const el = document.getElementById('services-desc');
+        if (el) el.textContent = s.services_desc;
+      }
+      // licenses
+      if (s.license1_num) { const el = document.getElementById('lic1-num'); if (el) el.textContent = s.license1_num; }
+      if (s.license2_num) { const el = document.getElementById('lic2-num'); if (el) el.textContent = s.license2_num; }
+      if (s.license3_num) { const el = document.getElementById('lic3-num'); if (el) el.textContent = s.license3_num; }
+      // CTA section
+      if (s.cta_title) {
+        const el = document.getElementById('cta-h2');
+        if (el) el.innerHTML = s.cta_title;
+      }
+      if (s.cta_desc) {
+        const el = document.getElementById('cta-desc');
+        if (el) el.textContent = s.cta_desc;
+      }
+      if (s.cta_btn_url) {
+        const el = document.getElementById('cta-btn');
+        if (el) el.href = s.cta_btn_url;
+      }
+      if (s.cta_btn_text) {
+        const el = document.getElementById('cta-btn');
+        if (el) el.textContent = s.cta_btn_text;
+      }
+      // footer
+      if (s.footer_desc) document.querySelectorAll('[data-field="footer_desc"]').forEach(el => { el.textContent = s.footer_desc; });
     } catch (_) {}
   }
 
