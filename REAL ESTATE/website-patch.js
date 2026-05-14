@@ -161,11 +161,22 @@
       }
       // footer
       if (s.footer_desc) document.querySelectorAll('[data-field="footer_desc"]').forEach(el => { el.textContent = s.footer_desc; });
-      // partners
+      // partners — dynamic, unlimited count
       if (s.partners_label) document.querySelectorAll('[data-field="partners_label"]').forEach(el => { el.textContent = s.partners_label; });
-      for (let i = 1; i <= 9; i++) {
-        const key = `partner_logo_${i}`;
-        if (s[key]) { const el = document.getElementById(`partner-logo-${i}`); if (el) { el.src = s[key]; el.closest('.partner-item').style.display = ''; } }
+      const partnerLogos = [];
+      for (let i = 1; i <= 30; i++) {
+        if (s[`partner_logo_${i}`]) partnerLogos.push(s[`partner_logo_${i}`]);
+        else if (i > 9) break; // stop early if gap beyond original 9
+      }
+      if (partnerLogos.length > 0) {
+        const track = document.getElementById('partners-track');
+        if (track) {
+          const makeItems = () => partnerLogos.map(url =>
+            `<div class="partner-item"><div class="partner-card"><img src="${url}" class="partner-logo" loading="lazy" onerror="this.closest('.partner-item').style.display='none'"></div></div>`
+          ).join('');
+          // duplicate for seamless infinite scroll
+          track.innerHTML = makeItems() + makeItems();
+        }
       }
     } catch (_) {}
   }
