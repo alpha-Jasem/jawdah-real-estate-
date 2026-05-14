@@ -769,27 +769,32 @@ canvas { max-width: 100%; }
 /* ══ SITE EDITOR ══════════════════════════════════════ */
 #page-site-editor { padding: 0 !important; overflow: hidden; }
 .se-layout {
-  position: relative;
+  display: flex; flex-direction: column;
   height: calc(100vh - 64px); overflow: hidden;
 }
-/* ─ Overlay backdrop ─ */
-.se-overlay {
-  display: none; position: absolute; inset: 0; z-index: 19;
-  background: rgba(0,0,0,.28); backdrop-filter: blur(2px);
-  cursor: pointer;
+/* ─ Tab Bar ─ */
+.se-tab-bar {
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 14px; border-bottom: 1px solid var(--border);
+  background: var(--bg); flex-shrink: 0;
 }
-.se-overlay.show { display: block; }
-/* ─ Editor Panel (drawer) ─ */
+.se-tab-btn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 7px 18px; border-radius: 8px; border: 1.5px solid transparent;
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  transition: all .15s; background: none; font-family: inherit; color: var(--fg-muted);
+}
+.se-tab-btn.active {
+  background: rgba(62,205,196,.1); color: var(--brand-teal-700);
+  border-color: rgba(62,205,196,.3);
+}
+.se-tab-btn:not(.active):hover { background: var(--bg-subtle); color: var(--fg); }
+/* ─ Editor Panel ─ */
 .se-panel {
-  position: absolute; top: 0; right: 0; height: 100%;
-  width: 440px; display: flex; flex-direction: column;
-  border-left: 1px solid var(--border); background: var(--bg);
-  z-index: 20; overflow: hidden;
-  transform: translateX(100%);
-  transition: transform .32s cubic-bezier(.4,0,.2,1);
-  box-shadow: -14px 0 48px rgba(0,0,0,.22);
+  flex: 1; display: flex; flex-direction: column;
+  overflow: hidden; background: var(--bg);
 }
-.se-panel.open { transform: translateX(0); }
+.se-panel.hidden { display: none; }
 .se-panel-head {
   padding: 10px 14px; border-bottom: 1px solid var(--border);
   background: var(--bg); flex-shrink: 0;
@@ -854,7 +859,8 @@ canvas { max-width: 100%; }
 .se-status.saved  { color: var(--brand-teal-700); background: rgba(62,205,196,.15); }
 .se-status.err    { color: var(--danger-500); background: var(--danger-50); }
 /* ─ Preview Pane ─ */
-.se-preview-wrap { display: flex; flex-direction: column; overflow: hidden; background: #0d1117; width: 100%; height: 100%; }
+.se-preview-wrap { display: none; flex-direction: column; overflow: hidden; background: #0d1117; flex: 1; }
+.se-preview-wrap.visible { display: flex; }
 .se-preview-bar {
   padding: 7px 14px; background: #161b22; display: flex; align-items: center; gap: 8px;
   border-bottom: 1px solid rgba(255,255,255,.07); flex-shrink: 0;
@@ -1456,10 +1462,19 @@ canvas { max-width: 100%; }
     <div class="page" id="page-site-editor" data-screen-label="10 Site Editor">
       <div class="se-layout">
 
-        <!-- Overlay (click to close drawer) -->
-        <div class="se-overlay" id="se-overlay" onclick="seClosePanel()"></div>
+        <!-- Tab bar -->
+        <div class="se-tab-bar">
+          <button class="se-tab-btn active" id="se-tab-edit" onclick="seShowEdit()">
+            <i data-lucide="pencil" width="13" height="13"></i> تعديل
+          </button>
+          <button class="se-tab-btn" id="se-tab-preview" onclick="seShowPreview()">
+            <i data-lucide="eye" width="13" height="13"></i> معاينة
+          </button>
+          <span style="flex:1"></span>
+          <span class="se-status" id="se-status"></span>
+        </div>
 
-        <!-- Drawer: editor panel -->
+        <!-- Editor panel -->
         <div class="se-panel" id="se-panel">
           <div class="se-panel-head">
             <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
@@ -1468,12 +1483,8 @@ canvas { max-width: 100%; }
                 <div style="font-size:15px;font-weight:700;line-height:1.2">تعديل محتوى الموقع</div>
               </div>
               <div style="display:flex;align-items:center;gap:6px">
-                <span class="se-status" id="se-status"></span>
                 <button class="btn btn-ghost btn-sm" onclick="seRefreshPreview()" title="تحديث المعاينة" style="padding:6px 8px">
                   <i data-lucide="refresh-cw" width="14" height="14"></i>
-                </button>
-                <button class="btn btn-ghost btn-sm" onclick="seClosePanel()" style="padding:6px 8px" title="إغلاق">
-                  <i data-lucide="x" width="16" height="16"></i>
                 </button>
               </div>
             </div>
@@ -1903,8 +1914,8 @@ canvas { max-width: 100%; }
           </div><!-- /se-body -->
         </div><!-- /se-panel -->
 
-        <!-- LEFT: Live preview -->
-        <div class="se-preview-wrap">
+        <!-- Preview pane -->
+        <div class="se-preview-wrap" id="se-preview-wrap">
           <div class="se-preview-bar">
             <button class="se-dev-btn on" onclick="seDevice('desktop',this)">🖥 كمبيوتر</button>
             <button class="se-dev-btn" onclick="seDevice('tablet',this)">⬜ تابلت</button>
@@ -1912,10 +1923,6 @@ canvas { max-width: 100%; }
             <span class="se-url-pill">jawdah-real-estate.vercel.app</span>
             <button class="se-dev-btn" onclick="seRefreshPreview()">↺ تحديث</button>
             <a href="https://jawdah-real-estate.vercel.app" target="_blank" class="se-dev-btn" style="text-decoration:none">↗ فتح</a>
-            <button class="se-dev-btn" id="se-edit-btn" onclick="seOpenPanel()" style="background:rgba(62,205,196,.18);border-color:rgba(62,205,196,.5);color:#3ECDC4;font-weight:600;gap:5px;display:flex;align-items:center">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-              تعديل
-            </button>
           </div>
           <div class="se-iframe-box" id="se-iframe-box">
             <iframe id="se-iframe" src="https://jawdah-real-estate.vercel.app"></iframe>
@@ -4232,13 +4239,17 @@ document.addEventListener('keydown', e => {
 // ═══════════════════════════════════════════════════════
 let SE = {}; // current settings cache
 
-function seOpenPanel() {
-  document.getElementById('se-panel')?.classList.add('open');
-  document.getElementById('se-overlay')?.classList.add('show');
+function seShowEdit() {
+  document.getElementById('se-panel')?.classList.remove('hidden');
+  document.getElementById('se-preview-wrap')?.classList.remove('visible');
+  document.getElementById('se-tab-edit')?.classList.add('active');
+  document.getElementById('se-tab-preview')?.classList.remove('active');
 }
-function seClosePanel() {
-  document.getElementById('se-panel')?.classList.remove('open');
-  document.getElementById('se-overlay')?.classList.remove('show');
+function seShowPreview() {
+  document.getElementById('se-panel')?.classList.add('hidden');
+  document.getElementById('se-preview-wrap')?.classList.add('visible');
+  document.getElementById('se-tab-preview')?.classList.add('active');
+  document.getElementById('se-tab-edit')?.classList.remove('active');
 }
 
 async function loadSiteEditor() {
@@ -4290,7 +4301,6 @@ async function loadSiteEditor() {
         if (wrap) wrap.innerHTML = `<img src="${SE[k]}" style="max-width:100%;max-height:100%;object-fit:contain;padding:4px">`;
       }
     }
-    seOpenPanel();
   } catch(e) { console.error('[SE] loadSiteEditor', e); }
 }
 
