@@ -769,7 +769,7 @@ canvas { max-width: 100%; }
 /* ══ SITE EDITOR ══════════════════════════════════════ */
 #page-site-editor { padding: 0 !important; overflow: hidden; }
 .se-layout {
-  display: flex; flex-direction: column;
+  display: flex; flex-direction: row;
   height: calc(100vh - 64px); overflow: hidden;
 }
 /* ─ Tab Bar ─ */
@@ -791,10 +791,9 @@ canvas { max-width: 100%; }
 .se-tab-btn:not(.active):hover { background: var(--bg-subtle); color: var(--fg); }
 /* ─ Editor Panel ─ */
 .se-panel {
-  flex: 1; display: flex; flex-direction: column;
-  overflow: hidden; background: var(--bg);
+  width: 440px; flex-shrink: 0; display: flex; flex-direction: column;
+  overflow: hidden; background: var(--bg); border-left: 1px solid var(--border);
 }
-.se-panel.hidden { display: none; }
 .se-panel-head {
   padding: 10px 14px; border-bottom: 1px solid var(--border);
   background: var(--bg); flex-shrink: 0;
@@ -858,8 +857,13 @@ canvas { max-width: 100%; }
 .se-status.saved  { color: var(--brand-teal-700); background: rgba(62,205,196,.15); }
 .se-status.err    { color: var(--danger-500); background: var(--danger-50); }
 /* ─ Preview Pane ─ */
-.se-preview-wrap { display: none; flex-direction: column; overflow: hidden; background: #0d1117; flex: 1; }
-.se-preview-wrap.visible { display: flex; }
+.se-preview-wrap { display: flex; flex-direction: column; overflow: hidden; background: #0d1117; flex: 1; min-width: 0; }
+/* ─ Drag & Drop ─ */
+.se-section { transition: box-shadow .2s, opacity .15s; }
+.se-section-head { cursor: grab; user-select: none; }
+.se-section-head::before { content: '⠿'; font-size: 13px; color: var(--fg-muted); margin-left: 4px; opacity: .4; }
+.se-section.se-dragging { opacity: .3; box-shadow: none !important; }
+.se-section.se-drag-over { outline: 2.5px solid var(--brand-teal-400); outline-offset: 2px; box-shadow: 0 0 0 6px rgba(62,205,196,.08); }
 .se-preview-bar {
   padding: 7px 14px; background: #161b22; display: flex; align-items: center; gap: 8px;
   border-bottom: 1px solid rgba(255,255,255,.07); flex-shrink: 0;
@@ -893,8 +897,10 @@ canvas { max-width: 100%; }
   width: 80px; height: 6px; background: rgba(255,255,255,.15);
   border-radius: 3px; flex-shrink: 0;
 }
-@media (max-width: 768px) {
-  .se-panel { width: 100%; right: 0; }
+@media (max-width: 900px) {
+  .se-layout { flex-direction: column; }
+  .se-panel { width: 100%; border-left: none; border-bottom: 1px solid var(--border); max-height: 50vh; }
+  .se-preview-wrap { min-height: 50vh; }
 }
 </style>
 </head>
@@ -1461,14 +1467,11 @@ canvas { max-width: 100%; }
     <div class="page" id="page-site-editor" data-screen-label="10 Site Editor">
       <div class="se-layout">
 
-        <!-- Tab bar -->
+        <!-- Editor header — split view, no tabs -->
         <div class="se-tab-bar">
-          <button class="se-tab-btn active" id="se-tab-edit" onclick="seShowEdit()">
-            <i data-lucide="pencil" width="13" height="13"></i> تعديل
-          </button>
-          <button class="se-tab-btn" id="se-tab-preview" onclick="seShowPreview()">
-            <i data-lucide="eye" width="13" height="13"></i> معاينة
-          </button>
+          <i data-lucide="layout-panel-left" width="15" height="15" style="color:var(--brand-teal-600)"></i>
+          <span style="font-size:13px;font-weight:700">تعديل الموقع</span>
+          <span style="font-size:10px;color:var(--fg-muted);background:var(--bg-subtle);padding:2px 8px;border-radius:10px;border:1px solid var(--border)">اسحب السيكشنات لإعادة الترتيب</span>
           <span style="flex:1"></span>
           <span class="se-status" id="se-status"></span>
         </div>
@@ -4266,17 +4269,63 @@ document.addEventListener('keydown', e => {
 // ═══════════════════════════════════════════════════════
 let SE = {}; // current settings cache
 
-function seShowEdit() {
-  document.getElementById('se-panel')?.classList.remove('hidden');
-  document.getElementById('se-preview-wrap')?.classList.remove('visible');
-  document.getElementById('se-tab-edit')?.classList.add('active');
-  document.getElementById('se-tab-preview')?.classList.remove('active');
+function seShowEdit() {} // no-op (split view: always visible)
+function seShowPreview() {} // no-op
+
+// ── Drag-to-reorder section cards ───────────────────────
+let _seDrag = null;
+
+function initSeDragDrop() {
+  const body = document.querySelector('.se-body');
+  if (!body) return;
+  body.querySelectorAll('.se-section').forEach((card, i) => {
+    if (!card.dataset.seid) card.dataset.seid = 'sec' + i;
+    card.setAttribute('draggable', 'true');
+    card.addEventListener('dragstart', e => {
+      _seDrag = card;
+      setTimeout(() => card.classList.add('se-dragging'), 0);
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    card.addEventListener('dragend', () => {
+      card.classList.remove('se-dragging');
+      body.querySelectorAll('.se-section').forEach(c => c.classList.remove('se-drag-over'));
+      seCardOrderSave();
+    });
+    card.addEventListener('dragover', e => {
+      e.preventDefault();
+      if (_seDrag && card !== _seDrag) {
+        body.querySelectorAll('.se-section').forEach(c => c.classList.remove('se-drag-over'));
+        card.classList.add('se-drag-over');
+      }
+    });
+    card.addEventListener('dragleave', e => {
+      if (!card.contains(e.relatedTarget)) card.classList.remove('se-drag-over');
+    });
+    card.addEventListener('drop', e => {
+      e.preventDefault();
+      card.classList.remove('se-drag-over');
+      if (_seDrag && _seDrag !== card) {
+        const all = [...body.querySelectorAll('.se-section')];
+        const si = all.indexOf(_seDrag), di = all.indexOf(card);
+        body.insertBefore(_seDrag, si < di ? card.nextSibling : card);
+      }
+    });
+  });
+  // Restore saved order from localStorage
+  try {
+    const saved = JSON.parse(localStorage.getItem('se-card-order') || '[]');
+    if (saved.length) {
+      saved.forEach(id => {
+        const c = body.querySelector(`.se-section[data-seid="${id}"]`);
+        if (c) body.appendChild(c);
+      });
+    }
+  } catch(_) {}
 }
-function seShowPreview() {
-  document.getElementById('se-panel')?.classList.add('hidden');
-  document.getElementById('se-preview-wrap')?.classList.add('visible');
-  document.getElementById('se-tab-preview')?.classList.add('active');
-  document.getElementById('se-tab-edit')?.classList.remove('active');
+
+function seCardOrderSave() {
+  const cards = [...document.querySelectorAll('.se-section[data-seid]')];
+  localStorage.setItem('se-card-order', JSON.stringify(cards.map(c => c.dataset.seid)));
 }
 
 async function loadSiteEditor() {
@@ -4341,6 +4390,8 @@ async function loadSiteEditor() {
     }
     if (SE_PARTNER_COUNT === 0) SE_PARTNER_COUNT = 3;
     seRenderPartners();
+    // init drag-to-reorder
+    setTimeout(initSeDragDrop, 100);
   } catch(e) { console.error('[SE] loadSiteEditor', e); }
 }
 
@@ -4410,6 +4461,9 @@ async function seSave(key, value) {
     if (error) throw error;
     SE[key] = value;
     if (st) { st.textContent = 'تم الحفظ ✓'; st.className = 'se-save-bar saved'; setTimeout(() => { st.textContent=''; st.className='se-save-bar'; }, 2000); }
+    // auto-refresh preview after save
+    clearTimeout(window._seRefreshTimer);
+    window._seRefreshTimer = setTimeout(seRefreshPreview, 1200);
   } catch(e) {
     if (st) { st.textContent = 'خطأ'; st.className = 'se-save-bar err'; }
     console.error('[SE] seSave', e);
