@@ -536,10 +536,13 @@ canvas { max-width: 100%; }
 .admin-dropdown button {
   width: 100%; padding: 10px 14px; background: none; border: none;
   font-size: 13px; font-family: inherit; cursor: pointer; text-align: right;
-  display: flex; align-items: center; gap: 8px; color: var(--danger-500);
+  display: flex; align-items: center; gap: 8px; color: var(--fg);
   border-radius: 10px; transition: background .15s;
 }
-.admin-dropdown button:hover { background: var(--danger-50); }
+.admin-dropdown button:hover { background: var(--bg-subtle); }
+.admin-dropdown button.danger { color: var(--danger-500); }
+.admin-dropdown button.danger:hover { background: var(--danger-50); }
+.admin-dropdown hr { border: none; border-top: 1px solid var(--border); margin: 4px 10px; }
 
 /* ── Chart legend manual ── */
 .chart-legend { display: flex; gap: 16px; justify-content: flex-end; margin-top: 8px; }
@@ -1040,7 +1043,11 @@ canvas { max-width: 100%; }
           </div>
         </button>
         <div class="admin-dropdown" id="admin-dropdown">
-          <button onclick="doLogout()">
+          <button onclick="navTo('settings');toggleAdminMenu()">
+            <i data-lucide="settings" width="14" height="14"></i> الإعدادات
+          </button>
+          <hr>
+          <button class="danger" onclick="doLogout()">
             <i data-lucide="log-out" width="14" height="14"></i> تسجيل الخروج
           </button>
         </div>
