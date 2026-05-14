@@ -88,6 +88,26 @@
         if (desc) desc.textContent = s.hero_desc;
       }
       if (s.about_text) document.querySelectorAll('[data-field="about_text"]').forEach(el => { el.textContent = s.about_text; });
+      if (s.logo_url) {
+        const logos = document.querySelectorAll('#site-logo, .site-logo, .nav-logo img, .footer-logo img');
+        logos.forEach(el => { el.src = s.logo_url; });
+      }
+      if (s.about_image_url) {
+        const aImg = document.getElementById('about-section-img');
+        if (aImg) aImg.src = s.about_image_url;
+      }
+      if (s.interior_bg_url) {
+        const interior = document.getElementById('interior');
+        if (interior) interior.style.backgroundImage = `url('${s.interior_bg_url}')`;
+      }
+      if (s.hero_bg_url) {
+        const heroVideo = document.querySelector('#hero .hero-video');
+        if (heroVideo) {
+          heroVideo.style.display = 'none';
+          const hero = document.getElementById('hero');
+          if (hero) { hero.style.backgroundImage = `url('${s.hero_bg_url}')`; hero.style.backgroundSize = 'cover'; hero.style.backgroundPosition = 'center'; }
+        }
+      }
     } catch (_) {}
   }
 
