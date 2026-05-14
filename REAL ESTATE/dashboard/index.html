@@ -949,7 +949,7 @@ canvas { max-width: 100%; }
       <i data-lucide="chevron-left" width="14" height="14"></i>
     </button>
     <div class="sidebar-header-row" style="justify-content:center;padding:14px 16px">
-      <img src="../assets/logo-jawdah-full.png" alt="جودة العقارية" style="height:42px;object-fit:contain;max-width:100%" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <img id="dashboard-logo-img" src="../assets/logo-jawdah-full.png" alt="جودة العقارية" style="height:42px;object-fit:contain;max-width:100%" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
       <div class="brand-card-badge" style="display:none">جودة<br>العقارية</div>
     </div>
 
@@ -1443,7 +1443,7 @@ canvas { max-width: 100%; }
             <input type="url" id="set-logo-url" class="form-input" style="font-size:12px" placeholder="أو الصق رابط الشعار مباشرة...">
             <button class="btn btn-secondary btn-sm" onclick="setLogoApplyUrl()">تطبيق</button>
           </div>
-          <div style="font-size:11px;color:var(--fg-muted);margin-top:8px">PNG شفاف مُفضَّل · يظهر في رأس الموقع التعريفي</div>
+          <div style="font-size:11px;color:var(--fg-muted);margin-top:8px">PNG شفاف مُفضَّل · يظهر في رأس لوحة التحكم</div>
         </div>
 
         <div class="panel">
@@ -2232,6 +2232,13 @@ function showLogin() {
 }
 
 async function loadAllData() {
+  // تحميل شعار الداشبورد
+  sb.from('site_settings').select('value').eq('key', 'dashboard_logo_url').single().then(({ data }) => {
+    if (data?.value) {
+      const img = document.getElementById('dashboard-logo-img');
+      if (img) { img.style.display = ''; img.src = data.value; }
+    }
+  });
   await Promise.all([
     loadProjects(),
     loadProperties(),
@@ -3477,7 +3484,7 @@ async function loadNotifications() {
 
 // ── Settings — Logo ─────────────────────────────────────
 async function loadLogoSetting() {
-  const { data } = await sb.from('site_settings').select('value').eq('key', 'logo_url').single();
+  const { data } = await sb.from('site_settings').select('value').eq('key', 'dashboard_logo_url').single();
   if (data?.value) {
     const wrap = document.getElementById('set-logo-wrap');
     if (wrap) wrap.innerHTML = `<img src="${data.value}" style="max-width:100%;max-height:100%;object-fit:contain;padding:8px">`;
@@ -3486,13 +3493,14 @@ async function loadLogoSetting() {
   }
 }
 async function setLogoSave(url) {
-  const { error } = await sb.from('site_settings').upsert({ key: 'logo_url', value: url }, { onConflict: 'key' });
+  const { error } = await sb.from('site_settings').upsert({ key: 'dashboard_logo_url', value: url }, { onConflict: 'key' });
   if (error) { showToast('خطأ في الحفظ', 'error'); return; }
   const wrap = document.getElementById('set-logo-wrap');
   if (wrap) wrap.innerHTML = `<img src="${url}" style="max-width:100%;max-height:100%;object-fit:contain;padding:8px">`;
   const urlEl = document.getElementById('set-logo-url');
   if (urlEl) urlEl.value = url;
-  if (window.SE) SE.logo_url = url;
+  const dashLogo = document.getElementById('dashboard-logo-img');
+  if (dashLogo) { dashLogo.style.display = ''; dashLogo.src = url; dashLogo.nextElementSibling.style.display = 'none'; }
   showToast('تم حفظ الشعار ✓', 'success');
 }
 async function setLogoUpload(input) {
@@ -3500,7 +3508,7 @@ async function setLogoUpload(input) {
   showToast('جارٍ الرفع...', 'info');
   try {
     const ext = file.name.split('.').pop().toLowerCase();
-    const path = `site/logo_url-${Date.now()}.${ext}`;
+    const path = `site/dashboard-logo-${Date.now()}.${ext}`;
     const { error: upErr } = await sb.storage.from('site-assets').upload(path, file, { upsert: true, contentType: file.type });
     if (upErr) throw upErr;
     const { data: { publicUrl } } = sb.storage.from('site-assets').getPublicUrl(path);
