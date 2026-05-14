@@ -769,43 +769,43 @@ canvas { max-width: 100%; }
 /* ══ SITE EDITOR ══════════════════════════════════════ */
 #page-site-editor { padding: 0 !important; overflow: hidden; }
 .se-layout {
-  display: grid; grid-template-columns: 380px 1fr;
+  display: grid; grid-template-columns: 420px 1fr;
   height: calc(100vh - 64px); overflow: hidden;
 }
 /* ─ Editor Panel ─ */
-.se-panel { display: flex; flex-direction: column; border-left: 1px solid var(--border); overflow: hidden; background: var(--bg); }
+.se-panel { display: flex; flex-direction: column; border-left: 1px solid var(--border); overflow: hidden; background: var(--bg); width: 420px; min-width: 420px; }
 .se-panel-head {
-  padding: 12px 16px; border-bottom: 1px solid var(--border);
+  padding: 10px 14px; border-bottom: 1px solid var(--border);
   background: var(--bg); flex-shrink: 0;
   box-shadow: 0 1px 6px rgba(0,0,0,.04);
 }
-.se-body { flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+.se-body { flex: 1; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; gap: 5px; scroll-behavior: smooth; }
 /* ─ Accordion ─ */
-.se-section { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--bg); transition: box-shadow .2s; }
-.se-section:hover { box-shadow: 0 2px 12px rgba(62,205,196,.08); }
+.se-section { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: var(--bg); transition: box-shadow .2s; }
+.se-section:hover { box-shadow: 0 2px 10px rgba(62,205,196,.08); }
 .se-section-head {
-  padding: 11px 14px; display: flex; align-items: center; justify-content: space-between;
-  cursor: pointer; background: var(--bg-subtle); font-size: 13px; font-weight: 600;
-  user-select: none; gap: 8px; transition: background .15s;
+  padding: 9px 12px; display: flex; align-items: center; justify-content: space-between;
+  cursor: pointer; background: var(--bg-subtle); font-size: 12.5px; font-weight: 600;
+  user-select: none; gap: 6px; transition: background .15s;
 }
 .se-section-head:hover { background: rgba(62,205,196,.07); }
-.se-section-head > span { display: flex; align-items: center; gap: 7px; color: var(--fg); }
+.se-section-head > span { display: flex; align-items: center; gap: 6px; color: var(--fg); }
 .se-chev { flex-shrink: 0; transition: transform .28s cubic-bezier(.4,0,.2,1); transform: rotate(-90deg); color: var(--fg-muted); }
 .se-section.open .se-chev { transform: rotate(0deg); }
-.se-section-body { max-height: 0; overflow: hidden; transition: max-height .38s cubic-bezier(.4,0,.2,1); }
-.se-section.open .se-section-body { max-height: 1600px; }
-.se-body-inner { padding: 14px; display: flex; flex-direction: column; gap: 13px; border-top: 1px solid var(--border); }
+.se-section-body { max-height: 0; overflow: hidden; transition: max-height .42s cubic-bezier(.4,0,.2,1); }
+.se-section.open .se-section-body { max-height: 6000px; }
+.se-body-inner { padding: 10px 12px; display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--border); }
 /* ─ Fields ─ */
-.se-field { display: flex; flex-direction: column; gap: 5px; }
-.se-label { font-size: 10px; font-weight: 800; color: var(--fg-muted); letter-spacing: .06em; text-transform: uppercase; }
+.se-field { display: flex; flex-direction: column; gap: 3px; }
+.se-label { font-size: 10px; font-weight: 700; color: var(--fg-muted); letter-spacing: .04em; }
 .se-input, .se-textarea {
-  padding: 8px 11px; border: 1.5px solid var(--border); border-radius: 8px;
-  font-size: 13px; font-family: inherit; background: var(--bg); color: var(--fg);
+  padding: 6px 10px; border: 1.5px solid var(--border); border-radius: 7px;
+  font-size: 12.5px; font-family: inherit; background: var(--bg); color: var(--fg);
   width: 100%; outline: none; transition: border-color .2s, box-shadow .2s;
 }
 .se-input:focus, .se-textarea:focus { border-color: var(--brand-teal-400); box-shadow: 0 0 0 3px rgba(62,205,196,.1); }
-.se-textarea { resize: vertical; min-height: 80px; line-height: 1.65; }
-.se-hint { font-size: 11px; color: var(--fg-muted); line-height: 1.5; }
+.se-textarea { resize: vertical; min-height: 68px; line-height: 1.6; }
+.se-hint { font-size: 10.5px; color: var(--fg-muted); line-height: 1.5; }
 /* ─ Image ─ */
 .se-img-drop {
   width: 100%; height: 88px; border-radius: 10px; border: 2px dashed var(--border);
@@ -1750,7 +1750,91 @@ canvas { max-width: 100%; }
               </div>
             </div>
 
-            <!-- ⑨ التذييل -->
+            <!-- ⑨ شريط الشركاء -->
+            <div class="se-section">
+              <div class="se-section-head" onclick="seToggle(this)">
+                <span><i data-lucide="handshake" width="14" height="14" style="color:var(--brand-teal-600)"></i> شركاؤنا وعملاؤنا</span>
+                <i data-lucide="chevron-down" width="15" height="15" class="se-chev"></i>
+              </div>
+              <div class="se-section-body">
+                <div class="se-body-inner">
+                  <div class="se-field">
+                    <span class="se-label">عنوان الشريط</span>
+                    <input type="text" class="se-input" id="se-partners_label" placeholder="شركاؤنا وعملاؤنا" onblur="seSave('partners_label',this.value)">
+                  </div>
+                  <div style="font-size:10px;color:var(--fg-muted);background:var(--bg-subtle);border-radius:6px;padding:7px 10px;line-height:1.6">
+                    شعارات الشركاء — ارفع صورة لكل شريك أو الصق رابطاً مباشراً
+                  </div>
+                  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">
+                    <div class="se-field" style="margin:0">
+                      <span class="se-label">شريك ١</span>
+                      <div id="wrap-partner_logo_1" style="height:52px;border:1.5px dashed var(--border);border-radius:7px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:11px;color:var(--fg-muted);overflow:hidden" onclick="document.getElementById('file-partner_logo_1').click()">
+                        <img src="images/partners/ittihad.png" style="max-width:100%;max-height:100%;object-fit:contain;padding:4px" onerror="this.style.display='none';this.parentElement.innerHTML='+ رفع'">
+                      </div>
+                      <input type="file" id="file-partner_logo_1" accept="image/*" style="display:none" onchange="seUpload('partner_logo_1',this)">
+                    </div>
+                    <div class="se-field" style="margin:0">
+                      <span class="se-label">شريك ٢</span>
+                      <div id="wrap-partner_logo_2" style="height:52px;border:1.5px dashed var(--border);border-radius:7px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:11px;color:var(--fg-muted);overflow:hidden" onclick="document.getElementById('file-partner_logo_2').click()">
+                        <img src="images/partners/nahdi.png" style="max-width:100%;max-height:100%;object-fit:contain;padding:4px" onerror="this.style.display='none';this.parentElement.innerHTML='+ رفع'">
+                      </div>
+                      <input type="file" id="file-partner_logo_2" accept="image/*" style="display:none" onchange="seUpload('partner_logo_2',this)">
+                    </div>
+                    <div class="se-field" style="margin:0">
+                      <span class="se-label">شريك ٣</span>
+                      <div id="wrap-partner_logo_3" style="height:52px;border:1.5px dashed var(--border);border-radius:7px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:11px;color:var(--fg-muted);overflow:hidden" onclick="document.getElementById('file-partner_logo_3').click()">
+                        <img src="images/partners/dorrah.png" style="max-width:100%;max-height:100%;object-fit:contain;padding:4px" onerror="this.style.display='none';this.parentElement.innerHTML='+ رفع'">
+                      </div>
+                      <input type="file" id="file-partner_logo_3" accept="image/*" style="display:none" onchange="seUpload('partner_logo_3',this)">
+                    </div>
+                    <div class="se-field" style="margin:0">
+                      <span class="se-label">شريك ٤</span>
+                      <div id="wrap-partner_logo_4" style="height:52px;border:1.5px dashed var(--border);border-radius:7px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:11px;color:var(--fg-muted);overflow:hidden" onclick="document.getElementById('file-partner_logo_4').click()">
+                        <img src="images/partners/baabdullah.png" style="max-width:100%;max-height:100%;object-fit:contain;padding:4px" onerror="this.style.display='none';this.parentElement.innerHTML='+ رفع'">
+                      </div>
+                      <input type="file" id="file-partner_logo_4" accept="image/*" style="display:none" onchange="seUpload('partner_logo_4',this)">
+                    </div>
+                    <div class="se-field" style="margin:0">
+                      <span class="se-label">شريك ٥</span>
+                      <div id="wrap-partner_logo_5" style="height:52px;border:1.5px dashed var(--border);border-radius:7px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:11px;color:var(--fg-muted);overflow:hidden" onclick="document.getElementById('file-partner_logo_5').click()">
+                        <img src="images/partners/alezz.png" style="max-width:100%;max-height:100%;object-fit:contain;padding:4px" onerror="this.style.display='none';this.parentElement.innerHTML='+ رفع'">
+                      </div>
+                      <input type="file" id="file-partner_logo_5" accept="image/*" style="display:none" onchange="seUpload('partner_logo_5',this)">
+                    </div>
+                    <div class="se-field" style="margin:0">
+                      <span class="se-label">شريك ٦</span>
+                      <div id="wrap-partner_logo_6" style="height:52px;border:1.5px dashed var(--border);border-radius:7px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:11px;color:var(--fg-muted);overflow:hidden" onclick="document.getElementById('file-partner_logo_6').click()">
+                        <img src="images/partners/w7.png" style="max-width:100%;max-height:100%;object-fit:contain;padding:4px" onerror="this.style.display='none';this.parentElement.innerHTML='+ رفع'">
+                      </div>
+                      <input type="file" id="file-partner_logo_6" accept="image/*" style="display:none" onchange="seUpload('partner_logo_6',this)">
+                    </div>
+                    <div class="se-field" style="margin:0">
+                      <span class="se-label">شريك ٧</span>
+                      <div id="wrap-partner_logo_7" style="height:52px;border:1.5px dashed var(--border);border-radius:7px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:11px;color:var(--fg-muted);overflow:hidden" onclick="document.getElementById('file-partner_logo_7').click()">
+                        <img src="images/partners/suico.png" style="max-width:100%;max-height:100%;object-fit:contain;padding:4px" onerror="this.style.display='none';this.parentElement.innerHTML='+ رفع'">
+                      </div>
+                      <input type="file" id="file-partner_logo_7" accept="image/*" style="display:none" onchange="seUpload('partner_logo_7',this)">
+                    </div>
+                    <div class="se-field" style="margin:0">
+                      <span class="se-label">شريك ٨</span>
+                      <div id="wrap-partner_logo_8" style="height:52px;border:1.5px dashed var(--border);border-radius:7px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:11px;color:var(--fg-muted);overflow:hidden" onclick="document.getElementById('file-partner_logo_8').click()">
+                        <img src="images/partners/rsoukh.png" style="max-width:100%;max-height:100%;object-fit:contain;padding:4px" onerror="this.style.display='none';this.parentElement.innerHTML='+ رفع'">
+                      </div>
+                      <input type="file" id="file-partner_logo_8" accept="image/*" style="display:none" onchange="seUpload('partner_logo_8',this)">
+                    </div>
+                    <div class="se-field" style="margin:0">
+                      <span class="se-label">شريك ٩</span>
+                      <div id="wrap-partner_logo_9" style="height:52px;border:1.5px dashed var(--border);border-radius:7px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:11px;color:var(--fg-muted);overflow:hidden" onclick="document.getElementById('file-partner_logo_9').click()">
+                        <img src="images/partners/bromedia.png" style="max-width:100%;max-height:100%;object-fit:contain;padding:4px" onerror="this.style.display='none';this.parentElement.innerHTML='+ رفع'">
+                      </div>
+                      <input type="file" id="file-partner_logo_9" accept="image/*" style="display:none" onchange="seUpload('partner_logo_9',this)">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ⑩ التذييل -->
             <div class="se-section">
               <div class="se-section-head" onclick="seToggle(this)">
                 <span><i data-lucide="align-bottom" width="14" height="14" style="color:var(--brand-teal-600)"></i> التذييل (Footer)</span>
@@ -4143,6 +4227,7 @@ async function loadSiteEditor() {
       'stat1_num','stat1_label','stat2_num','stat2_label','stat3_num','stat3_label','stat4_num','stat4_label',
       'cta_title','cta_desc','cta_btn_text','cta_btn_url',
       'footer_desc',
+      'partners_label',
       'phone','whatsapp','email','address',
     ].forEach(k => {
       const el = document.getElementById('se-' + k);
@@ -4163,6 +4248,15 @@ async function loadSiteEditor() {
         seRenderImg('wrap-' + key, SE[key], minW);
       }
     });
+
+    // partner logo previews — compact wraps
+    for (let i = 1; i <= 9; i++) {
+      const k = `partner_logo_${i}`;
+      if (SE[k]) {
+        const wrap = document.getElementById('wrap-' + k);
+        if (wrap) wrap.innerHTML = `<img src="${SE[k]}" style="max-width:100%;max-height:100%;object-fit:contain;padding:4px">`;
+      }
+    }
   } catch(e) { console.error('[SE] loadSiteEditor', e); }
 }
 
@@ -4229,7 +4323,13 @@ async function seUpload(key, input) {
     const urlEl = document.getElementById('url-' + key);
     if (urlEl) urlEl.value = publicUrl;
     await seSave(key, publicUrl);
-    seRenderImg('wrap-' + key, publicUrl, minWMap[key] || 0);
+    // partner logos use compact wrap — just update img src
+    if (key.startsWith('partner_logo_')) {
+      const wrap = document.getElementById('wrap-' + key);
+      if (wrap) wrap.innerHTML = `<img src="${publicUrl}" style="max-width:100%;max-height:100%;object-fit:contain;padding:4px">`;
+    } else {
+      seRenderImg('wrap-' + key, publicUrl, minWMap[key] || 0);
+    }
     setTimeout(seRefreshPreview, 1000);
   } catch(e) {
     if (st) { st.textContent = 'فشل الرفع'; st.className = 'se-save-bar err'; }
@@ -4246,7 +4346,17 @@ async function seApplyUrl(key, minW) {
 }
 
 function seToggle(head) {
-  head.closest('.se-section').classList.toggle('open');
+  const section = head.closest('.se-section');
+  const wasOpen = section.classList.contains('open');
+  section.classList.toggle('open');
+  if (!wasOpen) {
+    setTimeout(() => {
+      const body = document.querySelector('.se-body');
+      if (!body) return;
+      const sTop = section.getBoundingClientRect().top - body.getBoundingClientRect().top + body.scrollTop;
+      body.scrollTo({ top: sTop - 8, behavior: 'smooth' });
+    }, 60);
+  }
 }
 
 function seDevice(device, btn) {
