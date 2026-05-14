@@ -159,24 +159,88 @@
         const el = document.getElementById('cta-btn');
         if (el) el.textContent = s.cta_btn_text;
       }
-      // process section
-      const dfSet = (field, val) => document.querySelectorAll(`[data-field="${field}"]`).forEach(el => { el.textContent = val; });
-      if (s.process_h2) { const el = document.getElementById('process-h2'); if (el) el.innerHTML = s.process_h2; }
-      if (s.process_desc) { const el = document.getElementById('process-desc'); if (el) el.textContent = s.process_desc; }
-      for (let i = 1; i <= 5; i++) {
-        if (s[`process_step${i}_title`]) dfSet(`process_step${i}_title`, s[`process_step${i}_title`]);
-        if (s[`process_step${i}_desc`]) dfSet(`process_step${i}_desc`, s[`process_step${i}_desc`]);
+      // ── Build Process section ──────────────────────────────
+      const processInner = document.getElementById('process-inner');
+      if (processInner) {
+        const stepIcons = [
+          'M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z',
+          'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z',
+          'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z',
+          'M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z',
+          'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z'
+        ];
+        const stepSvg = d => `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="${d}"></path></svg>`;
+        const steps = [1,2,3,4,5].map((n,i) => `
+          <div class="pr-step fade stagger-${n} on">
+            <div class="sn">${stepSvg(stepIcons[i])}</div>
+            <h3>${s['process_step'+n+'_title'] || ''}</h3>
+            <p>${s['process_step'+n+'_desc'] || ''}</p>
+          </div>`).join('');
+        processInner.innerHTML = `
+          <div class="pr-head fade lux-reveal on">
+            <div class="lbl c">مسؤولياتنا</div>
+            <h2 class="h2">${s.process_h2 || 'ما تشمله إدارة الأملاك'}</h2>
+            <div class="gl c" style="background:#2AABA3"></div>
+            <p class="sp" style="color:#5A5A5A;text-align:center;margin:0 auto">${s.process_desc || ''}</p>
+          </div>
+          <div class="pr-steps" style="--process-progress:1">
+            <span class="pr-progress-dot" aria-hidden="true"></span>
+            ${steps}
+          </div>
+          <div class="pr-cta fade lux-reveal on">
+            <h3>${s.process_cta_h3 || ''}</h3>
+            <p>${s.process_cta_desc || ''}</p>
+            <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+              <a href="https://api.whatsapp.com/message/AZBMZ4OGSAJGJ1?autoload=1&app_absent=0" class="btn-gd">${s.process_cta_btn || 'احجز استشارة الآن'}</a>
+            </div>
+          </div>`;
       }
-      if (s.process_cta_h3) { const el = document.getElementById('process-cta-h3'); if (el) el.textContent = s.process_cta_h3; }
-      if (s.process_cta_desc) { const el = document.getElementById('process-cta-desc'); if (el) el.textContent = s.process_cta_desc; }
-      if (s.process_cta_btn) { const el = document.getElementById('process-cta-btn'); if (el) el.textContent = s.process_cta_btn; }
-      // reviews / testimonials
-      if (s.reviews_h2) { const el = document.getElementById('reviews-h2'); if (el) el.innerHTML = s.reviews_h2; }
-      if (s.reviews_count_text) { const el = document.getElementById('reviews-count-text'); if (el) el.textContent = s.reviews_count_text; }
-      for (let i = 1; i <= 6; i++) {
-        if (s[`review${i}_text`]) dfSet(`review${i}_text`, s[`review${i}_text`]);
-        if (s[`review${i}_name`]) dfSet(`review${i}_name`, s[`review${i}_name`]);
-        if (s[`review${i}_initial`]) dfSet(`review${i}_initial`, s[`review${i}_initial`]);
+
+      // ── Build Testimonials section ─────────────────────────
+      const testimonialsInner = document.getElementById('testimonials-inner');
+      if (testimonialsInner) {
+        const gSvg = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>`;
+        const starSvg = `<svg width="14" height="14" viewBox="0 0 24 24" fill="#3ECDC4"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`.repeat(5);
+        const bigStarSvg = `<svg width="20" height="20" viewBox="0 0 24 24" fill="#3ECDC4"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`.repeat(5);
+        const months = ['','4','3','3','5','5','5'];
+        const cards = [1,2,3,4,5,6].map(n => `
+          <div class="fade stagger-${n > 3 ? n-3 : n}" style="background:#fff;border:1px solid rgba(62,205,196,.18);border-radius:18px;padding:26px 28px;box-shadow:0 4px 24px rgba(62,205,196,.07);transition:transform .35s ease,box-shadow .35s ease" onmouseover="this.style.transform='translateY(-5px)';this.style.boxShadow='0 18px 40px rgba(62,205,196,.13)'" onmouseout="this.style.transform='';this.style.boxShadow='0 4px 24px rgba(62,205,196,.07)'">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+              <div style="display:flex;gap:3px">${starSvg}</div>
+              ${gSvg}
+            </div>
+            <p style="font-size:.88rem;line-height:1.85;color:rgba(15,42,42,.72);margin-bottom:18px">${s['review'+n+'_text'] || ''}</p>
+            <div style="display:flex;align-items:center;gap:10px;padding-top:14px;border-top:1px solid rgba(62,205,196,.1)">
+              <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#3ECDC4,#2AABA3);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.9rem;flex-shrink:0">${s['review'+n+'_initial'] || ''}</div>
+              <div>
+                <div style="font-size:.86rem;font-weight:700;color:#0f2a2a">${s['review'+n+'_name'] || ''}</div>
+                <div style="font-size:.72rem;color:rgba(15,42,42,.45);margin-top:2px">منذ ${months[n]} أشهر</div>
+              </div>
+            </div>
+          </div>`).join('');
+        testimonialsInner.innerHTML = `
+          <div class="fade" style="text-align:center;margin-bottom:52px">
+            <div style="display:inline-flex;align-items:center;gap:10px;background:#f5fffe;border:1px solid rgba(62,205,196,.25);border-radius:50px;padding:7px 20px 7px 12px;margin-bottom:20px">
+              ${gSvg}
+              <span style="font-size:.76rem;font-weight:600;color:#2AABA3;letter-spacing:.06em">Google Maps Reviews</span>
+            </div>
+            <div class="lbl c">آراء عملائنا</div>
+            <h2 class="h2" style="text-align:center;font-size:clamp(2.2rem,4.5vw,3.6rem);color:#0f2a2a">${s.reviews_h2 || 'ثقة عملائنا هي أكبر إنجاز لنا'}</h2>
+            <div class="gl c" style="background:#2AABA3"></div>
+            <div style="display:inline-flex;align-items:center;justify-content:center;gap:10px;margin-top:18px;background:#f5fffe;border:1px solid rgba(62,205,196,.2);border-radius:50px;padding:10px 24px">
+              <div style="display:flex;gap:3px">${bigStarSvg}</div>
+              <span style="font-size:1.5rem;font-weight:800;color:#0f2a2a;line-height:1">5.0</span>
+              <span style="font-size:.82rem;color:rgba(15,42,42,.5)">${s.reviews_count_text || ' 6 تقييمات على جوجل'}</span>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
+            ${cards}
+          </div>
+          <div class="fade" style="text-align:center;margin-top:36px">
+            <a href="https://share.google/jEG7rk8uwm99rUL3x" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;color:#2AABA3;font-size:.88rem;font-weight:600;border:1px solid rgba(62,205,196,.3);padding:11px 24px;border-radius:50px;text-decoration:none;transition:all .3s" onmouseover="this.style.background='rgba(62,205,196,.08)'" onmouseout="this.style.background=''">
+              ${gSvg} اقرأ كل التقييمات على جوجل
+            </a>
+          </div>`;
       }
       // footer
       if (s.footer_desc) document.querySelectorAll('[data-field="footer_desc"]').forEach(el => { el.textContent = s.footer_desc; });
