@@ -3333,7 +3333,7 @@ async function saveAppointment() {
   const time          = document.getElementById('appt-time').value;
   const notes         = document.getElementById('appt-notes').value.trim();
   if (!customer_name || !date) { showToast('أدخل اسم العميل والتاريخ','error'); return; }
-  const { error } = await sb.from('appointments').insert([{ customer_name, property_name, date, time, notes, status:'pending' }]);
+  const { error } = await sb.from('appointments').insert([{ customer_name, property_name, date, time, notes, status:'booked' }]);
   if (error) { showToast('خطأ: ' + error.message,'error'); return; }
   showToast('تم حفظ الموعد ✓','success');
   document.getElementById('appt-customer').value='';
