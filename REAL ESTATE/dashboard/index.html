@@ -3568,7 +3568,7 @@ function renderCalendar() {
   const prevDays = new Date(calYear, calMonth, 0).getDate();
   const today = new Date();
   let cells = '';
-  for (let i=0; i<first; i++) cells+=`<div class="cal-day other-month"><div class="cal-day-num">${prevDays-first+i+1}</div></div>`;
+  for (let i=0; i<first; i++) cells+=`<div class="cal-day other-month"></div>`;
   for (let d=1; d<=days; d++) {
     const isToday=today.getFullYear()===calYear&&today.getMonth()===calMonth&&today.getDate()===d;
     const key=`${calYear}-${calMonth+1}-${d}`;
@@ -3577,7 +3577,7 @@ function renderCalendar() {
     cells+=`<div class="cal-day ${isToday?'today':''}" onclick="openAddAppointment('${dateStr}')"><div class="cal-day-num">${d}</div>${evs}</div>`;
   }
   const rem=42-(first+days);
-  for (let i=1; i<=rem; i++) cells+=`<div class="cal-day other-month"><div class="cal-day-num">${i}</div></div>`;
+  for (let i=1; i<=rem; i++) cells+=`<div class="cal-day other-month"></div>`;
   grid.innerHTML=cells;
   renderUpcomingAppointments();
 }
