@@ -291,6 +291,7 @@
       }
 
       const catMap = { residential: 'سكني', commercial: 'تجاري', administrative: 'إداري' };
+      window._PROJ_DATA = data;
       const LIMIT = 5;
       const hasMore = data.length > LIMIT;
       const visible = hasMore ? data.slice(0, LIMIT) : data;
@@ -302,7 +303,7 @@
           : `<div class="ach-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M3 9.5L12 3l9 6.5V21a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 22V12h6v10"/></svg></div>`;
         return `
           <div class="ach-item">
-            <a class="ach-card" href="#our-achievements">
+            <a class="ach-card" href="javascript:void(0)" onclick="openProjModal('${p.id}')">
               ${inner}
               <div class="ach-card-ov"></div>
               <div class="ach-card-body">
