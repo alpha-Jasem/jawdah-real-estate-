@@ -303,7 +303,7 @@
           : `<div class="ach-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M3 9.5L12 3l9 6.5V21a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 22V12h6v10"/></svg></div>`;
         return `
           <div class="ach-item">
-            <a class="ach-card" href="javascript:void(0)" onclick="openProjModal('${p.id}')">
+            <div class="ach-card" data-proj-id="${p.id}" style="cursor:pointer">
               ${inner}
               <div class="ach-card-ov"></div>
               <div class="ach-card-body">
@@ -313,7 +313,7 @@
                 ${p.description ? `<div class="ach-desc">${p.description}</div>` : ''}
                 <div class="ach-link">اقرأ المزيد <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="9 18 15 12 9 6"/></svg></div>
               </div>
-            </a>
+            </div>
           </div>`;
       }).join('');
 
@@ -374,8 +374,22 @@
         startX = 0;
       });
       grid.addEventListener('click', e => {
-        if (wasDrag) { e.preventDefault(); e.stopPropagation(); wasDrag = false; }
-      }, true);
+        if (wasDrag) { wasDrag = false; return; }
+        const card = e.target.closest('[data-proj-id]');
+        if (card && window._PROJ_DATA) {
+          const p = window._PROJ_DATA.find(x => String(x.id) === card.dataset.projId);
+          if (!p) return;
+          const catMap = { residential:'سكني', commercial:'تجاري', administrative:'إداري' };
+          document.getElementById('proj-modal-img').innerHTML = p.image_url
+            ? `<img src="${p.image_url}" style="width:100%;height:100%;object-fit:cover">` : '';
+          document.getElementById('proj-modal-badge').textContent = catMap[p.category] || p.category || '';
+          document.getElementById('proj-modal-title').textContent = p.title_ar || p.title || '—';
+          document.getElementById('proj-modal-meta').textContent = [p.year, p.client_name, p.location].filter(Boolean).join(' · ');
+          document.getElementById('proj-modal-desc').textContent = p.description || '';
+          document.getElementById('proj-modal').style.display = 'flex';
+          document.body.style.overflow = 'hidden';
+        }
+      });
       grid.addEventListener('touchstart', e => { startX = e.touches[0].clientX; wasDrag = false; }, { passive: true });
       grid.addEventListener('touchend',   e => {
         const dx = startX - e.changedTouches[0].clientX;
