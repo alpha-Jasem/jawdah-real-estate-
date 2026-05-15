@@ -261,7 +261,12 @@
           track.innerHTML = makeItems() + makeItems();
         }
       }
-    } catch (_) {}
+      // ── Force dynamic sections visible after observer might remove .on ──
+      setTimeout(() => {
+        document.querySelectorAll('#process .fade, #process .lux-reveal, #process .pr-step, #testimonials .fade, #testimonials .lux-reveal').forEach(el => el.classList.add('on'));
+      }, 200);
+
+    } catch (err) { console.error('[Jawdah] loadSiteSettings error:', err); }
   }
 
   loadSiteSettings();
