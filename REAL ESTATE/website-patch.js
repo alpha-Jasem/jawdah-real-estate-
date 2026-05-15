@@ -364,19 +364,22 @@
       nextBtn.addEventListener('click', () => goTo(idx + 1));
 
       // touch / drag
-      let startX = 0;
-      grid.addEventListener('mousedown',  e => { startX = e.clientX; grid.classList.add('no-trans'); });
+      let startX = 0, wasDrag = false;
+      grid.addEventListener('mousedown',  e => { startX = e.clientX; wasDrag = false; grid.classList.add('no-trans'); });
       window.addEventListener('mouseup',  e => {
         if (!startX) return;
         grid.classList.remove('no-trans');
         const dx = startX - e.clientX;
-        if (Math.abs(dx) > 50) goTo(idx + (dx > 0 ? 1 : -1)); else goTo(idx);
+        if (Math.abs(dx) > 10) { wasDrag = true; goTo(idx + (dx > 0 ? 1 : -1)); } else goTo(idx);
         startX = 0;
       });
-      grid.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+      grid.addEventListener('click', e => {
+        if (wasDrag) { e.preventDefault(); e.stopPropagation(); wasDrag = false; }
+      }, true);
+      grid.addEventListener('touchstart', e => { startX = e.touches[0].clientX; wasDrag = false; }, { passive: true });
       grid.addEventListener('touchend',   e => {
         const dx = startX - e.changedTouches[0].clientX;
-        if (Math.abs(dx) > 50) goTo(idx + (dx > 0 ? 1 : -1));
+        if (Math.abs(dx) > 50) { wasDrag = true; goTo(idx + (dx > 0 ? 1 : -1)); }
       });
 
       window.addEventListener('resize', () => goTo(Math.min(idx, maxIdx())));
