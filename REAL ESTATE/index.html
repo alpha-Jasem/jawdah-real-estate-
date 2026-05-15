@@ -1711,27 +1711,33 @@
   </div>
 </div>
 <script>
-function openProjModal(id) {
-  const p = window._PROJ_DATA && window._PROJ_DATA.find(x => String(x.id) === String(id));
-  if (!p) return;
-  const catMap = { residential:'سكني', commercial:'تجاري', administrative:'إداري' };
-  document.getElementById('proj-modal-img').innerHTML = p.image_url
-    ? `<img src="${p.image_url}" style="width:100%;height:100%;object-fit:cover">`
-    : '';
-  document.getElementById('proj-modal-badge').textContent = catMap[p.category] || p.category || '';
-  document.getElementById('proj-modal-title').textContent = p.title_ar || p.title || '—';
-  const meta = [p.year, p.client_name, p.location].filter(Boolean).join(' · ');
-  document.getElementById('proj-modal-meta').textContent = meta;
-  document.getElementById('proj-modal-desc').textContent = p.description || '';
-  const modal = document.getElementById('proj-modal');
-  modal.style.display = 'flex';
-  document.body.style.overflow = 'hidden';
-}
 function closeProjModal() {
   document.getElementById('proj-modal').style.display = 'none';
   document.body.style.overflow = '';
 }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeProjModal(); });
+
+// detect drag vs click
+var _projMouseX = 0;
+document.addEventListener('mousedown', e => { _projMouseX = e.clientX; });
+
+document.addEventListener('click', e => {
+  // skip if it was a drag (moved more than 8px)
+  if (Math.abs(e.clientX - _projMouseX) > 8) return;
+  const card = e.target.closest('[data-proj-id]');
+  if (!card || !window._PROJ_DATA) return;
+  const p = window._PROJ_DATA.find(x => String(x.id) === String(card.dataset.projId));
+  if (!p) return;
+  const catMap = { residential:'سكني', commercial:'تجاري', administrative:'إداري' };
+  document.getElementById('proj-modal-img').innerHTML = p.image_url
+    ? `<img src="${p.image_url}" style="width:100%;height:100%;object-fit:cover">` : '';
+  document.getElementById('proj-modal-badge').textContent = catMap[p.category] || p.category || '';
+  document.getElementById('proj-modal-title').textContent = p.title_ar || p.title || '—';
+  document.getElementById('proj-modal-meta').textContent = [p.year, p.client_name, p.location].filter(Boolean).join(' · ');
+  document.getElementById('proj-modal-desc').textContent = p.description || '';
+  document.getElementById('proj-modal').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+});
 </script>
 
 <!-- Jawdah patch -->

@@ -373,23 +373,6 @@
         if (Math.abs(dx) > 10) { wasDrag = true; goTo(idx + (dx > 0 ? 1 : -1)); } else goTo(idx);
         startX = 0;
       });
-      grid.addEventListener('click', e => {
-        if (wasDrag) { wasDrag = false; return; }
-        const card = e.target.closest('[data-proj-id]');
-        if (card && window._PROJ_DATA) {
-          const p = window._PROJ_DATA.find(x => String(x.id) === card.dataset.projId);
-          if (!p) return;
-          const catMap = { residential:'سكني', commercial:'تجاري', administrative:'إداري' };
-          document.getElementById('proj-modal-img').innerHTML = p.image_url
-            ? `<img src="${p.image_url}" style="width:100%;height:100%;object-fit:cover">` : '';
-          document.getElementById('proj-modal-badge').textContent = catMap[p.category] || p.category || '';
-          document.getElementById('proj-modal-title').textContent = p.title_ar || p.title || '—';
-          document.getElementById('proj-modal-meta').textContent = [p.year, p.client_name, p.location].filter(Boolean).join(' · ');
-          document.getElementById('proj-modal-desc').textContent = p.description || '';
-          document.getElementById('proj-modal').style.display = 'flex';
-          document.body.style.overflow = 'hidden';
-        }
-      });
       grid.addEventListener('touchstart', e => { startX = e.touches[0].clientX; wasDrag = false; }, { passive: true });
       grid.addEventListener('touchend',   e => {
         const dx = startX - e.changedTouches[0].clientX;
