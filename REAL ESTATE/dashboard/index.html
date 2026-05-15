@@ -1136,7 +1136,7 @@ canvas { max-width: 100%; }
 
         <!-- Activity feed -->
         <div class="panel">
-          <div class="section-header"><span class="section-title">آخر النشاطات</span><a class="section-link">عرض الكل</a></div>
+          <div class="section-header"><span class="section-title">آخر النشاطات</span><a class="section-link" id="activity-toggle" onclick="toggleActivityFeed()">عرض الكل</a></div>
           <div id="activity-feed"><div style="padding:16px;text-align:center;color:var(--fg-muted);font-size:13px">جارٍ التحميل...</div></div>
         </div>
       </div>
@@ -2734,11 +2734,20 @@ function renderTopProps() {
   `).join('');
 }
 
+let _activityShowAll = false;
+
+function toggleActivityFeed() {
+  _activityShowAll = !_activityShowAll;
+  const btn = document.getElementById('activity-toggle');
+  if (btn) btn.textContent = _activityShowAll ? 'عرض أقل' : 'عرض الكل';
+  renderActivityFeed();
+}
+
 function renderActivityFeed() {
   const el = document.getElementById('activity-feed');
   if (!el) return;
   const items = [];
-  LEADS.slice(0,8).forEach(l => {
+  LEADS.forEach(l => {
     const icon = l.source === 'chatbot' ? 'message-square' : 'user';
     items.push({ icon, color:'var(--brand-teal-600)', text:`عميل جديد: ${l.name}`, sub: l.property !== '—' ? l.property : (SOURCE_LABELS[l.source]||l.source), time: l.date });
   });
@@ -2746,7 +2755,8 @@ function renderActivityFeed() {
     el.innerHTML = '<div style="padding:16px;text-align:center;color:var(--fg-muted);font-size:13px">لا توجد نشاطات بعد</div>';
     return;
   }
-  el.innerHTML = items.slice(0,8).map(item => `
+  const visible = _activityShowAll ? items : items.slice(0,8);
+  el.innerHTML = visible.map(item => `
     <div style="display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)">
       <div style="width:32px;height:32px;border-radius:8px;background:var(--bg-subtle);display:flex;align-items:center;justify-content:center;flex-shrink:0">
         <i data-lucide="${item.icon}" width="14" height="14" style="color:${item.color}"></i>
