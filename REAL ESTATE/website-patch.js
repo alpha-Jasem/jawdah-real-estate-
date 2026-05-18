@@ -49,8 +49,12 @@
     } catch (_) {}
   }
 
-  // Only track visits on the root website page
-  if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
+  // Track only once per session (refresh won't count)
+  if (
+    (window.location.pathname === '/' || window.location.pathname === '/index.html') &&
+    !sessionStorage.getItem('jwdh_visited')
+  ) {
+    sessionStorage.setItem('jwdh_visited', '1');
     trackVisit('view');
   }
 
