@@ -1219,9 +1219,16 @@
       border-bottom: 1px solid rgba(62,205,196,.12) !important;
       transition: background 0.35s ease, box-shadow 0.35s ease;
     }
-    /* Logo: white on dark hero */
+    /* Logo: show original colors on dark hero with dark pill bg */
+    nav:not(.scrolled) .nav-logo {
+      background: rgba(0,0,0,0.32);
+      border-radius: 10px;
+      padding: 5px 12px;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
     nav:not(.scrolled) .nav-logo img {
-      filter: brightness(0) invert(1) !important;
+      filter: brightness(1.15) !important;
     }
   }
   /* Hero: full viewport height */
