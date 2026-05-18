@@ -819,8 +819,17 @@ canvas { max-width: 100%; }
   border-radius: 12px 12px 0 0;
 }
 .se-section-head > span { display: flex; align-items: center; gap: 6px; }
-.se-section-body { display: block !important; max-height: none !important; overflow: visible !important; }
+.se-section-body { display: block; }
+.se-section.se-collapsed .se-section-body { display: none; }
 .se-chev { display: none; }
+.se-toggle-btn {
+  margin-right: auto; background: none; border: none; padding: 3px 6px;
+  border-radius: 6px; color: var(--fg-muted); cursor: pointer;
+  display: flex; align-items: center; transition: background .15s, color .15s;
+  flex-shrink: 0;
+}
+.se-toggle-btn:hover { background: rgba(0,0,0,.06); color: var(--fg); }
+.se-section.se-collapsed .se-toggle-btn { color: var(--brand-teal-600); }
 .se-wide { grid-column: span 2; }
 .se-body-inner { padding: 10px 12px; display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--border); }
 /* ─ Fields ─ */
@@ -4473,6 +4482,35 @@ async function seUndoProjects() {
   seRenderProjects();
 }
 
+function openEditProject(id) {
+  editProject(typeof id === 'string' ? (isNaN(id) ? id : Number(id)) : id);
+}
+
+function seToggleSection(btn) {
+  const section = btn.closest('.se-section');
+  if (!section) return;
+  section.classList.toggle('se-collapsed');
+  const icon = btn.querySelector('i[data-lucide]');
+  if (icon) {
+    const collapsed = section.classList.contains('se-collapsed');
+    icon.setAttribute('data-lucide', collapsed ? 'chevron-down' : 'chevron-up');
+    lucide.createIcons({ nodes: [icon] });
+  }
+}
+
+function seInitToggleButtons() {
+  document.querySelectorAll('#se-body .se-section-head').forEach(head => {
+    if (head.querySelector('.se-toggle-btn')) return;
+    const btn = document.createElement('button');
+    btn.className = 'se-toggle-btn';
+    btn.title = 'إخفاء / إظهار';
+    btn.setAttribute('onclick', 'seToggleSection(this)');
+    btn.innerHTML = '<i data-lucide="chevron-up" width="13" height="13"></i>';
+    head.appendChild(btn);
+  });
+  lucide.createIcons();
+}
+
 function seShowEdit() {
   document.getElementById('se-panel')?.classList.remove('hidden');
   document.getElementById('se-preview-wrap')?.classList.remove('visible');
@@ -4552,6 +4590,7 @@ async function loadSiteEditor() {
     // render projects in site editor
     if (PROJECTS.length) seRenderProjects();
     else loadProjects().then(() => seRenderProjects());
+    seInitToggleButtons();
   } catch(e) { console.error('[SE] loadSiteEditor', e); }
 }
 

@@ -1,0 +1,496 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - img "جودة العقارية"
+    - generic: JAWDAH REAL ESTATE
+  - navigation [ref=e2]:
+    - img "جودة العقارية" [ref=e4]
+    - list [ref=e5]:
+      - listitem [ref=e6]:
+        - link "الرئيسية" [ref=e7] [cursor=pointer]:
+          - /url: "#"
+      - listitem [ref=e8]:
+        - link "من نحن" [ref=e9] [cursor=pointer]:
+          - /url: "#about"
+      - listitem [ref=e10]:
+        - link "الخدمات" [ref=e11] [cursor=pointer]:
+          - /url: "#services"
+      - listitem [ref=e12]:
+        - link "اعتمادنا" [ref=e13] [cursor=pointer]:
+          - /url: "#projects"
+      - listitem [ref=e14]:
+        - link "مشاريعنا" [ref=e15] [cursor=pointer]:
+          - /url: "#our-achievements"
+      - listitem [ref=e16]:
+        - link "إنجازاتنا" [ref=e17] [cursor=pointer]:
+          - /url: "#stats"
+      - listitem [ref=e18]:
+        - link "تواصل معنا" [ref=e19] [cursor=pointer]:
+          - /url: "#contact"
+    - link "احجز استشارة" [ref=e21] [cursor=pointer]:
+      - /url: https://api.whatsapp.com/message/AZBMZ4OGSAJGJ1?autoload=1&app_absent=0
+  - generic [ref=e24]:
+    - heading "شركة إدارة أملاك عقارية في السعودية جودة العقارية" [level=1] [ref=e25]:
+      - text: شركة إدارة أملاك عقارية في السعودية
+      - text: جودة العقارية
+    - paragraph [ref=e26]: نقدم حلول إدارة العقارات السكنية والتجارية تشمل التأجير، التسويق، الصيانة، والتحصيل بهدف رفع العائد الاستثماري وتقليل المخاطر التشغيلية.
+    - link "ابدأ إدارة عقارك الآن" [ref=e28] [cursor=pointer]:
+      - /url: https://api.whatsapp.com/message/AZBMZ4OGSAJGJ1?autoload=1&app_absent=0
+    - generic [ref=e29]:
+      - generic [ref=e30]:
+        - strong [ref=e31]: "+300"
+        - generic [ref=e32]: مشروع عقاري
+      - generic [ref=e33]:
+        - strong [ref=e34]: "+300"
+        - generic [ref=e35]: موقع استراتيجي
+      - generic [ref=e36]:
+        - strong [ref=e37]: +10 آلاف
+        - generic [ref=e38]: عميل
+  - generic [ref=e41]:
+    - generic [ref=e42]: شركاؤنا وعملاؤنا
+    - generic [ref=e44]:
+      - img [ref=e47]
+      - img [ref=e50]
+      - img [ref=e53]
+      - img [ref=e56]
+      - img [ref=e59]
+      - img [ref=e62]
+      - img [ref=e65]
+      - img [ref=e68]
+      - img [ref=e71]
+      - img [ref=e74]
+      - img [ref=e77]
+      - img [ref=e80]
+      - img [ref=e83]
+      - img [ref=e86]
+      - img [ref=e89]
+      - img [ref=e92]
+      - img [ref=e95]
+      - img [ref=e98]
+      - img [ref=e101]
+      - img [ref=e104]
+      - img [ref=e107]
+      - img [ref=e110]
+  - generic:
+    - img
+  - generic [ref=e112]:
+    - generic [ref=e113]:
+      - generic [ref=e114]: من نحن
+      - heading "من هي جودة العقارية؟" [level=2] [ref=e115]
+      - paragraph [ref=e117]: جودة العقارية شركة متخصصة في إدارة الأملاك العقارية وتشغيلها في المملكة العربية السعودية، نقدم حلول إدارة متكاملة تشمل الإشراف اليومي على العقارات السكنية والتجارية والإدارية.
+      - paragraph [ref=e118]: نهدف إلى تحقيق التوازن بين رضا المستأجرين وتعظيم العوائد الاستثمارية لمالكي العقارات، من خلال إدارة احترافية تعتمد على الأنظمة والمعايير الحديثة.
+      - generic [ref=e119]:
+        - generic [ref=e120]:
+          - generic [ref=e121]: "+10"
+          - generic [ref=e122]: سنوات خبرة
+        - generic [ref=e123]:
+          - generic [ref=e124]: "+300"
+          - generic [ref=e125]: مشروع مُدار
+        - generic [ref=e126]:
+          - generic [ref=e127]: "26"
+          - generic [ref=e128]: مدينة مغطّاة
+    - img "تشمل إدارة الأملاك جميع أنواع العقارات" [ref=e130]
+  - generic:
+    - img
+  - generic [ref=e132]:
+    - generic [ref=e133]:
+      - generic [ref=e134]: خدماتنا
+      - heading "خدمات إدارة العقارات التي نقدمها" [level=2] [ref=e135]
+      - paragraph [ref=e137]: نغطي جميع جوانب إدارة وتشغيل العقارات من البداية حتى التشغيل الكامل.
+    - generic [ref=e138]:
+      - generic [ref=e139]:
+        - img [ref=e141]
+        - heading "إدارة وتشغيل الممتلكات" [level=3] [ref=e144]
+        - paragraph [ref=e145]: إشراف يومي متكامل على عقاراتك يحافظ على قيمتها ويرفع عوائدها دون أي عناء منك.
+      - generic [ref=e146]:
+        - img [ref=e148]
+        - heading "التسويق والتأجير" [level=3] [ref=e150]
+        - paragraph [ref=e151]: حملات تسويقية وإعلانية موجّهة تستقطب المستأجرين المناسبين وتقلّص فترات الشغور.
+      - generic [ref=e152]:
+        - img [ref=e154]
+        - heading "فرز المستأجرين" [level=3] [ref=e156]
+        - paragraph [ref=e157]: بحث وتحرٍّ دقيق عن المستأجرين وإدارة العلاقة معهم لضمان الالتزام والاستقرار.
+      - generic [ref=e158]:
+        - img [ref=e160]
+        - heading "عقود الإيجار والتسجيل" [level=3] [ref=e162]
+        - paragraph [ref=e163]: توقيع عقود الإيجار وتجديدها وتسجيلها في منصة إيجار وفق الأنظمة واللوائح المعتمدة.
+      - generic [ref=e164]:
+        - img [ref=e166]
+        - heading "تحصيل الإيجارات" [level=3] [ref=e168]
+        - paragraph [ref=e169]: متابعة وتحصيل الإيجارات في مواعيدها وإدارة النزاعات لضمان تدفق مالي منتظم.
+      - generic [ref=e170]:
+        - img [ref=e172]
+        - heading "الصيانة والتشغيل" [level=3] [ref=e175]
+        - paragraph [ref=e176]: صيانة دورية وطارئة شاملة — سباكة وكهرباء وتكييف — للحفاظ على جودة الأصل العقاري.
+      - generic [ref=e177]:
+        - img [ref=e179]
+        - heading "الميزانيات والتقارير" [level=3] [ref=e181]
+        - paragraph [ref=e182]: إعداد ميزانيات الصيانة وتقارير الأداء الدورية لتبقى على اطلاع دائم بأوضاع عقارك.
+      - generic [ref=e183]:
+        - img [ref=e185]
+        - heading "الامتثال القانوني" [level=3] [ref=e187]
+        - paragraph [ref=e188]: ضمان الامتثال الكامل للتشريعات واللوائح المحلية والوطنية لحماية حقوقك وحقوق مستأجريك.
+  - generic:
+    - img
+  - generic [ref=e190]:
+    - generic [ref=e191]: لماذا إدارة الأملاك؟
+    - heading "عقارك يحتاج من يديره باحترافية" [level=2] [ref=e192]:
+      - text: عقارك يحتاج
+      - text: من يديره باحترافية
+    - paragraph [ref=e194]: إدارة الأملاك هي الإشراف اليومي الكامل على عقارك لتحويله إلى استثمار مربح ومستدام. جودة العقارية تتولى كل شيء عنك — من إيجاد المستأجر المناسب إلى صيانة العقار وتحصيل الإيجار — لتحقق أقصى عائد بأدنى جهد منك.
+    - list [ref=e195]:
+      - listitem [ref=e196]:
+        - img [ref=e197]
+        - text: إدارة سكنية وتجارية وإدارية شاملة
+      - listitem [ref=e199]:
+        - img [ref=e200]
+        - text: صيانة دورية وتحصيل إيجار منتظم
+      - listitem [ref=e202]:
+        - img [ref=e203]
+        - text: معتمدون من منصتَي فال وإيجار
+    - link "اكتشف الفرق" [ref=e205] [cursor=pointer]:
+      - /url: https://api.whatsapp.com/message/AZBMZ4OGSAJGJ1?autoload=1&app_absent=0
+  - generic [ref=e207]:
+    - generic [ref=e208]:
+      - generic [ref=e209]: اعتمادنا
+      - heading "تراخيصنا الرسمية" [level=2] [ref=e210]
+      - paragraph [ref=e212]: معتمدون من هيئة العقار الوطنية — تعمل تحت إشراف رسمي كامل يضمن حقوق جميع الأطراف.
+    - generic [ref=e213]:
+      - generic [ref=e214]:
+        - img [ref=e216]
+        - generic [ref=e219]: فال ✓
+        - generic [ref=e220]: "2200001290"
+        - generic [ref=e221]:
+          - text: رخصة فعّالة معتمدة من
+          - text: هيئة العقار الوطنية
+      - generic [ref=e222]:
+        - img [ref=e224]
+        - generic [ref=e227]: فال ✓
+        - generic [ref=e228]: "3200000145"
+        - generic [ref=e229]:
+          - text: رخصة فعّالة معتمدة من
+          - text: هيئة العقار الوطنية
+      - generic [ref=e230]:
+        - img [ref=e232]
+        - generic [ref=e235]: فال ✓
+        - generic [ref=e236]: "1200018434"
+        - generic [ref=e237]:
+          - text: رخصة فعّالة معتمدة من
+          - text: هيئة العقار الوطنية
+  - generic [ref=e238]:
+    - generic [ref=e239]:
+      - generic [ref=e240]:
+        - generic [ref=e241]: مشاريعنا
+        - heading "إنجازات متميزة" [level=2] [ref=e242]
+      - generic [ref=e243]:
+        - button "السابق" [disabled]:
+          - img
+        - button "التالي" [ref=e244] [cursor=pointer]:
+          - img [ref=e245]
+    - generic [ref=e248]:
+      - generic [ref=e250] [cursor=pointer]:
+        - img "مجمع الأندلس السكني" [ref=e251]
+        - generic [ref=e253]:
+          - generic [ref=e254]: سكني
+          - generic [ref=e255]: مجمع الأندلس السكني
+          - generic [ref=e256]: 2023 · مجموعة الأندلس
+          - generic [ref=e257]:
+            - text: اقرأ المزيد
+            - img [ref=e258]
+      - generic [ref=e261] [cursor=pointer]:
+        - img "فيلا الياسمين" [ref=e262]
+        - generic [ref=e264]:
+          - generic [ref=e265]: سكني
+          - generic [ref=e266]: فيلا الياسمين
+          - generic [ref=e267]: 2024 · عائلة الحربي
+          - generic [ref=e268]:
+            - text: اقرأ المزيد
+            - img [ref=e269]
+      - generic [ref=e272] [cursor=pointer]:
+        - img "برج الأعمال التجاري" [ref=e273]
+        - generic [ref=e275]:
+          - generic [ref=e276]: تجاري
+          - generic [ref=e277]: برج الأعمال التجاري
+          - generic [ref=e278]: 2023 · شركة الخليج للتطوير
+          - generic [ref=e279]:
+            - text: اقرأ المزيد
+            - img [ref=e280]
+      - generic [ref=e283] [cursor=pointer]:
+        - img "المركز الإداري الموحد" [ref=e284]
+        - generic [ref=e286]:
+          - generic [ref=e287]: إداري
+          - generic [ref=e288]: المركز الإداري الموحد
+          - generic [ref=e289]: 2024 · وزارة الإسكان
+          - generic [ref=e290]:
+            - text: اقرأ المزيد
+            - img [ref=e291]
+      - generic [ref=e294] [cursor=pointer]:
+        - img [ref=e296]
+        - generic [ref=e300]:
+          - generic [ref=e301]: سكني
+          - generic [ref=e302]: برج جده
+          - generic [ref=e303]: 2024 · شركة ياسر
+          - generic [ref=e304]:
+            - text: اقرأ المزيد
+            - img [ref=e305]
+    - generic [ref=e307]:
+      - button "انتقل للشريحة 1" [ref=e308] [cursor=pointer]
+      - button "انتقل للشريحة 2" [ref=e309] [cursor=pointer]
+      - button "انتقل للشريحة 3" [ref=e310] [cursor=pointer]
+      - button "انتقل للشريحة 4" [ref=e311] [cursor=pointer]
+      - button "انتقل للشريحة 5" [ref=e312] [cursor=pointer]
+      - button "انتقل للشريحة 6" [ref=e313] [cursor=pointer]
+    - link "المزيد من مشاريعنا ←" [ref=e314] [cursor=pointer]:
+      - /url: projects.html
+  - generic [ref=e316]:
+    - generic [ref=e317]:
+      - generic [ref=e318]: إنجازاتنا
+      - heading "أرقام تعكس ثقتكم بنا" [level=2] [ref=e319]
+      - paragraph [ref=e321]: نفتخر بما حققناه من إنجازات تعكس التزامنا بتقديم أفضل الخدمات العقارية في المملكة.
+    - generic [ref=e322]:
+      - generic [ref=e323]:
+        - img [ref=e324]
+        - generic [ref=e326]: "+300"
+        - generic [ref=e327]: مشروع عقاري منجز
+      - generic [ref=e328]:
+        - img [ref=e329]
+        - generic [ref=e333]: +10,000
+        - generic [ref=e334]: عميل راضٍ وموثوق
+      - generic [ref=e335]:
+        - img [ref=e336]
+        - generic [ref=e339]: 10+
+        - generic [ref=e340]: سنوات من الخبرة
+      - generic [ref=e341]:
+        - img [ref=e342]
+        - generic [ref=e344]: "26"
+        - generic [ref=e345]: مدينة سعودية مغطّاة
+  - generic:
+    - img
+  - generic [ref=e347]:
+    - generic [ref=e348]:
+      - generic [ref=e349]: مسؤولياتنا
+      - heading "ما تشمله إدارة الأملاك" [level=2] [ref=e350]
+      - paragraph [ref=e352]: نتولى جميع مسؤوليات إدارة عقارك بشكل متكامل حتى تركّز على ما يهمك.
+    - generic [ref=e353]:
+      - generic [ref=e355]:
+        - img [ref=e357]
+        - heading "التسويق للعقار" [level=3] [ref=e359]
+        - paragraph [ref=e360]: إطلاق حملات إعلانية فعّالة لاستقطاب المستأجرين المناسبين وتقليص فترات الشغور.
+      - generic [ref=e361]:
+        - img [ref=e363]
+        - heading "فرز المستأجرين" [level=3] [ref=e365]
+        - paragraph [ref=e366]: بحث وتحرٍّ دقيق للتحقق من الملاءة المالية والسيرة الائتمانية قبل التعاقد.
+      - generic [ref=e367]:
+        - img [ref=e369]
+        - heading "عقود الإيجار" [level=3] [ref=e371]
+        - paragraph [ref=e372]: توقيع العقود وتجديدها وتسجيلها في منصة إيجار وفق الأنظمة واللوائح المعتمدة.
+      - generic [ref=e373]:
+        - img [ref=e375]
+        - heading "التحصيل والصيانة" [level=3] [ref=e377]
+        - paragraph [ref=e378]: تحصيل الإيجارات في مواعيدها وإدارة أعمال الصيانة الدورية والطارئة.
+      - generic [ref=e379]:
+        - img [ref=e381]
+        - heading "التقارير والميزانيات" [level=3] [ref=e383]
+        - paragraph [ref=e384]: تقارير دورية شفافة وميزانيات صيانة مفصّلة لتبقى على اطلاع كامل باستثمارك.
+    - generic [ref=e385]:
+      - heading "جاهز لتسليم إدارة عقارك لمحترفين؟" [level=3] [ref=e386]
+      - paragraph [ref=e387]: تواصل معنا الآن واحصل على استشارة مجانية لتقييم عقارك وبدء خدمة الإدارة
+      - link "احجز استشارة الآن" [ref=e389] [cursor=pointer]:
+        - /url: https://api.whatsapp.com/message/AZBMZ4OGSAJGJ1?autoload=1&app_absent=0
+  - generic:
+    - img
+  - generic [ref=e393]:
+    - generic [ref=e394]: إدارة أملاكك تبدأ هنا
+    - heading "سلّم عقارك لجودة العقارية واستمتع بعائد بلا عناء" [level=2] [ref=e395]:
+      - text: سلّم عقارك لجودة العقارية
+      - text: واستمتع بعائد بلا عناء
+    - paragraph [ref=e397]: نتولى الإدارة الكاملة لعقارك السكني أو التجاري — تسويقاً وتأجيراً وصيانةً وتحصيلاً — بمعايير احترافية وشفافية تامة.
+    - generic [ref=e398]:
+      - generic [ref=e399]:
+        - img [ref=e400]
+        - text: إدارة يومية كاملة
+      - generic [ref=e402]:
+        - img [ref=e403]
+        - text: تقارير شهرية شفافة
+      - generic [ref=e405]:
+        - img [ref=e406]
+        - text: معتمدون رسمياً
+    - link "ابدأ استثمارك الآن" [ref=e409] [cursor=pointer]:
+      - /url: https://api.whatsapp.com/message/AZBMZ4OGSAJGJ1?autoload=1&app_absent=0
+  - generic [ref=e412]:
+    - generic [ref=e413]:
+      - generic [ref=e414]:
+        - img [ref=e415]
+        - generic [ref=e420]: Google Maps Reviews
+      - generic [ref=e421]: آراء عملائنا
+      - heading "ثقة عملائنا هي أكبر إنجاز لنا" [level=2] [ref=e422]
+      - generic [ref=e424]:
+        - generic [ref=e425]:
+          - img [ref=e426]
+          - img [ref=e428]
+          - img [ref=e430]
+          - img [ref=e432]
+          - img [ref=e434]
+        - generic [ref=e436]: "5.0"
+        - generic [ref=e437]: 6 تقييمات على جوجل
+    - generic [ref=e438]:
+      - generic [ref=e439]:
+        - generic [ref=e440]:
+          - generic [ref=e441]:
+            - img [ref=e442]
+            - img [ref=e444]
+            - img [ref=e446]
+            - img [ref=e448]
+            - img [ref=e450]
+          - img [ref=e452]
+        - paragraph [ref=e457]: "\"بصراحة تعامل راقي جدًا وذوق واحترام من أول تواصل، واضح إنهم فاهمين الزبون ويهتمون لاحتياجه. سرعة الاستجابة ممتازة وما يقصّرون أبد، بالذات الموظف أي استفسار يرد عليه بكل سلاسة وتعاون وتحس إنك عميل مهم عندهم. تجربة أكثر من رائعة وكل الشكر على الاحترافية وحسن التعامل.\""
+        - generic [ref=e458]:
+          - generic [ref=e459]: B
+          - generic [ref=e460]:
+            - generic [ref=e461]: Bayan Alshareef
+            - generic [ref=e462]: منذ 4 أشهر
+      - generic [ref=e463]:
+        - generic [ref=e464]:
+          - generic [ref=e465]:
+            - img [ref=e466]
+            - img [ref=e468]
+            - img [ref=e470]
+            - img [ref=e472]
+            - img [ref=e474]
+          - img [ref=e476]
+        - paragraph [ref=e481]: "\"المكتب جدًا راقي في التعامل وأخلاق وذمة عالية ومساعدين، خصوصًا الأخ فراس والله طول الإجراءات وعملية البحث وحتى بعد ما استأجرت ما زال يساعد، الله يعطيه العافية.\""
+        - generic [ref=e482]:
+          - generic [ref=e483]: A
+          - generic [ref=e484]:
+            - generic [ref=e485]: Abdulaziz Hussain
+            - generic [ref=e486]: منذ 3 أشهر
+      - generic [ref=e487]:
+        - generic [ref=e488]:
+          - generic [ref=e489]:
+            - img [ref=e490]
+            - img [ref=e492]
+            - img [ref=e494]
+            - img [ref=e496]
+            - img [ref=e498]
+          - img [ref=e500]
+        - paragraph [ref=e505]: "\"تعامل ممتاز وراقي وتواصل احترافي، الأخ فراس ما قصّر معي أبدًا.\""
+        - generic [ref=e506]:
+          - generic [ref=e507]: I
+          - generic [ref=e508]:
+            - generic [ref=e509]: Ibrahim Babtin
+            - generic [ref=e510]: منذ 3 أشهر
+      - generic [ref=e511]:
+        - generic [ref=e512]:
+          - generic [ref=e513]:
+            - img [ref=e514]
+            - img [ref=e516]
+            - img [ref=e518]
+            - img [ref=e520]
+            - img [ref=e522]
+          - img [ref=e524]
+        - paragraph [ref=e529]: "\"والله ما شاء الله تعاملهم ممتاز وراقي جدًا. شكرًا جودة العقارية وجزيل الشكر للأستاذ فراس، الله يسعدكم.\""
+        - generic [ref=e530]:
+          - generic [ref=e531]: W
+          - generic [ref=e532]:
+            - generic [ref=e533]: Wafaa Gamrani
+            - generic [ref=e534]: منذ 5 أشهر
+      - generic [ref=e535]:
+        - generic [ref=e536]:
+          - generic [ref=e537]:
+            - img [ref=e538]
+            - img [ref=e540]
+            - img [ref=e542]
+            - img [ref=e544]
+            - img [ref=e546]
+          - img [ref=e548]
+        - paragraph [ref=e553]: "\"ما شاء الله تعامل جميل وسرعة في الرد على المكالمات ويجدون طلبك بسرعة وسلاسة.\""
+        - generic [ref=e554]:
+          - generic [ref=e555]: A
+          - generic [ref=e556]:
+            - generic [ref=e557]: Amani Lamyae
+            - generic [ref=e558]: منذ 5 أشهر
+      - generic [ref=e559]:
+        - generic [ref=e560]:
+          - generic [ref=e561]:
+            - img [ref=e562]
+            - img [ref=e564]
+            - img [ref=e566]
+            - img [ref=e568]
+            - img [ref=e570]
+          - img [ref=e572]
+        - paragraph [ref=e577]: "\"والله تعامل فوق الممتاز وناس راقيين والحمد لله حصلنا طلبنا ونحنا مبسوطين، ربنا يوفقكم.\""
+        - generic [ref=e578]:
+          - generic [ref=e579]: M
+          - generic [ref=e580]:
+            - generic [ref=e581]: Mosab Aro
+            - generic [ref=e582]: منذ 5 أشهر
+    - link "اقرأ كل التقييمات على جوجل" [ref=e584] [cursor=pointer]:
+      - /url: https://share.google/jEG7rk8uwm99rUL3x
+      - img [ref=e585]
+      - text: اقرأ كل التقييمات على جوجل
+  - contentinfo [ref=e590]:
+    - generic [ref=e591]:
+      - generic [ref=e592]:
+        - generic [ref=e593]:
+          - img "جودة العقارية" [ref=e594]
+          - paragraph [ref=e595]: شريكك الاستراتيجي في السوق العقاري السعودي. نقدم خدمات تسويق وإدارة عقارية شاملة بمعايير تضمن أعلى قيمة لاستثمارك.
+        - generic [ref=e596]:
+          - heading "خدماتنا" [level=4] [ref=e597]
+          - list [ref=e598]:
+            - listitem [ref=e599]:
+              - link "تطوير المشاريع العقارية":
+                - /url: "#"
+            - listitem [ref=e600]:
+              - link "إدارة الأملاك":
+                - /url: "#"
+            - listitem [ref=e601]:
+              - link "الحملات التسويقية":
+                - /url: "#"
+            - listitem [ref=e602]:
+              - link "التثمين العقاري":
+                - /url: "#"
+            - listitem [ref=e603]:
+              - link "بيع وشراء العقارات":
+                - /url: "#"
+            - listitem [ref=e604]:
+              - link "تمثيل الشركات":
+                - /url: "#"
+        - generic [ref=e605]:
+          - heading "تواصل معنا" [level=4] [ref=e606]
+          - generic [ref=e607]:
+            - img [ref=e608]
+            - link "جدة — حي البوادي، شارع قريش" [ref=e612] [cursor=pointer]:
+              - /url: https://www.google.com/maps?q=%D8%AC%D9%88%D8%AF%D8%A9+%D8%A7%D9%84%D9%85%D8%AA%D8%AD%D8%AF%D8%A9+%D8%A7%D9%84%D8%B9%D9%82%D8%A7%D8%B1%D9%8A%D8%A9,+Prince+Sultan+Branch+Rd,+Al+Naeem,+Jeddah+23526&ftid=0x15c3db4134cea0a3:0xf72ca277b76cd0d7&hl=en-SA&gl=sa&entry=gps&lucs=47067412&g_ep=CAISBjYuNjQuMxgAINeCAyoINDcwNjc0MTJCAlNB&g_st=ic
+          - generic [ref=e613]:
+            - img [ref=e614]
+            - link "+966 532 145 552" [ref=e617] [cursor=pointer]:
+              - /url: tel:+966532145552
+          - generic [ref=e618]:
+            - img [ref=e619]
+            - link "info@jawdahksa.com" [ref=e623] [cursor=pointer]:
+              - /url: mailto:info@jawdahksa.com
+          - generic [ref=e624]:
+            - generic [ref=e625]: التراخيص المعتمدة
+            - generic [ref=e626]: فال ✓
+            - generic [ref=e627]: إيجار ✓
+            - generic [ref=e628]: "س.ت: 4030495338"
+      - generic [ref=e629]:
+        - link "X" [ref=e630] [cursor=pointer]:
+          - /url: https://x.com/jawda_sa
+          - img [ref=e631]
+        - link "Instagram" [ref=e633] [cursor=pointer]:
+          - /url: https://www.instagram.com/jawda_sa/
+          - img [ref=e634]
+        - link "TikTok" [ref=e636] [cursor=pointer]:
+          - /url: https://www.tiktok.com/@jawda_sa
+          - img [ref=e637]
+        - link "LinkedIn" [ref=e639] [cursor=pointer]:
+          - /url: https://www.linkedin.com/in/%D8%AC%D9%88%D8%AF%D8%A9-%D8%A7%D9%84%D8%B9%D9%82%D8%A7%D8%B1%D9%8A%D8%A9-71aa4b272/
+          - img [ref=e640]
+      - generic [ref=e642]:
+        - paragraph [ref=e643]: © 2025 جودة العقارية. جميع الحقوق محفوظة.
+        - generic [ref=e644]:
+          - generic [ref=e645]: سياسة الخصوصية
+          - generic [ref=e646]: الشروط والأحكام
+  - link "واتساب" [ref=e647] [cursor=pointer]:
+    - /url: https://api.whatsapp.com/message/AZBMZ4OGSAJGJ1?autoload=1&app_absent=0
+    - img [ref=e648]
