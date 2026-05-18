@@ -4499,7 +4499,7 @@ function seToggleSection(btn) {
 }
 
 function seInitToggleButtons() {
-  document.querySelectorAll('#se-body .se-section-head').forEach(head => {
+  document.querySelectorAll('.se-body .se-section-head').forEach(head => {
     if (head.querySelector('.se-toggle-btn')) return;
     const btn = document.createElement('button');
     btn.className = 'se-toggle-btn';
