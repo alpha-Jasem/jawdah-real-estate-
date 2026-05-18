@@ -1203,6 +1203,87 @@
     .cta-feats .cf{font-size:1.1rem!important;color:#0f2a2a!important}
     @media(max-width:640px){.cta-cnt p{font-size:1rem!important}.cta-feats .cf{font-size:.95rem!important}}
 
+  /* ══════════════════════════════════
+     DESIGN UPGRADE — 10/10 FIXES
+     ══════════════════════════════════ */
+
+  /* ── Reduce excessive section paddings ── */
+  #services    { padding-top: 80px !important; padding-bottom: 80px !important; }
+  #projects    { padding-top: 80px !important; padding-bottom: 80px !important; }
+  #stats       { padding-top: 80px !important; padding-bottom: 80px !important; }
+  #testimonials{ padding-top: 80px !important; padding-bottom: 80px !important; }
+  #process     { padding-top: 88px !important; padding-bottom: 88px !important; }
+
+  /* ── Fix stats section: dark themed instead of white ── */
+  #stats::before { background: linear-gradient(135deg, rgba(4,25,25,.97) 0%, rgba(3,35,30,.97) 100%) !important; }
+  .st-head .lbl  { color: var(--gold) !important; }
+  .st-head .h2   { color: #fff !important; }
+  .st-head .sp   { color: rgba(255,255,255,.65) !important; }
+
+  /* ── Fix interior text panel (white bg, invisible white text) ── */
+  .int-txt .sp           { color: rgba(15,42,42,.65) !important; }
+  .int-checks li         { color: rgba(15,42,42,.7)  !important; }
+  .int-checks li svg     { color: #2AABA3 !important; }
+
+  /* ── Fix testimonials (white bg, invisible white text) ── */
+  .tt  { color: rgba(15,42,42,.72) !important; }
+  .an  { color: #0f2a2a !important; }
+  .tc  { background: #fff !important; border: 1px solid rgba(62,205,196,.18) !important; box-shadow: 0 4px 24px rgba(0,0,0,.06) !important; border-radius: 18px !important; }
+  .tc:hover { background: rgba(62,205,196,.05) !important; box-shadow: 0 16px 48px rgba(62,205,196,.14) !important; }
+  .ta  { border-top-color: rgba(62,205,196,.15) !important; }
+  .qm  { opacity: .15 !important; color: var(--gold) !important; }
+
+  /* ── Fix footer (light bg, invisible white text) ── */
+  footer::before  { background: linear-gradient(135deg, #f0fafa 0%, #e8f8f7 100%) !important; }
+  .f-brand p      { color: rgba(15,42,42,.6) !important; }
+  .f-col h4       { color: #0f2a2a !important; }
+  .fl a           { color: rgba(15,42,42,.6) !important; }
+  .fl a:hover     { color: var(--gold) !important; }
+  .sb             { color: rgba(15,42,42,.45) !important; border-color: rgba(42,171,163,.3) !important; }
+  .sb:hover       { color: var(--gold) !important; border-color: var(--gold) !important; }
+  .fci span       { color: rgba(15,42,42,.62) !important; }
+  .f-bot p,.f-bot a { color: rgba(15,42,42,.4) !important; }
+  .f-top          { border-bottom-color: rgba(62,205,196,.18) !important; }
+  .f-logo         { height: 72px !important; }
+
+  /* ── Better card design — rounded corners ── */
+  .sc        { border-radius: 18px !important; }
+  .lic-card  { border-radius: 18px !important; }
+  .pr-cta    { border-radius: 20px !important; }
+  .stc       { border-radius: 16px !important; }
+
+  /* ── Service cards: fix bg color & shadow ── */
+  .sc { background: #fff !important; box-shadow: 0 2px 16px rgba(0,0,0,.05) !important; }
+  .sc:hover { box-shadow: 0 20px 50px rgba(62,205,196,.15) !important; }
+
+  /* ── Licenses section: dark themed ── */
+  #projects::before { background: linear-gradient(135deg, rgba(4,25,25,.97) 0%, rgba(3,35,30,.97) 100%) !important; }
+  .p-head .lbl { color: var(--gold) !important; }
+  .p-head .h2  { color: #fff !important; }
+  .p-head .sp  { color: rgba(255,255,255,.65) !important; }
+
+  /* ── Better heading sizes ── */
+  .s-head .h2  { font-size: clamp(2rem,3.5vw,3rem) !important; }
+  .pr-head .h2 { font-size: clamp(2rem,3.5vw,3rem) !important; }
+  .t-head .h2  { font-size: clamp(2rem,3.5vw,3rem) !important; }
+
+  /* ── Testimonials section bg slight teal tint ── */
+  #testimonials::before { background: linear-gradient(180deg, #f7fdfc 0%, #edfaf8 100%) !important; }
+
+  /* ── CTA section text fix ── */
+  .cta-cnt p { color: #0f2a2a !important; }
+
+  /* ── Process section cards rounded ── */
+  .sn { border-radius: 14px !important; }
+
+  /* ── Partners strip improvement ── */
+  .partners-strip { background: #f7fdfc !important; }
+
+  /* ── Mobile adjustments ── */
+  @media (max-width: 768px) {
+    #services, #projects, #stats, #testimonials, #process { padding-top: 56px !important; padding-bottom: 56px !important; }
+    .tg { grid-template-columns: 1fr !important; }
+  }
   </style>
 </head>
 <body data-cc-id="cc-1" style="background-color: rgb(255, 255, 255);">
