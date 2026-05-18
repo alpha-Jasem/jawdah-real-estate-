@@ -1203,7 +1203,7 @@
     .cta-feats .cf{font-size:1.1rem!important;color:#0f2a2a!important}
     @media(max-width:640px){.cta-cnt p{font-size:1rem!important}.cta-feats .cf{font-size:.95rem!important}}
 
-  /* ── Navbar: transparent at top, solid on scroll (desktop) ── */
+  /* ── Navbar: transparent at top, solid on scroll ── */
   @media (min-width: 641px) {
     nav:not(.scrolled) {
       background: transparent !important;
@@ -1219,7 +1219,21 @@
       border-bottom: 1px solid rgba(62,205,196,.12) !important;
       transition: background 0.35s ease, box-shadow 0.35s ease;
     }
+    /* Logo: remove white bg when on hero */
+    nav:not(.scrolled) .nav-logo img {
+      mix-blend-mode: screen;
+      filter: brightness(1.1);
+    }
   }
+  /* Mobile: logo always visible with mix-blend on hero */
+  @media (max-width: 640px) {
+    nav:not(.scrolled) .nav-logo img {
+      mix-blend-mode: screen;
+      filter: brightness(1.15);
+    }
+  }
+  /* Hero: full viewport height */
+  #hero { min-height: 100dvh !important; }
 
   /* ══════════════════════════════════
      DESIGN UPGRADE — 10/10 FIXES
