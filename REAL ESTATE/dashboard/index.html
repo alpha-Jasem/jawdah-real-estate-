@@ -1925,11 +1925,11 @@ canvas { max-width: 100%; }
                     </button>
                     <span style="font-size:11px;color:var(--fg-muted);margin-right:auto">⠿ اسحب الكروت لإعادة الترتيب</span>
                   </div>
-                  <div id="se-publish-bar" style="display:none;align-items:center;justify-content:space-between;gap:10px;background:#0f2a2a;color:#fff;padding:10px 14px;border-radius:10px;margin-bottom:8px">
-                    <span style="font-size:12px;opacity:.85">⚡ لديك تغييرات — اضغط نشر</span>
+                  <div id="se-publish-bar" style="display:none;align-items:center;justify-content:space-between;gap:10px;background:#f0fdf4;border:2px solid #16a34a;color:#14532d;padding:10px 16px;border-radius:10px;margin-bottom:8px">
+                    <span style="font-size:12px;font-weight:600">⚡ لديك تغييرات في الترتيب — اضغط نشر الترتيب</span>
                     <div style="display:flex;gap:6px">
-                      <button class="btn btn-sm" style="background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.2)" onclick="seUndoProjects()">تراجع</button>
-                      <button class="btn btn-primary btn-sm" onclick="sePublishProjects()">نشر</button>
+                      <button class="btn btn-sm" style="background:#fff;color:#374151;border:1px solid #d1d5db" onclick="seUndoProjects()">تراجع</button>
+                      <button class="btn btn-sm" style="background:#16a34a;color:#fff;border:none;font-weight:700;padding:6px 16px" onclick="sePublishProjects()">نشر الترتيب</button>
                     </div>
                   </div>
                   <div id="se-proj-grid" style="display:flex;flex-wrap:wrap;gap:10px"></div>
@@ -4429,7 +4429,7 @@ function seRenderProjects(filter) {
       <div class="project-card-img" style="height:110px;position:relative">
         ${p.image_url ? `<img src="${p.image_url}" loading="lazy" style="width:100%;height:100%;object-fit:cover">` : ''}
         <div style="position:absolute;top:8px;right:8px">
-          <span class="badge ${p.status==='published'?'badge-success':'badge-gray'}" style="font-size:10px">${p.status==='published'?'منشور':'مسودة'}</span>
+          <span style="display:inline-block;font-size:12px;font-weight:700;padding:4px 10px;border-radius:8px;${p.status==='published'?'background:#dcfce7;color:#15803d;border:2px solid #16a34a':'background:#fff7ed;color:#c2410c;border:2px solid #ea580c'}">${p.status==='published'?'منشور':'مسودة'}</span>
         </div>
       </div>
       <div class="project-card-body" style="padding:10px 12px">
@@ -4446,6 +4446,22 @@ function seRenderProjects(filter) {
 }
 
 function seFilterProjects(f, btn) {
+  // تحديث أزرار الفلتر
+  const wrap = document.getElementById('seproj-f-all')?.parentElement;
+  if (wrap) {
+    wrap.querySelectorAll('button').forEach(b => {
+      b.className = 'btn btn-ghost btn-sm';
+      b.style.background = '';
+      b.style.border = '';
+      b.style.fontWeight = '';
+    });
+  }
+  if (btn) {
+    btn.className = 'btn btn-sm';
+    btn.style.background = 'var(--bg-elevated)';
+    btn.style.border = '1px solid var(--border)';
+    btn.style.fontWeight = '700';
+  }
   seRenderProjects(f);
 }
 
