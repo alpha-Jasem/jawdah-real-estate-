@@ -1004,7 +1004,7 @@ canvas { max-width: 100%; }
         </button>
         <button class="nav-item" onclick="navTo('website')" data-page="website" style="display:none">
           <i data-lucide="globe" width="18" height="18"></i>
-          <span class="nav-label-text">الموقع التعريفي</span>
+          <span class="nav-label-text">موقع الشركة</span>
         </button>
         <button class="nav-item" onclick="navTo('properties')" data-page="properties">
           <i data-lucide="home" width="18" height="18"></i>
@@ -1101,7 +1101,7 @@ canvas { max-width: 100%; }
       <!-- KPI Cards -->
       <div class="kpi-grid">
         <div class="kpi-card" style="background:linear-gradient(135deg,rgba(62,205,196,.25) 0%,rgba(255,255,255,.7) 100%)">
-          <div class="kpi-label">زيارات الموقع التعريفي</div>
+          <div class="kpi-label">زيارات موقع الشركة</div>
           <div class="kpi-value" id="kpi-analytics" style="font-size:40px">—</div>
           <div class="kpi-delta up"><i data-lucide="trending-up" width="12" height="12"></i> هذا الشهر</div>
           <div class="kpi-spark"><canvas id="spark1"></canvas></div>
@@ -1115,7 +1115,7 @@ canvas { max-width: 100%; }
         <div class="kpi-card" style="background:linear-gradient(135deg,rgba(37,211,102,.15) 0%,rgba(255,255,255,.7) 100%)">
           <div class="kpi-label">ضغطات الواتساب</div>
           <div class="kpi-value" id="kpi-wa" style="font-size:40px">—</div>
-          <div class="kpi-delta up" style="color:#25D366"><i data-lucide="message-circle" width="12" height="12"></i> من الموقع التعريفي</div>
+          <div class="kpi-delta up" style="color:#25D366"><i data-lucide="message-circle" width="12" height="12"></i> من موقع الشركة</div>
         </div>
       </div>
 
@@ -1123,7 +1123,7 @@ canvas { max-width: 100%; }
       <div class="panel" style="margin-bottom:24px;background:linear-gradient(135deg,rgba(62,205,196,.18) 0%,rgba(255,255,255,.75) 100%);position:relative;overflow:hidden">
         <div class="section-header" style="position:relative;z-index:1">
           <div>
-            <span class="section-title" style="font-size:16px">نشاط الموقع التعريفي <span id="visits-year-label" style="font-weight:400;color:var(--fg-muted);font-size:13px"></span></span>
+            <span class="section-title" style="font-size:16px">نشاط موقع الشركة <span id="visits-year-label" style="font-weight:400;color:var(--fg-muted);font-size:13px"></span></span>
             <div style="font-size:12px;color:var(--fg-muted);margin-top:2px">الزيارات وعدد العملاء خلال الفترة المحددة</div>
           </div>
           <div style="display:flex;gap:6px">
@@ -1177,7 +1177,7 @@ canvas { max-width: 100%; }
     <div class="page" id="page-website" data-screen-label="02 Website Manager">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
         <div>
-          <div class="eyebrow">الموقع التعريفي</div>
+          <div class="eyebrow">موقع الشركة</div>
           <h1 style="font-family:var(--font-display);font-size:32px;font-weight:500;margin-top:6px">إدارة المشاريع والإنجازات</h1>
         </div>
         <div style="display:flex;gap:10px">
@@ -2182,7 +2182,7 @@ canvas { max-width: 100%; }
     <div class="form-group"><label class="form-label">الميزانية</label><input class="form-input" id="lead-budget" placeholder="2.5M ر.س"></div>
   </div>
   <div class="form-group"><label class="form-label">العقار المطلوب</label><input class="form-input" id="lead-property" placeholder="شقة، العليا..."></div>
-  <div class="form-group"><label class="form-label">المصدر</label><select class="form-input" id="lead-source"><option value="website">الموقع التعريفي</option><option value="chatbot">شات بوت</option><option value="portal">بوابة العقارات</option><option value="direct">مباشر</option><option value="referral">إحالة</option></select></div>
+  <div class="form-group"><label class="form-label">المصدر</label><select class="form-input" id="lead-source"><option value="website">موقع الشركة</option><option value="chatbot">شات بوت</option><option value="portal">بوابة العقارات</option><option value="direct">مباشر</option><option value="referral">إحالة</option></select></div>
   <div class="form-group"><label class="form-label">ملاحظات</label><textarea class="form-input" id="lead-notes" placeholder="تفاصيل إضافية..."></textarea></div>
   <div style="display:flex;gap:8px;margin-top:8px">
     <button class="btn btn-primary" style="flex:1;justify-content:center" onclick="saveLead()"><i data-lucide="save" width="14" height="14"></i> حفظ</button>
@@ -2692,14 +2692,15 @@ async function loadLeads() {
 let ANALYTICS_ROWS = [];
 
 async function loadAnalytics() {
-  // Fetch total count for KPI
-  const { count } = await sb.from('analytics').select('*', { count:'exact', head:true });
+  // Fetch total count for KPI (website only)
+  const { count } = await sb.from('analytics').select('*', { count:'exact', head:true }).eq('page','website');
   if (count !== null) updateKPI('kpi-analytics', count.toLocaleString('ar-SA'));
 
-  // Fetch rows from past 13 months for chart (created_at only)
+  // Fetch rows from past 13 months for chart (website only)
   const since = new Date(); since.setFullYear(since.getFullYear() - 1); since.setDate(1); since.setHours(0,0,0,0);
   const { data: rows } = await sb.from('analytics')
     .select('created_at, event')
+    .eq('page','website')
     .gte('created_at', since.toISOString())
     .order('created_at', { ascending: true });
   ANALYTICS_ROWS = rows || [];
@@ -4356,11 +4357,11 @@ async function loadReportKPIs() {
   try {
     const monthStart = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString();
     const [r1, r2, r3, r4, r5] = await Promise.all([
-      sb.from('analytics').select('*', { count: 'exact', head: true }),
+      sb.from('analytics').select('*', { count: 'exact', head: true }).eq('page','website'),
       sb.from('leads').select('*', { count: 'exact', head: true }),
       sb.from('leads').select('*', { count: 'exact', head: true }).gte('created_at', monthStart),
       sb.from('projects').select('*', { count: 'exact', head: true }).eq('status', 'published'),
-      sb.from('analytics').select('*', { count: 'exact', head: true }).eq('event', 'click_whatsapp'),
+      sb.from('analytics').select('*', { count: 'exact', head: true }).eq('page','website').eq('event', 'click_whatsapp'),
     ]);
     const set = (id, val) => { const el = document.getElementById(id); if (el) countUp(el, val || 0); };
     set('rep-visits', r1.count || 0);
@@ -4856,6 +4857,8 @@ function seRefreshPreview() {
 </div>
 </body>
 </html>
+
+
 
 
 
