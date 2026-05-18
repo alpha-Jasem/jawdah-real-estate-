@@ -1129,6 +1129,80 @@
       .ach-card{height:360px}
     }
 
+
+    /* ══════════════════════════════════════════
+       تعديلات الخطوط — Desktop (min-width:769px)
+       ══════════════════════════════════════════ */
+
+    /* ① hero-desc — أبيض ممتلئ + أكبر */
+    @media(min-width:769px){
+      .hero-desc{font-size:1.45rem!important;color:#fff!important;max-width:600px}
+
+      /* ② شركاؤنا وعملاؤنا — ضعف */
+      .partners-label{font-size:1.6rem!important;letter-spacing:.04em!important;opacity:1!important}
+
+      /* ③ "من نحن" label — 4 أضعاف */
+      #about .lbl{font-size:3rem!important;letter-spacing:.04em!important;text-transform:none!important}
+      #about .lbl::before{width:72px}
+
+      /* ④ about body text — أكبر شوية */
+      #about p[data-field="about_text"],#about p[data-field="about_text2"]{font-size:1.15rem!important;line-height:2!important}
+
+      /* ⑤ "خدماتنا" — 4 أضعاف */
+      #services .s-head .lbl{font-size:3rem!important;letter-spacing:.04em!important;text-transform:none!important}
+      #services .s-head .lbl::before,#services .s-head .lbl::after{width:72px}
+
+      /* ⑦ interior body text — أسود ممتلئ */
+      .int-txt .sp{color:#0f2a2a!important}
+      .int-checks li{color:rgba(15,42,42,.82)!important}
+
+      /* ⑧ "اعتمادنا" — 4 أضعاف */
+      #projects .p-head .lbl{font-size:3rem!important;letter-spacing:.04em!important;text-transform:none!important}
+      #projects .p-head .lbl::before,#projects .p-head .lbl::after{width:72px}
+
+      /* ⑨ licenses sp — أكبر شوية */
+      #projects .p-head .sp{font-size:1.15rem!important}
+
+      /* ⑩ "مشاريعنا" — 4 أضعاف */
+      .ach-head-text .lbl{font-size:3rem!important;letter-spacing:.04em!important;text-transform:none!important;margin-bottom:14px}
+
+      /* ⑪ "إنجازاتنا" — 4 أضعاف */
+      #stats .st-head .lbl{font-size:3rem!important;letter-spacing:.04em!important;text-transform:none!important}
+      #stats .st-head .lbl::before,#stats .st-head .lbl::after{width:72px}
+
+      /* ⑫ stats sp — أكبر + أوضح */
+      #stats .st-head .sp{font-size:1.2rem!important;color:rgba(255,255,255,.88)!important}
+
+      /* ⑫ب "مسؤولياتنا" (process) — 4 أضعاف */
+      .pr-head .lbl{font-size:3rem!important;letter-spacing:.04em!important;text-transform:none!important}
+      .pr-head .lbl::before,.pr-head .lbl::after{width:72px}
+
+      /* ⑮ "آراء عملائنا" — 4 أضعاف */
+      #testimonials .lbl{font-size:3rem!important;letter-spacing:.04em!important;text-transform:none!important}
+      #testimonials .lbl::before,#testimonials .lbl::after{width:72px}
+
+      /* ⑰ Copyright — وسط */
+      .f-bot{justify-content:center!important}
+    }
+
+    /* ⑥ "لماذا إدارة الأملاك؟" فوق الصورة — جميع الأجهزة */
+    #interior-label-top{background:#f8fafa;text-align:center;padding:52px 24px 24px}
+    #interior-label-top .lbl{font-size:2.8rem;letter-spacing:.04em;text-transform:none;justify-content:center;margin-bottom:0}
+    #interior-label-top .lbl::before,#interior-label-top .lbl::after{width:64px}
+    @media(max-width:768px){
+      #interior-label-top{padding:36px 20px 16px}
+      #interior-label-top .lbl{font-size:1.9rem}
+    }
+
+    /* ⑬ "إدارة أملاكك تبدأ هنا" — جميع الأجهزة */
+    .cta-lbl{font-size:2.6rem!important;letter-spacing:.04em!important;text-transform:none!important;line-height:1.3!important;margin-bottom:20px!important}
+    @media(max-width:640px){.cta-lbl{font-size:1.8rem!important}}
+
+    /* ⑭ CTA body text — جميع الأجهزة */
+    .cta-cnt p{font-size:1.2rem!important;color:rgba(255,255,255,.92)!important;line-height:1.9!important}
+    .cta-feats .cf{font-size:1.1rem!important;color:rgba(255,255,255,.92)!important}
+    @media(max-width:640px){.cta-cnt p{font-size:1rem!important}.cta-feats .cf{font-size:.95rem!important}}
+
   </style>
 </head>
 <body data-cc-id="cc-1" style="background-color: rgb(255, 255, 255);">
@@ -1309,10 +1383,14 @@
 <!-- wave: services → interior -->
 <div class="wv" style="background:#ffffff"><svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,60 C240,0 600,80 900,20 C1140,0 1300,70 1440,50 L1440,80 L0,80 Z" fill="#ffffff"></path></svg></div>
 
+<!-- Interior label — فوق الصورة على جميع الأجهزة -->
+<div id="interior-label-top">
+  <div class="lbl c fade lux-reveal on">لماذا إدارة الأملاك؟</div>
+</div>
+
 <!-- INTERIOR -->
 <section id="interior" class="section-frame">
   <div class="int-txt parallax-soft" data-parallax="0.16" style="transform: translate3d(0px, 30px, 0px);">
-    <div class="lbl fade-l on">لماذا إدارة الأملاك؟</div>
     <h2 class="h2 fade-l on" id="interior-h2">عقارك يحتاج<br>من يديره <span class="g">باحترافية</span></h2>
     <div class="gl fade-l on"></div>
     <p class="sp fade-l on" id="interior-desc">إدارة الأملاك هي الإشراف اليومي الكامل على عقارك لتحويله إلى استثمار مربح ومستدام. جودة العقارية تتولى كل شيء عنك — من إيجاد المستأجر المناسب إلى صيانة العقار وتحصيل الإيجار — لتحقق أقصى عائد بأدنى جهد منك.</p>
@@ -1485,11 +1563,7 @@
     </div>
     <div id="social-bar" style="display:flex;justify-content:center;gap:14px;padding:22px 0 14px;border-top:1px solid rgba(62,205,196,.15);flex-wrap:wrap"></div>
     <div class="f-bot">
-      <p>© 2025 جودة العقارية. جميع الحقوق محفوظة.</p>
-      <div class="f-bot-l">
-        <span>سياسة الخصوصية</span>
-        <span>الشروط والأحكام</span>
-      </div>
+      <p>© <span id="copy-year"></span> جودة العقارية. جميع الحقوق محفوظة.</p>
     </div>
   </div>
 </footer>
@@ -1583,6 +1657,10 @@
     }
     syncActiveNav();
   };
+
+  // تحديث سنة حقوق النشر تلقائياً
+  const yearEl = document.getElementById('copy-year');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
 
   syncActiveNav();
   window.addEventListener('scroll', onScroll, { passive: true });
