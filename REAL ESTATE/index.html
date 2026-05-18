@@ -1219,17 +1219,9 @@
       border-bottom: 1px solid rgba(62,205,196,.12) !important;
       transition: background 0.35s ease, box-shadow 0.35s ease;
     }
-    /* Logo: remove white bg when on hero */
+    /* Logo: white on dark hero */
     nav:not(.scrolled) .nav-logo img {
-      mix-blend-mode: screen;
-      filter: brightness(1.1);
-    }
-  }
-  /* Mobile: logo always visible with mix-blend on hero */
-  @media (max-width: 640px) {
-    nav:not(.scrolled) .nav-logo img {
-      mix-blend-mode: screen;
-      filter: brightness(1.15);
+      filter: brightness(0) invert(1) !important;
     }
   }
   /* Hero: full viewport height */
