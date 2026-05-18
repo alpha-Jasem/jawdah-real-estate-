@@ -2433,6 +2433,28 @@ async function doLogout() {
   showToast('تم تسجيل الخروج بنجاح', 'info');
 }
 
+// ── Auto-logout after 30 min inactivity ──
+(function initAutoLogout() {
+  const TIMEOUT_MS = 30 * 60 * 1000; // 30 minutes
+  let timer;
+
+  function resetTimer() {
+    clearTimeout(timer);
+    timer = setTimeout(async () => {
+      const { data: { session } } = await sb.auth.getSession();
+      if (!session) return;
+      showToast('تم تسجيل خروجك تلقائياً بسبب عدم النشاط', 'info');
+      await sb.auth.signOut();
+    }, TIMEOUT_MS);
+  }
+
+  ['mousemove', 'mousedown', 'keydown', 'scroll', 'touchstart', 'click'].forEach(evt =>
+    document.addEventListener(evt, resetTimer, { passive: true })
+  );
+
+  resetTimer();
+})();
+
 // ═══════════════════════════════════════════════════════
 // NAV
 // ═══════════════════════════════════════════════════════
