@@ -1203,18 +1203,21 @@
     .cta-feats .cf{font-size:1.1rem!important;color:#0f2a2a!important}
     @media(max-width:640px){.cta-cnt p{font-size:1rem!important}.cta-feats .cf{font-size:.95rem!important}}
 
-  /* ── Navbar hide on top, slide in on scroll (desktop) ── */
+  /* ── Navbar: transparent at top, solid on scroll (desktop) ── */
   @media (min-width: 641px) {
-    nav {
-      transform: translateY(-100%);
-      opacity: 0;
-      transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), opacity 0.35s ease;
-      pointer-events: none;
+    nav:not(.scrolled) {
+      background: transparent !important;
+      box-shadow: none !important;
+      border-bottom-color: transparent !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
     }
-    nav.nav-visible {
-      transform: translateY(0);
-      opacity: 1;
-      pointer-events: auto;
+    nav:not(.scrolled)::before { display: none !important; }
+    nav.scrolled {
+      background: rgba(255,255,255,0.97) !important;
+      box-shadow: 0 2px 16px rgba(0,0,0,.08) !important;
+      border-bottom: 1px solid rgba(62,205,196,.12) !important;
+      transition: background 0.35s ease, box-shadow 0.35s ease;
     }
   }
 
@@ -1755,13 +1758,11 @@
 
   const navEl = document.getElementById('nav');
   const onScroll = () => {
-    // Show/hide nav based on scroll (desktop only)
-    if (window.innerWidth >= 641) {
-      if (window.scrollY > 80) {
-        navEl.classList.add('nav-visible', 'scrolled');
-      } else {
-        navEl.classList.remove('nav-visible', 'scrolled');
-      }
+    // Transparent at top, solid on scroll
+    if (window.scrollY > 60) {
+      navEl.classList.add('scrolled');
+    } else {
+      navEl.classList.remove('scrolled');
     }
     if (processSteps && processSection) {
       const rect = processSection.getBoundingClientRect();
@@ -1782,11 +1783,7 @@
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
   // Initial state
-  if (window.innerWidth >= 641) {
-    navEl.classList.remove('nav-visible', 'scrolled');
-  } else {
-    navEl.classList.add('nav-visible', 'scrolled');
-  }
+  if (window.scrollY <= 60) navEl.classList.remove('scrolled');
   syncActiveNav();
   window.addEventListener('scroll', onScroll, { passive: true });
 
