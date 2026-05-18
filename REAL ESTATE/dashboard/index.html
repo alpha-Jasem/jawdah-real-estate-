@@ -2078,7 +2078,6 @@ canvas { max-width: 100%; }
     </div>
     <div class="form-group"><label class="form-label">اسم العميل</label><input class="form-input" id="proj-client" placeholder="شركة ..."></div>
     <div class="form-group"><label class="form-label">الوصف</label><textarea class="form-input" id="proj-desc" placeholder="وصف المشروع..."></textarea></div>
-    <input type="hidden" id="proj-published" value="true">
     <div class="form-group">
       <label class="form-label">الصور والفيديوهات</label>
       <div class="upload-zone" id="proj-upload-zone" onclick="document.getElementById('proj-files').click()" ondragover="event.preventDefault();this.classList.add('dragover')" ondragleave="this.classList.remove('dragover')" ondrop="handleFileDrop(event,'proj')">
@@ -2089,9 +2088,16 @@ canvas { max-width: 100%; }
       </div>
       <div class="media-grid" id="proj-media-grid"></div>
     </div>
-    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px">
-      <button class="btn btn-secondary" onclick="closeModal('modal-project')">إلغاء</button>
-      <button class="btn btn-primary" onclick="saveProject()"><i data-lucide="save" width="14" height="14"></i> حفظ</button>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px">
+      <label class="toggle" style="display:flex;align-items:center;gap:8px;cursor:pointer">
+        <input type="checkbox" id="proj-published" checked>
+        <span class="toggle-track"></span>
+        <span class="toggle-thumb"></span>
+      </label>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-secondary" onclick="closeModal('modal-project')">إلغاء</button>
+        <button class="btn btn-primary" onclick="saveProject()"><i data-lucide="save" width="14" height="14"></i> حفظ</button>
+      </div>
     </div>
   </div>
 </div>
@@ -2511,7 +2517,7 @@ function openAddProject() {
     const el = document.getElementById(id); if (el) el.value = '';
   });
   const cat = document.getElementById('proj-cat'); if (cat) cat.value = 'residential';
-  const pub = document.getElementById('proj-published'); if (pub) pub.value = 'true';
+  const pub = document.getElementById('proj-published'); if (pub) pub.checked = true;
   openModal('modal-project');
 }
 function openAddProperty() { openModal('modal-property'); }
@@ -2990,7 +2996,7 @@ function editProject(id) {
   if (catEl) catEl.value=p.category||'residential';
   const descEl = document.getElementById('proj-desc');
   if (descEl) descEl.value=p.description_ar||p.description||'';
-  document.getElementById('proj-published').value=p.status==='published'?'true':'false';
+  document.getElementById('proj-published').checked=p.status==='published';
   // Show existing image preview
   const mediaGrid = document.getElementById('proj-media-grid');
   if (mediaGrid) {
@@ -3012,7 +3018,7 @@ async function saveProject() {
   const year      = parseInt(document.getElementById('proj-year').value) || new Date().getFullYear();
   const client    = document.getElementById('proj-client').value.trim();
   const desc      = document.getElementById('proj-desc').value.trim();
-  const published = document.getElementById('proj-published').value === 'true';
+  const published = document.getElementById('proj-published').checked;
   if (!title_ar) { showToast('أدخل اسم المشروع','error'); return; }
 
   // Upload images first
