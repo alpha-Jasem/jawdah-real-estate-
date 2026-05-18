@@ -49,8 +49,8 @@
     } catch (_) {}
   }
 
-  // Only track visits on the main website, not dashboard
-  if (!window.location.pathname.startsWith('/dashboard')) {
+  // Only track visits on the root website page
+  if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
     trackVisit('view');
   }
 
