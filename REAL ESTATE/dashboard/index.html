@@ -1534,7 +1534,7 @@ canvas { max-width: 100%; }
             </div>
 
             <!-- ② القسم الرئيسي (Hero) -->
-            <div class="se-section se-wide">
+            <div class="se-section se-wide" data-section-key="hero">
               <div class="se-section-head" >
                 <span><i data-lucide="layout-template" width="14" height="14" style="color:var(--brand-teal-600)"></i> القسم الرئيسي</span>
               </div>
@@ -1606,7 +1606,7 @@ canvas { max-width: 100%; }
             </div>
 
             <!-- ③ من نحن -->
-            <div class="se-section">
+            <div class="se-section" data-section-key="about">
               <div class="se-section-head" >
                 <span><i data-lucide="users" width="14" height="14" style="color:var(--brand-teal-600)"></i> من نحن</span>
               </div>
@@ -1640,7 +1640,7 @@ canvas { max-width: 100%; }
             </div>
 
             <!-- ④ الخدمات -->
-            <div class="se-section">
+            <div class="se-section" data-section-key="services">
               <div class="se-section-head" >
                 <span><i data-lucide="briefcase" width="14" height="14" style="color:var(--brand-teal-600)"></i> الخدمات</span>
               </div>
@@ -1655,7 +1655,7 @@ canvas { max-width: 100%; }
             </div>
 
             <!-- ⑤ قسم إدارة الأملاك -->
-            <div class="se-section">
+            <div class="se-section" data-section-key="interior">
               <div class="se-section-head" >
                 <span><i data-lucide="home" width="14" height="14" style="color:var(--brand-teal-600)"></i> قسم إدارة الأملاك</span>
               </div>
@@ -1690,7 +1690,7 @@ canvas { max-width: 100%; }
             </div>
 
             <!-- ⑥ التراخيص -->
-            <div class="se-section">
+            <div class="se-section" data-section-key="licenses">
               <div class="se-section-head" >
                 <span><i data-lucide="shield-check" width="14" height="14" style="color:var(--brand-teal-600)"></i> التراخيص الرسمية</span>
               </div>
@@ -1713,7 +1713,7 @@ canvas { max-width: 100%; }
             </div>
 
             <!-- ⑦ الإحصائيات -->
-            <div class="se-section se-wide">
+            <div class="se-section se-wide" data-section-key="stats">
               <div class="se-section-head" >
                 <span><i data-lucide="bar-chart-2" width="14" height="14" style="color:var(--brand-teal-600)"></i> الإحصائيات</span>
               </div>
@@ -1758,7 +1758,7 @@ canvas { max-width: 100%; }
             </div>
 
             <!-- ⑧ قسم الدعوة للعمل (CTA) -->
-            <div class="se-section">
+            <div class="se-section" data-section-key="cta">
               <div class="se-section-head" >
                 <span><i data-lucide="megaphone" width="14" height="14" style="color:var(--brand-teal-600)"></i> قسم الدعوة للعمل</span>
               </div>
@@ -1786,7 +1786,7 @@ canvas { max-width: 100%; }
             </div>
 
             <!-- ⑨ شريط الشركاء -->
-            <div class="se-section se-wide">
+            <div class="se-section se-wide" data-section-key="partners">
               <div class="se-section-head" >
                 <span><i data-lucide="handshake" width="14" height="14" style="color:var(--brand-teal-600)"></i> شركاؤنا وعملاؤنا</span>
               </div>
@@ -1806,7 +1806,7 @@ canvas { max-width: 100%; }
             </div>
 
             <!-- ⑪ خطوات العمل (Process) -->
-            <div class="se-section se-wide">
+            <div class="se-section se-wide" data-section-key="process">
               <div class="se-section-head">
                 <span><i data-lucide="list-checks" width="14" height="14" style="color:var(--brand-teal-600)"></i> ما تشمله إدارة الأملاك</span>
               </div>
@@ -1855,7 +1855,7 @@ canvas { max-width: 100%; }
             </div>
 
             <!-- ⑫ آراء العملاء (Testimonials) -->
-            <div class="se-section se-wide">
+            <div class="se-section se-wide" data-section-key="testimonials">
               <div class="se-section-head">
                 <span><i data-lucide="star" width="14" height="14" style="color:var(--brand-teal-600)"></i> آراء العملاء</span>
               </div>
@@ -1908,7 +1908,7 @@ canvas { max-width: 100%; }
             </div>
 
             <!-- ⑩ المشاريع والإنجازات -->
-            <div class="se-section se-wide">
+            <div class="se-section se-wide" data-section-key="projects">
               <div class="se-section-head">
                 <span><i data-lucide="folder-open" width="14" height="14" style="color:var(--brand-teal-600)"></i> المشاريع والإنجازات</span>
               </div>
@@ -1981,7 +1981,7 @@ canvas { max-width: 100%; }
             </div>
 
             <!-- ⑭ التواصل الاجتماعي -->
-            <div class="se-section se-wide">
+            <div class="se-section se-wide" data-section-key="social">
               <div class="se-section-head">
                 <span><i data-lucide="share-2" width="14" height="14" style="color:var(--brand-teal-600)"></i> التواصل الاجتماعي</span>
               </div>
@@ -4486,26 +4486,47 @@ function openEditProject(id) {
   editProject(typeof id === 'string' ? (isNaN(id) ? id : Number(id)) : id);
 }
 
+let _sePendingToggleSection = null;
+
+function _applySectionToggle(section, collapse) {
+  section.classList.toggle('se-collapsed', collapse);
+  const icon = section.querySelector('.se-toggle-btn i[data-lucide]');
+  if (icon) {
+    icon.setAttribute('data-lucide', collapse ? 'eye-off' : 'eye');
+    lucide.createIcons({ nodes: [icon] });
+  }
+}
+
 function seToggleSection(btn) {
   const section = btn.closest('.se-section');
   if (!section) return;
-  section.classList.toggle('se-collapsed');
-  const icon = btn.querySelector('i[data-lucide]');
-  if (icon) {
-    const collapsed = section.classList.contains('se-collapsed');
-    icon.setAttribute('data-lucide', collapsed ? 'eye-off' : 'eye');
-    lucide.createIcons({ nodes: [icon] });
+  const key = section.dataset.sectionKey;
+  const isCollapsed = section.classList.contains('se-collapsed');
+
+  if (key && !isCollapsed) {
+    _sePendingToggleSection = section;
+    document.getElementById('modal-section-confirm-btn').onclick = () => {
+      closeModal('modal-section-confirm');
+      _applySectionToggle(_sePendingToggleSection, true);
+      seSave('section_' + _sePendingToggleSection.dataset.sectionKey + '_visible', 'false');
+    };
+    openModal('modal-section-confirm');
+  } else {
+    _applySectionToggle(section, false);
+    if (key) seSave('section_' + key + '_visible', 'true');
   }
 }
 
 function seInitToggleButtons() {
   document.querySelectorAll('.se-body .se-section-head').forEach(head => {
     if (head.querySelector('.se-toggle-btn')) return;
+    const section = head.closest('.se-section');
+    const collapsed = section?.classList.contains('se-collapsed');
     const btn = document.createElement('button');
     btn.className = 'se-toggle-btn';
-    btn.title = 'إخفاء / إظهار';
+    btn.title = 'إخفاء / إظهار في الموقع';
     btn.setAttribute('onclick', 'seToggleSection(this)');
-    btn.innerHTML = '<i data-lucide="eye" width="14" height="14"></i>';
+    btn.innerHTML = `<i data-lucide="${collapsed ? 'eye-off' : 'eye'}" width="14" height="14"></i>`;
     head.appendChild(btn);
   });
   lucide.createIcons();
@@ -4590,6 +4611,12 @@ async function loadSiteEditor() {
     // render projects in site editor
     if (PROJECTS.length) seRenderProjects();
     else loadProjects().then(() => seRenderProjects());
+    // تطبيق الحالة المحفوظة للسيكشنات
+    document.querySelectorAll('.se-body .se-section[data-section-key]').forEach(sec => {
+      if (SE['section_' + sec.dataset.sectionKey + '_visible'] === 'false') {
+        sec.classList.add('se-collapsed');
+      }
+    });
     seInitToggleButtons();
   } catch(e) { console.error('[SE] loadSiteEditor', e); }
 }
@@ -4777,6 +4804,21 @@ function seRefreshPreview() {
 }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
+
+<!-- Modal: تأكيد إخفاء السيكشن -->
+<div class="overlay" id="modal-section-confirm">
+  <div class="modal" style="max-width:380px;text-align:center;padding:28px 24px">
+    <div style="font-size:36px;margin-bottom:10px">👁</div>
+    <h3 style="font-size:15px;margin-bottom:8px">إخفاء هذا القسم من الموقع؟</h3>
+    <p style="font-size:13px;color:var(--fg-muted);margin-bottom:20px;line-height:1.7">
+      سيختفي هذا القسم فوراً من الموقع الإلكتروني للزوار.<br>يمكنك إعادة إظهاره في أي وقت.
+    </p>
+    <div style="display:flex;gap:8px;justify-content:center">
+      <button class="btn btn-ghost" onclick="closeModal('modal-section-confirm')">إلغاء</button>
+      <button class="btn btn-primary" id="modal-section-confirm-btn">نعم، أخفِه</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
 

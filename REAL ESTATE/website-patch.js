@@ -67,6 +67,22 @@
       if (!data) return;
       const s = {};
       data.forEach(r => s[r.key] = r.value);
+
+      // تطبيق إخفاء/إظهار السيكشنات
+      const SECTION_VISIBILITY_MAP = {
+        hero: '#hero', about: '#about', services: '#services',
+        interior: '#interior', licenses: '#projects', stats: '#stats',
+        cta: '#cta', partners: '.partners-strip', process: '#process',
+        testimonials: '#testimonials', projects: '#our-achievements',
+        social: '#social-bar',
+      };
+      Object.entries(SECTION_VISIBILITY_MAP).forEach(([key, sel]) => {
+        if (s['section_' + key + '_visible'] === 'false') {
+          const el = document.querySelector(sel);
+          if (el) el.style.display = 'none';
+        }
+      });
+
       if (s.phone) {
         document.querySelectorAll('[data-field="phone"], .fci-phone').forEach(el => { el.textContent = s.phone; });
         const wa = document.querySelector('.wa-float');
