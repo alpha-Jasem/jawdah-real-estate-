@@ -49,7 +49,10 @@
     } catch (_) {}
   }
 
-  trackVisit('view');
+  // Only track visits on the main website, not dashboard
+  if (!window.location.pathname.startsWith('/dashboard')) {
+    trackVisit('view');
+  }
 
   document.addEventListener('click', function (e) {
     const wa = e.target.closest('.wa-float');
