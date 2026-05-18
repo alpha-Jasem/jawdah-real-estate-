@@ -831,6 +831,8 @@ canvas { max-width: 100%; }
 .se-toggle-btn:hover { background: rgba(0,0,0,.06); color: var(--fg); }
 .se-section.se-collapsed .se-toggle-btn { color: var(--fg-subtle); }
 .se-wide { grid-column: span 2; }
+.seproj-filter-btn { transition: all .15s; }
+.seproj-filter-btn.seproj-active { background: var(--bg-elevated) !important; border: 1.5px solid var(--brand-teal-600) !important; color: var(--brand-teal-700) !important; font-weight: 700 !important; }
 .se-body-inner { padding: 10px 12px; display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--border); }
 /* ─ Fields ─ */
 .se-field { display: flex; flex-direction: column; gap: 3px; }
@@ -1916,9 +1918,9 @@ canvas { max-width: 100%; }
                 <div class="se-body-inner">
                   <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:4px">
                     <div style="display:flex;gap:4px;background:var(--bg-subtle);padding:3px;border-radius:8px">
-                      <button class="btn btn-sm" id="seproj-f-all" onclick="seFilterProjects('all',this)" style="background:var(--bg-elevated);border:1px solid var(--border)">الكل</button>
-                      <button class="btn btn-ghost btn-sm" onclick="seFilterProjects('published',this)">منشور</button>
-                      <button class="btn btn-ghost btn-sm" onclick="seFilterProjects('draft',this)">مسودة</button>
+                      <button class="btn btn-sm seproj-filter-btn seproj-active" id="seproj-f-all" data-filter="all" onclick="seFilterProjects('all',this)">الكل</button>
+                      <button class="btn btn-ghost btn-sm seproj-filter-btn" id="seproj-f-pub" data-filter="published" onclick="seFilterProjects('published',this)">منشور</button>
+                      <button class="btn btn-ghost btn-sm seproj-filter-btn" id="seproj-f-draft" data-filter="draft" onclick="seFilterProjects('draft',this)">مسودة</button>
                     </div>
                     <button class="btn btn-primary btn-sm" onclick="openAddProject()">
                       <i data-lucide="plus" width="12" height="12"></i> مشروع جديد
@@ -4424,6 +4426,15 @@ function seRenderProjects(filter) {
   if (!grid) return;
   let data = PROJECTS;
   if (filter !== 'all') data = data.filter(p => p.status === filter);
+  if (!data.length) {
+    const emptyLabels = { all: 'لا توجد مشاريع بعد', published: 'لا توجد مشاريع منشورة', draft: 'لا توجد مسودات' };
+    grid.innerHTML = `<div style="width:100%;text-align:center;padding:36px 16px;color:var(--fg-muted);display:flex;flex-direction:column;align-items:center;gap:10px">
+      <i data-lucide="folder-open" width="42" height="42" style="opacity:.25"></i>
+      <div style="font-size:13px;font-weight:500">${emptyLabels[filter] || 'لا توجد نتائج'}</div>
+    </div>`;
+    lucide.createIcons();
+    return;
+  }
   grid.innerHTML = data.map(p => `
     <div class="project-card" data-id="${p.id}" style="flex:0 0 calc(33% - 7px);max-width:calc(33% - 7px)">
       <div class="project-card-img" style="height:110px;position:relative">
@@ -4446,22 +4457,8 @@ function seRenderProjects(filter) {
 }
 
 function seFilterProjects(f, btn) {
-  // تحديث أزرار الفلتر
-  const wrap = document.getElementById('seproj-f-all')?.parentElement;
-  if (wrap) {
-    wrap.querySelectorAll('button').forEach(b => {
-      b.className = 'btn btn-ghost btn-sm';
-      b.style.background = '';
-      b.style.border = '';
-      b.style.fontWeight = '';
-    });
-  }
-  if (btn) {
-    btn.className = 'btn btn-sm';
-    btn.style.background = 'var(--bg-elevated)';
-    btn.style.border = '1px solid var(--border)';
-    btn.style.fontWeight = '700';
-  }
+  document.querySelectorAll('.seproj-filter-btn').forEach(b => b.classList.remove('seproj-active'));
+  if (btn) btn.classList.add('seproj-active');
   seRenderProjects(f);
 }
 
