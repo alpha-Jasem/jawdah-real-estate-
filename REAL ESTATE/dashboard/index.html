@@ -820,7 +820,6 @@ canvas { max-width: 100%; }
 }
 .se-section-head > span { display: flex; align-items: center; gap: 6px; }
 .se-section-body { display: block; }
-.se-section.se-collapsed .se-section-body { display: none; }
 .se-chev { display: none; }
 .se-toggle-btn {
   background: none; border: none; padding: 3px 6px;
@@ -829,7 +828,7 @@ canvas { max-width: 100%; }
   flex-shrink: 0; order: -1;
 }
 .se-toggle-btn:hover { background: rgba(0,0,0,.06); color: var(--fg); }
-.se-section.se-collapsed .se-toggle-btn { color: var(--fg-subtle); }
+.se-section[data-hidden-on-site="true"] .se-toggle-btn { color: var(--danger, #e53e3e); }
 .se-wide { grid-column: span 2; }
 .seproj-filter-btn { transition: all .15s; }
 .seproj-filter-btn.seproj-active { background: var(--bg-elevated) !important; border: 1.5px solid var(--brand-teal-600) !important; color: var(--brand-teal-700) !important; font-weight: 700 !important; }
@@ -4501,11 +4500,11 @@ function openEditProject(id) {
 
 let _sePendingToggleSection = null;
 
-function _applySectionToggle(section, collapse) {
-  section.classList.toggle('se-collapsed', collapse);
+function _applySectionToggle(section, hide) {
+  section.dataset.hiddenOnSite = hide ? 'true' : 'false';
   const icon = section.querySelector('.se-toggle-btn i[data-lucide]');
   if (icon) {
-    icon.setAttribute('data-lucide', collapse ? 'eye-off' : 'eye');
+    icon.setAttribute('data-lucide', hide ? 'eye-off' : 'eye');
     lucide.createIcons({ nodes: [icon] });
   }
 }
@@ -4514,9 +4513,9 @@ function seToggleSection(btn) {
   const section = btn.closest('.se-section');
   if (!section) return;
   const key = section.dataset.sectionKey;
-  const isCollapsed = section.classList.contains('se-collapsed');
+  const isHidden = section.dataset.hiddenOnSite === 'true';
 
-  if (key && !isCollapsed) {
+  if (key && !isHidden) {
     _sePendingToggleSection = section;
     document.getElementById('modal-section-confirm-btn').onclick = () => {
       closeModal('modal-section-confirm');
@@ -4534,12 +4533,12 @@ function seInitToggleButtons() {
   document.querySelectorAll('.se-body .se-section-head').forEach(head => {
     if (head.querySelector('.se-toggle-btn')) return;
     const section = head.closest('.se-section');
-    const collapsed = section?.classList.contains('se-collapsed');
+    const hidden = section?.dataset.hiddenOnSite === 'true';
     const btn = document.createElement('button');
     btn.className = 'se-toggle-btn';
     btn.title = 'إخفاء / إظهار في الموقع';
     btn.setAttribute('onclick', 'seToggleSection(this)');
-    btn.innerHTML = `<i data-lucide="${collapsed ? 'eye-off' : 'eye'}" width="14" height="14"></i>`;
+    btn.innerHTML = `<i data-lucide="${hidden ? 'eye-off' : 'eye'}" width="14" height="14"></i>`;
     head.appendChild(btn);
   });
   lucide.createIcons();
@@ -4627,7 +4626,7 @@ async function loadSiteEditor() {
     // تطبيق الحالة المحفوظة للسيكشنات
     document.querySelectorAll('.se-body .se-section[data-section-key]').forEach(sec => {
       if (SE['section_' + sec.dataset.sectionKey + '_visible'] === 'false') {
-        sec.classList.add('se-collapsed');
+        sec.dataset.hiddenOnSite = 'true';
       }
     });
     seInitToggleButtons();
