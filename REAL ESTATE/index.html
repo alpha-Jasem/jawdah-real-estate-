@@ -16,7 +16,7 @@
   <noscript><link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet"></noscript>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    html{scroll-behavior:smooth}
+    html{scroll-behavior:auto}
     body{font-family:'Tajawal',sans-serif;direction:rtl;background:#ffffff;color:#0f2a2a;overflow-x:hidden}
     :root{
       --gold:#3ECDC4;--gold-l:#74E8E2;--gold-d:#2AABA3;
@@ -55,7 +55,7 @@
 
     /* ── HERO ── */
     #hero{position:relative;min-height:100svh;overflow:hidden;background:#05070b;display:flex;flex-direction:column}
-    .hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;transform:translate3d(0,0,0) scale(1.06);z-index:0}
+    .hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;transform:translate3d(0,0,0) scale(1.06);z-index:0;will-change:transform;backface-visibility:hidden}
     .hero-overlay{position:absolute;inset:0;background:rgba(0,0,0,.22);z-index:1;pointer-events:none}
     .hero-overlay::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.04) 0%,rgba(0,0,0,.12) 65%,rgba(0,0,0,.22) 100%)}
     .hero-overlay-b{position:absolute;inset:-10% -12% auto auto;width:52vw;height:52vw;max-width:760px;max-height:760px;background:radial-gradient(circle,rgba(62,205,196,.18) 0%,rgba(62,205,196,.07) 38%,transparent 65%);opacity:1;z-index:1;pointer-events:none}
@@ -1774,35 +1774,49 @@
   });
 
   const navEl = document.getElementById('nav');
-  const onScroll = () => {
-    // Transparent at top, solid on scroll
-    if (window.scrollY > 60) {
-      navEl.classList.add('scrolled');
-    } else {
-      navEl.classList.remove('scrolled');
+  const processStepsList = processSteps ? [...processSteps.querySelectorAll('.pr-step')] : [];
+  const scrollProg = document.getElementById('scrollProg');
+
+  // Single RAF-batched scroll handler — all work in one frame
+  let rafPending = false;
+  const runScrollWork = () => {
+    rafPending = false;
+    const sy = window.scrollY;
+
+    // Navbar state
+    navEl.classList.toggle('scrolled', sy > 60);
+
+    // Scroll progress bar
+    if (scrollProg) {
+      const total = document.body.scrollHeight - window.innerHeight;
+      if (total > 0) scrollProg.style.transform = `scaleX(${sy / total})`;
     }
+
+    // Process section progress
     if (processSteps && processSection) {
       const rect = processSection.getBoundingClientRect();
       const raw = (window.innerHeight - rect.top) / (rect.height + window.innerHeight * 0.25);
       const progress = Math.max(0, Math.min(1, raw));
       processSteps.style.setProperty('--process-progress', progress.toFixed(3));
-      const steps = [...processSteps.querySelectorAll('.pr-step')];
-      steps.forEach((step, i) => {
-        const thr = steps.length > 1 ? i / (steps.length - 1) : 0;
+      processStepsList.forEach((step, i) => {
+        const thr = processStepsList.length > 1 ? i / (processStepsList.length - 1) : 0;
         step.classList.toggle('line-passed', progress >= thr - 0.02);
       });
     }
+
     syncActiveNav();
   };
+
+  window.addEventListener('scroll', () => {
+    if (!rafPending) { rafPending = true; requestAnimationFrame(runScrollWork); }
+  }, { passive: true });
 
   // تحديث سنة حقوق النشر تلقائياً
   const yearEl = document.getElementById('copy-year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
   // Initial state
-  if (window.scrollY <= 60) navEl.classList.remove('scrolled');
-  syncActiveNav();
-  window.addEventListener('scroll', onScroll, { passive: true });
+  runScrollWork();
 
   // Unified animation observer
   const obs = new IntersectionObserver((entries) => {
@@ -1824,15 +1838,6 @@
     });
   }, { threshold: 0.22 });
   frameSections.forEach(section => sectionObs.observe(section));
-
-  // Scroll progress bar
-  const scrollProg = document.getElementById('scrollProg');
-  const updateProgress = () => {
-    const total = document.body.scrollHeight - window.innerHeight;
-    if (total > 0 && scrollProg) scrollProg.style.transform = `scaleX(${window.scrollY / total})`;
-  };
-  window.addEventListener('scroll', updateProgress, { passive: true });
-  updateProgress();
 
   // Stagger animation for about section
   document.querySelectorAll('#about .fade-l, #about .fade').forEach((el,i) => {
@@ -1900,11 +1905,13 @@
     });
   })();
 
-  // Smooth links
+  // Smooth links — JS-driven (CSS scroll-behavior:auto to avoid double smoothing)
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
-      const t = document.querySelector(a.getAttribute('href'));
-      if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
+      const href = a.getAttribute('href');
+      if (href === '#') return;
+      const t = document.querySelector(href);
+      if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
     });
   });
 </script>
