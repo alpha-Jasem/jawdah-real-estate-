@@ -1643,7 +1643,8 @@ canvas { max-width: 100%; }
                   <div class="se-field">
                     <div class="se-label-row">
                       <span class="se-label">العنوان الرئيسي</span>
-                      <input type="color" class="se-clr-dot" id="se-clr-hero_title" value="#FFFFFF" title="لون نص العنوان" onchange="seSave('clr_hero_title',this.value)">
+                      <input type="color" class="se-clr-dot" id="se-clr-hero_title" value="#FFFFFF" title="لون النص" onchange="seSave('clr_hero_title',this.value)">
+                      <input type="color" class="se-clr-dot" id="se-clr-hero_title_fill" value="#000000" title="Fill — خلفية النص" onchange="seSave('clr_hero_title_fill',this.value)" style="border-style:dashed;opacity:.7">
                     </div>
                     <textarea class="se-textarea" id="se-hero_title" rows="3" placeholder="شركة إدارة أملاك عقارية في السعودية" onblur="seSave('hero_title',this.value)"></textarea>
                     <span class="se-hint">يمكن إضافة سطر جديد بالضغط على Enter</span>
@@ -1651,7 +1652,8 @@ canvas { max-width: 100%; }
                   <div class="se-field">
                     <div class="se-label-row">
                       <span class="se-label">الوصف التعريفي</span>
-                      <input type="color" class="se-clr-dot" id="se-clr-hero_desc" value="#FFFFFF" title="لون نص الوصف" onchange="seSave('clr_hero_desc',this.value)">
+                      <input type="color" class="se-clr-dot" id="se-clr-hero_desc" value="#FFFFFF" title="لون النص" onchange="seSave('clr_hero_desc',this.value)">
+                      <input type="color" class="se-clr-dot" id="se-clr-hero_desc_fill" value="#000000" title="Fill — خلفية النص" onchange="seSave('clr_hero_desc_fill',this.value)" style="border-style:dashed;opacity:.7">
                     </div>
                     <textarea class="se-textarea" id="se-hero_desc" rows="3" placeholder="نقدم حلول إدارة العقارات..." onblur="seSave('hero_desc',this.value)"></textarea>
                   </div>
@@ -1726,6 +1728,7 @@ canvas { max-width: 100%; }
                     <div class="se-label-row">
                       <span class="se-label">الفقرة الأولى</span>
                       <input type="color" class="se-clr-dot" id="se-clr-about_text" value="#0F1214" title="لون النص" onchange="seSave('clr_about_text',this.value)">
+                      <input type="color" class="se-clr-dot" id="se-clr-about_text_fill" value="#FFFFFF" title="Fill — خلفية النص" onchange="seSave('clr_about_text_fill',this.value)" style="border-style:dashed;opacity:.7">
                     </div>
                     <textarea class="se-textarea" id="se-about_text" rows="4" placeholder="جودة العقارية شركة متخصصة في إدارة الأملاك..." onblur="seSave('about_text',this.value)"></textarea>
                   </div>
@@ -1733,6 +1736,7 @@ canvas { max-width: 100%; }
                     <div class="se-label-row">
                       <span class="se-label">الفقرة الثانية</span>
                       <input type="color" class="se-clr-dot" id="se-clr-about_text2" value="#0F1214" title="لون النص" onchange="seSave('clr_about_text2',this.value)">
+                      <input type="color" class="se-clr-dot" id="se-clr-about_text2_fill" value="#FFFFFF" title="Fill — خلفية النص" onchange="seSave('clr_about_text2_fill',this.value)" style="border-style:dashed;opacity:.7">
                     </div>
                     <textarea class="se-textarea" id="se-about_text2" rows="3" placeholder="نهدف إلى تحقيق التوازن بين رضا المستأجرين..." onblur="seSave('about_text2',this.value)"></textarea>
                   </div>
@@ -1766,6 +1770,7 @@ canvas { max-width: 100%; }
                     <div class="se-label-row">
                       <span class="se-label">وصف قسم الخدمات</span>
                       <input type="color" class="se-clr-dot" id="se-clr-services_desc" value="#0F1214" title="لون النص" onchange="seSave('clr_services_desc',this.value)">
+                      <input type="color" class="se-clr-dot" id="se-clr-services_desc_fill" value="#FFFFFF" title="Fill — خلفية النص" onchange="seSave('clr_services_desc_fill',this.value)" style="border-style:dashed;opacity:.7">
                     </div>
                     <textarea class="se-textarea" id="se-services_desc" rows="2" placeholder="نغطي جميع جوانب إدارة وتشغيل العقارات..." onblur="seSave('services_desc',this.value)"></textarea>
                   </div>
@@ -1783,7 +1788,8 @@ canvas { max-width: 100%; }
                   <div class="se-field">
                     <div class="se-label-row">
                       <span class="se-label">العنوان</span>
-                      <input type="color" class="se-clr-dot" id="se-clr-interior_title" value="#FFFFFF" title="لون العنوان" onchange="seSave('clr_interior_title',this.value)">
+                      <input type="color" class="se-clr-dot" id="se-clr-interior_title" value="#FFFFFF" title="لون النص" onchange="seSave('clr_interior_title',this.value)">
+                      <input type="color" class="se-clr-dot" id="se-clr-interior_title_fill" value="#000000" title="Fill — خلفية النص" onchange="seSave('clr_interior_title_fill',this.value)" style="border-style:dashed;opacity:.7">
                     </div>
                     <textarea class="se-textarea" id="se-interior_title" rows="2" placeholder="عقارك يحتاج من يديره باحترافية" onblur="seSave('interior_title',this.value)"></textarea>
                     <span class="se-hint">يمكن استخدام br لفاصل السطر</span>
@@ -1792,6 +1798,7 @@ canvas { max-width: 100%; }
                     <div class="se-label-row">
                       <span class="se-label">النص التعريفي</span>
                       <input type="color" class="se-clr-dot" id="se-clr-interior_desc" value="#FFFFFF" title="لون النص" onchange="seSave('clr_interior_desc',this.value)">
+                      <input type="color" class="se-clr-dot" id="se-clr-interior_desc_fill" value="#000000" title="Fill — خلفية النص" onchange="seSave('clr_interior_desc_fill',this.value)" style="border-style:dashed;opacity:.7">
                     </div>
                     <textarea class="se-textarea" id="se-interior_desc" rows="4" placeholder="إدارة الأملاك هي الإشراف اليومي الكامل..." onblur="seSave('interior_desc',this.value)"></textarea>
                   </div>
@@ -1892,7 +1899,8 @@ canvas { max-width: 100%; }
                   <div class="se-field">
                     <div class="se-label-row">
                       <span class="se-label">العنوان</span>
-                      <input type="color" class="se-clr-dot" id="se-clr-cta_title" value="#FFFFFF" title="لون العنوان" onchange="seSave('clr_cta_title',this.value)">
+                      <input type="color" class="se-clr-dot" id="se-clr-cta_title" value="#FFFFFF" title="لون النص" onchange="seSave('clr_cta_title',this.value)">
+                      <input type="color" class="se-clr-dot" id="se-clr-cta_title_fill" value="#000000" title="Fill — خلفية النص" onchange="seSave('clr_cta_title_fill',this.value)" style="border-style:dashed;opacity:.7">
                     </div>
                     <textarea class="se-textarea" id="se-cta_title" rows="2" placeholder="سلّم عقارك لجودة العقارية..." onblur="seSave('cta_title',this.value)"></textarea>
                     <span class="se-hint">يمكن استخدام br لفاصل السطر</span>
@@ -1901,6 +1909,7 @@ canvas { max-width: 100%; }
                     <div class="se-label-row">
                       <span class="se-label">النص الوصفي</span>
                       <input type="color" class="se-clr-dot" id="se-clr-cta_desc" value="#FFFFFF" title="لون النص" onchange="seSave('clr_cta_desc',this.value)">
+                      <input type="color" class="se-clr-dot" id="se-clr-cta_desc_fill" value="#000000" title="Fill — خلفية النص" onchange="seSave('clr_cta_desc_fill',this.value)" style="border-style:dashed;opacity:.7">
                     </div>
                     <textarea class="se-textarea" id="se-cta_desc" rows="3" placeholder="نتولى الإدارة الكاملة لعقارك..." onblur="seSave('cta_desc',this.value)"></textarea>
                   </div>
@@ -4762,13 +4771,19 @@ async function loadSiteEditor() {
     ['color_primary','color_secondary','color_bg','color_text'].forEach(k => {
       if (SE[k]) seColorSync(k, SE[k]);
     });
-    // ألوان السيكشنات
+    // ألوان السيكشنات (نص + fill)
     [
-      'clr_hero_title','clr_hero_desc','clr_hero_btn_bg','clr_hero_btn_text',
-      'clr_about_text','clr_about_text2',
-      'clr_services_desc',
-      'clr_interior_title','clr_interior_desc',
-      'clr_cta_title','clr_cta_desc','clr_cta_btn_bg','clr_cta_btn_text',
+      'clr_hero_title','clr_hero_title_fill',
+      'clr_hero_desc','clr_hero_desc_fill',
+      'clr_hero_btn_bg','clr_hero_btn_text',
+      'clr_about_text','clr_about_text_fill',
+      'clr_about_text2','clr_about_text2_fill',
+      'clr_services_desc','clr_services_desc_fill',
+      'clr_interior_title','clr_interior_title_fill',
+      'clr_interior_desc','clr_interior_desc_fill',
+      'clr_cta_title','clr_cta_title_fill',
+      'clr_cta_desc','clr_cta_desc_fill',
+      'clr_cta_btn_bg','clr_cta_btn_text',
     ].forEach(k => {
       const el = document.getElementById('se-' + k);
       if (el && SE[k]) el.value = SE[k];
