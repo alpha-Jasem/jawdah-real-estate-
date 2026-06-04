@@ -288,52 +288,27 @@
             </a>
           </div>`;
       }
-      // ── ألوان السيكشنات المخصصة ─────────────────────────
-      if (s.clr_hero_title) {
-        document.querySelectorAll('.hero-h1').forEach(el => el.style.color = s.clr_hero_title);
-      }
-      if (s.clr_hero_desc) {
-        document.querySelectorAll('.hero-desc').forEach(el => el.style.color = s.clr_hero_desc);
-      }
-      if (s.clr_hero_btn_bg || s.clr_hero_btn_text) {
-        const btn = document.getElementById('hero-cta-btn');
-        if (btn) {
-          if (s.clr_hero_btn_bg)   btn.style.background = s.clr_hero_btn_bg;
-          if (s.clr_hero_btn_text) btn.style.color       = s.clr_hero_btn_text;
-        }
-      }
-      if (s.clr_about_text) {
-        document.querySelectorAll('[data-field="about_text"]').forEach(el => el.style.color = s.clr_about_text);
-      }
-      if (s.clr_about_text2) {
-        document.querySelectorAll('[data-field="about_text2"]').forEach(el => el.style.color = s.clr_about_text2);
-      }
-      if (s.clr_services_desc) {
-        const el = document.getElementById('services-desc');
-        if (el) el.style.color = s.clr_services_desc;
-      }
-      if (s.clr_interior_title) {
-        const el = document.getElementById('interior-h2');
-        if (el) el.style.color = s.clr_interior_title;
-      }
-      if (s.clr_interior_desc) {
-        const el = document.getElementById('interior-desc');
-        if (el) el.style.color = s.clr_interior_desc;
-      }
-      if (s.clr_cta_title) {
-        const el = document.getElementById('cta-h2');
-        if (el) el.style.color = s.clr_cta_title;
-      }
-      if (s.clr_cta_desc) {
-        const el = document.getElementById('cta-desc');
-        if (el) el.style.color = s.clr_cta_desc;
-      }
-      if (s.clr_cta_btn_bg || s.clr_cta_btn_text) {
-        const btn = document.getElementById('cta-btn');
-        if (btn) {
-          if (s.clr_cta_btn_bg)   btn.style.background = s.clr_cta_btn_bg;
-          if (s.clr_cta_btn_text) btn.style.color       = s.clr_cta_btn_text;
-        }
+      // ── ألوان السيكشنات المخصصة (حقن style tag يتغلب على !important) ──
+      const _clrRules = [];
+      if (s.clr_hero_title)    _clrRules.push(`.hero-h1 { color: ${s.clr_hero_title} !important; }`);
+      if (s.clr_hero_desc)     _clrRules.push(`.hero-desc { color: ${s.clr_hero_desc} !important; }`);
+      if (s.clr_hero_btn_bg)   _clrRules.push(`#hero-cta-btn { background: ${s.clr_hero_btn_bg} !important; border-color: ${s.clr_hero_btn_bg} !important; }`);
+      if (s.clr_hero_btn_text) _clrRules.push(`#hero-cta-btn { color: ${s.clr_hero_btn_text} !important; }`);
+      if (s.clr_about_text)    _clrRules.push(`[data-field="about_text"] { color: ${s.clr_about_text} !important; }`);
+      if (s.clr_about_text2)   _clrRules.push(`[data-field="about_text2"] { color: ${s.clr_about_text2} !important; }`);
+      if (s.clr_services_desc) _clrRules.push(`#services-desc { color: ${s.clr_services_desc} !important; }`);
+      if (s.clr_interior_title)_clrRules.push(`#interior-h2 { color: ${s.clr_interior_title} !important; }`);
+      if (s.clr_interior_desc) _clrRules.push(`#interior-desc { color: ${s.clr_interior_desc} !important; }`);
+      if (s.clr_cta_title)     _clrRules.push(`#cta-h2 { color: ${s.clr_cta_title} !important; }`);
+      if (s.clr_cta_desc)      _clrRules.push(`#cta-desc { color: ${s.clr_cta_desc} !important; }`);
+      if (s.clr_cta_btn_bg)    _clrRules.push(`#cta-btn { background: ${s.clr_cta_btn_bg} !important; border-color: ${s.clr_cta_btn_bg} !important; }`);
+      if (s.clr_cta_btn_text)  _clrRules.push(`#cta-btn { color: ${s.clr_cta_btn_text} !important; }`);
+
+      if (_clrRules.length > 0) {
+        const _st = document.getElementById('jawdah-custom-colors') || document.createElement('style');
+        _st.id = 'jawdah-custom-colors';
+        _st.textContent = _clrRules.join('\n');
+        if (!_st.parentNode) document.head.appendChild(_st);
       }
 
       // footer
