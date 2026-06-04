@@ -288,6 +288,54 @@
             </a>
           </div>`;
       }
+      // ── ألوان السيكشنات المخصصة ─────────────────────────
+      if (s.clr_hero_title) {
+        document.querySelectorAll('.hero-h1').forEach(el => el.style.color = s.clr_hero_title);
+      }
+      if (s.clr_hero_desc) {
+        document.querySelectorAll('.hero-desc').forEach(el => el.style.color = s.clr_hero_desc);
+      }
+      if (s.clr_hero_btn_bg || s.clr_hero_btn_text) {
+        const btn = document.getElementById('hero-cta-btn');
+        if (btn) {
+          if (s.clr_hero_btn_bg)   btn.style.background = s.clr_hero_btn_bg;
+          if (s.clr_hero_btn_text) btn.style.color       = s.clr_hero_btn_text;
+        }
+      }
+      if (s.clr_about_text) {
+        document.querySelectorAll('[data-field="about_text"]').forEach(el => el.style.color = s.clr_about_text);
+      }
+      if (s.clr_about_text2) {
+        document.querySelectorAll('[data-field="about_text2"]').forEach(el => el.style.color = s.clr_about_text2);
+      }
+      if (s.clr_services_desc) {
+        const el = document.getElementById('services-desc');
+        if (el) el.style.color = s.clr_services_desc;
+      }
+      if (s.clr_interior_title) {
+        const el = document.getElementById('interior-h2');
+        if (el) el.style.color = s.clr_interior_title;
+      }
+      if (s.clr_interior_desc) {
+        const el = document.getElementById('interior-desc');
+        if (el) el.style.color = s.clr_interior_desc;
+      }
+      if (s.clr_cta_title) {
+        const el = document.getElementById('cta-h2');
+        if (el) el.style.color = s.clr_cta_title;
+      }
+      if (s.clr_cta_desc) {
+        const el = document.getElementById('cta-desc');
+        if (el) el.style.color = s.clr_cta_desc;
+      }
+      if (s.clr_cta_btn_bg || s.clr_cta_btn_text) {
+        const btn = document.getElementById('cta-btn');
+        if (btn) {
+          if (s.clr_cta_btn_bg)   btn.style.background = s.clr_cta_btn_bg;
+          if (s.clr_cta_btn_text) btn.style.color       = s.clr_cta_btn_text;
+        }
+      }
+
       // footer
       if (s.footer_desc) document.querySelectorAll('[data-field="footer_desc"]').forEach(el => { el.textContent = s.footer_desc; });
 
