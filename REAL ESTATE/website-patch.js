@@ -90,6 +90,29 @@
         }
       });
 
+      // ── تطبيق الألوان كـ CSS Variables ────────────────
+      if (s.color_primary || s.color_secondary || s.color_bg || s.color_text) {
+        const root = document.documentElement;
+        if (s.color_primary) {
+          root.style.setProperty('--brand-teal-600', s.color_primary);
+          root.style.setProperty('--brand-teal-500', s.color_primary);
+          root.style.setProperty('--accent',         s.color_primary);
+          root.style.setProperty('--border-brand',   s.color_primary);
+          root.style.setProperty('--info-500',        s.color_primary);
+        }
+        if (s.color_secondary) {
+          root.style.setProperty('--sand-500', s.color_secondary);
+        }
+        if (s.color_bg) {
+          root.style.setProperty('--bg',     s.color_bg);
+          root.style.setProperty('--ink-50', s.color_bg);
+        }
+        if (s.color_text) {
+          root.style.setProperty('--fg',      s.color_text);
+          root.style.setProperty('--ink-900', s.color_text);
+        }
+      }
+
       if (s.phone) {
         document.querySelectorAll('[data-field="phone"], .fci-phone').forEach(el => { el.textContent = s.phone; });
         const wa = document.querySelector('.wa-float');
