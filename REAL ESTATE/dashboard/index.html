@@ -4655,7 +4655,6 @@ function seInitToggleButtons() {
     if (head.querySelector('.se-toggle-btn')) return;
     const section = head.closest('.se-section');
     if (section?.dataset.noToggle) return;
-    const section = head.closest('.se-section');
     const hidden = section?.dataset.hiddenOnSite === 'true';
     const btn = document.createElement('button');
     btn.className = 'se-toggle-btn';
