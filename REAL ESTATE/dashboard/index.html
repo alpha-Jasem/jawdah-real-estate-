@@ -4790,7 +4790,7 @@ async function loadSiteEditor() {
     });
     seRenderPaletteChips();
     seUpdateColorPreview();
-    seInitFillClearButtons();
+    seInitFillControls();
 
     // image previews
     const imgs = [
@@ -4984,13 +4984,17 @@ function seUpdateColorPreview() {
 }
 
 async function seClrFill(key) {
+  const opKey = key + '_opacity';
   const st = document.getElementById('se-status');
   if (st) { st.textContent = 'جارٍ الحفظ...'; st.className = 'se-save-bar saving'; }
   try {
     await sb.from('site_settings').delete().eq('key', key);
-    delete SE[key];
-    const el = document.getElementById('se-' + key);
-    if (el) el.value = '#000000';
+    await sb.from('site_settings').delete().eq('key', opKey);
+    delete SE[key]; delete SE[opKey];
+    const clrEl = document.getElementById('se-' + key);
+    if (clrEl) clrEl.value = '#000000';
+    const slEl = document.getElementById('se-' + opKey);
+    if (slEl) { slEl.value = 100; slEl.nextElementSibling && (slEl.nextElementSibling.textContent = '100%'); }
     if (st) { st.textContent = 'تم الحفظ ✓'; st.className = 'se-save-bar saved'; setTimeout(() => { st.textContent=''; st.className='se-save-bar'; }, 2000); }
   } catch(e) {
     if (st) { st.textContent = 'خطأ'; st.className = 'se-save-bar err'; }
@@ -4998,17 +5002,39 @@ async function seClrFill(key) {
   }
 }
 
-function seInitFillClearButtons() {
+function seInitFillControls() {
   document.querySelectorAll('.se-clr-dot[id$="_fill"]').forEach(input => {
-    if (input.nextElementSibling?.classList.contains('se-clr-clear')) return;
-    const key = input.id.replace('se-', '').replace('-', '_');
+    if (input.nextElementSibling?.classList.contains('se-fill-slider')) return;
+    const key    = input.id.replace('se-', '').replace('-', '_');
+    const opKey  = key + '_opacity';
+    const savedOp = SE[opKey] !== undefined ? Number(SE[opKey]) : 100;
+
+    // slider
+    const slider = document.createElement('input');
+    slider.type = 'range'; slider.className = 'se-fill-slider';
+    slider.id = 'se-' + opKey;
+    slider.min = 0; slider.max = 100; slider.step = 1; slider.value = savedOp;
+    slider.title = 'شفافية الـ Fill';
+    slider.style.cssText = 'width:56px;height:4px;cursor:pointer;accent-color:var(--brand-teal-600);flex-shrink:0;margin:0 2px';
+
+    // label showing %
+    const lbl = document.createElement('span');
+    lbl.style.cssText = 'font-size:9px;color:var(--fg-muted);min-width:26px;flex-shrink:0';
+    lbl.textContent = savedOp + '%';
+
+    slider.oninput = () => { lbl.textContent = slider.value + '%'; seSave(opKey, slider.value); };
+
+    // × button
     const btn = document.createElement('button');
     btn.className = 'se-clr-clear';
     btn.title = 'إلغاء الـ Fill';
     btn.textContent = '×';
     btn.style.cssText = 'width:16px;height:16px;border-radius:50%;background:var(--danger-500);color:#fff;border:none;cursor:pointer;font-size:11px;line-height:16px;text-align:center;padding:0;font-weight:700;flex-shrink:0';
     btn.onclick = () => seClrFill(key);
+
     input.insertAdjacentElement('afterend', btn);
+    btn.insertAdjacentElement('beforebegin', lbl);
+    lbl.insertAdjacentElement('beforebegin', slider);
   });
 }
 
