@@ -1,0 +1,43 @@
+/* Draft upgrade layer — same palette (#3ECDC4 / #2AABA3 / #0f2a2a), additive only */
+.skip-link{position:absolute;inset-inline-start:12px;top:-60px;background:#3ECDC4;color:#0f2a2a;padding:10px 16px;border-radius:10px;font-weight:700;z-index:10000;transition:top .2s}
+.skip-link:focus{top:12px}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #3ECDC4;outline-offset:3px;border-radius:6px}
+
+#hero3d{position:absolute;inset:auto auto 0 0;width:46%;height:72%;z-index:2;pointer-events:none;opacity:0;transition:opacity 1.2s ease}
+#hero3d.ready{opacity:.55}
+@media (max-width:768px){#hero3d{display:none}}
+
+#showcase{position:relative;background:radial-gradient(120% 90% at 50% 0%,#17403f 0%,#0f2a2a 55%,#0a1f1f 100%);color:#fff;padding:96px 40px;overflow:hidden}
+#showcase::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 18% 30%,rgba(62,205,196,.18),transparent 45%);pointer-events:none}
+.sc-wrap{position:relative;max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1fr 1.15fr;gap:48px;align-items:center}
+.sc-eyebrow{color:#74E8E2;font-weight:700;letter-spacing:.14em;font-size:.85rem;margin-bottom:14px}
+.sc-wrap h2{font-size:clamp(1.9rem,3.6vw,3rem);font-weight:800;line-height:1.2;margin-bottom:16px}
+.sc-wrap h2 span{color:#3ECDC4}
+.sc-wrap p{color:rgba(255,255,255,.78);line-height:1.95;font-size:1rem;margin-bottom:22px}
+.sc-list{list-style:none;display:grid;gap:12px;margin-bottom:28px}
+.sc-list li{display:flex;gap:12px;align-items:flex-start;color:rgba(255,255,255,.9)}
+.sc-list li::before{content:'';flex:none;width:10px;height:10px;margin-top:9px;border-radius:50%;background:#3ECDC4;box-shadow:0 0 14px #3ECDC4}
+.sc-btn{display:inline-block;background:#3ECDC4;color:#0f2a2a;font-weight:800;padding:14px 28px;border-radius:12px;text-decoration:none;transition:transform .25s,box-shadow .25s}
+.sc-btn:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(62,205,196,.35)}
+.sc-stage{position:relative;height:460px;border-radius:24px;border:1px solid rgba(62,205,196,.28);background:linear-gradient(160deg,rgba(62,205,196,.08),rgba(0,0,0,.25));box-shadow:0 30px 80px rgba(0,0,0,.45),inset 0 0 60px rgba(62,205,196,.06)}
+#showcase3d{position:absolute;inset:0;width:100%;height:100%;border-radius:24px;opacity:0;transition:opacity 1s}
+#showcase3d.ready{opacity:1}
+.sc-hint{position:absolute;bottom:14px;inset-inline:0;text-align:center;font-size:.78rem;color:rgba(255,255,255,.55);pointer-events:none}
+.sc-fallback{position:absolute;inset:0;display:grid;place-items:center;color:rgba(255,255,255,.5);font-size:.9rem;z-index:-1}
+@media (max-width:900px){#showcase{padding:72px 22px}.sc-wrap{grid-template-columns:1fr}.sc-stage{height:360px;order:-1}}
+
+#faq{background:#f0fafa;padding:90px 40px}
+.faq-in{max-width:860px;margin:0 auto}
+.faq-in .faq-lbl{color:#2AABA3;font-weight:700;text-align:center;letter-spacing:.14em;font-size:.85rem;margin-bottom:10px}
+.faq-in h2{text-align:center;color:#0f2a2a;font-size:clamp(1.8rem,3.4vw,2.6rem);font-weight:800;margin-bottom:34px}
+.faq-in details{background:#fff;border:1px solid rgba(62,205,196,.28);border-radius:16px;margin-bottom:12px;overflow:hidden;transition:box-shadow .3s,border-color .3s}
+.faq-in details[open]{border-color:#3ECDC4;box-shadow:0 12px 34px rgba(42,171,163,.16)}
+.faq-in summary{cursor:pointer;list-style:none;padding:20px 24px;font-weight:700;color:#0f2a2a;display:flex;justify-content:space-between;gap:16px;align-items:center}
+.faq-in summary::-webkit-details-marker{display:none}
+.faq-in summary::after{content:'+';color:#2AABA3;font-size:1.6rem;line-height:1;transition:transform .3s}
+.faq-in details[open] summary::after{transform:rotate(45deg)}
+.faq-in details p{padding:0 24px 22px;color:rgba(15,42,42,.75);line-height:1.95}
+
+.service-card,.pr-card,.st-card{transition:transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s}
+@media (hover:hover){.service-card:hover,.pr-card:hover,.st-card:hover{transform:translateY(-6px)}}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
