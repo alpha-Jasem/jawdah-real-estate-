@@ -1,741 +1,707 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>جودة العقارية — JAWDAH REAL ESTATE</title>
-<meta name="description" content="جودة العقارية: شركة إدارة أملاك مرخّصة في جدة والمملكة. تأجير، تسويق، صيانة، تحصيل، وتقارير شهرية لملّاك العقارات.">
-<meta name="theme-color" content="#0E2F33">
-<meta name="format-detection" content="telephone=no,date=no,email=no,address=no">
-<link rel="icon" type="image/png" href="favicon.png">
-<link rel="apple-touch-icon" href="favicon.png">
-<link rel="preload" as="image" href="media/hero-poster.webp" type="image/webp">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>شركة إدارة أملاك في جدة | جودة العقارية</title>
+<meta name="description" content="جودة العقارية شركة إدارة أملاك عقارية في جدة مرخّصة من فال وإيجار: تسويق وتأجير، فرز المستأجرين، عقود إيجار موثّقة، تحصيل الإيجارات، صيانة، وكشف حساب شهري للمالك.">
+<meta name="theme-color" content="#f7f8f9">
+<meta property="og:title" content="جودة العقارية — نُدير عقارك بجودة">
+<meta property="og:description" content="إدارة أملاك سكنية وتجارية وإدارية في جدة: تأجير وتحصيل وصيانة وتقارير شهرية.">
+<meta property="og:image" content="https://jawdah.com.sa/assets/v2/facade.webp">
+<meta property="og:url" content="https://jawdah.com.sa/">
+<link rel="canonical" href="https://jawdah.com.sa/">
+<meta property="og:locale" content="ar_SA">
+<link rel="icon" href="favicon.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@500;600;700&family=Readex+Pro:wght@300;400;500;600;700&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@500;700;800&family=Noto+Naskh+Arabic:wght@400;600&family=Fraunces:opsz,wght@9..144,500;9..144,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"RealEstateAgent","name":"جودة العقارية","alternateName":"Jawdah Real Estate","description":"شركة إدارة أملاك عقارية في جدة: تسويق وتأجير، فرز المستأجرين، عقود إيجار، تحصيل، صيانة وتقارير شهرية.","telephone":"+966532145552","email":"info@jawdahksa.com","address":{"@type":"PostalAddress","streetAddress":"شارع قريش، حي البوادي","addressLocality":"Jeddah","addressRegion":"Makkah","addressCountry":"SA"},"areaServed":{"@type":"City","name":"Jeddah"},"url":"https://jawdah.com.sa/","logo":"https://jawdah.com.sa/assets/v2/logo.webp","sameAs":["https://x.com/jawda_sa","https://www.instagram.com/jawda_sa/","https://www.tiktok.com/@jawda_sa"]}
+</script>
 <style>
-/* Layout concept: "صفحة من سجل جدة" — شبكة RTL غير متناظرة، نوافذ مقوّسة حجازية تؤطّر الصور،
-   ونقش الروشان (المشربية) يظهر فقط في الأشرطة الداكنة كتوقيع بصري واحد. */
-:root{
-  --ink:#0E2F33;          /* حبر البحر — النص والأشرطة الداكنة */
-  --ink-2:#163F44;
-  --sea:#2A8A94;          /* تيل الشعار — الإجراءات */
-  --sea-l:#55C6D0;        /* تيل الشعار الفاتح — على الداكن */
-  --accent:var(--sea);    /* لوحة التحكم تكتب فوق --accent */
-  --coral:#C7A779;        /* حجر المنقبة — لمسات صغيرة فقط */
-  --mist:#F3F5F3;         /* أرضية الصفحة — رمادي بحري خفيف */
-  --paper:#FFFFFF;
-  --text:#2E4A4D;
-  --muted:#5F7477;
-  --line:rgba(14,47,51,.12);
-  --line-d:rgba(255,255,255,.12);
-
-  --f-display:'Reem Kufi','Readex Pro',system-ui,sans-serif;
-  --f-body:'Readex Pro',system-ui,'Segoe UI',Tahoma,sans-serif;
-
-  --s-1:.8125rem; --s0:1rem; --s1:1.125rem; --s2:1.375rem; --s3:1.75rem; --s4:2.375rem; --s5:clamp(2.4rem,5.2vw,4.4rem);
-  --wrap:1220px;
-  --gut:max(20px,env(safe-area-inset-left,0px));
-  --gut-r:max(20px,env(safe-area-inset-right,0px));
-  --ease:cubic-bezier(.22,1,.36,1);
-  --arch:50% 50% 0 0 / 34% 34% 0 0;
-  /* legacy vars kept for older dashboard rules */
-  --gold:var(--sea-l); --gold-l:#74E8E2; --gold-d:var(--sea); --dark:var(--ink);
+/* Layout: the logo's roof chevrons are the hero — windows that widen into a daylight photo; then a key cabinet, an owner statement, licenses as seals. Daylight, architectural, flat. */
+:root {
+  --paper: #f7f8f9; --white: #ffffff; --ink: #0f1214; --ink-2: #4a5159; --ink-3: #6b7680; --line: #e2e6ea;
+  --teal: #2a8a94; --teal-ink: #1f6d73; --teal-hi: #55c6d0; --teal-deep: #0e3438; --teal-deep-2: #174f55;
+  --tag: #efe6d2; --tag-ink: #3d3424; --brass: #b89a5e; --warn: #b4581f; --ok: #2f7d5b;
+  --f-display: 'Noto Kufi Arabic', 'Segoe UI', sans-serif;
+  --f-body: 'Noto Naskh Arabic', 'Times New Roman', serif;
+  --f-num: 'Fraunces', Georgia, serif;
+  --f-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --gut-l: max(20px, env(safe-area-inset-left, 0px)); --gut-r: max(20px, env(safe-area-inset-right, 0px));
+  color-scheme: light;
 }
-*,*::before,*::after{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:84px}
-body{margin:0;font-family:var(--f-body);font-size:var(--s0);line-height:1.85;color:var(--text);background:var(--mist);overflow-x:hidden;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
-img,video{max-width:100%;display:block}
-a{color:inherit}
-h1,h2,h3,h4{margin:0;color:var(--ink);text-wrap:balance}
-p{margin:0}
-ul{margin:0;padding:0;list-style:none}
-button{font:inherit}
-:focus-visible{outline:2px solid var(--sea);outline-offset:3px;border-radius:6px}
-::selection{background:rgba(85,198,208,.3)}
-a,button{touch-action:manipulation;-webkit-tap-highlight-color:rgba(42,138,148,.15)}
-.skip{position:absolute;inset-inline-start:16px;top:-80px;z-index:2000;padding:10px 18px;border-radius:999px;background:var(--ink);color:#fff;text-decoration:none}
-.skip:focus{top:calc(12px + env(safe-area-inset-top,0px))}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; -webkit-tap-highlight-color: transparent; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 400 18px/1.85 var(--f-body); overflow-x: clip; -webkit-font-smoothing: antialiased; }
+html[lang="en"] body { font-family: var(--f-num), Georgia, serif; font-size: 17px; line-height: 1.7; }
+img, svg { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+h1, h2, h3 { margin: 0; font-family: var(--f-display); font-weight: 800; line-height: 1.35; text-wrap: balance; }
+html[lang="en"] h1, html[lang="en"] h2, html[lang="en"] h3 { font-family: var(--f-num); font-weight: 600; line-height: 1.12; }
+p { margin: 0; }
+ul, ol, dl, dd, figure, blockquote { margin: 0; padding: 0; list-style: none; }
+button, input, select, textarea { font: inherit; color: inherit; }
+section[id] { scroll-margin-top: 76px; }
+a, button, input, select, textarea, label { touch-action: manipulation; }
+:focus-visible { outline: 3px solid rgba(42,138,148,.55); outline-offset: 3px; border-radius: 6px; }
+.wrap { width: 100%; max-width: 1200px; margin: 0 auto; padding-left: var(--gut-l); padding-right: var(--gut-r); }
+.mono { font-family: var(--f-mono); font-variant-numeric: tabular-nums; letter-spacing: 0; }
+.eyebrow { font: 700 13px/1.5 var(--f-display); color: var(--teal-ink); letter-spacing: .02em; display: inline-flex; align-items: center; gap: 10px; }
+html[lang="en"] .eyebrow { font-family: var(--f-mono); text-transform: uppercase; letter-spacing: .14em; font-size: 12px; font-weight: 500; }
+.glyph { width: 18px; height: 18px; flex: none; }
+.h2 { font-size: clamp(30px, 3.6vw, 48px); }
+.lede { color: var(--ink-2); max-width: 58ch; }
+.sec { padding-block: clamp(84px, 10vw, 140px); }
+.skip { position: fixed; top: -60px; inset-inline-start: 16px; z-index: 100; background: var(--ink); color: var(--white); padding: 10px 16px; border-radius: 8px; }
+.skip:focus { top: 12px; }
 
-.wrap{max-width:var(--wrap);margin-inline:auto;padding-left:var(--gut);padding-right:var(--gut-r)}
-.band{padding-block:clamp(72px,10vw,140px)}
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 0 26px; border-radius: 8px; border: 1px solid var(--teal); background: var(--teal); color: var(--white); font: 700 15px/1 var(--f-display); cursor: pointer; transition: background .15s, border-color .15s, color .15s, transform .15s; }
+html[lang="en"] .btn { font-family: var(--f-num); font-size: 16px; }
+.btn:hover { background: var(--teal-ink); border-color: var(--teal-ink); }
+.btn:active { transform: translateY(1px); }
+.btn-line { background: transparent; color: var(--ink); border-color: var(--ink); }
+.btn-line:hover { background: var(--ink); border-color: var(--ink); color: var(--white); }
+.btn svg { width: 18px; height: 18px; }
 
-/* ── type helpers ── */
-.kicker{display:inline-flex;align-items:center;gap:10px;font-size:var(--s-1);font-weight:500;letter-spacing:.06em;color:var(--sea)}
-.kicker::before{content:"";width:22px;height:2px;border-radius:2px;background:var(--coral)}
-.h2{font-family:var(--f-display);font-weight:700;font-size:clamp(2rem,3.8vw,3.2rem);line-height:1.2;letter-spacing:0}
-.h2 .g,.hero-h1 span,.cta-cnt h2 .g{color:var(--sea)}
-.lead{font-size:var(--s1);color:var(--muted);max-width:56ch}
-.lbl{display:none} /* labels from dashboard-built markup use .kicker look instead */
+/* header */
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 60; background: var(--paper); }
+.hdr { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50; background: rgba(247,248,249,.86); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid transparent; transition: border-color .2s; }
+.hdr.scrolled { border-bottom-color: var(--line); }
+.hdr-in { display: flex; align-items: center; gap: 28px; height: 72px; }
+.brand img { width: 176px; height: auto; }
+.nav { display: flex; gap: 26px; margin-inline-start: auto; font: 500 14px/1 var(--f-display); }
+html[lang="en"] .nav { font-family: var(--f-num); font-size: 15px; }
+.nav a { color: var(--ink-2); padding: 8px 0; border-bottom: 1px solid transparent; transition: color .15s, border-color .15s; }
+.nav a:hover { color: var(--ink); border-bottom-color: var(--teal); }
+.hdr-act { display: flex; gap: 10px; align-items: center; }
+.lang { height: 40px; min-width: 40px; padding: 0 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--white); cursor: pointer; font: 600 13px/1 var(--f-mono); transition: border-color .15s; }
+.lang:hover { border-color: var(--ink); }
+.hdr .btn { min-height: 40px; padding: 0 16px; font-size: 13px; }
+.burger { display: none; width: 42px; height: 42px; border: 1px solid var(--line); border-radius: 8px; background: var(--white); cursor: pointer; position: relative; }
+.burger i { position: absolute; inset-inline: 11px; height: 1.5px; background: var(--ink); transition: transform .2s; }
+.burger i:first-child { top: 16px; } .burger i:last-child { top: 24px; }
+.menu-open .burger i:first-child { transform: translateY(4px) rotate(45deg); }
+.menu-open .burger i:last-child { transform: translateY(-4px) rotate(-45deg); }
 
-/* ── buttons ── */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:52px;padding:0 28px;border-radius:999px;font-family:var(--f-body);font-size:var(--s0);font-weight:600;text-decoration:none;cursor:pointer;border:1px solid transparent;transition:transform .35s var(--ease),background-color .3s,color .3s,border-color .3s,box-shadow .35s var(--ease)}
-.btn-ph,.btn-p,.btn-gd{background:var(--accent);color:#fff;box-shadow:0 12px 28px -14px rgba(42,138,148,.9)}
-.btn-ph:hover,.btn-p:hover{transform:translateY(-2px);background:var(--ink)}
-.btn-line{border-color:var(--line);color:var(--ink);background:transparent}
-.btn-line:hover{border-color:var(--ink);background:var(--paper)}
-.btn-light{background:#fff;color:var(--ink)}
-.btn-light:hover{background:var(--sea-l);transform:translateY(-2px)}
+/* hero: the mark */
+.hero { position: relative; height: 230vh; }
+.hero-stage { position: sticky; top: 72px; height: calc(100svh - 72px); overflow: hidden; }
+.hero-grid { height: 100%; display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 40px; }
+.hero-copy { display: grid; gap: 22px; justify-items: start; position: relative; z-index: 2; min-width: 0; }
+.hero-copy h1 { font-size: clamp(40px, 5.2vw, 76px); line-height: 1.25; }
+.hero-copy h1 em { font-style: normal; color: var(--teal); }
+html[lang="en"] .hero-copy h1 { line-height: 1.05; }
+.hero-copy .lede { font-size: clamp(17px, 1.3vw, 20px); }
+.hero-btns { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px; }
+.hero-fact { display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 14px; color: var(--ink-3); border-top: 1px solid var(--line); padding-top: 16px; margin-top: 8px; }
+.hero-fact b { color: var(--ink); font-weight: 600; }
+.mark-box { position: relative; height: 100%; display: grid; place-items: center; }
+#mark { width: min(100%, 72vh); height: auto; overflow: visible; will-change: transform; }
+.hero-cap { position: absolute; inset: auto 0 0; z-index: 3; padding: 0 var(--gut-r) calc(36px + env(safe-area-inset-bottom, 0px)) var(--gut-l); color: var(--white); opacity: 0; pointer-events: none; }
+.hero-cap .wrap { display: grid; gap: 12px; padding: 0; }
+.hero-cap p:first-child { font: 800 clamp(26px, 3.4vw, 46px)/1.35 var(--f-display); max-width: 20ch; text-shadow: 0 2px 24px rgba(15,18,20,.35); }
+html[lang="en"] .hero-cap p:first-child { font-family: var(--f-num); font-weight: 600; }
+.hero-cap p:last-child { font-size: 15px; opacity: .9; }
+.shade { position: absolute; inset: 0; z-index: 2; background: linear-gradient(to top, rgba(15,18,20,.7), rgba(15,18,20,0) 55%); opacity: 0; pointer-events: none; }
+.scroll-cue { position: absolute; bottom: 22px; inset-inline-start: 50%; transform: translateX(50%); font: 500 12px/1 var(--f-mono); color: var(--ink-3); display: flex; flex-direction: column; align-items: center; gap: 8px; }
+html[dir="ltr"] .scroll-cue { transform: translateX(-50%); }
+.scroll-cue i { width: 1px; height: 34px; background: linear-gradient(var(--ink-3), transparent); animation: cue 1.8s ease-in-out infinite; transform-origin: top; }
+@keyframes cue { 0% { transform: scaleY(0); } 60% { transform: scaleY(1); } 100% { transform: scaleY(1); opacity: 0; } }
 
-/* ═════ NAV ═════ */
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:1001;background:var(--mist)}
-#nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:1000;background:rgba(243,245,243,.86);backdrop-filter:saturate(1.5) blur(16px);-webkit-backdrop-filter:saturate(1.5) blur(16px);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}
-#nav.scrolled{border-bottom-color:var(--line);box-shadow:0 10px 30px -20px rgba(14,47,51,.35)}
-.nav-in{position:relative;display:flex;align-items:center;gap:28px;min-height:76px}
-.nav-logo img{height:46px;width:auto}
-.nav-links{display:flex;gap:4px;margin-inline:auto}
-.nav-links a{display:block;padding:8px 14px;border-radius:999px;font-size:.94rem;font-weight:500;color:var(--ink);text-decoration:none;transition:background-color .25s,color .25s}
-.nav-links a:hover{background:rgba(14,47,51,.06)}
-.nav-links a.active{background:var(--ink);color:#fff}
-.nav-cta{min-height:44px;padding:0 20px;font-size:.92rem;background:var(--ink);color:#fff}
-.nav-cta:hover{background:var(--sea)}
-.nav-toggle{display:none;margin-inline-start:auto;width:46px;height:46px;border-radius:14px;border:1px solid var(--line);background:var(--paper);cursor:pointer;align-items:center;justify-content:center;flex-direction:column;gap:5px}
-.nav-toggle span{display:block;width:18px;height:2px;border-radius:2px;background:var(--ink);transition:transform .3s var(--ease),opacity .2s}
-nav.menu-open .nav-toggle span:nth-child(1){transform:translateY(7px) rotate(45deg)}
-nav.menu-open .nav-toggle span:nth-child(2){opacity:0}
-nav.menu-open .nav-toggle span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+/* key cabinet */
+.cabinet { background: var(--teal-deep); color: var(--white); }
+.cab-head { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: end; margin-bottom: 56px; }
+.cab-head .eyebrow { color: var(--teal-hi); }
+.cab-head .lede { color: rgba(255,255,255,.75); }
+.board { position: relative; border-radius: 20px; background: var(--teal-deep-2); padding: 34px clamp(18px, 3vw, 40px) 46px; box-shadow: inset 0 1px 0 rgba(255,255,255,.06); }
+.board-label { display: flex; justify-content: space-between; font: 500 12px/1 var(--f-mono); color: rgba(255,255,255,.55); border-bottom: 1px solid rgba(255,255,255,.12); padding-bottom: 14px; margin-bottom: 8px; }
+.hooks { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 30px 26px; }
+.hook { position: relative; padding-top: 40px; }
+.hook::before { content: ""; position: absolute; top: 10px; inset-inline-start: 50%; width: 14px; height: 14px; margin-inline-start: -7px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #e8d3a2, var(--brass) 60%, #7a6237); box-shadow: 0 2px 4px rgba(0,0,0,.35); }
+.tag { position: relative; display: grid; gap: 8px; align-content: start; min-height: 196px; padding: 34px 18px 20px; border-radius: 14px 14px 22px 22px; background: var(--tag); color: var(--tag-ink); transform-origin: 50% -26px; transform: rotate(var(--r, 0deg)); transition: transform .4s cubic-bezier(.3,.7,.3,1), box-shadow .3s; box-shadow: 0 10px 22px rgba(0,0,0,.25); cursor: default; }
+.tag::before { content: ""; position: absolute; top: 12px; inset-inline-start: 50%; width: 12px; height: 12px; margin-inline-start: -6px; border-radius: 50%; background: var(--teal-deep-2); box-shadow: inset 0 1px 2px rgba(0,0,0,.4); }
+.tag::after { content: ""; position: absolute; top: -32px; inset-inline-start: 50%; width: 2px; height: 46px; margin-inline-start: -1px; background: linear-gradient(#d9c08a, var(--brass)); }
+.hook:hover .tag, .tag:focus-within { transform: rotate(0deg) translateY(4px); box-shadow: 0 16px 30px rgba(0,0,0,.32); }
+.tag .code { font: 500 12px/1 var(--f-mono); color: var(--teal-ink); }
+.tag h3 { font-size: 19px; line-height: 1.45; }
+html[lang="en"] .tag h3 { font-size: 21px; }
+.tag p { font-size: 15px; line-height: 1.7; color: #5a4f3b; }
 
-/* ═════ HERO ═════ */
-#hero{padding-block:clamp(36px,6vw,72px) clamp(56px,8vw,96px)}
-.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(32px,6vw,88px);align-items:center}
-.hero-copy{display:flex;flex-direction:column;gap:26px;min-width:0}
-.hero-loc{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;font-size:var(--s-1);color:var(--muted)}
-.hero-loc b{font-weight:600;color:var(--ink)}
-.hero-loc i{width:4px;height:4px;border-radius:50%;background:var(--coral)}
-.hero-h1{font-family:var(--f-display);font-weight:700;font-size:var(--s5);line-height:1.12;color:var(--ink)}
-.hero-desc{font-size:var(--s1);color:var(--muted);max-width:52ch;line-height:1.95}
-.hero-actions{display:flex;flex-wrap:wrap;gap:12px}
-.hero-stats-row{display:grid;grid-template-columns:repeat(3,auto);justify-content:start;margin-top:10px;padding-top:26px;border-top:1px solid var(--line)}
-.hsr{display:flex;flex-direction:column;gap:4px;padding-inline:0 28px;min-width:0}
-.hsr+.hsr{padding-inline-start:28px;border-inline-start:1px solid var(--line)}
-.hsr strong{font-family:var(--f-display);font-weight:700;font-size:clamp(1.7rem,2.6vw,2.3rem);line-height:1.1;color:var(--ink);white-space:nowrap}
-.hsr span{font-size:var(--s-1);color:var(--muted)}
+/* owner statement */
+.statement { background: var(--white); }
+.st-grid { display: grid; grid-template-columns: 5fr 7fr; gap: clamp(36px, 6vw, 90px); align-items: center; }
+.st-copy { display: grid; gap: 20px; justify-items: start; min-width: 0; }
+.st-points { display: grid; gap: 12px; }
+.st-points li { display: grid; grid-template-columns: 22px 1fr; gap: 12px; color: var(--ink-2); }
+.st-points svg { width: 22px; height: 22px; margin-top: 6px; color: var(--teal); }
+.doc { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: clamp(18px, 3vw, 34px); box-shadow: 0 1px 2px rgba(15,18,20,.04), 0 24px 48px -24px rgba(15,18,20,.18); min-width: 0; }
+.doc-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; border-bottom: 2px solid var(--ink); padding-bottom: 16px; }
+.doc-top img { width: 132px; height: auto; }
+.doc-top h3 { font-size: 17px; }
+.doc-meta { font-size: 13px; color: var(--ink-3); text-align: end; line-height: 1.6; }
+.doc-note { margin: 14px 0 6px; display: inline-flex; gap: 8px; align-items: center; font: 600 12px/1.4 var(--f-display); color: var(--warn); background: #fbf1e6; border-radius: 999px; padding: 6px 12px; }
+.tbl-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 15px; min-width: 460px; }
+th { font: 700 12px/1.4 var(--f-display); color: var(--ink-3); text-align: start; padding: 12px 8px; border-bottom: 1px solid var(--line); }
+td { padding: 11px 8px; border-bottom: 1px solid var(--line); }
+td.num, th.num { text-align: end; font-family: var(--f-mono); font-variant-numeric: tabular-nums; font-size: 14px; }
+.pill { display: inline-block; font: 600 12px/1 var(--f-display); padding: 6px 10px; border-radius: 999px; }
+.pill.ok { color: var(--ok); background: #e8f5ee; }
+.pill.late { color: var(--warn); background: #fbf1e6; }
+.pill.mkt { color: var(--teal-ink); background: #eaf7f9; }
+.sum { display: grid; gap: 8px; margin-top: 18px; margin-inline-start: auto; max-width: 340px; font-size: 15px; }
+.sum div { display: flex; justify-content: space-between; gap: 16px; }
+.sum b { font-family: var(--f-mono); font-weight: 500; font-variant-numeric: tabular-nums; }
+.sum .net { border-top: 2px solid var(--ink); padding-top: 10px; font-weight: 600; }
+.sum .net b { font-size: 18px; color: var(--teal-ink); }
 
-.hero-media{position:relative;justify-self:end;width:100%;max-width:520px;aspect-ratio:4/5;border-radius:var(--arch);background:var(--ink) url('media/hero-poster.webp') center/cover no-repeat;box-shadow:0 40px 80px -40px rgba(14,47,51,.55)}
-.hero-clip{position:absolute;inset:0;border-radius:inherit;overflow:hidden}
-.hero-clip::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(14,47,51,0) 55%,rgba(14,47,51,.5))}
-.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.hero-frame{position:absolute;inset:14px;border-radius:var(--arch);border:1px solid rgba(255,255,255,.45);pointer-events:none}
-.hero-plate{position:absolute;inset-inline-start:-28px;bottom:36px;display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:18px;background:var(--paper);box-shadow:0 24px 50px -24px rgba(14,47,51,.5)}
-.hero-plate-ic{flex:none;width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:rgba(42,138,148,.12);color:var(--sea)}
-.hero-plate-ic svg{width:22px;height:22px}
-.hero-plate small{display:block;font-size:.74rem;color:var(--muted);line-height:1.4}
-.hero-plate strong{display:block;font-size:.98rem;color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:.04em;line-height:1.4}
+/* process */
+.process { position: relative; }
+.pr-head { display: grid; gap: 18px; margin-bottom: 52px; }
+.pr-rail { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-top: 2px solid var(--ink); }
+.pr-rail li { padding: 22px 0 0; padding-inline-end: 22px; position: relative; display: grid; gap: 8px; align-content: start; }
+.pr-rail li::before { content: ""; position: absolute; top: -7px; inset-inline-start: 0; width: 12px; height: 12px; border-radius: 50%; background: var(--paper); border: 2px solid var(--ink); }
+.pr-rail li:last-child::before { background: var(--teal); border-color: var(--teal); }
+.pr-n { font: 500 13px/1 var(--f-mono); color: var(--teal-ink); }
+.pr-rail h3 { font-size: 18px; }
+.pr-rail p { font-size: 15px; color: var(--ink-2); line-height: 1.7; }
+.pr-photo { margin-top: 64px; display: grid; grid-template-columns: 7fr 5fr; gap: 24px; align-items: end; }
+.pr-photo img { width: 100%; height: auto; aspect-ratio: 16/9; object-fit: cover; border-radius: 20px; }
+.pr-photo blockquote { font: 700 clamp(20px, 2vw, 26px)/1.6 var(--f-display); }
+html[lang="en"] .pr-photo blockquote { font-family: var(--f-num); font-weight: 500; }
+.pr-photo cite { display: block; margin-top: 12px; font: 400 14px/1.5 var(--f-body); color: var(--ink-3); font-style: normal; }
 
-/* ═════ PARTNERS ═════ */
-.partners-strip{border-block:1px solid var(--line);background:var(--paper);padding-block:30px;overflow:hidden}
-.partners-row{display:flex;align-items:center;gap:32px}
-.partners-label{flex:none;font-size:var(--s-1);font-weight:500;color:var(--muted);max-width:9em;line-height:1.5}
-.partners-outer{flex:1;min-width:0;overflow:hidden;direction:ltr;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
-.partners-track{display:flex;align-items:center;gap:56px;width:max-content;animation:marquee 40s linear infinite}
-.partners-track:hover,.partners-track.paused{animation-play-state:paused}
-@keyframes marquee{to{transform:translateX(-50%)}}
-.partner-item{flex:none}
-.partner-card{width:132px;height:58px;display:grid;place-items:center}
-.partner-logo{max-width:100%;max-height:58px;object-fit:contain;filter:grayscale(1);opacity:.6;transition:filter .35s,opacity .35s}
-.partner-item:hover .partner-logo{filter:none;opacity:1}
+/* about + numbers */
+.about { background: var(--white); }
+.ab-grid { display: grid; grid-template-columns: 5fr 7fr; gap: clamp(36px, 6vw, 90px); align-items: center; }
+.ab-grid figure img { width: 100%; height: auto; aspect-ratio: 5/7; object-fit: cover; border-radius: 20px; }
+.ab-copy { display: grid; gap: 20px; min-width: 0; }
+.nums { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 32px; margin-top: 18px; border-top: 1px solid var(--line); padding-top: 26px; }
+.nums dt { font: 600 clamp(32px, 2.9vw, 44px)/1 var(--f-num); white-space: nowrap; font-variant-numeric: tabular-nums; direction: ltr; text-align: end; }
+html[dir="ltr"] .nums dt { text-align: start; }
+.nums dd { font-size: 14px; color: var(--ink-3); margin-top: 10px; line-height: 1.6; }
 
-/* ═════ ABOUT ═════ */
-#about .wrap{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,7vw,104px);align-items:center}
-.about-copy{display:flex;flex-direction:column;gap:22px;min-width:0}
-.about-copy p{font-size:var(--s1);color:var(--text);max-width:58ch}
-.ab-stats{display:grid;grid-template-columns:repeat(3,1fr);margin-top:12px;border-top:1px solid var(--line)}
-.ab-stat{padding:22px 0 0;display:flex;flex-direction:column;gap:2px}
-.ab-stat+.ab-stat{padding-inline-start:24px;border-inline-start:1px solid var(--line)}
-.ab-stat-n{font-family:var(--f-display);font-size:var(--s4);font-weight:700;color:var(--ink);line-height:1.1}
-.ab-stat-l{font-size:var(--s-1);color:var(--muted)}
-.about-media{position:relative;min-width:0;margin:0}
-#about-section-img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:28px}
-.about-cap{position:absolute;inset-inline-end:-20px;top:32px;max-width:220px;padding:18px 20px;border-radius:18px;background:var(--ink);color:#fff;font-size:.9rem;line-height:1.7;box-shadow:0 24px 50px -24px rgba(14,47,51,.6)}
-.about-cap b{display:block;font-family:var(--f-display);font-size:var(--s3);color:var(--sea-l);line-height:1.2;margin-bottom:4px}
+/* licenses */
+.lic-head { display: grid; gap: 18px; margin-bottom: 48px; }
+.seals { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 18px; }
+.seal { background: var(--white); border: 1px solid var(--line); border-radius: 12px; padding: 22px 18px; display: grid; gap: 14px; justify-items: center; text-align: center; transition: border-color .15s, transform .15s; }
+.seal:hover { border-color: #c3cad0; transform: translateY(-1px); }
+.seal svg { width: 92px; height: 92px; color: var(--teal); }
+.seal h3 { font-size: 16px; }
+.seal .no { font: 500 15px/1 var(--f-mono); color: var(--ink); direction: ltr; }
+.seal small { font-size: 13px; color: var(--ink-3); }
 
-/* ═════ SERVICES ═════ */
-#services{background:var(--paper)}
-#services .wrap{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.6fr);gap:clamp(40px,6vw,96px);align-items:start}
-.s-head{position:sticky;top:120px;display:flex;flex-direction:column;align-items:flex-start;gap:20px}
-.s-head .sp{color:var(--muted);font-size:var(--s1)}
-.sg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-top:1px solid var(--line)}
-.sc{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;padding:30px 0 30px 28px;border-bottom:1px solid var(--line)}
-.sc:nth-child(even){padding:30px 28px 30px 0;border-inline-start:1px solid var(--line)}
-.si{grid-row:span 2;width:52px;height:60px;display:grid;place-items:center;border-radius:26px 26px 10px 10px;background:var(--mist);color:var(--sea);transition:background-color .35s,color .35s}
-.si svg{width:24px;height:24px}
-.sc:hover .si{background:var(--ink);color:var(--sea-l)}
-.sc h3{font-size:var(--s1);font-weight:600;line-height:1.5;align-self:end}
-.sc p{font-size:.94rem;color:var(--muted);line-height:1.8}
+/* reviews */
+.reviews { background: var(--teal-deep); color: var(--white); }
+.rv-grid { display: grid; grid-template-columns: 4fr 8fr; gap: clamp(32px, 6vw, 90px); }
+.rv-side { display: grid; gap: 18px; align-content: start; }
+.rv-side .eyebrow { color: var(--teal-hi); }
+.rv-score { display: flex; align-items: baseline; gap: 12px; }
+.rv-score b { font: 600 64px/1 var(--f-num); }
+.stars { color: #e3b75a; letter-spacing: 3px; }
+.rv-side a { color: var(--teal-hi); border-bottom: 1px solid currentColor; justify-self: start; font-weight: 600; }
+.rv-quote { min-height: 280px; display: grid; align-content: space-between; gap: 32px; }
+.rv-quote blockquote { font: 700 clamp(22px, 2.5vw, 34px)/1.7 var(--f-display); transition: opacity .3s; }
+.rv-quote figcaption { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; border-top: 1px solid rgba(255,255,255,.16); padding-top: 18px; }
+.rv-who { font: 500 15px/1.4 var(--f-mono); color: rgba(255,255,255,.8); }
+.rv-nav { display: flex; gap: 8px; }
+.rv-nav button { width: 44px; height: 44px; border-radius: 8px; border: 1px solid rgba(255,255,255,.3); background: transparent; color: var(--white); cursor: pointer; display: grid; place-items: center; transition: background .15s, border-color .15s; }
+.rv-nav button:hover { background: rgba(255,255,255,.08); border-color: var(--white); }
+.rv-nav svg { width: 18px; height: 18px; }
+html[dir="ltr"] .rv-nav svg { transform: scaleX(-1); }
+.rv-count { font: 500 13px/44px var(--f-mono); color: rgba(255,255,255,.6); min-width: 48px; text-align: center; }
 
-/* ═════ WHY (interior) ═════ */
-#interior{position:relative;min-height:680px;display:flex;align-items:center;background:var(--ink) url('media/interior.webp') center/cover no-repeat;padding-block:clamp(64px,8vw,110px)}
-#interior::before{content:"";position:absolute;inset:0;background:linear-gradient(270deg,rgba(14,47,51,.55) 0%,rgba(14,47,51,.15) 55%,rgba(14,47,51,0) 100%)}
-#interior .wrap{position:relative;width:100%}
-.int-txt{width:min(560px,100%);display:flex;flex-direction:column;align-items:flex-start;gap:20px;padding:clamp(28px,4vw,48px);border-radius:28px;background:var(--paper);box-shadow:0 40px 80px -40px rgba(0,0,0,.5)}
-.int-txt .sp{font-size:var(--s0);color:var(--text)}
-.int-checks{display:flex;flex-direction:column;gap:12px;padding-block:6px}
-.int-checks li{display:flex;align-items:center;gap:12px;font-weight:500;color:var(--ink)}
-.int-checks svg{flex:none;width:24px;height:24px;padding:5px;border-radius:50%;background:rgba(42,138,148,.12);stroke:var(--sea)}
+/* partners */
+.partners { padding-block: 70px; }
+.pt-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); border-top: 1px solid var(--line); border-inline-start: 1px solid var(--line); margin-top: 26px; }
+.pt-grid li { display: grid; place-items: center; height: 110px; border-bottom: 1px solid var(--line); border-inline-end: 1px solid var(--line); background: var(--white); }
+.pt-grid img { max-height: 54px; max-width: 120px; width: auto; height: auto; filter: grayscale(1); opacity: .7; transition: filter .2s, opacity .2s; }
+.pt-grid li:hover img { filter: none; opacity: 1; }
+.pt-grid li.pt-label { background: var(--paper); font: 700 14px/1.6 var(--f-display); color: var(--ink-2); padding: 12px; text-align: center; }
 
-/* ═════ LICENSES (dark band, roshan pattern) ═════ */
-.roshan{position:relative;background-color:var(--ink);color:#fff;isolation:isolate;overflow:hidden}
-.roshan::before{content:"";position:absolute;inset:0;z-index:-1;opacity:.5;
-  background-image:
-    repeating-linear-gradient(45deg,transparent 0 17px,rgba(85,198,208,.10) 17px 18px),
-    repeating-linear-gradient(-45deg,transparent 0 17px,rgba(85,198,208,.10) 17px 18px);
-  -webkit-mask-image:linear-gradient(90deg,#000,transparent 70%);mask-image:linear-gradient(90deg,#000,transparent 70%)}
-.roshan .h2{color:#fff}
-.roshan .h2 .g{color:var(--sea-l)}
-.roshan .kicker{color:var(--sea-l)}
-.roshan .sp{color:rgba(255,255,255,.68)}
-.p-head{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:24px 60px;margin-bottom:56px}
-.p-head>div{display:flex;flex-direction:column;gap:16px}
-.pg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
-.lic-card{display:flex;flex-direction:column;gap:12px;padding:30px 28px 28px;border-radius:24px;background:rgba(255,255,255,.04);border:1px solid var(--line-d);transition:background-color .35s,border-color .35s,transform .45s var(--ease)}
-.lic-card:hover{background:rgba(255,255,255,.07);border-color:rgba(85,198,208,.4);transform:translateY(-4px)}
-.lic-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-.lic-icon{width:44px;height:44px;color:var(--sea-l)}
-.lic-icon svg{width:100%;height:100%}
-.lic-badge{font-size:.78rem;font-weight:600;padding:4px 12px;border-radius:999px;background:rgba(85,198,208,.14);color:var(--sea-l)}
-.lic-cap{font-size:.78rem;letter-spacing:.06em;color:rgba(255,255,255,.5)}
-.lic-num{font-size:clamp(1.6rem,2.4vw,2rem);font-weight:600;letter-spacing:.08em;direction:ltr;text-align:right;font-variant-numeric:tabular-nums;color:#fff;line-height:1.2}
-.lic-num a{color:inherit;text-decoration:none;pointer-events:none}
-.lic-sub{font-size:.88rem;color:rgba(255,255,255,.62);line-height:1.7;padding-top:14px;border-top:1px dashed var(--line-d)}
+/* contact */
+.contact { background: var(--white); }
+.ct-grid { display: grid; grid-template-columns: 5fr 7fr; gap: clamp(32px, 5vw, 70px); align-items: stretch; }
+.ct-photo { position: relative; border-radius: 20px; overflow: hidden; min-height: 520px; background: var(--ink); }
+.ct-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ct-photo .ct-info { position: absolute; inset: auto 0 0; padding: 26px; color: var(--white); background: linear-gradient(to top, rgba(15,18,20,.85), rgba(15,18,20,0)); display: grid; gap: 8px; font-size: 15px; }
+.ct-info b { font: 700 13px/1.4 var(--f-display); color: var(--teal-hi); }
+.ct-info .mono { font-size: 15px; direction: ltr; text-align: end; }
+html[dir="ltr"] .ct-info .mono { text-align: start; }
+.ct-form { display: grid; gap: 18px; align-content: center; }
+.form { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form label { display: grid; gap: 6px; font: 600 13px/1.4 var(--f-display); color: var(--ink-2); min-width: 0; }
+html[lang="en"] .form label { font-family: var(--f-num); }
+.form .full { grid-column: 1 / -1; }
+.form input, .form select, .form textarea { width: 100%; min-height: 50px; border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; background: var(--paper); color: var(--ink); font: 400 16px/1.5 var(--f-body); transition: border-color .15s, background .15s; }
+.form input:hover, .form select:hover, .form textarea:hover { border-color: #c3cad0; }
+.form input:focus, .form select:focus, .form textarea:focus { outline: none; border-color: var(--teal); background: var(--white); box-shadow: 0 0 0 3px rgba(42,138,148,.18); }
+.form-err { grid-column: 1 / -1; color: var(--warn); font-size: 15px; }
+.form-err:empty { display: none; }
+.form .btn { grid-column: 1 / -1; }
 
-/* ═════ ACHIEVEMENTS (carousel, built by website-patch.js) ═════ */
-#our-achievements{overflow:hidden}
-.ach-head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:40px}
-.ach-head-text{display:flex;flex-direction:column;gap:14px}
-.ach-nav{display:flex;gap:10px}
-.ach-btn{width:50px;height:50px;border-radius:50%;border:1px solid var(--line);background:var(--paper);color:var(--ink);display:grid;place-items:center;cursor:pointer;transition:background-color .25s,color .25s}
-.ach-btn:hover:not([disabled]){background:var(--ink);color:#fff}
-.ach-btn[disabled]{opacity:.3;cursor:default}
-.ach-wrap{overflow:hidden}
-.ach-track{display:flex;direction:ltr;padding-inline:max(20px,calc((100vw - var(--wrap))/2 + 20px));transition:transform .55s var(--ease);cursor:grab}
-.ach-track.no-trans{transition:none}
-.ach-item{flex:0 0 340px;padding-right:20px}
-.ach-card{position:relative;display:block;height:440px;border-radius:170px 170px 22px 22px;overflow:hidden;background:var(--ink)}
-.ach-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1s var(--ease)}
-.ach-card:hover img{transform:scale(1.05)}
-.ach-card-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(14,47,51,.95),rgba(14,47,51,.15) 60%,transparent)}
-.ach-card-icon{position:absolute;inset:0;display:grid;place-items:center;color:rgba(85,198,208,.3)}
-.ach-card-icon svg{width:56px;height:56px}
-.ach-card-body{position:absolute;inset:auto 0 0;padding:26px;color:#fff;direction:rtl;display:flex;flex-direction:column;gap:6px}
-.ach-badge{align-self:flex-start;font-size:.72rem;font-weight:600;padding:3px 12px;border-radius:999px;background:rgba(85,198,208,.2);color:var(--sea-l)}
-.ach-title{font-family:var(--f-display);font-size:var(--s2);line-height:1.3}
-.ach-meta{font-size:.8rem;opacity:.65}
-.ach-desc{font-size:.86rem;opacity:.8;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.ach-link{display:inline-flex;align-items:center;gap:6px;font-size:.82rem;font-weight:600;color:var(--sea-l)}
-.ach-empty{padding:60px 0;color:var(--muted);direction:rtl}
-.ach-dots{display:flex;justify-content:center;gap:8px;margin-top:28px}
-.ach-dot{width:8px;height:8px;border-radius:999px;border:0;padding:0;background:var(--line);cursor:pointer;transition:width .3s,background-color .3s}
-.ach-dot.on{width:26px;background:var(--sea)}
-.ach-more-btn{display:table;margin:28px auto 0;padding:13px 30px;border-radius:999px;border:1px solid var(--ink);color:var(--ink);text-decoration:none;font-weight:600}
-.ach-more-btn:hover{background:var(--ink);color:#fff}
+/* footer */
+.ftr { background: var(--teal-deep); color: rgba(255,255,255,.78); padding-top: 70px; font-size: 15px; }
+.ftr-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.2fr; gap: 36px; }
+.ftr-grid > div { min-width: 0; }
+.ftr img.f-logo { width: 176px; height: auto; margin-bottom: 18px; }
+.ftr h3 { font-size: 14px; color: var(--white); margin-bottom: 14px; }
+.ftr ul { display: grid; gap: 8px; }
+.ftr a:hover { color: var(--teal-hi); }
+.social { display: flex; gap: 8px; margin-top: 20px; }
+.social a { width: 40px; height: 40px; border-radius: 8px; border: 1px solid rgba(255,255,255,.2); display: grid; place-items: center; transition: border-color .15s, color .15s; }
+.social a:hover { border-color: var(--teal-hi); }
+.social svg { width: 17px; height: 17px; }
+.ftr-bot { margin-top: 56px; border-top: 1px solid rgba(255,255,255,.12); padding-block: 22px calc(22px + env(safe-area-inset-bottom, 0px)); font-size: 13px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 
-/* ═════ STATS ═════ */
-#stats{background:var(--paper)}
-.st-head{display:flex;flex-direction:column;gap:16px;max-width:640px;margin-bottom:56px}
-.st-head .sp{color:var(--muted);font-size:var(--s1)}
-.st-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-block:1px solid var(--line)}
-.stc{display:flex;flex-direction:column;gap:6px;padding:34px 26px}
-.stc+.stc{border-inline-start:1px solid var(--line)}
-.stc svg{width:26px;height:26px;color:var(--coral);margin-bottom:14px}
-.stn{font-family:var(--f-display);font-weight:700;font-size:clamp(2.6rem,4.6vw,4rem);line-height:1;color:var(--ink);font-variant-numeric:tabular-nums}
-.stl{font-size:.95rem;color:var(--muted)}
+.wa { position: fixed; z-index: 40; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); inset-inline-end: max(20px, env(safe-area-inset-left, 0px)); width: 54px; height: 54px; border-radius: 50%; background: #25d366; color: #fff; display: grid; place-items: center; box-shadow: 0 10px 24px rgba(15,18,20,.25); opacity: 0; visibility: hidden; transform: translateY(12px); transition: opacity .25s, visibility .25s, transform .25s; }
+.wa.show { opacity: 1; visibility: visible; transform: none; }
+.wa svg { width: 27px; height: 27px; }
+.toast { position: fixed; z-index: 70; bottom: 90px; left: 50%; transform: translate(-50%, 16px); background: var(--ink); color: var(--white); padding: 10px 18px; border-radius: 8px; font-size: 15px; opacity: 0; transition: opacity .25s, transform .25s; pointer-events: none; }
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
 
-/* ═════ PROCESS (built by website-patch.js) ═════ */
-.pr-in{max-width:var(--wrap);margin-inline:auto;padding-left:var(--gut);padding-right:var(--gut-r)}
-.pr-head{display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px;margin-bottom:64px}
-.pr-head .lbl{display:inline-flex;font-size:var(--s-1);font-weight:500;letter-spacing:.06em;color:var(--sea);margin:0}
-.pr-head .sp{color:var(--muted)!important;max-width:60ch;font-size:var(--s1)}
-.gl{display:none}
-.pr-steps{counter-reset:step;position:relative;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:20px}
-.pr-steps::before{content:"";position:absolute;top:31px;right:10%;left:10%;height:1px;background:repeating-linear-gradient(90deg,var(--line) 0 6px,transparent 6px 12px)}
-.pr-progress-dot{display:none}
-.pr-step{counter-increment:step;position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px}
-.sn{position:relative;width:62px;height:62px;border-radius:50%;display:grid;place-items:center;background:var(--paper);border:1px solid var(--line);color:var(--sea);transition:background-color .35s,color .35s,border-color .35s}
-.sn svg{width:24px;height:24px}
-.sn::after{content:counter(step);position:absolute;top:-6px;inset-inline-end:-6px;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--coral);color:var(--ink);font-size:.72rem;font-weight:700}
-.pr-step:hover .sn{background:var(--ink);color:var(--sea-l);border-color:var(--ink)}
-.pr-step h3{font-size:var(--s0);font-weight:600;margin-top:8px}
-.pr-step p{font-size:.88rem;color:var(--muted);line-height:1.75;max-width:24ch}
-.pr-cta{margin-top:80px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px 40px;padding:clamp(28px,4vw,48px);border-radius:28px;background:var(--ink);color:#fff;position:relative;overflow:hidden;isolation:isolate}
-.pr-cta::before{content:"";position:absolute;inset:0;z-index:-1;opacity:.45;background-image:repeating-linear-gradient(45deg,transparent 0 17px,rgba(85,198,208,.12) 17px 18px),repeating-linear-gradient(-45deg,transparent 0 17px,rgba(85,198,208,.12) 17px 18px);-webkit-mask-image:linear-gradient(90deg,#000,transparent 55%);mask-image:linear-gradient(90deg,#000,transparent 55%)}
-.pr-cta h3{grid-column:1;color:#fff;font-family:var(--f-display);font-size:var(--s3);line-height:1.3}
-.pr-cta p{grid-column:1;color:rgba(255,255,255,.68)}
-.pr-cta>div{grid-column:2;grid-row:1/span 2}
-.btn-gd{display:inline-flex;align-items:center;min-height:52px;padding:0 28px;border-radius:999px;text-decoration:none;font-weight:600;background:var(--sea-l);color:var(--ink);box-shadow:none}
-.btn-gd:hover{background:#fff}
-
-/* ═════ CTA ═════ */
-#cta{position:relative;overflow:hidden;isolation:isolate;color:#fff}
-.cta-bg{position:absolute;inset:0;z-index:-2;background:url('media/cta.webp') center/cover no-repeat}
-.cta-ov{position:absolute;inset:0;z-index:-1;background:linear-gradient(270deg,rgba(14,47,51,.94) 0%,rgba(14,47,51,.82) 45%,rgba(14,47,51,.3) 100%)}
-.cta-cnt{display:flex;flex-direction:column;align-items:flex-start;gap:22px;max-width:620px}
-.cta-lbl{font-size:var(--s-1);font-weight:500;letter-spacing:.06em;color:var(--sea-l)}
-.cta-cnt h2{font-family:var(--f-display);font-weight:700;font-size:clamp(2rem,3.8vw,3.2rem);line-height:1.25;color:#fff}
-.cta-cnt h2 .g{color:var(--sea-l)}
-.cta-cnt p{font-size:var(--s1);color:rgba(255,255,255,.76)}
-.cta-feats{display:flex;flex-wrap:wrap;gap:10px}
-.cf{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;border:1px solid var(--line-d);font-size:.9rem;color:#fff}
-.cf svg{color:var(--sea-l)}
-.cta-cnt .btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:6px}
-
-/* ═════ TESTIMONIALS (built by website-patch.js — override its inline styles) ═════ */
-#testimonials{background:var(--mist)}
-#testimonials-inner{max-width:var(--wrap);margin-inline:auto;padding-left:var(--gut);padding-right:var(--gut-r)}
-#testimonials-inner .lbl{display:block;font-size:var(--s-1);color:var(--sea);margin:4px 0 10px}
-#testimonials-inner .h2{font-size:clamp(2rem,3.8vw,3.2rem)!important;color:var(--ink)!important}
-#testimonials-inner > div:first-child{margin-bottom:48px!important}
-#testimonials-inner > div:nth-child(2){gap:18px!important}
-#testimonials-inner > div:nth-child(2) > div{background:var(--paper)!important;border:1px solid var(--line)!important;border-radius:24px!important;box-shadow:none!important;padding:28px!important}
-#testimonials-inner > div:nth-child(2) > div p{color:var(--text)!important;font-size:.95rem!important}
-#testimonials-inner [style*="border-radius:50%"]{background:var(--ink)!important;color:var(--sea-l)!important}
-#testimonials-inner a{color:var(--ink)!important;border-color:var(--line)!important;background:var(--paper)}
-
-/* ═════ FOOTER ═════ */
-footer{padding-block:clamp(64px,8vw,96px) 0}
-footer .f-top{display:grid;grid-template-columns:1.5fr 1fr 1.2fr;gap:48px;padding-bottom:56px;border-bottom:1px solid var(--line-d)}
-.f-logo{height:58px;width:auto;filter:brightness(0) invert(1);margin-bottom:20px}
-.f-brand p{color:rgba(255,255,255,.66);max-width:40ch;font-size:.95rem}
-.f-col h4{color:#fff;font-size:var(--s0);font-weight:600;margin-bottom:18px}
-.fl{display:flex;flex-direction:column;gap:10px}
-.fl a{color:rgba(255,255,255,.66);text-decoration:none;font-size:.94rem}
-.fl a:hover{color:#fff}
-.fci{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;color:rgba(255,255,255,.75);font-size:.94rem}
-.fci svg{flex:none;margin-top:5px;color:var(--sea-l)}
-.fci a{color:inherit;text-decoration:none}
-.fci a:hover{color:#fff;text-decoration:underline}
-.f-lic{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px}
-.ltag{font-size:.78rem;padding:4px 12px;border-radius:999px;border:1px solid var(--line-d);color:rgba(255,255,255,.8)}
-#social-bar{display:flex;justify-content:center;gap:12px;padding-block:28px;flex-wrap:wrap}
-#social-bar a{width:46px!important;height:46px!important;border-radius:50%!important;background:rgba(255,255,255,.06)!important;border:1px solid var(--line-d)}
-.f-bot{padding-block:22px;border-top:1px solid var(--line-d);text-align:center;font-size:.85rem;color:rgba(255,255,255,.5)}
-
-/* ═════ WhatsApp ═════ */
-.wa-float{position:fixed;z-index:999;bottom:calc(22px + env(safe-area-inset-bottom,0px));left:calc(22px + env(safe-area-inset-left,0px));width:56px;height:56px;border-radius:50%;background:#25D366;display:grid;place-items:center;box-shadow:0 14px 30px -10px rgba(37,211,102,.7);transition:transform .3s var(--ease)}
-.wa-float:hover{transform:scale(1.08)}
-
-/* ═════ Project modal ═════ */
-#proj-modal{position:fixed;inset:0;overscroll-behavior:contain;z-index:9000;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(14,47,51,.6);backdrop-filter:blur(6px)}
-.pm-box{overscroll-behavior:contain;position:relative;width:100%;max-width:660px;max-height:90vh;overflow-y:auto;border-radius:26px;background:var(--paper)}
-.pm-close{position:absolute;top:14px;right:14px;z-index:2;width:40px;height:40px;border-radius:50%;border:0;background:rgba(255,255,255,.9);cursor:pointer;font-size:16px}
-#proj-modal-img{height:280px;background:var(--mist)}
-.pm-body{padding:26px 30px 32px;display:flex;flex-direction:column;gap:8px}
-#proj-modal-badge{align-self:flex-start;font-size:.75rem;font-weight:600;padding:4px 12px;border-radius:999px;background:rgba(42,138,148,.12);color:var(--sea)}
-#proj-modal-title{font-family:var(--f-display);font-size:var(--s3)}
-#proj-modal-meta{font-size:.85rem;color:var(--muted)}
-#proj-modal-desc{color:var(--text)}
-
-/* ═════ Motion: one load sequence + scroll-driven reveals (content visible without them) ═════ */
-@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
-@keyframes archIn{from{clip-path:inset(100% 0 0 0)}to{clip-path:inset(0 0 0 0)}}
-.hero-copy>*{animation:rise .9s var(--ease) both}
-.hero-copy>*:nth-child(2){animation-delay:.08s}.hero-copy>*:nth-child(3){animation-delay:.16s}.hero-copy>*:nth-child(4){animation-delay:.24s}.hero-copy>*:nth-child(5){animation-delay:.32s}
-.hero-clip{animation:archIn 1.2s var(--ease) .1s both}
-.hero-plate{animation:rise .9s var(--ease) .7s both}
-@supports (animation-timeline: view()){
-  .rv{animation:rise linear both;animation-timeline:view();animation-range:entry 5% entry 45%}
+@media (max-width: 1000px) {
+  .nav { position: fixed; inset: 72px 0 0; flex-direction: column; justify-content: flex-start; padding: 40px var(--gut-r) 40px var(--gut-l); gap: 6px; background: var(--paper); font-size: 22px; opacity: 0; visibility: hidden; transition: opacity .2s, visibility .2s; margin: 0; overscroll-behavior: contain; }
+  .nav a { padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .menu-open .nav { opacity: 1; visibility: visible; }
+  .hdr-act { margin-inline-start: auto; }
+  .burger { display: block; }
+  .seals { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .hooks { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pr-rail { grid-template-columns: 1fr; border-top: 0; border-inline-start: 2px solid var(--ink); }
+  .pr-rail li { padding: 0 0 28px; padding-inline-start: 26px; }
+  .pr-rail li::before { top: 8px; inset-inline-start: -7px; }
+  .ftr-grid { grid-template-columns: 1fr 1fr; }
+  .pt-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
-@media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+@media (max-width: 760px) {
+  body { font-size: 17px; }
+  .brand img { width: 140px; }
+  .hdr .btn { display: none; }
+  .hero { height: 200vh; }
+  .hero-grid { grid-template-columns: 1fr; grid-template-rows: auto 1fr; gap: 10px; align-content: start; padding-top: 18px; }
+  .mark-box { order: -1; height: auto; }
+  #mark { width: min(64vw, 34vh); }
+  .hero-copy { gap: 14px; }
+  .hero-copy h1 { font-size: 36px; }
+  .hero-copy .lede { font-size: 16px; }
+  .hero-fact { font-size: 13px; }
+  .scroll-cue { display: none; }
+  .cab-head, .st-grid, .ab-grid, .rv-grid, .ct-grid, .pr-photo { grid-template-columns: 1fr; }
+  .tag { min-height: 0; }
+  .ab-grid figure img { aspect-ratio: 4/3; }
+  .seals { grid-template-columns: 1fr 1fr; }
+  .pt-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .form { grid-template-columns: 1fr; }
+  .ct-photo { min-height: 380px; }
+  .ftr-grid { grid-template-columns: 1fr; }
 }
-
-/* ═════ Responsive ═════ */
-@media (max-width:1080px){
-  .nav-links a{padding:8px 10px;font-size:.88rem}
-  .pr-steps{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:40px}
-  .pr-steps::before{display:none}
-}
-@media (max-width:900px){
-  .nav-toggle{display:flex}
-  .nav-cta{display:none}
-  .nav-links{position:absolute;top:100%;inset-inline:0;flex-direction:column;gap:2px;margin:0;padding:12px var(--gut-r) 20px var(--gut);background:var(--mist);border-bottom:1px solid var(--line);box-shadow:0 20px 40px -24px rgba(14,47,51,.4);display:none}
-  nav.menu-open .nav-links{display:flex}
-  .nav-links a{padding:14px 16px;font-size:1rem;border-radius:14px}
-  .hero-grid{grid-template-columns:1fr}
-  .hero-media{justify-self:stretch;max-width:none;aspect-ratio:5/4;border-radius:180px 180px 24px 24px}
-  .hero-frame{border-radius:170px 170px 16px 16px}
-  .hero-plate{inset-inline-start:16px;bottom:16px}
-  #about .wrap,#services .wrap{grid-template-columns:1fr}
-  .s-head{position:static}
-  .about-media{order:-1}
-  .about-cap{inset-inline-end:16px;top:auto;bottom:16px}
-  .pg{grid-template-columns:1fr}
-  .st-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .stc:nth-child(3){border-inline-start:0}
-  .stc:nth-child(n+3){border-top:1px solid var(--line)}
-  footer .f-top{grid-template-columns:1fr 1fr}
-  .f-brand{grid-column:1/-1}
-  .pr-cta{grid-template-columns:1fr;text-align:center;justify-items:center}
-  .pr-cta>div{grid-column:1;grid-row:auto}
-  #testimonials-inner > div:nth-child(2){grid-template-columns:1fr 1fr!important}
-}
-@media (max-width:640px){
-  :root{--gut:max(16px,env(safe-area-inset-left,0px));--gut-r:max(16px,env(safe-area-inset-right,0px))}
-  .nav-in{min-height:66px}
-  .nav-logo img{height:38px}
-  .hero-actions .btn{flex:1 1 100%}
-  .hero-stats-row{grid-template-columns:repeat(3,minmax(0,1fr))}
-  .hsr{padding-inline:0 10px}
-  .hsr+.hsr{padding-inline-start:12px}
-  .hsr strong{font-size:1.45rem}
-  .hsr span{font-size:.75rem}
-  .partners-row{flex-direction:column;align-items:stretch;gap:16px}
-  .partners-label{max-width:none;text-align:center}
-  .sg{grid-template-columns:1fr}
-  .sc,.sc:nth-child(even){padding:24px 0;border-inline-start:0}
-  #interior{min-height:0;padding-block:260px 0;background-position:center top;background-size:auto 340px;background-color:var(--paper)}
-  #interior::before{display:none}
-  #interior .wrap{padding:0}
-  .int-txt{width:100%;border-radius:28px 28px 0 0;box-shadow:none;padding:32px 16px 48px}
-  .int-txt .btn{align-self:stretch}
-  .p-head{margin-bottom:36px}
-  .stc{padding:26px 14px}
-  .stn{font-size:2.4rem}
-  .pr-steps{grid-template-columns:1fr 1fr;column-gap:12px}
-  .cta-ov{background:linear-gradient(180deg,rgba(14,47,51,.82),rgba(14,47,51,.94))}
-  .cta-cnt .btns,.cta-cnt .btns .btn{width:100%}
-  footer .f-top{grid-template-columns:1fr}
-  #testimonials-inner > div:nth-child(2){grid-template-columns:1fr!important}
-  .ach-item{flex:0 0 300px}
-  .ach-card{height:380px}
-  .about-cap{max-width:200px;padding:14px 16px}
+@media (max-width: 420px) { .hooks { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  .hero { height: auto; }
+  .hero-stage { position: relative; top: 0; height: auto; min-height: calc(100svh - 72px); padding-block: 40px; }
 }
 </style>
 </head>
 <body>
-<a class="skip" href="#main">انتقل إلى المحتوى</a>
+<a class="skip" href="#main" data-en="Skip to content">انتقل إلى المحتوى</a>
 
-<!-- NAV -->
-<nav id="nav" aria-label="القائمة الرئيسية">
-  <div class="wrap nav-in">
-    <a class="nav-logo" href="#hero" aria-label="جودة العقارية، الرئيسية"><img src="dist/image-removebg-preview.png" alt="جودة العقارية" id="site-logo" width="160" height="46" fetchpriority="high"></a>
-    <ul class="nav-links" id="mobileNav">
-      <li><a href="#hero">الرئيسية</a></li>
-      <li><a href="#about">من نحن</a></li>
-      <li><a href="#services">الخدمات</a></li>
-      <li><a href="#projects">اعتمادنا</a></li>
-      <li><a href="#our-achievements">مشاريعنا</a></li>
-      <li><a href="#stats">إنجازاتنا</a></li>
-      <li><a href="#contact">تواصل معنا</a></li>
-    </ul>
-    <a href="https://api.whatsapp.com/message/AZBMZ4OGSAJGJ1?autoload=1&amp;app_absent=0" target="_blank" rel="noopener" class="btn nav-cta">احجز استشارة</a>
-    <button class="nav-toggle" id="navToggle" type="button" aria-label="فتح القائمة" aria-expanded="false" aria-controls="mobileNav"><span></span><span></span><span></span></button>
+<header class="hdr" id="hdr">
+  <div class="wrap hdr-in">
+    <a href="#top" class="brand" aria-label="جودة العقارية" translate="no"><img src="assets/v2/logo.webp" alt="جودة العقارية" width="624" height="98"></a>
+    <nav class="nav" id="nav" aria-label="القائمة">
+      <a href="#cabinet" data-en="What we handle">ما نتولاه</a>
+      <a href="#statement" data-en="Owner statement">كشف المالك</a>
+      <a href="#process" data-en="How it works">آلية العمل</a>
+      <a href="#licenses" data-en="Licenses">التراخيص</a>
+      <a href="#contact" data-en="Contact">تواصل</a>
+    </nav>
+    <div class="hdr-act">
+      <button class="lang" id="langBtn" type="button" aria-label="English">EN</button>
+      <a href="#contact" class="btn" data-en="Book a consultation">احجز استشارة</a>
+      <button class="burger" id="burger" type="button" aria-label="القائمة" aria-expanded="false" aria-controls="nav"><i></i><i></i></button>
+    </div>
   </div>
-</nav>
+</header>
 
 <main id="main">
-<!-- HERO -->
-<section id="hero">
-  <div class="wrap hero-grid">
-    <div class="hero-copy">
-      <div class="hero-loc"><b>جدة</b><i></i><span>إدارة أملاك سكنية وتجارية وإدارية</span><i></i><span>معتمدون في فال وإيجار</span></div>
-      <h1 class="hero-h1">شركة إدارة أملاك عقارية في السعودية<br><span style="color:var(--sea)">جودة العقارية</span></h1>
-      <p class="hero-desc">نقدم حلول إدارة العقارات السكنية والتجارية تشمل التأجير، التسويق، الصيانة، والتحصيل بهدف رفع العائد الاستثماري وتقليل المخاطر التشغيلية.</p>
-      <div class="hero-actions">
-        <a href="https://api.whatsapp.com/message/AZBMZ4OGSAJGJ1?autoload=1&amp;app_absent=0" target="_blank" rel="noopener" class="btn btn-ph" id="hero-cta-btn">ابدأ إدارة عقارك الآن</a>
-        <a href="#services" class="btn btn-line">تعرّف على خدماتنا</a>
+
+<!-- HERO: the roof chevrons from the mark, widening into a daylight facade -->
+<section class="hero" id="top" aria-label="جودة العقارية">
+  <div class="hero-stage" id="stage">
+    <div class="wrap hero-grid">
+      <div class="hero-copy" id="heroCopy">
+        <p class="eyebrow"><svg class="glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 15l9-9 9 9" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M7 19l5-5 5 5" fill="none" stroke="currentColor" stroke-width="2.4" opacity=".6"/></svg><span data-en="Property management company · Jeddah">شركة إدارة أملاك عقارية · جدة</span></p>
+        <h1 data-en="We manage your property, <em>to a standard.</em>">نُدير عقارك<br><em>بجودة.</em></h1>
+        <p class="lede" data-en="Residential, commercial and office buildings, leased, collected, maintained and reported to you every month, by a team licensed by FAL and Ejar.">عمارات سكنية ومحلات ومكاتب، نؤجّرها ونحصّل إيجارها ونصونها، ونرسل لك كشفها كل شهر، بفريق مرخّص من فال وإيجار.</p>
+        <div class="hero-btns">
+          <a class="btn" href="#contact" data-en="Hand over your property">سلّمنا إدارة عقارك</a>
+          <a class="btn btn-line" href="#statement" data-en="See a monthly statement">شاهد كشف الحساب الشهري</a>
+        </div>
+        <p class="hero-fact"><span data-en="Property management license <b class='mono'>2200001290</b>">رخصة إدارة الأملاك <b class="mono">2200001290</b></span><span data-en="Commercial reg. <b class='mono'>4030495338</b>">سجل تجاري <b class="mono">4030495338</b></span></p>
       </div>
-      <div class="hero-stats-row">
-        <div class="hsr"><strong data-field="hero_stat1_num">+300</strong><span data-field="hero_stat1_label">مشروع عقاري</span></div>
-        <div class="hsr"><strong data-field="hero_stat2_num">+300</strong><span data-field="hero_stat2_label">موقع استراتيجي</span></div>
-        <div class="hsr"><strong data-field="hero_stat3_num">+10 آلاف</strong><span data-field="hero_stat3_label">عميل</span></div>
+      <div class="mark-box">
+        <svg id="mark" viewBox="0 0 1000 1000" role="img" aria-label="شعار جودة العقارية: إطار بيت وثلاث قمم">
+          <defs>
+            <mask id="bands" maskUnits="userSpaceOnUse" x="-3000" y="-3000" width="7000" height="7000">
+              <rect x="-3000" y="-3000" width="7000" height="7000" fill="#000"/>
+              <rect id="fillAll" x="-250" y="0" width="1500" height="1000" fill="#fff" opacity="0"/>
+              <g fill="none" stroke="#fff" stroke-linejoin="miter" stroke-miterlimit="10">
+                <polyline class="band" points="290,650 640,300 990,650" stroke-width="64"/>
+                <polyline class="band" points="390,750 640,500 890,750" stroke-width="64"/>
+                <polygon class="band band-solid" points="640,640 820,820 460,820" fill="#fff" stroke-width="20"/>
+              </g>
+            </mask>
+          </defs>
+          <image href="assets/v2/facade.webp" x="-250" y="0" width="1500" height="1000" preserveAspectRatio="xMidYMid slice" mask="url(#bands)"/>
+          <g id="tint" fill="none" stroke-linejoin="miter" stroke-miterlimit="10">
+            <polyline points="290,650 640,300 990,650" stroke="#55a0a6" stroke-width="64"/>
+            <polyline points="390,750 640,500 890,750" stroke="#4fb6bf" stroke-width="64"/>
+            <polygon points="640,640 820,820 460,820" fill="#55c6d0" stroke="#55c6d0" stroke-width="20"/>
+          </g>
+          <path id="frame" d="M560 880 H120 V120 H880 V500" fill="none" stroke="#0f1214" stroke-width="60" stroke-linejoin="miter"/>
+          <path id="roofline" d="M150 560 L560 150 H880" fill="none" stroke="#0f1214" stroke-width="44" opacity="0"/>
+        </svg>
       </div>
     </div>
-    <div class="hero-media" id="hero-media">
-      <div class="hero-clip">
-        <video class="hero-video" autoplay muted playsinline loop preload="auto" poster="media/hero-poster.webp" aria-hidden="true">
-          <source src="media/hero-mobile.mp4" type="video/mp4" media="(max-width: 768px)">
-          <source src="media/hero.mp4" type="video/mp4">
-        </video>
+    <div class="shade" id="shade"></div>
+    <div class="hero-cap" id="heroCap"><div class="wrap">
+      <p data-en="A facade keeps its value when someone looks after it every day.">الواجهة تحافظ على قيمتها حين يكون خلفها من يتابعها كل يوم.</p>
+      <p data-en="Scroll on to see what we handle for you">مرّر لترى ما نتولاه عنك</p>
+    </div></div>
+    <div class="scroll-cue" aria-hidden="true"><span data-en="Scroll">مرّر</span><i></i></div>
+  </div>
+</section>
+
+<!-- KEY CABINET: services as key tags -->
+<section class="cabinet sec" id="cabinet">
+  <div class="wrap">
+    <header class="cab-head">
+      <div>
+        <p class="eyebrow" data-en="What we handle">ما نتولاه عنك</p>
+        <h2 class="h2" data-en="Every key on our board is a job we do for you">كل مفتاح في لوحتنا<br>مهمة نؤديها عنك</h2>
       </div>
-      <div class="hero-frame" aria-hidden="true"></div>
-      <div class="hero-plate">
-        <span class="hero-plate-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2l3 2h4a1 1 0 011 1v5c0 5.25-3.5 9.74-8 11-4.5-1.26-8-5.75-8-11V5a1 1 0 011-1h4l3-2z"/><polyline points="9 12 11 14 15 10"/></svg></span>
-        <span><small>ترخيص فال</small><strong dir="ltr">2200001290</strong></span>
-      </div>
+      <p class="lede" data-en="When you hand us your building, its keys hang in our office. Here is what each one means.">حين تسلّمنا عقارك، تُعلَّق مفاتيحه في مكتبنا. هذا ما يعنيه كل مفتاح منها.</p>
+    </header>
+    <div class="board">
+      <div class="board-label mono"><span data-en="JAWDAH · KEY BOARD">جودة · لوحة المفاتيح</span><span>08 / 08</span></div>
+      <ul class="hooks" id="hooks"></ul>
     </div>
   </div>
 </section>
 
-<!-- PARTNERS -->
-<div class="partners-strip">
-  <div class="wrap partners-row">
-    <div class="partners-label" data-field="partners_label">شركاؤنا وعملاؤنا</div>
-    <div class="partners-outer">
-      <div class="partners-track" id="partners-track">
-        <div class="partner-item"><div class="partner-card"><img src="images/partners/ittihad.png" alt="نادي الاتحاد" class="partner-logo" loading="lazy" decoding="async" onerror="this.closest('.partner-item').style.display='none'"></div></div>
-        <div class="partner-item"><div class="partner-card"><img src="images/partners/nahdi.png" alt="النهدي" class="partner-logo" loading="lazy" decoding="async" onerror="this.closest('.partner-item').style.display='none'"></div></div>
-        <div class="partner-item"><div class="partner-card"><img src="images/partners/dorrah.png" alt="درة العقارية" class="partner-logo" loading="lazy" decoding="async" onerror="this.closest('.partner-item').style.display='none'"></div></div>
-        <div class="partner-item"><div class="partner-card"><img src="images/partners/baabdullah.png" alt="باعبدالله العقارية" class="partner-logo" loading="lazy" decoding="async" onerror="this.closest('.partner-item').style.display='none'"></div></div>
-        <div class="partner-item"><div class="partner-card"><img src="images/partners/alezz.png" alt="العز المتقدمة" class="partner-logo" loading="lazy" decoding="async" onerror="this.closest('.partner-item').style.display='none'"></div></div>
-        <div class="partner-item"><div class="partner-card"><img src="media/partner-w7.png" alt="النوافذ السبعة" class="partner-logo" loading="lazy" decoding="async" onerror="this.closest('.partner-item').style.display='none'"></div></div>
-        <div class="partner-item"><div class="partner-card"><img src="images/partners/suico.png" alt="SUICO" class="partner-logo" loading="lazy" decoding="async" onerror="this.closest('.partner-item').style.display='none'"></div></div>
-        <div class="partner-item"><div class="partner-card"><img src="images/partners/rsoukh.png" alt="رسوخ" class="partner-logo" loading="lazy" decoding="async" onerror="this.closest('.partner-item').style.display='none'"></div></div>
-        <div class="partner-item"><div class="partner-card"><img src="images/partners/bromedia.png" alt="بروميديا" class="partner-logo" loading="lazy" decoding="async" onerror="this.closest('.partner-item').style.display='none'"></div></div>
+<!-- OWNER STATEMENT -->
+<section class="statement sec" id="statement">
+  <div class="wrap st-grid">
+    <div class="st-copy">
+      <p class="eyebrow" data-en="Reports">التقارير</p>
+      <h2 class="h2" data-en="Your building on one page, every month">عقارك في صفحة واحدة،<br>كل شهر</h2>
+      <p class="lede" data-en="A clear monthly statement: what was collected, what is late, what was spent on maintenance and what reached your account.">كشف حساب شهري واضح: ما تم تحصيله، وما تأخر، وما صُرف على الصيانة، وما وصل إلى حسابك.</p>
+      <ul class="st-points">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg><span data-en="Every unit, its tenant and its payment status">كل وحدة ومستأجرها وحالة دفعتها</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg><span data-en="Maintenance work with its cost">أعمال الصيانة مع تكلفتها</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg><span data-en="Leases registered on Ejar and renewal dates">العقود الموثّقة في إيجار ومواعيد تجديدها</span></li>
+      </ul>
+    </div>
+    <article class="doc" aria-label="نموذج كشف حساب المالك">
+      <div class="doc-top">
+        <div><img src="assets/v2/logo.webp" alt="" width="624" height="98"><h3 style="margin-top:12px" data-en="Owner statement">كشف حساب المالك</h3></div>
+        <div class="doc-meta"><span data-en="Period: October 2026">الفترة: أكتوبر 2026</span><br><span data-en="Sample building · 6 units">عمارة نموذجية · 6 وحدات</span></div>
       </div>
+      <p class="doc-note" data-en="Illustrative sample · not real figures">نموذج توضيحي · الأرقام افتراضية</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th data-en="Unit">الوحدة</th><th data-en="Tenant">المستأجر</th><th class="num" data-en="Rent (SAR)">الإيجار (ر.س)</th><th data-en="Status">الحالة</th></tr></thead>
+          <tbody id="stRows"></tbody>
+        </table>
+      </div>
+      <div class="sum" id="stSum"></div>
+    </article>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process sec" id="process">
+  <div class="wrap">
+    <header class="pr-head">
+      <p class="eyebrow" data-en="How it works">آلية العمل</p>
+      <h2 class="h2" data-en="From the day you hand over the keys">من يوم تسليم المفاتيح</h2>
+    </header>
+    <ol class="pr-rail" id="rail"></ol>
+    <div class="pr-photo">
+      <img src="assets/v2/handover.webp" alt="تسليم مفاتيح وحدة سكنية" width="1800" height="1202" loading="lazy">
+      <blockquote><span data-en="“Very professional from the first call. Even after I rented, they kept helping.”">«المكتب جدًا راقي في التعامل، وحتى بعد ما استأجرت ما زالوا يساعدون.»</span><cite translate="no">Abdulaziz Hussain · Google</cite></blockquote>
     </div>
   </div>
-</div>
+</section>
 
 <!-- ABOUT -->
-<section id="about" class="band section-frame">
-  <div class="wrap">
-    <div class="about-copy rv">
-      <span class="kicker">من نحن</span>
-      <h2 class="h2" id="about-h2">من هي <span class="g">جودة العقارية؟</span></h2>
-      <p data-field="about_text">جودة العقارية شركة متخصصة في إدارة الأملاك العقارية وتشغيلها في المملكة العربية السعودية، نقدم حلول إدارة متكاملة تشمل الإشراف اليومي على العقارات السكنية والتجارية والإدارية.</p>
-      <p data-field="about_text2">نهدف إلى تحقيق التوازن بين رضا المستأجرين وتعظيم العوائد الاستثمارية لمالكي العقارات، من خلال إدارة احترافية تعتمد على الأنظمة والمعايير الحديثة.</p>
-      <div class="ab-stats">
-        <div class="ab-stat"><span class="ab-stat-n">+10</span><span class="ab-stat-l">سنوات خبرة</span></div>
-        <div class="ab-stat"><span class="ab-stat-n">+300</span><span class="ab-stat-l">مشروع مُدار</span></div>
-        <div class="ab-stat"><span class="ab-stat-n">26</span><span class="ab-stat-l">مدينة مغطّاة</span></div>
-      </div>
-    </div>
-    <figure class="about-media rv">
-      <img src="media/about.webp" width="765" height="1020" loading="lazy" decoding="async" alt="مكتب جودة العقارية" id="about-section-img">
-      <figcaption class="about-cap"><b>فال · إيجار</b>نسجّل العقود ونديرها عبر المنصات الرسمية.</figcaption>
-    </figure>
-  </div>
-</section>
-
-<!-- SERVICES -->
-<section id="services" class="band section-frame">
-  <div class="wrap">
-    <div class="s-head rv">
-      <span class="kicker">خدماتنا</span>
-      <h2 class="h2">خدمات إدارة العقارات <span class="g">التي نقدمها</span></h2>
-      <p class="sp" id="services-desc">نغطي جميع جوانب إدارة وتشغيل العقارات من البداية حتى التشغيل الكامل.</p>
-      <a href="https://api.whatsapp.com/message/AZBMZ4OGSAJGJ1?autoload=1&amp;app_absent=0" target="_blank" rel="noopener" class="btn btn-line">اسأل عن خدمة</a>
-    </div>
-    <div class="sg">
-      <div class="sc rv"><div class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 21h18M3 7l9-4 9 4M4 11h16v10H4z"/><rect x="9" y="14" width="6" height="7"/></svg></div><h3>إدارة وتشغيل الممتلكات</h3><p>إشراف يومي متكامل على عقاراتك يحافظ على قيمتها ويرفع عوائدها دون أي عناء منك.</p></div>
-      <div class="sc rv"><div class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg></div><h3>التسويق والتأجير</h3><p>حملات تسويقية وإعلانية موجّهة تستقطب المستأجرين المناسبين وتقلّص فترات الشغور.</p></div>
-      <div class="sc rv"><div class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div><h3>فرز المستأجرين</h3><p>بحث وتحرٍّ دقيق عن المستأجرين وإدارة العلاقة معهم لضمان الالتزام والاستقرار.</p></div>
-      <div class="sc rv"><div class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg></div><h3>عقود الإيجار والتسجيل</h3><p>توقيع عقود الإيجار وتجديدها وتسجيلها في منصة إيجار وفق الأنظمة واللوائح المعتمدة.</p></div>
-      <div class="sc rv"><div class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg></div><h3>تحصيل الإيجارات</h3><p>متابعة وتحصيل الإيجارات في مواعيدها وإدارة النزاعات لضمان تدفق مالي منتظم.</p></div>
-      <div class="sc rv"><div class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg></div><h3>الصيانة والتشغيل</h3><p>صيانة دورية وطارئة شاملة: سباكة وكهرباء وتكييف، للحفاظ على جودة الأصل العقاري.</p></div>
-      <div class="sc rv"><div class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg></div><h3>الميزانيات والتقارير</h3><p>إعداد ميزانيات الصيانة وتقارير الأداء الدورية لتبقى على اطلاع دائم بأوضاع عقارك.</p></div>
-      <div class="sc rv"><div class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg></div><h3>الامتثال القانوني</h3><p>ضمان الامتثال الكامل للتشريعات واللوائح المحلية والوطنية لحماية حقوقك وحقوق مستأجريك.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- WHY (interior) -->
-<section id="interior" class="section-frame">
-  <div class="wrap">
-    <div class="int-txt rv">
-      <div id="interior-label-top"><span class="kicker">لماذا إدارة الأملاك؟</span></div>
-      <h2 class="h2" id="interior-h2">عقارك يحتاج<br>من يديره <span class="g">باحترافية</span></h2>
-      <p class="sp" id="interior-desc">إدارة الأملاك هي الإشراف اليومي الكامل على عقارك لتحويله إلى استثمار مربح ومستدام. جودة العقارية تتولى كل شيء عنك، من إيجاد المستأجر المناسب إلى صيانة العقار وتحصيل الإيجار، لتحقق أقصى عائد بأدنى جهد منك.</p>
-      <ul class="int-checks">
-        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>إدارة سكنية وتجارية وإدارية شاملة</li>
-        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>صيانة دورية وتحصيل إيجار منتظم</li>
-        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>معتمدون من منصتَي فال وإيجار</li>
-      </ul>
-      <a href="https://api.whatsapp.com/message/AZBMZ4OGSAJGJ1?autoload=1&amp;app_absent=0" target="_blank" rel="noopener" class="btn btn-p">اكتشف الفرق</a>
+<section class="about sec" id="about">
+  <div class="wrap ab-grid">
+    <figure><img src="assets/v2/cornice.webp" alt="واجهة مبنى أبيض تحت سماء صافية" width="1286" height="1800" loading="lazy"></figure>
+    <div class="ab-copy">
+      <p class="eyebrow" data-en="About Jawdah">عن جودة العقارية</p>
+      <h2 class="h2" data-en="A property management company, nothing else">شركة متخصصة في إدارة الأملاك</h2>
+      <p class="lede" data-en="Jawdah Real Estate manages and operates property in Saudi Arabia: daily supervision of residential, commercial and office buildings.">جودة العقارية متخصصة في إدارة الأملاك العقارية وتشغيلها في المملكة، بإشراف يومي على العقارات السكنية والتجارية والإدارية.</p>
+      <p class="lede" data-en="We balance tenant satisfaction with the owner’s return, through clear systems and current standards.">نوازن بين رضا المستأجر وعائد المالك، بأنظمة واضحة ومعايير حديثة.</p>
+      <dl class="nums">
+        <div><dt>+300</dt><dd data-en="Real estate projects">مشروع عقاري</dd></div>
+        <div><dt>+10,000</dt><dd data-en="Clients">عميل</dd></div>
+        <div><dt>+10</dt><dd data-en="Years of experience">سنوات خبرة</dd></div>
+        <div><dt>3</dt><dd data-en="Saudi cities">مدن سعودية</dd></div>
+      </dl>
     </div>
   </div>
 </section>
 
 <!-- LICENSES -->
-<section id="projects" class="band roshan section-frame">
-  <div class="wrap p-in">
-    <div class="p-head rv">
-      <div>
-        <span class="kicker">اعتمادنا</span>
-        <h2 class="h2">تراخيصنا <span class="g">الرسمية</span></h2>
-      </div>
-      <p class="sp" style="max-width:44ch">معتمدون من هيئة العقار، ونعمل تحت إشراف رسمي كامل يضمن حقوق جميع الأطراف.</p>
-    </div>
-    <div class="pg">
-      <div class="lic-card rv"><div class="lic-top"><div class="lic-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2l3 2h4a1 1 0 011 1v5c0 5.25-3.5 9.74-8 11-4.5-1.26-8-5.75-8-11V5a1 1 0 011-1h4l3-2z"/><polyline points="9 12 11 14 15 10"/></svg></div><div class="lic-badge">فال ✓</div></div><div class="lic-cap">رقم الترخيص</div><div class="lic-num" id="lic1-num">2200001290</div><div class="lic-sub">رخصة فعّالة معتمدة من هيئة العقار الوطنية</div></div>
-      <div class="lic-card rv"><div class="lic-top"><div class="lic-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2l3 2h4a1 1 0 011 1v5c0 5.25-3.5 9.74-8 11-4.5-1.26-8-5.75-8-11V5a1 1 0 011-1h4l3-2z"/><polyline points="9 12 11 14 15 10"/></svg></div><div class="lic-badge">فال ✓</div></div><div class="lic-cap">رقم الترخيص</div><div class="lic-num" id="lic2-num">3200000145</div><div class="lic-sub">رخصة فعّالة معتمدة من هيئة العقار الوطنية</div></div>
-      <div class="lic-card rv"><div class="lic-top"><div class="lic-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2l3 2h4a1 1 0 011 1v5c0 5.25-3.5 9.74-8 11-4.5-1.26-8-5.75-8-11V5a1 1 0 011-1h4l3-2z"/><polyline points="9 12 11 14 15 10"/></svg></div><div class="lic-badge">فال ✓</div></div><div class="lic-cap">رقم الترخيص</div><div class="lic-num" id="lic3-num">1200018434</div><div class="lic-sub">رخصة فعّالة معتمدة من هيئة العقار الوطنية</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- ACHIEVEMENTS -->
-<section id="our-achievements" class="band section-frame">
-  <div class="wrap ach-head">
-    <div class="ach-head-text">
-      <span class="kicker">مشاريعنا</span>
-      <h2 class="h2">إنجازات <span class="g">متميزة</span></h2>
-    </div>
-    <div class="ach-nav">
-      <button id="ach-prev" class="ach-btn" type="button" disabled aria-label="السابق"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="9 18 15 12 9 6"/></svg></button>
-      <button id="ach-next" class="ach-btn" type="button" aria-label="التالي"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"/></svg></button>
-    </div>
-  </div>
-  <div class="ach-wrap">
-    <div id="achievements-grid" class="ach-track"><div class="ach-empty">جارٍ تحميل المشاريع…</div></div>
-  </div>
-  <div id="ach-dots" class="ach-dots"></div>
-</section>
-
-<!-- STATS -->
-<section id="stats" class="band section-frame">
-  <div class="wrap st-in">
-    <div class="st-head rv">
-      <span class="kicker">إنجازاتنا</span>
-      <h2 class="h2">أرقام تعكس <span class="g">ثقتكم بنا</span></h2>
-      <p class="sp">نفتخر بما حققناه من إنجازات تعكس التزامنا بتقديم أفضل الخدمات العقارية في المملكة.</p>
-    </div>
-    <div class="st-grid">
-      <div class="stc rv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 21h18M3 7l9-4 9 4M4 11h16v10H4z"/></svg><div class="stn" data-field="stat1_num">+300</div><div class="stl" data-field="stat1_label">مشروع عقاري منجز</div></div>
-      <div class="stc rv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg><div class="stn" data-field="stat2_num">+10,000</div><div class="stl" data-field="stat2_label">عميل راضٍ وموثوق</div></div>
-      <div class="stc rv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><div class="stn" data-field="stat3_num">10+</div><div class="stl" data-field="stat3_label">سنوات من الخبرة</div></div>
-      <div class="stc rv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg><div class="stn" data-field="stat4_num">26</div><div class="stl" data-field="stat4_label">مدينة سعودية مغطّاة</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- PROCESS (filled from the dashboard) -->
-<section id="process" class="band section-frame">
-  <div class="pr-in" id="process-inner"></div>
-</section>
-
-<!-- CTA -->
-<section id="cta" class="band section-frame">
-  <div class="cta-bg" aria-hidden="true"></div>
-  <div class="cta-ov" aria-hidden="true"></div>
+<section class="sec" id="licenses">
   <div class="wrap">
-    <div class="cta-cnt rv">
-      <div class="cta-lbl">إدارة أملاكك تبدأ هنا</div>
-      <h2 id="cta-h2">سلّم عقارك لجودة العقارية<br><span class="g">واستمتع بعائد بلا عناء</span></h2>
-      <p id="cta-desc">نتولى الإدارة الكاملة لعقارك السكني أو التجاري، تسويقاً وتأجيراً وصيانةً وتحصيلاً، بمعايير احترافية وشفافية تامة.</p>
-      <div class="cta-feats">
-        <div class="cf"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>إدارة يومية كاملة</div>
-        <div class="cf"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>تقارير شهرية شفافة</div>
-        <div class="cf"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>معتمدون رسمياً</div>
+    <header class="lic-head">
+      <p class="eyebrow" data-en="Licensed">مرخّصون</p>
+      <h2 class="h2" data-en="Licensed by the Real Estate General Authority">مرخّصون من الهيئة العامة للعقار</h2>
+      <p class="lede" data-en="Every license number can be checked on the FAL platform.">كل رقم ترخيص هنا يمكن التحقق منه في منصة فال.</p>
+    </header>
+    <ul class="seals" id="seals"></ul>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews sec" id="reviews">
+  <div class="wrap rv-grid">
+    <div class="rv-side">
+      <p class="eyebrow" data-en="Google reviews">تقييمات جوجل</p>
+      <div class="rv-score"><b>5.0</b><span class="stars" aria-label="5/5">★★★★★</span></div>
+      <p data-en="From our clients’ reviews on Google Maps.">من تقييمات عملائنا على خرائط جوجل.</p>
+      <a href="https://share.google/jEG7rk8uwm99rUL3x" target="_blank" rel="noopener" data-en="Read all reviews">اقرأ كل التقييمات</a>
+    </div>
+    <figure class="rv-quote">
+      <blockquote id="rvText" aria-live="polite"></blockquote>
+      <figcaption>
+        <span class="rv-who" id="rvWho" translate="no"></span>
+        <div class="rv-nav">
+          <button type="button" id="rvPrev" aria-label="التقييم السابق"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
+          <span class="rv-count mono" id="rvCount"></span>
+          <button type="button" id="rvNext" aria-label="التقييم التالي"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg></button>
+        </div>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- PARTNERS -->
+<section class="partners" aria-labelledby="ptH">
+  <div class="wrap">
+    <p class="eyebrow" id="ptH" data-en="Partners & clients">شركاؤنا وعملاؤنا</p>
+    <ul class="pt-grid" id="ptGrid"></ul>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact sec" id="contact">
+  <div class="wrap ct-grid">
+    <div class="ct-photo">
+      <img src="assets/v2/key.webp" alt="يد تمسك مفتاحًا في ضوء الشمس" width="1200" height="1800" loading="lazy">
+      <div class="ct-info">
+        <b data-en="Mobile & WhatsApp">الجوال وواتساب</b><span class="mono">+966 53 214 5552</span>
+        <b data-en="Email">البريد</b><span class="mono">info@jawdahksa.com</span>
+        <b data-en="Office">المكتب</b><span data-en="Jeddah — Al Bawadi, Quraish Street">جدة — حي البوادي، شارع قريش</span>
       </div>
-      <div class="btns">
-        <a href="https://api.whatsapp.com/message/AZBMZ4OGSAJGJ1?autoload=1&amp;app_absent=0" target="_blank" rel="noopener" class="btn btn-light" id="cta-btn">ابدأ استثمارك الآن</a>
-      </div>
+    </div>
+    <div class="ct-form">
+      <p class="eyebrow" data-en="Contact">تواصل</p>
+      <h2 class="h2" data-en="Tell us about your property">حدّثنا عن عقارك</h2>
+      <p class="lede" data-en="We reply on WhatsApp with a free assessment and a management proposal.">نرد عليك عبر واتساب بتقييم مجاني وعرض للإدارة.</p>
+      <form class="form" id="form" novalidate>
+        <label for="fName"><span data-en="Name">الاسم</span><input id="fName" name="name" autocomplete="name" required></label>
+        <label for="fPhone"><span data-en="Mobile">الجوال</span><input id="fPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" placeholder="05xxxxxxxx…" required></label>
+        <label for="fType"><span data-en="Property type">نوع العقار</span><select id="fType" name="type"></select></label>
+        <label for="fUnits"><span data-en="Number of units">عدد الوحدات</span><input id="fUnits" name="units" inputmode="numeric" autocomplete="off"></label>
+        <label for="fMsg" class="full"><span data-en="Details (district, current state)">تفاصيل (الحي، الوضع الحالي)</span><textarea id="fMsg" name="msg" rows="3" autocomplete="off"></textarea></label>
+        <p class="form-err" id="formErr" role="alert"></p>
+        <button class="btn" type="submit"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.05 2C6.6 2 2.2 6.4 2.2 11.85c0 1.75.46 3.45 1.33 4.95L2.1 22l5.33-1.4a9.85 9.85 0 004.62 1.17c5.44 0 9.85-4.42 9.85-9.87S17.5 2 12.05 2z"/></svg><span data-en="Send on WhatsApp">أرسل عبر واتساب</span></button>
+      </form>
     </div>
   </div>
 </section>
 
-<!-- TESTIMONIALS (filled from the dashboard) -->
-<section id="testimonials" class="band section-frame">
-  <div id="testimonials-inner"></div>
-</section>
 </main>
 
-<!-- FOOTER -->
-<footer id="contact" class="roshan section-frame">
-  <div class="wrap f-in">
-    <div class="f-top">
-      <div class="f-brand">
-        <img src="dist/image-removebg-preview.png" alt="جودة العقارية" class="f-logo" loading="lazy" decoding="async">
-        <p data-field="footer_desc">شريكك الاستراتيجي في السوق العقاري السعودي. نقدم خدمات تسويق وإدارة عقارية شاملة بمعايير تضمن أعلى قيمة لاستثمارك.</p>
-      </div>
-      <div class="f-col">
-        <h4>خدماتنا</h4>
-        <ul class="fl">
-          <li><a href="#services">تطوير المشاريع العقارية</a></li>
-          <li><a href="#services">إدارة الأملاك</a></li>
-          <li><a href="#services">الحملات التسويقية</a></li>
-          <li><a href="#services">التثمين العقاري</a></li>
-          <li><a href="#services">بيع وشراء العقارات</a></li>
-          <li><a href="#services">تمثيل الشركات</a></li>
-        </ul>
-      </div>
-      <div class="f-col">
-        <h4>تواصل معنا</h4>
-        <div class="fci"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><span><a href="https://www.google.com/maps?q=%D8%AC%D9%88%D8%AF%D8%A9+%D8%A7%D9%84%D9%85%D8%AA%D8%AD%D8%AF%D8%A9+%D8%A7%D9%84%D8%B9%D9%82%D8%A7%D8%B1%D9%8A%D8%A9,+Prince+Sultan+Branch+Rd,+Al+Naeem,+Jeddah+23526" target="_blank" rel="noopener">جدة، حي البوادي، شارع قريش</a></span></div>
-        <div class="fci"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg><span><a href="tel:+966532145552" dir="ltr">+966 532 145 552</a></span></div>
-        <div class="fci"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span><a href="mailto:info@jawdahksa.com">info@jawdahksa.com</a></span></div>
-        <div class="f-lic"><span class="ltag">فال ✓</span><span class="ltag">إيجار ✓</span><span class="ltag">س.ت 4030495338</span></div>
+<footer class="ftr">
+  <div class="wrap ftr-grid">
+    <div>
+      <img class="f-logo" src="assets/v2/logo-w.webp" alt="جودة العقارية" width="624" height="98" loading="lazy">
+      <p data-en="Property management in Jeddah: leasing, collection, maintenance and monthly reporting.">إدارة أملاك في جدة: تأجير وتحصيل وصيانة وتقارير شهرية.</p>
+      <div class="social">
+        <a href="https://x.com/jawda_sa" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.24 2.25h3.31l-7.23 8.26 8.5 11.24H16.17l-4.71-6.23-5.4 6.23H2.74l7.73-8.84L1.25 2.25H8.08l4.26 5.63zm-1.16 17.83h1.83L7.08 4.13H5.12z"/></svg></a>
+        <a href="https://www.instagram.com/jawda_sa/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+        <a href="https://www.tiktok.com/@jawda_sa" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 1 1-2.88-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 1 0 5.54 6.29V8.69a8.18 8.18 0 0 0 4.78 1.52V6.74c-.34 0-.68-.02-1.01-.05z"/></svg></a>
+        <a href="https://www.linkedin.com/in/%D8%AC%D9%88%D8%AF%D8%A9-%D8%A7%D9%84%D8%B9%D9%82%D8%A7%D8%B1%D9%8A%D8%A9-71aa4b272/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56z"/></svg></a>
       </div>
     </div>
-    <div id="social-bar"></div>
-    <div class="f-bot">© <span id="copy-year"></span> جودة العقارية. جميع الحقوق محفوظة.</div>
+    <div><h3 data-en="Services">الخدمات</h3><ul id="fSvc"></ul></div>
+    <div><h3 data-en="Contact">تواصل</h3><ul><li class="mono" dir="ltr" style="text-align:start">+966 53 214 5552</li><li class="mono">info@jawdahksa.com</li><li data-en="Al Bawadi, Jeddah">حي البوادي، جدة</li></ul></div>
+    <div><h3 data-en="Licenses">التراخيص</h3><ul id="fLic"></ul></div>
   </div>
+  <div class="wrap ftr-bot"><span>© <span id="yr"></span> <span data-en="Jawdah Real Estate">جودة العقارية</span></span><span data-en="FAL & Ejar licensed">مرخّصة من فال وإيجار</span></div>
 </footer>
 
-<a href="https://api.whatsapp.com/message/AZBMZ4OGSAJGJ1?autoload=1&amp;app_absent=0" class="wa-float" target="_blank" rel="noopener" aria-label="تواصل عبر واتساب"><svg width="26" height="26" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg></a>
+<a class="wa" id="wa" href="https://api.whatsapp.com/message/AZBMZ4OGSAJGJ1?autoload=1&amp;app_absent=0" target="_blank" rel="noopener" aria-label="واتساب"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.21 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35zM12.05 21.8a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.9-9.88 5.45 0 9.89 4.43 9.89 9.89 0 5.45-4.44 9.88-9.9 9.88z"/></svg></a>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<!-- Project detail modal (opened from achievement cards) -->
-<div id="proj-modal" role="dialog" aria-modal="true" aria-labelledby="proj-modal-title">
-  <div class="pm-box">
-    <button class="pm-close" type="button" aria-label="إغلاق" onclick="closeProjModal()">✕</button>
-    <div id="proj-modal-img"></div>
-    <div class="pm-body">
-      <div id="proj-modal-badge"></div>
-      <h2 id="proj-modal-title"></h2>
-      <div id="proj-modal-meta"></div>
-      <p id="proj-modal-desc"></p>
-    </div>
-  </div>
-</div>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
-(function(){
-  var nav = document.getElementById('nav');
-  var toggle = document.getElementById('navToggle');
-  var links = [].slice.call(document.querySelectorAll('.nav-links a'));
+(() => {
+  const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const store = { get(k) { try { return localStorage.getItem(k); } catch { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch {} } };
+  let lang = store.get('jwd2-lang') === 'en' ? 'en' : 'ar';
+  const T = (ar, en) => lang === 'ar' ? ar : en;
 
-  var onScroll = function(){ nav.classList.toggle('scrolled', window.scrollY > 8); };
-  window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
-  var setMenu = function(open){ nav.classList.toggle('menu-open', open); toggle.setAttribute('aria-expanded', open ? 'true' : 'false'); toggle.setAttribute('aria-label', open ? 'إغلاق القائمة' : 'فتح القائمة'); };
-  toggle.addEventListener('click', function(){ setMenu(!nav.classList.contains('menu-open')); });
-  links.forEach(function(a){ a.addEventListener('click', function(){ setMenu(false); }); });
-  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') { setMenu(false); closeProjModal(); } });
+  const SERVICES = [
+    ['A-01', 'التسويق والتأجير', 'Marketing & leasing', 'حملات موجّهة تستقطب المستأجر المناسب وتقلّص مدة الشغور.', 'Targeted campaigns that find the right tenant and shorten vacancy.'],
+    ['A-02', 'فرز المستأجرين', 'Tenant screening', 'تحقق من الملاءة المالية والسجل قبل توقيع العقد.', 'Financial standing and history checked before any lease.'],
+    ['A-03', 'عقود إيجار موثّقة', 'Leases on Ejar', 'توقيع العقود وتجديدها وتسجيلها في منصة إيجار.', 'Leases signed, renewed and registered on Ejar.'],
+    ['A-04', 'تحصيل الإيجارات', 'Rent collection', 'متابعة كل دفعة في موعدها ومعالجة التعثر.', 'Every payment followed on time, arrears handled.'],
+    ['B-01', 'الصيانة الدورية والطارئة', 'Maintenance', 'سباكة وكهرباء وتكييف، بفريق يستجيب للبلاغ.', 'Plumbing, electrical and HVAC, answered by a team.'],
+    ['B-02', 'إدارة المرافق', 'Facility management', 'تشغيل يومي للمرافق المشتركة يحافظ على جاهزية المبنى.', 'Daily running of shared facilities keeps the building ready.'],
+    ['B-03', 'الميزانيات والتقارير', 'Budgets & reports', 'ميزانية صيانة وكشف حساب شهري واضح للمالك.', 'A maintenance budget and a clear monthly statement.'],
+    ['B-04', 'الامتثال النظامي', 'Compliance', 'التزام بالأنظمة يحمي حقوق المالك والمستأجر.', 'Regulatory compliance that protects owner and tenant.'],
+  ];
+  const STEPS = [
+    ['التسويق للعقار', 'Marketing the property', 'حملات إعلانية تستقطب المستأجرين المناسبين.', 'Ad campaigns that bring the right tenants.'],
+    ['فرز المستأجرين', 'Screening tenants', 'تحقق من الملاءة والسيرة قبل التعاقد.', 'Standing and history checked before signing.'],
+    ['عقود الإيجار', 'Lease contracts', 'توقيع وتجديد وتسجيل في منصة إيجار.', 'Signed, renewed and registered on Ejar.'],
+    ['التحصيل والصيانة', 'Collection & upkeep', 'إيجار في موعده وصيانة دورية وطارئة.', 'Rent on time, planned and emergency upkeep.'],
+    ['التقارير', 'Reporting', 'كشف حساب شهري وميزانية صيانة مفصّلة.', 'A monthly statement and a detailed budget.'],
+  ];
+  const ROWS = [
+    ['101', 'م. ع.', 3500, 'ok'], ['102', 'س. ح.', 3500, 'ok'], ['201', 'ف. ق.', 3800, 'late'],
+    ['202', '—', 3800, 'mkt'], ['301', 'ن. ش.', 4200, 'ok'], ['302', 'ر. م.', 4200, 'ok'],
+  ];
+  const STATUS = { ok: ['مُحصّل', 'Collected'], late: ['متأخر 5 أيام', '5 days late'], mkt: ['قيد التسويق', 'Being marketed'] };
+  const LIC = [
+    ['إدارة الأملاك', 'Property management', '2200001290', 'فال', 'FAL'],
+    ['إدارة المرافق', 'Facility management', '3200000145', 'فال', 'FAL'],
+    ['الوساطة والتسويق', 'Brokerage & marketing', '1200018434', 'فال', 'FAL'],
+    ['وسيط عقاري معتمد', 'Accredited broker', '78929366', 'إيجار', 'Ejar'],
+    ['السجل التجاري', 'Commercial registration', '4030495338', 'وزارة التجارة', 'Ministry of Commerce'],
+  ];
+  const REVIEWS = [
+    ['بصراحة تعامل راقي جدًا وذوق واحترام من أول تواصل، واضح إنهم فاهمين الزبون ويهتمون لاحتياجه.', 'Bayan Alshareef'],
+    ['المكتب جدًا راقي في التعامل وأخلاق وذمة عالية، وحتى بعد ما استأجرت ما زال يساعد.', 'Abdulaziz Hussain'],
+    ['تعامل ممتاز وراقي وتواصل احترافي، الأخ فراس ما قصّر معي أبدًا.', 'Ibrahim Babtin'],
+    ['ما شاء الله تعامل جميل وسرعة في الرد على المكالمات ويجدون طلبك بسرعة وسلاسة.', 'Amani Lamyae'],
+    ['والله تعامل فوق الممتاز وناس راقيين والحمد لله حصلنا طلبنا ونحنا مبسوطين.', 'Mosab Aro'],
+    ['تعاملهم ممتاز وراقي جدًا. شكرًا جودة العقارية وجزيل الشكر للأستاذ فراس.', 'Wafaa Gamrani'],
+  ];
+  const PARTNERS = ['ittihad', 'nahdi', 'dorrah', 'baabdullah', 'alezz', 'w7', 'suico', 'rsoukh', 'bromedia', 'p10', 'p11'];
+  const TYPES = [['عمارة سكنية', 'Residential building'], ['مجمع سكني', 'Residential compound'], ['محلات أو معارض', 'Shops or showrooms'], ['مكاتب', 'Offices'], ['فيلا أو وحدة', 'Villa or single unit']];
+  const fmt = n => new Intl.NumberFormat('en-US').format(n);
+  const seal = `<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="50" cy="50" r="38" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 3"/><path d="M30 60l20-20 20 20" fill="none" stroke="currentColor" stroke-width="5"/><path d="M38 68l12-12 12 12" fill="none" stroke="currentColor" stroke-width="5" opacity=".55"/></svg>`;
 
-  if ('IntersectionObserver' in window) {
-    var map = {};
-    links.forEach(function(a){ var el = document.querySelector(a.getAttribute('href')); if (el) map[el.id] = a; });
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(en){
-        if (en.isIntersecting && map[en.target.id]) { links.forEach(function(l){ l.classList.remove('active'); }); map[en.target.id].classList.add('active'); }
-      });
-    }, {rootMargin:'-45% 0px -50% 0px'});
-    Object.keys(map).forEach(function(id){ io.observe(document.getElementById(id)); });
+  /* ---------- i18n ---------- */
+  $$('[data-en]').forEach(el => { el.dataset.ar = el.innerHTML; });
+  function render() {
+    $('#hooks').innerHTML = SERVICES.map((s, i) => `<li class="hook"><div class="tag" style="--r:${[-3, 2.5, -1.5, 3, 2, -2.5, 3.5, -2][i]}deg" tabindex="0"><span class="code" translate="no">${s[0]}</span><h3>${T(s[1], s[2])}</h3><p>${T(s[3], s[4])}</p></div></li>`).join('');
+    $('#rail').innerHTML = STEPS.map((s, i) => `<li><span class="pr-n">0${i + 1}</span><h3>${T(s[0], s[1])}</h3><p>${T(s[2], s[3])}</p></li>`).join('');
+    $('#stRows').innerHTML = ROWS.map(r => `<tr><td class="mono">${r[0]}</td><td>${r[1]}</td><td class="num">${fmt(r[2])}</td><td><span class="pill ${r[3]}">${T(...STATUS[r[3]])}</span></td></tr>`).join('');
+    const collected = ROWS.filter(r => r[3] === 'ok').reduce((a, r) => a + r[2], 0), maint = 1150, fee = 1540;
+    $('#stSum').innerHTML = [[T('إجمالي المحصّل', 'Collected'), collected], [T('صيانة: تكييف الوحدة 102', 'Maintenance: AC, unit 102'), -maint], [T('رسوم الإدارة', 'Management fee'), -fee]]
+      .map(([k, v]) => `<div><span>${k}</span><b>${v < 0 ? '−' : ''}${fmt(Math.abs(v))}</b></div>`).join('') +
+      `<div class="net"><span>${T('الصافي المحوّل للمالك', 'Net paid to owner')}</span><b>${fmt(collected - maint - fee)} ${T('ر.س', 'SAR')}</b></div>`;
+    $('#seals').innerHTML = LIC.map(l => `<li class="seal">${seal}<h3>${T(l[0], l[1])}</h3><span class="no" translate="no">${l[2]}</span><small>${T(l[3], l[4])}</small></li>`).join('');
+    $('#ptGrid').innerHTML = PARTNERS.map(p => `<li><img src="assets/v2/p/${p}.webp" alt="" width="120" height="54" loading="lazy"></li>`).join('') + `<li class="pt-label">${T('ومُلّاك آخرون', 'and more owners')}</li>`;
+    $('#fSvc').innerHTML = SERVICES.slice(0, 5).map(s => `<li>${T(s[1], s[2])}</li>`).join('');
+    $('#fLic').innerHTML = LIC.slice(0, 3).map(l => `<li>${T(l[0], l[1])} · <span class="mono">${l[2]}</span></li>`).join('');
+    const sel = $('#fType'), cur = sel.selectedIndex;
+    sel.innerHTML = TYPES.map((t, i) => `<option value="${i}">${T(...t)}</option>`).join('');
+    if (cur > 0) sel.selectedIndex = cur;
+    $('#yr').textContent = new Date().getFullYear();
+    showReview(rv);
+  }
+  function applyLang() {
+    document.documentElement.lang = lang; document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    $$('[data-en]').forEach(el => { el.innerHTML = lang === 'ar' ? el.dataset.ar : el.dataset.en; });
+    $('#langBtn').textContent = lang === 'ar' ? 'EN' : 'ع';
+    $('#langBtn').setAttribute('aria-label', lang === 'ar' ? 'English' : 'العربية');
+    render();
   }
 
-  var track = document.getElementById('partners-track');
-  if (track) [].slice.call(track.children).forEach(function(el){ var c = el.cloneNode(true); c.setAttribute('aria-hidden','true'); track.appendChild(c); });
-
-  // a hero image set from the dashboard goes inside the arched frame
-  var hero = document.getElementById('hero'), media = document.getElementById('hero-media');
-  if (hero && media && 'MutationObserver' in window) {
-    new MutationObserver(function(){
-      var bg = hero.style.backgroundImage;
-      if (bg && bg !== 'none') { media.style.backgroundImage = bg; hero.style.backgroundImage = 'none'; }
-    }).observe(hero, {attributes:true, attributeFilter:['style']});
+  /* ---------- reviews ---------- */
+  let rv = 0;
+  function showReview(i) {
+    rv = (i + REVIEWS.length) % REVIEWS.length;
+    $('#rvText').textContent = '«' + REVIEWS[rv][0] + '»';
+    $('#rvWho').textContent = REVIEWS[rv][1] + ' · ★★★★★';
+    $('#rvCount').textContent = `${rv + 1} / ${REVIEWS.length}`;
   }
+  $('#rvNext').addEventListener('click', () => showReview(rv + 1));
+  $('#rvPrev').addEventListener('click', () => showReview(rv - 1));
 
-  // decorative hero loop stops for reduced-motion users
-  var vid = document.querySelector('.hero-video');
-  if (vid && window.matchMedia('(prefers-reduced-motion: reduce)').matches) { vid.removeAttribute('autoplay'); vid.pause(); }
+  /* ---------- menu, language, form ---------- */
+  const burger = $('#burger');
+  const closeMenu = () => { document.body.classList.remove('menu-open'); burger.setAttribute('aria-expanded', 'false'); };
+  burger.addEventListener('click', () => burger.setAttribute('aria-expanded', document.body.classList.toggle('menu-open')));
+  $$('.nav a').forEach(a => a.addEventListener('click', closeMenu));
+  addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+  $('#langBtn').addEventListener('click', () => { lang = lang === 'ar' ? 'en' : 'ar'; store.set('jwd2-lang', lang); applyLang(); if (window.ScrollTrigger) ScrollTrigger.refresh(); });
+  $('#form').addEventListener('submit', e => {
+    e.preventDefault();
+    const v = id => $(id).value.trim();
+    if (!v('#fName') || !v('#fPhone')) { $('#formErr').textContent = T('اكتب اسمك ورقم جوالك لنتواصل معك.', 'Add your name and mobile so we can reply.'); $(v('#fName') ? '#fPhone' : '#fName').focus(); return; }
+    $('#formErr').textContent = '';
+    const msg = [T('*طلب إدارة عقار — من الموقع*', '*Property management request — website*'), `${T('الاسم', 'Name')}: ${v('#fName')}`, `${T('الجوال', 'Mobile')}: ${v('#fPhone')}`,
+      `${T('نوع العقار', 'Type')}: ${$('#fType').selectedOptions[0].text}`, v('#fUnits') && `${T('عدد الوحدات', 'Units')}: ${v('#fUnits')}`, v('#fMsg') && `${T('تفاصيل', 'Details')}: ${v('#fMsg')}`].filter(Boolean).join('\n');
+    const a = document.createElement('a'); a.href = 'https://wa.me/966532145552?text=' + encodeURIComponent(msg); a.target = '_blank'; a.rel = 'noopener'; a.click();
+    const t = $('#toast'); t.textContent = T('نفتح واتساب برسالتك…', 'Opening WhatsApp with your message…'); t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2600);
+  });
+  addEventListener('scroll', () => $('#hdr').classList.toggle('scrolled', scrollY > 8), { passive: true });
 
-  var y = document.getElementById('copy-year'); if (y) y.textContent = new Date().getFullYear();
+  applyLang();
+
+  /* ---------- hero: bands widen until the facade fills the screen ---------- */
+  if (!window.gsap || !window.ScrollTrigger || reduce) { $('#wa').classList.add('show'); return; }
+  gsap.registerPlugin(ScrollTrigger);
+  gsap.from('#frame', { strokeDasharray: 3000, strokeDashoffset: 3000, duration: 1.6, ease: 'power2.inOut' });
+  gsap.from('#tint > *', { opacity: 0, y: 40, duration: .9, stagger: .12, delay: .5, ease: 'power3.out' });
+  gsap.set('#frame', { strokeDasharray: 'none' });
+
+  const toCover = () => {
+    const r = $('#mark').getBoundingClientRect(), st = $('#stage').getBoundingClientRect();
+    const k = r.width / 1000, cx = r.left + 500 * k, cy = r.top + 500 * k;
+    return { x: st.left + st.width / 2 - cx, y: st.top + st.height / 2 - cy, s: Math.max(st.width / (k * 1500), st.height / (k * 1000)) * 1.02 };
+  };
+  let c = toCover();
+  const tl = gsap.timeline({ scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom bottom', scrub: .6, invalidateOnRefresh: true, onRefreshInit: () => { gsap.set('#mark', { clearProps: 'transform' }); c = toCover(); } } });
+  tl.to('#heroCopy', { opacity: 0, y: -40, duration: .25, ease: 'none' }, 0)
+    .to('.scroll-cue', { opacity: 0, duration: .1 }, 0)
+    .to('#tint', { opacity: 0, duration: .35, ease: 'none' }, .05)
+    .to('#frame', { opacity: 0, duration: .25, ease: 'none' }, .1)
+    .to('.band', { attr: { 'stroke-width': 260 }, duration: .4, ease: 'power1.in' }, .1)
+    .to('#fillAll', { attr: { opacity: 1 }, duration: .2, ease: 'none' }, .4)
+    .to('#mark', { x: () => c.x, y: () => c.y, scale: () => c.s, transformOrigin: '50% 50%', duration: .5, ease: 'power2.inOut' }, .15)
+    .to('#shade', { opacity: 1, duration: .2 }, .62)
+    .to('#heroCap', { opacity: 1, y: 0, duration: .2 }, .7)
+    .to({}, { duration: .15 });
+
+  ScrollTrigger.create({ trigger: '#cabinet', start: 'top 80%', end: 'max', onToggle: s => $('#wa').classList.toggle('show', s.isActive) });
+  gsap.from('.tag', { rotate: (i) => [-14, 12, -10, 14, 12, -12, 14, -10][i % 8], duration: 1.6, ease: 'elastic.out(1, .35)', stagger: .06, clearProps: 'transform', scrollTrigger: { trigger: '.board', start: 'top 75%', once: true } });
 })();
-
-function closeProjModal(){ var m = document.getElementById('proj-modal'); if (m) { m.style.display = 'none'; document.body.style.overflow = ''; } }
-document.getElementById('proj-modal').addEventListener('click', function(e){ if (e.target === this) closeProjModal(); });
-var _projMouseX = 0;
-document.addEventListener('mousedown', function(e){ _projMouseX = e.clientX; });
-document.addEventListener('click', function(e){
-  if (Math.abs(e.clientX - _projMouseX) > 8) return;
-  var card = e.target.closest('[data-proj-id]');
-  if (!card || !window._PROJ_DATA) return;
-  var p = window._PROJ_DATA.find(function(x){ return String(x.id) === String(card.dataset.projId); });
-  if (!p) return;
-  var catMap = {residential:'سكني', commercial:'تجاري', administrative:'إداري'};
-  var img = document.getElementById('proj-modal-img');
-  img.innerHTML = '';
-  if (p.image_url) { var im = document.createElement('img'); im.src = p.image_url; im.alt = ''; im.style.cssText = 'width:100%;height:100%;object-fit:cover'; img.appendChild(im); }
-  document.getElementById('proj-modal-badge').textContent = catMap[p.category] || p.category || '';
-  document.getElementById('proj-modal-title').textContent = p.title_ar || p.title || '—';
-  document.getElementById('proj-modal-meta').textContent = [p.year, p.client_name, p.location].filter(Boolean).join(' · ');
-  document.getElementById('proj-modal-desc').textContent = p.description || '';
-  document.getElementById('proj-modal').style.display = 'flex';
-  document.body.style.overflow = 'hidden';
-});
 </script>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
-<script src="website-patch.js" defer></script>
+<script>
+(() => {
+  try { if (sessionStorage.getItem('jwdh_visited')) return; sessionStorage.setItem('jwdh_visited', '1'); } catch { return; }
+  const K = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNoZWN3eGNwZndidmpmdmJ1amF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2Mjc0NDQsImV4cCI6MjA5MzIwMzQ0NH0.52n-Mg8_JxoWdDompJ2c9q2-LkRuc7bX0IB7XblGdgw';
+  fetch('https://checwxcpfwbvjfvbujaw.supabase.co/rest/v1/analytics', { method: 'POST', keepalive: true,
+    headers: { 'Content-Type': 'application/json', apikey: K, Authorization: 'Bearer ' + K, Prefer: 'return=minimal' },
+    body: JSON.stringify([{ page: 'website', event: 'view', referrer: document.referrer || null, user_agent: navigator.userAgent }]) }).catch(() => {});
+})();
+</script>
 </body>
 </html>
