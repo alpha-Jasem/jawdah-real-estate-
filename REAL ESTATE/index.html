@@ -259,6 +259,50 @@ html[lang="en"] .form label { font-family: var(--f-num); }
 .form-err { grid-column: 1 / -1; color: var(--warn); font-size: 15px; }
 .form-err:empty { display: none; }
 .form .btn { grid-column: 1 / -1; }
+/* contact wizard: one question at a time, tap to answer */
+.wiz { border: 1px solid var(--line); border-radius: 22px; background: var(--paper); padding: 22px; display: grid; gap: 18px; min-height: 430px; align-content: start; }
+.wiz-top { display: flex; align-items: center; gap: 12px; }
+.wiz-back { width: 40px; height: 40px; flex: none; border-radius: 50%; border: 1px solid var(--line); background: var(--white); display: grid; place-items: center; cursor: pointer; color: var(--ink); transition: border-color .15s, opacity .2s; }
+.wiz-back:hover { border-color: var(--ink); }
+.wiz-back[hidden] { display: grid; visibility: hidden; }
+.wiz-back svg { width: 18px; height: 18px; }
+html[dir="ltr"] .wiz-back svg { transform: scaleX(-1); }
+.wiz-count { font: 500 13px/1 var(--f-mono); color: var(--ink-3); flex: none; }
+.wiz-bar { flex: 1; height: 4px; border-radius: 4px; background: var(--line); overflow: hidden; }
+.wiz-bar i { display: block; height: 100%; width: var(--w, 20%); background: linear-gradient(90deg, var(--teal), var(--teal-hi)); border-radius: 4px; transition: width .5s cubic-bezier(.22,1,.36,1); }
+.wiz-stage { display: grid; gap: 16px; animation: wzIn .45s cubic-bezier(.22,1,.36,1) both; }
+.wiz-stage.back { animation-name: wzBack; }
+@keyframes wzIn { from { opacity: 0; transform: translateX(-28px); } }
+@keyframes wzBack { from { opacity: 0; transform: translateX(28px); } }
+html[dir="ltr"] .wiz-stage { animation-name: wzBack; } html[dir="ltr"] .wiz-stage.back { animation-name: wzIn; }
+.wiz-q { font: 800 clamp(22px, 2.4vw, 28px)/1.4 var(--f-display); margin: 0; }
+html[lang="en"] .wiz-q { font-family: var(--f-num); font-weight: 600; }
+.wiz-hint { font-size: 15px; color: var(--ink-3); margin-top: -8px; }
+.wiz-opts { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.opt { position: relative; min-height: 64px; display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 14px; border: 1.5px solid var(--line); background: var(--white); color: var(--ink); font: 700 15px/1.4 var(--f-display); text-align: start; cursor: pointer; transition: border-color .15s, background .15s, transform .15s, box-shadow .15s; }
+html[lang="en"] .opt { font-family: var(--f-num); font-weight: 600; }
+.opt:hover { border-color: var(--teal); transform: translateY(-2px); box-shadow: 0 12px 24px -18px rgba(14,52,56,.5); }
+.opt svg { width: 26px; height: 26px; flex: none; color: var(--teal); }
+.opt.big { flex-direction: column; align-items: flex-start; justify-content: space-between; min-height: 104px; }
+.opt span { min-width: 0; overflow-wrap: anywhere; }
+.opt:has(.tick) { padding-inline-end: 40px; }
+.opt[aria-pressed="true"] { border-color: var(--teal); background: rgba(42,138,148,.08); box-shadow: 0 0 0 3px rgba(42,138,148,.15); }
+.opt .tick { position: absolute; top: 10px; inset-inline-end: 10px; width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid var(--line); display: grid; place-items: center; color: transparent; transition: .15s; }
+.opt[aria-pressed="true"] .tick { background: var(--teal); border-color: var(--teal); color: var(--white); }
+.opt .tick svg { width: 13px; height: 13px; color: inherit; }
+.wiz-next { justify-self: start; }
+.wiz-next:disabled { opacity: .45; cursor: not-allowed; }
+.wiz-picks { display: flex; flex-wrap: wrap; gap: 8px; }
+.wiz-picks:empty { display: none; }
+.wiz-picks button { border: 1px dashed #c3cad0; background: transparent; border-radius: 999px; padding: 6px 12px; font: 600 13px/1.3 var(--f-display); color: var(--ink-2); cursor: pointer; }
+.wiz-picks button:hover { border-color: var(--teal); color: var(--teal-ink); }
+.wiz-done { text-align: center; justify-items: center; padding: 20px 0; }
+.wiz-done .ok { width: 72px; height: 72px; border-radius: 50%; background: var(--teal); color: var(--white); display: grid; place-items: center; }
+.wiz-done .ok svg { width: 34px; height: 34px; }
+.wiz-done p { color: var(--ink-2); max-width: 36ch; }
+.wiz-done .row2 { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+@media (max-width: 760px) { .wiz { padding: 16px; border-radius: 18px; min-height: 0; } .wiz-opts { grid-template-columns: 1fr 1fr; } .opt { min-height: 58px; padding: 12px; font-size: 14px; } .opt:has(.tick) { padding-inline-end: 36px; } .opt .tick { top: 50%; margin-top: -11px; } .opt.big { min-height: 92px; } }
+@media (prefers-reduced-motion: reduce) { .wiz-stage { animation: none; } }
 
 /* footer */
 .ftr { background: var(--teal-deep); color: rgba(255,255,255,.78); padding-top: 70px; font-size: 15px; }
@@ -537,16 +581,12 @@ html[lang="en"] .form label { font-family: var(--f-num); }
     <div class="ct-form">
       <p class="eyebrow" data-en="Contact">تواصل</p>
       <h2 class="h2" data-en="Tell us about your property">حدّثنا عن عقارك</h2>
-      <p class="lede" data-en="We reply on WhatsApp with a free assessment and a management proposal.">نرد عليك عبر واتساب بتقييم مجاني وعرض للإدارة.</p>
-      <form class="form" id="form" novalidate>
-        <label for="fName"><span data-en="Name">الاسم</span><input id="fName" name="name" autocomplete="name" required></label>
-        <label for="fPhone"><span data-en="Mobile">الجوال</span><input id="fPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" placeholder="05xxxxxxxx…" required></label>
-        <label for="fType"><span data-en="Property type">نوع العقار</span><select id="fType" name="type"></select></label>
-        <label for="fUnits"><span data-en="Number of units">عدد الوحدات</span><input id="fUnits" name="units" inputmode="numeric" autocomplete="off"></label>
-        <label for="fMsg" class="full"><span data-en="Details (district, current state)">تفاصيل (الحي، الوضع الحالي)</span><textarea id="fMsg" name="msg" rows="3" autocomplete="off"></textarea></label>
-        <p class="form-err" id="formErr" role="alert"></p>
-        <button class="btn" type="submit"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.05 2C6.6 2 2.2 6.4 2.2 11.85c0 1.75.46 3.45 1.33 4.95L2.1 22l5.33-1.4a9.85 9.85 0 004.62 1.17c5.44 0 9.85-4.42 9.85-9.87S17.5 2 12.05 2z"/></svg><span data-en="Send on WhatsApp">أرسل عبر واتساب</span></button>
-      </form>
+      <p class="lede" data-en="Five quick taps and we reply on WhatsApp with a free assessment and a management proposal.">خمس ضغطات سريعة، ونرد عليك عبر واتساب بتقييم مجاني وعرض للإدارة.</p>
+      <div class="wiz" id="wiz">
+        <div class="wiz-top"><button class="wiz-back" id="wzBack" type="button" aria-label="رجوع" data-en-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button><span class="wiz-count" id="wzCount" dir="ltr">1 / 5</span><div class="wiz-bar"><i id="wzBar"></i></div></div>
+        <div class="wiz-stage" id="wzStage" aria-live="polite"></div>
+        <div class="wiz-picks" id="wzPicks"></div>
+      </div>
     </div>
   </div>
 </section>
@@ -657,7 +697,74 @@ html[lang="en"] .form label { font-family: var(--f-num); }
     ['baabdullah.webp', 'باعبدالله العقارية', 'Baabdullah Real Estate'], ['alezz.webp', 'العز المتقدمة', 'Al Ezz'], ['w7.webp', 'النوافذ السبعة', 'Seven Windows'],
     ['suico.webp', 'SUICO', 'SUICO'], ['rsoukh.webp', 'رسوخ', 'Rsoukh'], ['bromedia.webp', 'بروميديا', 'Bromedia'], ['p10.webp', '', ''], ['p11.webp', '', '']
   ];
-  const TYPES = [['عمارة سكنية', 'Residential building'], ['مجمع سكني', 'Residential compound'], ['محلات أو معارض', 'Shops or showrooms'], ['مكاتب', 'Offices'], ['فيلا أو وحدة', 'Villa or single unit']];
+  /* ---------- contact wizard ---------- */
+  const WIC = {
+    bld: '<path d="M4 21V5l8-3 8 3v16M2 21h20M8 8h2M14 8h2M8 12h2M14 12h2M8 16h2M14 16h2"/>',
+    cmp: '<path d="M2 21h20M4 21v-9l5-3 5 3v9M14 21V7l4-3 4 3v14M7 14h4M7 17h4"/>',
+    shp: '<path d="M3 9l1.5-5h15L21 9M3 9v12h18V9M3 9h18M9 21v-6h6v6"/>',
+    ofc: '<rect x="4" y="3" width="16" height="18" rx="1"/><path d="M8 7h2M14 7h2M8 11h2M14 11h2M8 15h2M14 15h2M10 21v-3h4v3"/>',
+    vla: '<path d="M3 11l9-7 9 7M5 9.5V21h14V9.5M10 21v-5h4v5"/>'
+  };
+  const WZ = [
+    { k: 'type', q: ['ما نوع عقارك؟', 'What kind of property?'], big: true, opts: [['bld', 'عمارة سكنية', 'Residential building'], ['cmp', 'مجمع سكني', 'Residential compound'], ['shp', 'محلات أو معارض', 'Shops or showrooms'], ['ofc', 'مكاتب', 'Offices'], ['vla', 'فيلا أو وحدة', 'Villa or single unit']] },
+    { k: 'units', q: ['كم عدد الوحدات تقريبًا؟', 'Roughly how many units?'], opts: [['', 'وحدة واحدة', 'One unit'], ['', 'من 2 إلى 5', '2 to 5'], ['', 'من 6 إلى 15', '6 to 15'], ['', 'من 16 إلى 40', '16 to 40'], ['', 'أكثر من 40', 'More than 40']] },
+    { k: 'need', q: ['ما الذي تريدنا أن نتولاه؟', 'What should we take on?'], hint: ['اختر كل ما يناسبك', 'Pick all that apply'], many: true, opts: [['', 'الإدارة كاملة', 'Full management'], ['', 'التسويق والتأجير', 'Marketing & leasing'], ['', 'تحصيل الإيجارات', 'Rent collection'], ['', 'الصيانة والتشغيل', 'Maintenance & running'], ['', 'تقييم مجاني فقط', 'Just a free assessment']] },
+    { k: 'state', q: ['ما وضع العقار الآن؟', 'Where does it stand now?'], opts: [['', 'مؤجّر بالكامل', 'Fully let'], ['', 'فيه وحدات شاغرة', 'Some units vacant'], ['', 'شاغر بالكامل', 'Fully vacant'], ['', 'جديد أو تحت التسليم', 'New or being handed over']] },
+    { k: 'contact', q: ['آخر خطوة: أين نرد عليك؟', 'Last step: where do we reply?'] }
+  ];
+  let wzStep = 0, wzAns = {}, wzDir = 1;
+  const wzSvg = k => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${WIC[k]}</svg>`;
+  const TICK = '<span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5 9-10"/></svg></span>';
+  const wzLabel = (st, v) => [].concat(v).map(i => T(st.opts[i][1], st.opts[i][2])).join('، ');
+  const wzVal = id => { const el = $(id); return el ? el.value.trim() : ''; };
+  function wzGo(n) { wzDir = n < wzStep ? -1 : 1; wzStep = Math.max(0, Math.min(5, n)); wzRender(true); }
+  function wzRender(anim) {
+    const stage = $('#wzStage'); if (!stage) return;
+    const keep = { n: wzVal('#fName'), p: wzVal('#fPhone'), d: wzVal('#fDist') };
+    if (keep.n || keep.p || keep.d) wzAns._c = keep;
+    const st = WZ[wzStep];
+    $('#wzCount').textContent = wzStep < 5 ? `${wzStep + 1} / 5` : '5 / 5';
+    $('#wzBar').style.setProperty('--w', (wzStep < 5 ? (wzStep + 1) * 20 : 100) + '%');
+    $('#wzBack').hidden = wzStep === 0 || wzStep === 5;
+    if (wzStep === 5) {
+      stage.innerHTML = `<div class="wiz-done wiz-stage"><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5 9-10"/></svg></span><h3 class="wiz-q">${T('وصلنا طلبك', 'We have your request')}</h3><p>${T('فتحنا لك واتساب برسالة جاهزة. اضغط «إرسال» هناك، ونرد عليك بتقييم مجاني في أقرب وقت.', 'WhatsApp is open with your message ready. Tap send there and we will reply with a free assessment shortly.')}</p><div class="row2"><button class="btn" type="button" id="wzAgain">${T('افتح واتساب مرة أخرى', 'Open WhatsApp again')}</button><button class="btn btn-line" type="button" id="wzNew">${T('طلب جديد', 'New request')}</button></div></div>`;
+    } else if (st.k === 'contact') {
+      const c = wzAns._c || {};
+      stage.innerHTML = `<h3 class="wiz-q">${T(...st.q)}</h3><form class="form" id="form" novalidate>
+        <label for="fName"><span>${T('الاسم', 'Name')}</span><input id="fName" name="name" autocomplete="name" required value="${(c.n || '').replace(/"/g, '&quot;')}"></label>
+        <label for="fPhone"><span>${T('الجوال', 'Mobile')}</span><input id="fPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" placeholder="05xxxxxxxx" required value="${(c.p || '').replace(/"/g, '&quot;')}"></label>
+        <label for="fDist" class="full"><span>${T('الحي (اختياري)', 'District (optional)')}</span><input id="fDist" name="district" autocomplete="off" placeholder="${T('مثال: الروضة', 'e.g. Al Rawdah')}" value="${(c.d || '').replace(/"/g, '&quot;')}"></label>
+        <p class="form-err" id="formErr" role="alert"></p>
+        <button class="btn" type="submit"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.05 2C6.6 2 2.2 6.4 2.2 11.85c0 1.75.46 3.45 1.33 4.95L2.1 22l5.33-1.4a9.85 9.85 0 004.62 1.17c5.44 0 9.85-4.42 9.85-9.87S17.5 2 12.05 2z"/></svg><span>${T('أرسل عبر واتساب', 'Send on WhatsApp')}</span></button></form>`;
+    } else {
+      const sel = wzAns[st.k], on = i => st.many ? (sel || []).includes(i) : sel === i;
+      stage.innerHTML = `<h3 class="wiz-q">${T(...st.q)}</h3>${st.hint ? `<p class="wiz-hint">${T(...st.hint)}</p>` : ''}
+        <div class="wiz-opts" role="group">${st.opts.map((o, i) => `<button type="button" class="opt${st.big ? ' big' : ''}" data-i="${i}" aria-pressed="${on(i)}">${o[0] ? wzSvg(o[0]) : ''}<span>${T(o[1], o[2])}</span>${st.many ? TICK : ''}</button>`).join('')}</div>
+        ${st.many ? `<button class="btn wiz-next" type="button" id="wzNext" ${(sel || []).length ? '' : 'disabled'}>${T('التالي', 'Next')}</button>` : ''}`;
+    }
+    if (anim) { stage.classList.remove('wiz-stage', 'back'); void stage.offsetWidth; stage.classList.add('wiz-stage'); stage.classList.toggle('back', wzDir < 0); }
+    $('#wzPicks').innerHTML = wzStep === 5 ? '' : WZ.slice(0, 4).map((w, i) => w.k in wzAns && [].concat(wzAns[w.k]).length && i !== wzStep ? `<button type="button" data-go="${i}">${wzLabel(w, wzAns[w.k])}</button>` : '').join('');
+    if (anim && st && st.k === 'contact' && matchMedia('(hover: hover)').matches) $('#fName').focus();
+  }
+  function wzSend(again) {
+    if (!again) {
+      const n = wzVal('#fName'), d = wzVal('#fDist'); let ph = wzVal('#fPhone').replace(/[^\d]/g, '');
+      if (ph.startsWith('00')) ph = ph.slice(2);
+      if (/^05\d{8}$/.test(ph)) ph = '966' + ph.slice(1); else if (/^5\d{8}$/.test(ph)) ph = '966' + ph;
+      if (!n) { $('#formErr').textContent = T('اكتب اسمك لنعرف كيف نخاطبك.', 'Add your name so we know who to reply to.'); $('#fName').focus(); return; }
+      if (!/^\d{9,15}$/.test(ph)) { $('#formErr').textContent = T('اكتب رقم جوال صحيح، مثل 0532145552.', 'Enter a valid mobile, like 0532145552.'); $('#fPhone').focus(); return; }
+      wzAns._c = { n, p: wzVal('#fPhone'), d }; wzAns._ph = ph;
+    }
+    const c = wzAns._c, lines = WZ.slice(0, 4).filter(w => w.k in wzAns).map(w => `${T(...w.q).replace(/[؟?]$/, '')}: ${wzLabel(w, wzAns[w.k])}`);
+    const msg = [T('*طلب إدارة عقار — من الموقع*', '*Property management request — website*'), `${T('الاسم', 'Name')}: ${c.n}`, `${T('الجوال', 'Mobile')}: ${c.p}`, c.d && `${T('الحي', 'District')}: ${c.d}`, ...lines].filter(Boolean).join('\n');
+    const a = document.createElement('a'); a.href = 'https://wa.me/966532145552?text=' + encodeURIComponent(msg); a.target = '_blank'; a.rel = 'noopener'; a.click();
+    if (!again) {
+      const K = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNoZWN3eGNwZndidmpmdmJ1amF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2Mjc0NDQsImV4cCI6MjA5MzIwMzQ0NH0.52n-Mg8_JxoWdDompJ2c9q2-LkRuc7bX0IB7XblGdgw';
+      fetch('https://checwxcpfwbvjfvbujaw.supabase.co/rest/v1/leads', { method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json', apikey: K, Authorization: 'Bearer ' + K, Prefer: 'return=minimal' },
+        body: JSON.stringify([{ name: c.n, phone: wzAns._ph, source: 'الموقع الرئيسي', stage: 'new', notes: [c.d && 'الحي: ' + c.d, ...WZ.slice(0, 4).filter(w => w.k in wzAns).map(w => w.q[0].replace('؟', '') + ': ' + [].concat(wzAns[w.k]).map(i => w.opts[i][1]).join('، '))].filter(Boolean).join(' · ') }]) }).catch(() => {});
+      wzGo(5);
+    }
+  }
   const fmt = n => new Intl.NumberFormat('en-US').format(n);
   const seal = `<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="50" cy="50" r="38" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 3"/><path d="M30 60l20-20 20 20" fill="none" stroke="currentColor" stroke-width="5"/><path d="M38 68l12-12 12 12" fill="none" stroke="currentColor" stroke-width="5" opacity=".55"/></svg>`;
 
@@ -675,9 +782,7 @@ html[lang="en"] .form label { font-family: var(--f-num); }
     $('#ptGrid').innerHTML = PARTNERS.map(p => `<li><img src="assets/v2/p/${p[0]}" alt="${T(p[1], p[2])}" width="120" height="54" loading="lazy"></li>`).join('') + `<li class="pt-label">${T('ومُلّاك آخرون', 'and more owners')}</li>`;
     $('#fSvc').innerHTML = SERVICES.slice(0, 5).map(s => `<li>${T(s[1], s[2])}</li>`).join('');
     $('#fLic').innerHTML = LIC.slice(0, 3).map(l => `<li>${T(l[0], l[1])} · <span class="mono">${l[2]}</span></li>`).join('');
-    const sel = $('#fType'), cur = sel.selectedIndex;
-    sel.innerHTML = TYPES.map((t, i) => `<option value="${i}">${T(...t)}</option>`).join('');
-    if (cur > 0) sel.selectedIndex = cur;
+    wzRender();
     $('#yr').textContent = new Date().getFullYear();
     showReview(rv);
   }
@@ -707,16 +812,20 @@ html[lang="en"] .form label { font-family: var(--f-num); }
   $$('.nav a').forEach(a => a.addEventListener('click', closeMenu));
   addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
   $('#langBtn').addEventListener('click', () => { lang = lang === 'ar' ? 'en' : 'ar'; store.set('jwd2-lang', lang); applyLang(); if (window.ScrollTrigger) ScrollTrigger.refresh(); });
-  $('#form').addEventListener('submit', e => {
-    e.preventDefault();
-    const v = id => $(id).value.trim();
-    if (!v('#fName') || !v('#fPhone')) { $('#formErr').textContent = T('اكتب اسمك ورقم جوالك لنتواصل معك.', 'Add your name and mobile so we can reply.'); $(v('#fName') ? '#fPhone' : '#fName').focus(); return; }
-    $('#formErr').textContent = '';
-    const msg = [T('*طلب إدارة عقار — من الموقع*', '*Property management request — website*'), `${T('الاسم', 'Name')}: ${v('#fName')}`, `${T('الجوال', 'Mobile')}: ${v('#fPhone')}`,
-      `${T('نوع العقار', 'Type')}: ${$('#fType').selectedOptions[0].text}`, v('#fUnits') && `${T('عدد الوحدات', 'Units')}: ${v('#fUnits')}`, v('#fMsg') && `${T('تفاصيل', 'Details')}: ${v('#fMsg')}`].filter(Boolean).join('\n');
-    const a = document.createElement('a'); a.href = 'https://wa.me/966532145552?text=' + encodeURIComponent(msg); a.target = '_blank'; a.rel = 'noopener'; a.click();
-    const t = $('#toast'); t.textContent = T('نفتح واتساب برسالتك…', 'Opening WhatsApp with your message…'); t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2600);
+  $('#wzBack').addEventListener('click', () => { if (wzStep > 0 && wzStep < 5) wzGo(wzStep - 1); });
+  $('#wzPicks').addEventListener('click', e => { const b = e.target.closest('[data-go]'); if (b) wzGo(+b.dataset.go); });
+  $('#wzStage').addEventListener('click', e => {
+    const o = e.target.closest('.opt'), st = WZ[wzStep];
+    if (o && st) {
+      const i = +o.dataset.i;
+      if (st.many) { const a = wzAns[st.k] || []; wzAns[st.k] = a.includes(i) ? a.filter(x => x !== i) : [...a, i]; wzRender(); return; }
+      wzAns[st.k] = i; wzRender(); setTimeout(() => wzGo(wzStep + 1), reduce ? 0 : 260); return;
+    }
+    if (e.target.closest('#wzNext')) wzGo(wzStep + 1);
+    if (e.target.closest('#wzAgain')) wzSend(true);
+    if (e.target.closest('#wzNew')) { wzAns = {}; wzGo(0); }
   });
+  $('#wzStage').addEventListener('submit', e => { e.preventDefault(); wzSend(); });
   addEventListener('scroll', () => $('#hdr').classList.toggle('scrolled', scrollY > 8), { passive: true });
 
   applyLang();
