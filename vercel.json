@@ -1,1 +1,14 @@
-{}
+{
+  "redirects": [
+    {
+      "source": "/aqarat.html",
+      "destination": "/estate",
+      "permanent": true
+    },
+    {
+      "source": "/aqarat",
+      "destination": "/estate",
+      "permanent": true
+    }
+  ]
+}
