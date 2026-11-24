@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>جودة العقارية — لوحة التحكم</title>
 <link rel="stylesheet" href="../colors_and_type.css">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@600;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
+<meta name="theme-color" content="#0e3438">
 <script src="https://unpkg.com/lucide@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -937,6 +940,130 @@ canvas { max-width: 100%; }
 @media (max-width: 768px) {
   .se-panel { width: 100%; right: 0; }
 }
+
+/* ════════════════════════════════════════════════════════════
+   THEME 2026 — same look as jawdah.com.sa/estate:
+   flat white surfaces, deep-teal sidebar, Kufi headings, Plex UI text.
+   Overrides only; every class name above is unchanged.
+   ════════════════════════════════════════════════════════════ */
+:root {
+  --bg: #f4f7f7; --bg-elevated: #ffffff; --bg-subtle: #eaf0f0; --border: #dde5e6; --border-strong: #c6d2d4;
+  --fg: #0f1c1e; --fg-muted: #56686b; --fg-subtle: #82979a;
+  --accent: #2a8a94; --accent-hover: #1f6d73; --accent-soft: #e3f1f2;
+  --j-deep: #0e3438; --j-deep-2: #174f55; --j-hi: #55c6d0; --j-sand: #b89a5e; --j-sand-soft: #f3ecdd;
+  --font-display: 'Noto Kufi Arabic', 'Segoe UI', Tahoma, sans-serif;
+  --font-arabic: 'IBM Plex Sans Arabic', 'Segoe UI', Tahoma, sans-serif;
+  --font-arabic-display: 'Noto Kufi Arabic', 'Segoe UI', Tahoma, sans-serif;
+}
+.dark {
+  --bg: #0b1416; --bg-elevated: #122023; --bg-subtle: #0f1b1d; --border: #213538; --border-strong: #2d4649;
+  --fg: #e6eeee; --fg-muted: #a3b4b6; --fg-subtle: #7d9295; --accent: #3fa9b3; --accent-hover: #55c6d0; --accent-soft: #12302f;
+  --j-deep: #0a2a2d; --j-sand-soft: #2a2416; color-scheme: dark;
+}
+html, body { background: var(--bg); font-family: var(--font-arabic); -webkit-font-smoothing: antialiased; }
+.main::before { display: none; }
+h1, h2, h3 { font-family: var(--font-display); }
+.page h1 { font-family: var(--font-display) !important; font-weight: 800 !important; font-size: 24px !important; line-height: 1.4; }
+.eyebrow { color: var(--accent); font-weight: 600; letter-spacing: 0; text-transform: none; font-size: 13px; }
+
+/* sidebar */
+.sidebar { background: var(--j-deep); border-left: 0; box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none; color: rgba(255,255,255,.78); }
+.sidebar-header-row { border-bottom: 1px solid rgba(255,255,255,.08); }
+#dashboard-logo-img { height: 30px !important; }
+.brand-card-badge { color: #fff; }
+.nav-label { color: rgba(255,255,255,.42); letter-spacing: 0; text-transform: none; font-size: 11.5px; font-weight: 600; padding: 12px 10px 4px; }
+.nav-item { color: rgba(255,255,255,.76); border-radius: 9px; font-weight: 600; font-size: 14px; padding: 10px 12px; }
+.nav-item:hover:not(.active) { background: rgba(255,255,255,.07); color: #fff; }
+.nav-item.active { background: rgba(85,198,208,.16); color: #fff !important; border-right: 0; box-shadow: none; }
+.nav-item.active svg { color: var(--j-hi); }
+.nav-item .badge { background: var(--j-sand); color: #fff; }
+.nav-item span[style*="border:1.5px"] { border-color: rgba(255,255,255,.4) !important; color: #fff !important; background: transparent !important; }
+.collapse-btn { background: var(--j-deep-2); border-color: rgba(255,255,255,.15); color: #fff; }
+.collapse-btn:hover { background: var(--j-deep); }
+.sidebar-footer { background: transparent; border-top-color: rgba(255,255,255,.08); }
+
+/* top bar */
+.topbar { background: var(--bg-elevated); backdrop-filter: none; -webkit-backdrop-filter: none; border-bottom: 1px solid var(--border); }
+@media (min-width: 1101px) { .topbar > img { display: none; } }
+.search-bar { background: var(--bg); border-radius: 10px; }
+.icon-btn { border-radius: 10px; background: var(--bg-elevated); }
+.admin-card-btn { border-radius: 10px; }
+
+/* surfaces */
+.page { padding: 24px 28px 40px; }
+.panel, .kpi-card { background: var(--bg-elevated) !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; border: 1px solid var(--border) !important; box-shadow: none !important; border-radius: 14px; }
+.panel:hover, .kpi-card:hover { transform: none; border-color: var(--border-strong) !important; box-shadow: none !important; }
+.kpi-label { text-transform: none; letter-spacing: 0; font-size: 13px; font-weight: 500; color: var(--fg-muted); }
+.kpi-value { font-family: var(--font-arabic) !important; font-weight: 700 !important; font-size: 30px !important; letter-spacing: 0; }
+.section-title { font-family: var(--font-display); font-size: 15px; }
+.section-link { color: var(--accent); }
+
+/* controls */
+.btn { border-radius: 10px; font-family: var(--font-arabic); }
+.btn-primary { background: var(--accent); border-color: var(--accent); }
+.btn-primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+.btn-secondary { background: var(--bg-elevated); border-color: var(--border-strong); }
+.btn-secondary:hover { border-color: var(--fg); background: var(--bg-elevated); }
+.form-input, .se-input, .se-textarea { border-radius: 10px; background: var(--bg-elevated); border-color: var(--border); }
+.form-input:focus, .se-input:focus, .se-textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(42,138,148,.18); outline: none; }
+.form-label { font-weight: 600; color: var(--fg-muted); }
+th { text-transform: none; letter-spacing: 0; font-size: 12px; background: var(--bg-subtle); color: var(--fg-muted); }
+tr:hover td { background: color-mix(in srgb, var(--bg-subtle) 55%, transparent); }
+.badge { font-family: var(--font-arabic); }
+.badge-teal { background: var(--accent-soft); color: var(--accent-hover); }
+.badge-sand { background: var(--j-sand-soft); color: #7a6233; }
+.modal, .drawer { border-radius: 18px; }
+.kanban-header, .kanban-body { background: var(--bg-elevated); }
+.kanban-card { border-radius: 10px; }
+.cal-day { border-radius: 10px; }
+
+/* login */
+#login-screen { background: var(--j-deep) !important; animation: none !important; isolation: isolate; }
+#login-screen::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(10,38,41,.35), rgba(10,38,41,.92) 70%), url(../media/hero-poster.webp) center / cover; }
+
+/* ── estate overview (new) ── */
+.est { display: grid; gap: 16px; margin-bottom: 28px; }
+.est-head { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; }
+.est-head h2 { font-size: 17px; }
+.est-head p { font-size: 13px; color: var(--fg-muted); }
+.est-kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.est-kpi { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; display: grid; gap: 4px; }
+.est-kpi span { color: var(--fg-muted); font-size: 13px; }
+.est-kpi b { font: 700 28px/1.1 var(--font-arabic); font-variant-numeric: tabular-nums; }
+.est-kpi small { font-size: 12px; color: var(--fg-subtle); }
+.est-kpi small.up { color: var(--success-500); }
+.est-two { display: grid; grid-template-columns: 1.6fr 1fr; gap: 16px; }
+.est-panel { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 14px; min-width: 0; }
+.est-panel-h { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 13px 16px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+.est-panel-h h3 { font-size: 15px; }
+.est-panel-b { padding: 14px 16px; }
+.est-chart svg { width: 100%; height: auto; max-height: 220px; display: block; }
+.est-chart .bar { fill: var(--accent); }
+.est-chart .bar.today { fill: var(--j-sand); }
+.est-chart .gl { stroke: var(--border); }
+.est-chart text { fill: var(--fg-subtle); font: 500 10px var(--font-mono); }
+.est-attn { list-style: none; margin: 0; padding: 0; }
+.est-attn li { display: grid; grid-template-columns: 8px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13.5px; }
+.est-attn li:last-child { border-bottom: 0; }
+.est-attn i.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--warning-500); }
+.est-attn i.dot.info { background: var(--accent); }
+.est-attn small { color: var(--fg-muted); font-size: 12px; display: block; }
+.est-empty { color: var(--fg-muted); font-size: 13px; padding: 8px 0; }
+.est-p { display: flex; gap: 10px; align-items: center; min-width: 180px; }
+.est-p .th { width: 48px; height: 38px; border-radius: 8px; flex: none; background: linear-gradient(135deg, #3aa9b3, #174f55) center / cover; }
+.est-p b { display: block; font-weight: 600; font-size: 13px; }
+.est-p small { color: var(--fg-muted); font-size: 12px; }
+.est-stage { font: 700 12.5px/1 var(--font-arabic); border-radius: 999px; padding: 7px 10px; border: 1px solid var(--border); background: var(--bg-elevated); cursor: pointer; }
+.est-stage.s-new { background: #fbeadf; color: #b4581f; border-color: transparent; }
+.est-stage.s-viewing, .est-stage.s-qualified { background: #e5edf8; color: #2f5f9e; border-color: transparent; }
+.est-stage.s-offer { background: var(--j-sand-soft); color: #7a6233; border-color: transparent; }
+.est-stage.s-closed { background: #e3f2ea; color: #2f7d5b; border-color: transparent; }
+.est-wa { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 8px; background: #1f9d55; color: #fff !important; font-weight: 700; font-size: 13px; white-space: nowrap; }
+.est-wa:hover { background: #178446; }
+.co-head { display: flex; align-items: center; gap: 10px; margin: 6px 0 14px; }
+.co-head h2 { font-size: 17px; }
+@media (max-width: 1100px) { .est-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } .est-two { grid-template-columns: 1fr; } }
+@media (max-width: 640px) { .page { padding: 16px 14px 32px; } .est-kpi b { font-size: 24px; } .est-hide-sm { display: none; } }
 </style>
 </head>
 <body>
@@ -986,7 +1113,7 @@ canvas { max-width: 100%; }
       <i data-lucide="chevron-left" width="14" height="14"></i>
     </button>
     <div class="sidebar-header-row" style="justify-content:center;padding:14px 16px">
-      <img id="dashboard-logo-img" src="../assets/logo-jawdah-full.png" alt="جودة العقارية" style="height:42px;object-fit:contain;max-width:100%" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <img id="dashboard-logo-img" src="../assets/v2/logo-w.webp" alt="جودة العقارية" style="height:42px;object-fit:contain;max-width:100%" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
       <div class="brand-card-badge" style="display:none">جودة<br>العقارية</div>
     </div>
 
@@ -1106,6 +1233,25 @@ canvas { max-width: 100%; }
         </div>
       </div>
 
+      <!-- Estate site (new) -->
+      <section class="est" aria-labelledby="est-title">
+        <div class="est-head"><div><h2 id="est-title">موقع العقارات</h2><p>ملخص jawdah.com.sa/estate اليوم</p></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap"><a class="btn btn-secondary btn-sm" href="/estate" target="_blank" rel="noopener"><i data-lucide="external-link" width="14" height="14"></i> فتح الموقع</a><button class="btn btn-primary btn-sm" onclick="navTo('properties');setTimeout(()=>openAddProperty(),150)"><i data-lucide="plus" width="14" height="14"></i> أضف عقار</button></div></div>
+        <div class="est-kpis">
+          <div class="est-kpi"><span>عقارات متاحة</span><b id="est-k-av">—</b><small id="est-k-av-s">في الموقع الآن</small></div>
+          <div class="est-kpi"><span>أُجّرت أو بيعت هذا الشهر</span><b id="est-k-closed">—</b><small class="up">من الموقع مباشرة</small></div>
+          <div class="est-kpi"><span>طلبات معاينة جديدة</span><b id="est-k-new">—</b><small id="est-k-new-s">—</small></div>
+          <div class="est-kpi"><span>عملاء مسجّلين</span><b id="est-k-cust">—</b><small>بالاسم والجوال</small></div>
+        </div>
+        <div class="est-two">
+          <div class="est-panel est-chart"><div class="est-panel-h"><h3>طلبات المعاينة · آخر ١٤ يوم</h3><span class="est-empty" id="est-chart-total" style="padding:0"></span></div><div class="est-panel-b" id="est-chart"></div></div>
+          <div class="est-panel"><div class="est-panel-h"><h3>تحتاج انتباهك</h3></div><div class="est-panel-b"><ul class="est-attn" id="est-attn"><li class="est-empty">جارٍ التحميل…</li></ul></div></div>
+        </div>
+        <div class="est-panel"><div class="est-panel-h"><h3>آخر طلبات المعاينة</h3><button class="btn btn-secondary btn-sm" onclick="navTo('leads')">كل العملاء</button></div>
+          <div class="table-wrap"><table><thead><tr><th>العميل</th><th>العقار</th><th class="est-hide-sm">الموعد المناسب</th><th>الحالة</th><th></th></tr></thead><tbody id="est-leads"><tr><td colspan="5" class="est-empty">جارٍ التحميل…</td></tr></tbody></table></div></div>
+      </section>
+
+      <div class="co-head"><h2>موقع الشركة</h2></div>
       <!-- KPI Cards -->
       <div class="kpi-grid">
         <div class="kpi-card" style="background:linear-gradient(135deg,rgba(62,205,196,.25) 0%,rgba(255,255,255,.7) 100%)">
@@ -2562,6 +2708,62 @@ async function doLogout() {
   resetTimer();
 })();
 
+
+// ═══════════════════════════════════════════════════════
+// ESTATE OVERVIEW (jawdah.com.sa/estate) — new theme block on the home page
+// ═══════════════════════════════════════════════════════
+let _estCustCount = null;
+const EST_SRC = l => /عقارات|estate|aqarat/i.test(l.source || '') || /^طلب معاينة/.test(l.notes || '');
+function renderEstateOverview() {
+  const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+  if (!document.getElementById('est-leads')) return;
+  const now = Date.now(), day = 864e5, monthStart = new Date(); monthStart.setDate(1); monthStart.setHours(0, 0, 0, 0);
+  const av = PROPERTIES.filter(p => p.status === 'active');
+  set('est-k-av', av.length);
+  set('est-k-av-s', PROPERTIES.filter(p => p.status === 'inactive').length ? PROPERTIES.filter(p => p.status === 'inactive').length + ' مخفي' : 'في الموقع الآن');
+  set('est-k-closed', PROPERTIES.filter(p => (p.status === 'rented' || p.status === 'sold') && p.changed && new Date(p.changed) >= monthStart).length);
+  const est = LEADS.filter(EST_SRC), fresh = est.filter(l => l.stage === 'new');
+  set('est-k-new', fresh.length);
+  set('est-k-new-s', est.filter(l => l.created_at && now - new Date(l.created_at) < day).length + ' خلال ٢٤ ساعة');
+  if (_estCustCount === null) {
+    _estCustCount = '—';
+    sb.from('customers').select('id', { count: 'exact', head: true }).then(({ count, error }) => { _estCustCount = error ? '—' : (count || 0); set('est-k-cust', _estCustCount); });
+  } else set('est-k-cust', _estCustCount);
+  // chart: requests per day, last 14 days
+  const days = Array.from({ length: 14 }, (_, i) => { const d = new Date(); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() - 13 + i); return d; });
+  const series = days.map(d => est.filter(l => { const t = new Date(l.created_at); return t >= d && t < new Date(d.getTime() + day); }).length);
+  const max = Math.max(4, ...series), W = 560, H = 160, bw = W / 14;
+  const grid = [.5, 1].map(f => `<line class="gl" x1="0" x2="${W}" y1="${H - f * (H - 20)}" y2="${H - f * (H - 20)}"/><text x="${W}" y="${H - f * (H - 20) - 3}" text-anchor="end">${Math.round(f * max)}</text>`).join('');
+  const bars = series.map((v, i) => { const h = Math.max(v ? 3 : 0, (v / max) * (H - 20)); return `<rect class="bar ${i === 13 ? 'today' : ''}" x="${i * bw + 5}" y="${H - h}" width="${bw - 10}" height="${h}" rx="3"><title>${v} طلب</title></rect>${i % 2 === 1 ? `<text x="${i * bw + bw / 2}" y="${H + 14}" text-anchor="middle">${i === 13 ? 'اليوم' : days[i].getDate() + '/' + (days[i].getMonth() + 1)}</text>` : ''}`; }).join('');
+  const chart = document.getElementById('est-chart');
+  if (chart) chart.innerHTML = `<svg viewBox="0 -4 ${W} ${H + 22}" role="img" aria-label="طلبات المعاينة اليومية">${grid}${bars}</svg>`;
+  set('est-chart-total', series.reduce((a, b) => a + b, 0) + ' طلب');
+  // needs attention
+  const stale = av.filter(p => p.created && now - new Date(p.created) > 30 * day).slice(0, 2);
+  const attn = [
+    ...fresh.slice(0, 4).map(l => `<li><i class="dot"></i><span>${escH(l.name)} طلب معاينة<small>${escH(l.property)} · ${escH(l.date)}</small></span><a class="est-wa" target="_blank" rel="noopener" href="${escH(waTo(l.phone, 'مرحباً ' + l.name + '، معك جودة العقارية بخصوص طلب المعاينة: ' + l.property))}">واتساب</a></li>`),
+    ...stale.map(p => `<li><i class="dot info"></i><span>${escH(p.title)}<small>معروض من ${Math.round((now - new Date(p.created)) / day)} يوم بدون تأجير</small></span><button class="btn btn-secondary btn-sm" onclick="navTo('properties')">راجع</button></li>`)
+  ];
+  document.getElementById('est-attn').innerHTML = attn.join('') || '<li class="est-empty">كل شي تمام. ما فيه طلبات جديدة تنتظر.</li>';
+  // latest viewing requests
+  const rows = est.slice(0, 6);
+  document.getElementById('est-leads').innerHTML = rows.length ? rows.map(l => {
+    const when = (l.notes.match(/الموعد المناسب: ([^·]+)|الوقت المناسب: ([^·]+)/) || []).slice(1).find(Boolean) || '—';
+    return `<tr><td><b style="font-weight:600">${escH(l.name)}</b><div style="font-size:12px;color:var(--fg-muted);direction:ltr;text-align:right">${escH(l.phone)}</div></td>
+      <td><div class="est-p"><span class="th" style="${l.img ? `background-image:url(&quot;${escH(l.img)}&quot;)` : ''}"></span><span><b>${escH(l.property)}</b><small>${escH(l.date)}</small></span></div></td>
+      <td class="est-hide-sm">${escH(when.trim())}</td>
+      <td><select class="est-stage s-${escH(l.stage)}" aria-label="حالة الطلب" onchange="estSetStage('${escH(l.id)}', this)">${STAGES.map(s => `<option value="${s.k}" ${s.k === l.stage ? 'selected' : ''}>${escH(s.label)}</option>`).join('')}</select></td>
+      <td><a class="est-wa" target="_blank" rel="noopener" href="${escH(waTo(l.phone, 'مرحباً ' + l.name + '، معك جودة العقارية بخصوص: ' + l.property))}">واتساب</a></td></tr>`;
+  }).join('') : '<tr><td colspan="5" class="est-empty" style="padding:20px 16px">ما وصلت طلبات معاينة من موقع العقارات بعد.</td></tr>';
+}
+async function estSetStage(id, sel) {
+  sel.className = 'est-stage s-' + sel.value;
+  await updateLeadStage(id, sel.value);
+  const l = LEADS.find(x => String(x.id) === String(id)); if (l) l.stage = sel.value;
+  if (typeof rebuildKanbanData === 'function') { rebuildKanbanData(); renderKanban(); }
+  renderEstateOverview(); showToast('تم تحديث حالة الطلب', 'success');
+}
+
 // ═══════════════════════════════════════════════════════
 // NAV
 // ═══════════════════════════════════════════════════════
@@ -2791,6 +2993,7 @@ async function loadProperties() {
     floor: p.floor || '', lic: p.ad_license || '', desc: p.description_ar || '',
     amenities: Array.isArray(p.amenities) ? p.amenities : [],
     status: p.status || 'active', views: p.views_count || 0,
+    changed: p.status_changed_at || p.updated_at || p.created_at, created: p.created_at,
     images: p.images || [],
   }));
   await loadAlerts();
@@ -2798,10 +3001,12 @@ async function loadProperties() {
   updateKPI('kpi-properties', PROPERTIES.filter(p=>p.status==='active').length);
   renderTopProps();
   loadHideAfter();
+  renderEstateOverview();
 }
 
 async function loadLeads() {
-  const { data, error } = await sb.from('leads').select('*, properties(title_ar,title)').order('created_at', { ascending: false });
+  let { data, error } = await sb.from('leads').select('*, properties(title_ar,title,images)').order('created_at', { ascending: false });
+  if (error) ({ data, error } = await sb.from('leads').select('*, properties(title_ar,title)').order('created_at', { ascending: false }));
   if (error) { console.warn('leads load error:', error.message); return; }
   LEADS = (data || []).map(l => ({
     id: l.id, name: l.name || '—', phone: l.phone || '',
@@ -2812,8 +3017,10 @@ async function loadLeads() {
     date: timeAgo(l.created_at),
     created_at: l.created_at,
     notes: l.notes || '',
+    pid: l.property_id || null, img: (l.properties?.images || [])[0] || '',
   }));
   renderLeadsTable();
+  renderEstateOverview();
   rebuildKanbanData();
   updateKPI('kpi-leads', LEADS.length);
   // delta: new leads added this month
