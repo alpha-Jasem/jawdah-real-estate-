@@ -126,3 +126,6 @@ grant execute on function public.touch_customer(uuid) to anon, authenticated;
 -- ربط طلبات المعاينة والتنبيهات بالعميل
 alter table public.leads           add column if not exists customer_id uuid references public.customers(id) on delete set null;
 alter table public.property_alerts add column if not exists customer_id uuid references public.customers(id) on delete set null;
+
+-- 7) رقم ترخيص الإعلان (فال) لكل عقار، يظهر في موقع العقارات /estate
+alter table public.properties add column if not exists ad_license text;

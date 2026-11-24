@@ -1233,7 +1233,7 @@ canvas { max-width: 100%; }
           <div style="font-size:13px;color:var(--fg-muted);margin-top:4px">أي تغيير هنا يظهر في موقع العقارات مباشرة</div>
         </div>
         <div style="display:flex;gap:10px;flex-wrap:wrap">
-          <a class="btn btn-secondary btn-sm" href="../aqarat.html" target="_blank" rel="noopener"><i data-lucide="eye" width="14" height="14"></i> فتح موقع العقارات</a>
+          <a class="btn btn-secondary btn-sm" href="/estate" target="_blank" rel="noopener"><i data-lucide="eye" width="14" height="14"></i> فتح موقع العقارات</a>
           <button class="btn btn-primary" onclick="openAddProperty()"><i data-lucide="plus" width="14" height="14"></i> عقار جديد</button>
         </div>
       </div>
@@ -2252,6 +2252,7 @@ canvas { max-width: 100%; }
     </div>
     <div class="form-row">
       <div class="form-group"><label class="form-label">الدور</label><input class="form-input" id="prop-floor" placeholder="مثال: 2 أو أرضي"></div>
+      <div class="form-group"><label class="form-label">رقم ترخيص الإعلان (فال)</label><input class="form-input" id="prop-lic" placeholder="مثال: 7200012345" dir="ltr"></div>
       <div class="form-group"><label class="form-label">المميزات (افصل بينها بفاصلة)</label><input class="form-input" id="prop-amen" placeholder="مصعد، موقف خاص، مطبخ راكب"></div>
     </div>
     <div class="form-group"><label class="form-label">الوصف</label><textarea class="form-input" id="prop-desc" rows="3" placeholder="تفاصيل العقار، الدفعات، القرب من الخدمات…" style="min-height:80px;padding-top:8px"></textarea></div>
@@ -2787,7 +2788,7 @@ async function loadProperties() {
     area: p.area || 0, beds: p.beds || 0, baths: p.baths || 0,
     district: p.district || '', city: p.city || 'جدة',
     location: `${p.district || ''}، ${p.city || 'جدة'}`,
-    floor: p.floor || '', desc: p.description_ar || '',
+    floor: p.floor || '', lic: p.ad_license || '', desc: p.description_ar || '',
     amenities: Array.isArray(p.amenities) ? p.amenities : [],
     status: p.status || 'active', views: p.views_count || 0,
     images: p.images || [],
@@ -3242,7 +3243,7 @@ function waTo(phone, text) {
   if (n.startsWith('05')) n = '966' + n.slice(1);
   return 'https://wa.me/' + n + '?text=' + encodeURIComponent(text);
 }
-function propLink(p) { return location.origin + location.pathname.replace(/dashboard\/.*$/, '') + 'aqarat.html#p-' + p.id; }
+function propLink(p) { return location.origin + '/estate#p-' + p.id; }
 
 function renderPropsTable() {
   const tbody = document.getElementById('props-tbody');
@@ -3351,7 +3352,7 @@ function fillPropertyForm(p) {
   v('prop-title', p.title || ''); v('prop-type', p.type || 'rent'); v('prop-kind', p.kind || 'apartment');
   v('prop-status', p.status || 'active'); v('prop-price', p.price || ''); v('prop-area', p.area || '');
   v('prop-beds', p.beds || ''); v('prop-baths', p.baths || ''); v('prop-district', p.district || '');
-  v('prop-city', p.city || 'جدة'); v('prop-floor', p.floor || ''); v('prop-desc', p.desc || '');
+  v('prop-city', p.city || 'جدة'); v('prop-floor', p.floor || ''); v('prop-lic', p.lic || ''); v('prop-desc', p.desc || '');
   v('prop-amen', (p.amenities || []).join('، '));
   const filesEl = document.getElementById('prop-files'); if (filesEl) filesEl.value = '';
 }
@@ -3385,6 +3386,7 @@ async function saveProperty() {
   const extra = {
     property_type: val('prop-kind') || 'apartment',
     floor: val('prop-floor') || null,
+    ad_license: val('prop-lic') || null,
     description_ar: val('prop-desc') || null,
   };
   const amenities = val('prop-amen').split(/[،,]/).map(x => x.trim()).filter(Boolean);

@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>عقارات جودة — شقق وفلل للإيجار والبيع في جدة</title>
+<meta name="description" content="عقارات تديرها جودة العقارية في جدة: شقق وفلل وأدوار ومحلات للإيجار والبيع، بالأسعار والصور، ومعاينة نرتّبها لك، ومساعد يرشّح لك الأنسب حسب ميزانيتك.">
+<link rel="canonical" href="https://jawdah.com.sa/estate">
+<meta property="og:title" content="عقارات جودة">
+<meta property="og:description" content="شقق وفلل للإيجار والبيع في جدة، تحت إدارة جودة العقارية.">
+<meta property="og:image" content="https://jawdah.com.sa/media/hero-poster.webp">
+<meta name="theme-color" content="#0e3438">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@600;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --bg: #f4f7f7; --surface: #ffffff; --sunk: #eaf0f0; --line: #dde5e6; --line-2: #c6d2d4;
+  --ink: #0f1c1e; --ink-2: #47585b; --ink-3: #6e7f82;
+  --teal: #2a8a94; --teal-ink: #1f6d73; --teal-hi: #55c6d0; --deep: #0e3438;
+  --sand: #b89a5e; --sand-soft: #f3ecdd; --ok: #2f7d5b; --warn: #b4581f;
+  --shadow: 0 18px 40px -28px rgba(14,52,56,.45);
+  --f-display: 'Noto Kufi Arabic', 'Segoe UI', Tahoma, sans-serif;
+  --f-ui: 'IBM Plex Sans Arabic', 'Segoe UI', Tahoma, sans-serif;
+  --f-mono: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+  --gl: max(16px, env(safe-area-inset-left, 0px)); --gr: max(16px, env(safe-area-inset-right, 0px));
+  color-scheme: light;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 400 15px/1.7 var(--f-ui); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+body.lock { overflow: hidden; }
+h1, h2, h3, h4 { margin: 0; font-family: var(--f-display); line-height: 1.4; text-wrap: balance; }
+p { margin: 0; }
+img { max-width: 100%; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+[hidden] { display: none !important; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.num { font-variant-numeric: tabular-nums; }
+.mono { font-family: var(--f-mono); font-size: .86em; letter-spacing: .02em; }
+svg.i { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.gut { padding-left: var(--gl); padding-right: var(--gr); }
+.wrap { width: min(1180px, 100%); margin-inline: auto; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 16px; border-radius: 10px; border: 1px solid var(--teal); background: var(--teal); color: #fff; font: 700 14px/1 var(--f-ui); text-decoration: none; transition: background .15s; white-space: nowrap; }
+.btn:hover { background: var(--teal-ink); border-color: var(--teal-ink); }
+.btn:disabled { opacity: .6; cursor: wait; }
+.btn.ghost { background: transparent; color: var(--ink); border-color: var(--line-2); }
+.btn.ghost:hover { border-color: var(--ink); }
+.btn.sm { min-height: 36px; padding: 0 12px; font-size: 13px; border-radius: 8px; }
+.btn.wa { background: #1f9d55; border-color: #1f9d55; }
+.btn.wa:hover { background: #178446; }
+.icon-btn { position: relative; width: 44px; height: 44px; display: grid; place-items: center; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+.icon-btn:hover { border-color: var(--line-2); }
+.icon-btn .dot { position: absolute; top: -6px; inset-inline-start: -6px; min-width: 19px; height: 19px; padding: 0 5px; border-radius: 99px; background: var(--sand); color: #fff; font: 700 11px/19px var(--f-ui); }
+
+/* header */
+.hdr { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,.9); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); padding-top: env(safe-area-inset-top, 0px); }
+.hdr .wrap { display: flex; align-items: center; gap: 14px; height: 64px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); min-width: 0; }
+.brand img { height: 26px; width: auto; }
+.brand b { font: 800 13px/1 var(--f-display); padding: 5px 9px; border-radius: 6px; background: var(--deep); color: #fff; }
+.nav { display: none; gap: 4px; margin-inline-start: 8px; }
+.nav button, .nav a { border: 0; background: none; padding: 8px 12px; border-radius: 8px; color: var(--ink-2); font-weight: 600; text-decoration: none; }
+.nav button:hover, .nav a:hover, .nav [aria-pressed="true"] { background: var(--sunk); color: var(--ink); }
+.acts { margin-inline-start: auto; display: flex; gap: 8px; align-items: center; }
+
+/* hero + search */
+.hero { position: relative; isolation: isolate; color: #fff; background: var(--deep); overflow: hidden; }
+.hero::before { content: ""; position: absolute; inset: 0; z-index: -1; background: url(/media/hero-poster.webp) center 60% / cover; opacity: .55; }
+.hero::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(10,38,41,.25), rgba(10,38,41,.92) 70%); }
+.hero .wrap { padding-block: 40px 30px; display: grid; gap: 20px; }
+.kick { font: 600 13px/1 var(--f-ui); color: var(--teal-hi); display: flex; gap: 8px; align-items: center; }
+.hero h1 { font-size: clamp(26px, 5vw, 46px); max-width: 16ch; line-height: 1.35; }
+.hero .lede { color: rgba(255,255,255,.84); max-width: 50ch; font-size: 16px; }
+.search { background: var(--surface); color: var(--ink); border-radius: 16px; padding: 8px; display: grid; gap: 6px; box-shadow: 0 30px 60px -30px rgba(0,0,0,.6); }
+.seg { display: inline-flex; background: var(--sunk); border-radius: 10px; padding: 4px; gap: 4px; justify-self: start; }
+.seg button { border: 0; background: none; padding: 8px 18px; border-radius: 7px; font-weight: 700; color: var(--ink-2); }
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+.fld { display: grid; gap: 2px; padding: 8px 12px; border-radius: 10px; min-width: 0; }
+.fld:hover { background: var(--sunk); }
+.fld span { font: 600 11.5px/1.2 var(--f-ui); color: var(--ink-3); }
+.fld select { border: 0; background: transparent; padding: 2px 0; font-weight: 600; outline: none; min-width: 0; width: 100%; }
+.search > .btn { min-height: 52px; border-radius: 12px; }
+.quick { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+.quick::-webkit-scrollbar { display: none; }
+.quick button { flex: none; border: 1px solid rgba(255,255,255,.28); background: rgba(255,255,255,.08); color: #fff; border-radius: 999px; padding: 6px 12px; font-size: 13px; font-weight: 600; }
+.quick button b { font-weight: 500; opacity: .7; margin-inline-start: 4px; }
+.quick button:hover { background: rgba(255,255,255,.18); }
+
+/* results */
+.results .wrap { padding-block: 24px 40px; display: grid; gap: 16px; }
+.r-head { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; justify-content: space-between; }
+.tabs { display: flex; gap: 6px; }
+.tabs button { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 8px 14px; font-weight: 700; color: var(--ink-2); display: inline-flex; gap: 6px; align-items: center; }
+.tabs button em { font-style: normal; font-weight: 500; color: var(--ink-3); }
+.tabs button[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+.tabs button[aria-pressed="true"] em { color: inherit; opacity: .7; }
+.tools { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.count { color: var(--ink-3); font-size: 14px; }
+.sel { border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 8px 10px; font-weight: 600; font-size: 13.5px; }
+.chips { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
+.chips::-webkit-scrollbar { display: none; }
+.chip { flex: none; display: inline-flex; gap: 6px; align-items: center; border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 13px; font-size: 13.5px; font-weight: 600; color: var(--ink-2); }
+.chip[aria-pressed="true"] { border-color: var(--teal); background: #e3f1f2; color: var(--teal-ink); }
+.chip svg { width: 15px; height: 15px; }
+.grid { display: grid; gap: 16px; grid-template-columns: 1fr; }
+.card { position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; transition: transform .2s, box-shadow .2s, border-color .2s; }
+.card:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: var(--line-2); }
+.card-open { all: unset; cursor: pointer; display: flex; flex-direction: column; flex: 1; }
+.card-open:focus-visible { outline: 2px solid var(--teal); outline-offset: -2px; border-radius: 16px; }
+.ph { position: relative; aspect-ratio: 4 / 3; max-width: 100%; background: var(--sunk); display: grid; place-items: center; }
+.ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.ph .house { width: 90px; opacity: .6; }
+.badge { position: absolute; top: 12px; inset-inline-start: 12px; font: 700 12px/1 var(--f-ui); padding: 6px 10px; border-radius: 999px; background: var(--surface); color: var(--ink); }
+.badge.new { background: var(--sand); color: #fff; }
+.badge.done { background: var(--ink); color: #fff; }
+.deal { position: absolute; bottom: 10px; inset-inline-start: 12px; font: 700 12px/1 var(--f-ui); color: #fff; background: rgba(10,30,32,.72); padding: 6px 9px; border-radius: 6px; }
+.photos { position: absolute; bottom: 10px; inset-inline-end: 12px; font: 600 11.5px/1 var(--f-ui); color: #fff; background: rgba(10,30,32,.6); padding: 5px 8px; border-radius: 6px; }
+.fav { position: absolute; z-index: 2; top: 10px; inset-inline-end: 10px; width: 40px; height: 40px; border-radius: 50%; border: 0; background: rgba(255,255,255,.94); color: #0f1c1e; display: grid; place-items: center; }
+.fav[aria-pressed="true"] { color: #d9435b; }
+.fav[aria-pressed="true"] svg { fill: currentColor; }
+.cb { padding: 14px 16px 6px; display: grid; gap: 6px; flex: 1; align-content: start; }
+.price { font-size: 13px; color: var(--ink-3); }
+.price b { font: 700 20px/1.2 var(--f-ui); color: var(--ink); font-variant-numeric: tabular-nums; }
+.card h3 { font-size: 16px; line-height: 1.5; }
+.loc { display: flex; gap: 5px; align-items: center; color: var(--ink-2); font-size: 13.5px; }
+.loc svg { width: 15px; height: 15px; color: var(--teal); }
+.specs { list-style: none; margin: 4px 0 0; padding: 10px 0 0; border-top: 1px dashed var(--line); display: flex; gap: 14px; color: var(--ink-2); font-size: 13px; flex-wrap: wrap; }
+.specs li { display: flex; align-items: center; gap: 5px; }
+.specs svg { width: 16px; height: 16px; color: var(--ink-3); }
+.cf { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 6px 16px 14px; font-size: 12px; color: var(--ink-3); }
+.cmp { display: inline-flex; gap: 6px; align-items: center; font-weight: 600; color: var(--ink-2); cursor: pointer; font-size: 13px; }
+.cmp input { accent-color: var(--teal); width: 16px; height: 16px; margin: 0; }
+.card.closed img { filter: grayscale(.85) contrast(.9); }
+.card.closed .ph::after { content: attr(data-stamp); position: absolute; inset: 0; display: grid; place-items: center; font: 800 20px/1 var(--f-display); color: #fff; background: rgba(15,28,30,.35); }
+.skel { border-radius: 16px; background: linear-gradient(90deg, var(--sunk), #f6f9f9, var(--sunk)); background-size: 200% 100%; animation: sk 1.2s infinite; aspect-ratio: 4 / 4.4; }
+@keyframes sk { to { background-position: -200% 0; } }
+.empty { grid-column: 1 / -1; padding: 40px 20px; text-align: center; border: 1px dashed var(--line-2); border-radius: 16px; color: var(--ink-2); display: grid; gap: 10px; justify-items: center; }
+.empty .row-b { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.ai-band { border-radius: 20px; background: var(--deep); color: #fff; padding: 22px; display: grid; gap: 14px; position: relative; overflow: hidden; }
+.ai-band::after { content: ""; position: absolute; inset: auto -40px -60px auto; width: 220px; height: 220px; border-radius: 50%; background: radial-gradient(closest-side, rgba(85,198,208,.35), transparent); pointer-events: none; }
+.ai-band p { color: rgba(255,255,255,.8); }
+.ai-band .btns { display: flex; gap: 8px; flex-wrap: wrap; }
+.ai-band .btn { background: #fff; color: var(--deep); border-color: #fff; }
+.ai-band .btn.ghost { background: transparent; color: #fff; border-color: rgba(255,255,255,.4); }
+.ftr { border-top: 1px solid var(--line); padding-block: 22px calc(96px + env(safe-area-inset-bottom, 0px)); color: var(--ink-3); font-size: 13px; }
+.ftr .wrap { display: flex; flex-wrap: wrap; gap: 8px 20px; justify-content: space-between; }
+.ftr a { color: var(--teal-ink); }
+
+/* overlays */
+.scrim { position: fixed; inset: 0; z-index: 30; background: rgba(6,20,22,.45); opacity: 0; pointer-events: none; transition: opacity .25s; }
+.scrim.on { opacity: 1; pointer-events: auto; }
+.sheet { position: fixed; z-index: 31; inset: auto 0 0 0; max-height: 92dvh; background: var(--surface); border-radius: 20px 20px 0 0; display: flex; flex-direction: column; transform: translateY(105%); transition: transform .35s cubic-bezier(.22,1,.36,1); box-shadow: 0 -20px 50px -20px rgba(0,0,0,.4); visibility: hidden; }
+.sheet.on { transform: none; visibility: visible; }
+.sheet-h { display: flex; align-items: center; gap: 8px; padding: 14px 16px; border-bottom: 1px solid var(--line); }
+.sheet-h h2 { font-size: 16px; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sheet-b { overflow-y: auto; padding: 16px 16px calc(20px + env(safe-area-inset-bottom, 0px)); display: grid; gap: 16px; align-content: start; }
+.x { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); display: grid; place-items: center; flex: none; }
+.x[aria-pressed="true"] { color: #d9435b; }
+.x[aria-pressed="true"] svg { fill: currentColor; }
+.gal { display: flex; gap: 6px; overflow-x: auto; scroll-snap-type: x mandatory; border-radius: 14px; scrollbar-width: none; }
+.gal::-webkit-scrollbar { display: none; }
+.gal img { flex: 0 0 100%; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; scroll-snap-align: start; border-radius: 14px; display: block; background: var(--sunk); }
+.gal .ph { flex: 0 0 100%; border-radius: 14px; }
+.gal-n { font-size: 12.5px; color: var(--ink-3); margin-top: -8px; }
+.d-price { display: flex; align-items: baseline; gap: 6px 12px; flex-wrap: wrap; }
+.d-price b { font: 700 26px/1.2 var(--f-ui); font-variant-numeric: tabular-nums; }
+.d-price span { color: var(--ink-3); }
+.note { font-size: 13.5px; color: var(--ink-2); background: var(--sand-soft); padding: 9px 12px; border-radius: 10px; }
+.kv { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.kv div { background: var(--sunk); border-radius: 10px; padding: 10px 12px; display: grid; gap: 2px; }
+.kv span { font-size: 12px; color: var(--ink-3); }
+.kv b { font-weight: 700; font-variant-numeric: tabular-nums; }
+.desc { color: var(--ink-2); white-space: pre-line; }
+.amen { display: flex; flex-wrap: wrap; gap: 6px; }
+.amen span { font-size: 13px; padding: 5px 10px; border-radius: 8px; border: 1px solid var(--line); color: var(--ink-2); }
+.lic { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12.5px; color: var(--ink-3); border-top: 1px solid var(--line); padding-top: 12px; }
+.book { border: 1px solid var(--line); border-radius: 14px; padding: 14px; display: grid; gap: 12px; background: var(--bg); }
+.book h3 { font-size: 15px; }
+.book .chips { flex-wrap: wrap; }
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.inp { width: 100%; border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 10px 12px; min-height: 46px; }
+.inp:focus { outline: none; border-color: var(--teal); box-shadow: 0 0 0 3px rgba(42,138,148,.2); }
+label.f { display: grid; gap: 5px; font-size: 13px; font-weight: 600; color: var(--ink-2); min-width: 0; }
+.err { color: var(--warn); font-size: 13px; }
+.ok { color: var(--ok); font-weight: 600; }
+.err:empty, .ok:empty { display: none; }
+.d-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.done-box { border: 1px solid var(--line); border-radius: 14px; padding: 14px; display: grid; gap: 6px; background: #eef7f2; }
+.done-box h3 { font-size: 15px; color: var(--ok); display: flex; gap: 6px; align-items: center; }
+
+.chat { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+.msgs { flex: 1; overflow-y: auto; padding: 16px; display: grid; gap: 12px; align-content: start; }
+.msg { max-width: 88%; padding: 10px 14px; border-radius: 14px; font-size: 14.5px; }
+.msg.me { justify-self: start; background: var(--teal); color: #fff; border-end-start-radius: 4px; }
+.msg.bot { justify-self: end; background: var(--sunk); border-end-end-radius: 4px; }
+.picks { display: grid; gap: 8px; margin-top: 8px; }
+.pick { display: grid; grid-template-columns: 64px 1fr; gap: 10px; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 6px; text-align: start; }
+.pick .pi { width: 64px; height: 56px; border-radius: 8px; background: var(--sunk) center / cover; }
+.pick b { display: block; font-size: 13.5px; }
+.pick small { color: var(--ink-3); font-size: 12px; line-height: 1.5; display: block; }
+.typing { display: inline-flex; gap: 4px; }
+.typing i { width: 6px; height: 6px; border-radius: 50%; background: var(--ink-3); animation: blink 1s infinite; }
+.typing i:nth-child(2) { animation-delay: .15s; } .typing i:nth-child(3) { animation-delay: .3s; }
+@keyframes blink { 50% { opacity: .25; } }
+.c-sug { display: flex; gap: 6px; padding: 0 16px 10px; overflow-x: auto; scrollbar-width: none; }
+.c-sug::-webkit-scrollbar { display: none; }
+.c-in { display: flex; gap: 8px; padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--line); }
+#aiSheet { height: 86dvh; }
+.ai-fab { position: fixed; z-index: 24; inset-inline-start: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); height: 50px; padding: 0 18px 0 14px; border-radius: 999px; border: 0; background: var(--deep); color: #fff; display: flex; gap: 8px; align-items: center; font-weight: 700; box-shadow: 0 14px 30px -12px rgba(0,0,0,.5); }
+.ai-fab svg { color: var(--teal-hi); }
+.ctray { position: fixed; z-index: 25; inset: auto var(--gr) calc(76px + env(safe-area-inset-bottom, 0px)) var(--gl); background: var(--ink); color: #fff; border-radius: 14px; padding: 10px 12px; display: flex; gap: 10px; align-items: center; transform: translateY(200%); transition: transform .3s cubic-bezier(.22,1,.36,1); }
+.ctray.on { transform: none; }
+.ctray .thumbs { display: flex; gap: 6px; flex: 1; min-width: 0; align-items: center; }
+.ctray .t { width: 40px; height: 40px; border-radius: 8px; background: #2a3a3c center / cover; }
+.ctray .btn { background: #fff; color: var(--ink); border-color: #fff; }
+.ctray .x { background: transparent; color: #fff; border-color: rgba(255,255,255,.35); }
+.tbl-wrap { overflow-x: auto; }
+.ctbl { width: 100%; border-collapse: collapse; font-size: 13.5px; min-width: 420px; }
+.ctbl th, .ctbl td { padding: 10px 8px; border-bottom: 1px solid var(--line); text-align: start; vertical-align: top; }
+.ctbl th { color: var(--ink-3); font-weight: 600; width: 92px; }
+.ctbl .cimg { width: 100%; aspect-ratio: 4/3; border-radius: 8px; background: var(--sunk) center / cover; }
+.ctbl .best { color: var(--ok); font-weight: 700; }
+.toast { position: fixed; z-index: 40; left: 50%; bottom: calc(84px + env(safe-area-inset-bottom, 0px)); transform: translate(-50%, 20px); background: var(--ink); color: #fff; padding: 10px 16px; border-radius: 10px; font-weight: 600; font-size: 14px; opacity: 0; transition: .25s; pointer-events: none; max-width: calc(100% - 32px); text-align: center; }
+.toast.on { opacity: 1; transform: translate(-50%, 0); }
+
+@media (min-width: 640px) {
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .search { grid-template-columns: auto repeat(3, minmax(0, 1fr)) auto; align-items: center; }
+  .seg { margin-inline-end: 4px; }
+  .ai-band { grid-template-columns: 1fr auto; align-items: center; padding: 28px 32px; }
+  .kv { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (min-width: 960px) {
+  .nav { display: flex; }
+  .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .hero .wrap { padding-block: 70px 44px; }
+  .sheet { inset: 0 auto 0 0; width: min(580px, 46vw); max-height: none; border-radius: 0 20px 20px 0; transform: translateX(-105%); padding-top: env(safe-area-inset-top, 0px); }
+  .sheet.side-r { inset: 0 0 0 auto; border-radius: 20px 0 0 20px; transform: translateX(105%); width: min(440px, 40vw); }
+  .sheet.on { transform: none; }
+  #aiSheet { height: auto; }
+  .ai-fab { bottom: 24px; inset-inline-start: 24px; }
+  .ctray { inset: auto auto 24px 50%; width: 560px; transform: translate(-50%, 200%); }
+  .ctray.on { transform: translate(-50%, 0); }
+  .toast { bottom: 28px; }
+}
+@media (max-width: 639px) {
+  .hdr .wrap { height: 58px; gap: 8px; }
+  .brand img { height: 22px; }
+  .acts .btn span { display: none; }
+  .acts .btn { width: 44px; padding: 0; }
+  .search > .btn { width: 100%; }
+  .seg { justify-self: stretch; }
+  .seg button { flex: 1; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; scroll-behavior: auto !important; } }
+</style>
+</head>
+<body>
+
+<header class="hdr gut"><div class="wrap">
+  <a class="brand" href="/estate" data-act="home" aria-label="عقارات جودة"><img src="/assets/v2/logo.webp" alt="جودة العقارية" width="624" height="98"><b>عقارات</b></a>
+  <nav class="nav" aria-label="الأقسام"><button type="button" data-deal="rent">للإيجار</button><button type="button" data-deal="sale">للبيع</button><button type="button" data-act="tab-done">تم تأجيرها</button><a href="/">عن جودة</a></nav>
+  <div class="acts">
+    <button class="icon-btn" type="button" data-act="alert" aria-label="نبّهني بالعقارات الجديدة"><svg class="i" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0112 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.9 1.9 0 003.4 0"/></svg></button>
+    <button class="icon-btn" type="button" data-act="favs" aria-label="المفضلة"><svg class="i" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-9.2-8.6C1.3 8.4 3 5 6.4 5c2 0 3.3 1.1 4 2.3h3.2C14.3 6.1 15.6 5 17.6 5 21 5 22.7 8.4 21.2 11.4 19 15.6 12 20 12 20z"/></svg><span class="dot num" id="favN" hidden></span></button>
+    <button class="btn ghost" type="button" data-act="account"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0116 0"/></svg><span id="uName">دخول</span></button>
+  </div>
+</div></header>
+
+<main>
+<section class="hero gut"><div class="wrap">
+  <span class="kick"><svg class="i" viewBox="0 0 24 24"><path d="M12 3l1.8 4.6L18.5 9l-4.7 1.6L12 15l-1.8-4.4L5.5 9l4.7-1.4z"/></svg> عقارات تديرها جودة في جدة</span>
+  <h1>بيتك القادم في جدة، بعقد موثّق في إيجار</h1>
+  <p class="lede">كل عقار هنا تحت إدارة جودة: صور حقيقية، أسعار واضحة، ومعاينة نرتّبها لك.</p>
+  <form class="search" id="search">
+    <div class="seg" role="group" aria-label="نوع الصفقة"><button type="button" data-deal="rent">إيجار</button><button type="button" data-deal="sale">شراء</button></div>
+    <label class="fld"><span>الحي</span><select id="fDist" data-f="dist"><option value="">كل الأحياء</option></select></label>
+    <label class="fld"><span>نوع العقار</span><select id="fType" data-f="type"></select></label>
+    <label class="fld"><span>الميزانية</span><select id="fMax" data-f="max"></select></label>
+    <button class="btn" type="submit"><svg class="i" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg> ابحث</button>
+  </form>
+  <div class="quick" id="quick" aria-label="أحياء فيها عقارات"></div>
+</div></section>
+
+<section class="results gut" id="results"><div class="wrap">
+  <div class="r-head">
+    <div class="tabs" role="group" aria-label="القسم"><button type="button" data-tab="av">متاحة <em id="nAv"></em></button><button type="button" data-tab="done">تم تأجيرها <em id="nDone"></em></button></div>
+    <div class="tools"><span class="count" id="count" aria-live="polite"></span>
+      <label class="sr" for="fSort">الترتيب</label><select class="sel" id="fSort" data-f="sort"><option value="new">الأحدث</option><option value="low">الأقل سعرًا</option><option value="high">الأعلى سعرًا</option><option value="area">الأكبر مساحة</option></select></div>
+  </div>
+  <div class="chips" id="beds" role="group" aria-label="عدد الغرف"></div>
+  <div class="grid" id="grid" aria-live="polite"><div class="skel"></div><div class="skel"></div><div class="skel"></div></div>
+  <div class="ai-band"><div><h2 style="font-size:20px">مو متأكد وش يناسبك؟</h2><p>اكتب للمساعد اللي في بالك بكلامك، ويرشّح لك ٣ عقارات من المتاح الآن مع سبب كل ترشيح.</p></div>
+    <div class="btns"><button class="btn" type="button" data-act="ai"><svg class="i" viewBox="0 0 24 24"><path d="M12 3l1.8 4.6L18.5 9l-4.7 1.6L12 15l-1.8-4.4L5.5 9l4.7-1.4z"/></svg> اسأل المساعد</button><button class="btn ghost" type="button" data-act="alert">نبّهني بالجديد</button></div></div>
+</div></section>
+</main>
+
+<footer class="ftr gut"><div class="wrap"><span>© <span id="yr"></span> <a href="/">جودة العقارية</a> · مرخّصة من فال وإيجار</span><span>واتساب: <span class="mono" dir="ltr">+966 53 214 5552</span></span></div></footer>
+
+<button class="ai-fab" type="button" data-act="ai"><svg class="i" viewBox="0 0 24 24"><path d="M12 3l1.8 4.6L18.5 9l-4.7 1.6L12 15l-1.8-4.4L5.5 9l4.7-1.4zM18 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></svg> المساعد</button>
+<div class="ctray" id="ctray"><div class="thumbs" id="cthumbs"></div><button class="btn sm" type="button" data-act="cmp-open">قارن</button><button class="x" type="button" data-act="cmp-clear" aria-label="مسح المقارنة"><svg class="i" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+<div class="scrim" id="scrim" data-act="close"></div>
+<aside class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetT"><div class="sheet-h"><h2 id="sheetT"></h2><span id="sheetActs" style="display:contents"></span><button class="x" type="button" data-act="close" aria-label="إغلاق"><svg class="i" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div class="sheet-b" id="sheetB"></div></aside>
+<aside class="sheet side-r" id="aiSheet" role="dialog" aria-modal="true" aria-label="مساعد عقارات جودة">
+  <div class="sheet-h"><span style="color:var(--teal)"><svg class="i" viewBox="0 0 24 24"><path d="M12 3l1.8 4.6L18.5 9l-4.7 1.6L12 15l-1.8-4.4L5.5 9l4.7-1.4z"/></svg></span><h2>مساعد عقارات جودة</h2><button class="x" type="button" data-act="close" aria-label="إغلاق"><svg class="i" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="chat"><div class="msgs" id="msgs" aria-live="polite"></div>
+    <div class="c-sug" id="sug"></div>
+    <form class="c-in" id="cform"><label class="sr" for="cin">اكتب طلبك</label><input class="inp" id="cin" placeholder="مثال: ٣ غرف بالنعيم بحدود ٤٥ ألف" autocomplete="off" maxlength="400" enterkeyhint="send"><button class="btn" aria-label="إرسال"><svg class="i" viewBox="0 0 24 24"><path d="M21 3L3 10.5l7 3 3 7z"/><path d="M10 13.5L21 3"/></svg></button></form></div>
+</aside>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+(() => {
+  'use strict';
+  const SB_URL = 'https://checwxcpfwbvjfvbujaw.supabase.co';
+  const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNoZWN3eGNwZndidmpmdmJ1amF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2Mjc0NDQsImV4cCI6MjA5MzIwMzQ0NH0.52n-Mg8_JxoWdDompJ2c9q2-LkRuc7bX0IB7XblGdgw';
+  const WA = '966532145552';
+  const db = window.supabase ? window.supabase.createClient(SB_URL, SB_KEY) : null;
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const fmt = n => Number(n || 0).toLocaleString('en-US');
+  const store = { get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} } };
+  const toDigits = s => String(s || '').replace(/[٠-٩]/g, c => '٠١٢٣٤٥٦٧٨٩'.indexOf(c));
+  const waLink = t => 'https://wa.me/' + WA + '?text=' + encodeURIComponent(t);
+  const pageUrl = p => location.origin + '/estate#p-' + p.id;
+
+  const P = {
+    heart: '<path d="M12 20s-7-4.4-9.2-8.6C1.3 8.4 3 5 6.4 5c2 0 3.3 1.1 4 2.3h3.2C14.3 6.1 15.6 5 17.6 5 21 5 22.7 8.4 21.2 11.4 19 15.6 12 20 12 20z"/>',
+    bed: '<path d="M3 18V8M3 14h18v4M21 14v-2a3 3 0 00-3-3h-7v5"/><circle cx="7" cy="11" r="1.6"/>',
+    bath: '<path d="M4 12h16v3a4 4 0 01-4 4H8a4 4 0 01-4-4zM6 12V6a2 2 0 014 0M7 19l-1 2M17 19l1 2"/>',
+    area: '<path d="M4 4h6M4 4v6M20 20h-6M20 20v-6M4 4l16 16"/>',
+    floor: '<path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-4h6v4M9 12h6"/>',
+    pin: '<path d="M12 21s7-6.2 7-11.5A7 7 0 005 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
+    share: '<path d="M8 12l8-5M8 12l8 5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/>',
+    cal: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+    wa: '<path d="M3.5 20.5l1.3-4.6A8.5 8.5 0 1112 20.5a8.4 8.4 0 01-4-1z"/><path d="M9 9.5c0 2.8 2.7 5.5 5.5 5.5l1.2-1.3-1.8-.9-.9.8a4.3 4.3 0 01-2.4-2.4l.8-.9-.9-1.8z"/>',
+    check: '<path d="M5 12l5 5 9-10"/>', bell: '<path d="M6 8a6 6 0 0112 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.9 1.9 0 003.4 0"/>'
+  };
+  const I = n => `<svg class="i" viewBox="0 0 24 24" aria-hidden="true">${P[n]}</svg>`;
+  const HOUSE = '<svg class="house" viewBox="0 0 88 56" fill="none" aria-hidden="true"><path d="M4 54 44 4 84 54" stroke="#0F1214" stroke-width="3"/><path d="M26 54 44 32 62 54" stroke="#55A0A6" stroke-width="5"/><path d="M34 54 44 42 54 54" stroke="#55C6D0" stroke-width="5"/></svg>';
+
+  const TYPES = { apartment: 'شقة', villa: 'فيلا', floor: 'دور', annex: 'ملحق', shop: 'محل', office: 'مكتب', land: 'أرض' };
+  const AMEN = { parking: 'موقف', gym: 'نادي رياضي', pool: 'مسبح', security: 'حراسة', garden: 'حديقة', maid_room: 'غرفة خادمة', driver_room: 'غرفة سائق', garage: 'كراج', elevator: 'مصعد', furnished: 'مؤثثة', kitchen: 'مطبخ راكب' };
+  const S = { all: [], hideH: 0, tab: 'av', deal: 'rent', type: 'all', dist: '', max: 0, beds: 0, sort: 'new', favOnly: false, favs: store.get('jwd_favs', []).map(String), cmp: [], book: { day: 1, time: 1 } };
+  let USER = store.get('jwd_user', null);
+  let sheetMode = '', openId = null;
+
+  /* ---------- data ---------- */
+  function inferType(p) {
+    if (p.property_type && TYPES[p.property_type]) return p.property_type;
+    const t = p.title_ar || p.title || '';
+    if (/فيل/.test(t)) return 'villa'; if (/محل|معرض/.test(t)) return 'shop'; if (/مكتب/.test(t)) return 'office';
+    if (/أرض|ارض/.test(t)) return 'land'; if (/ملحق|روف/.test(t)) return 'annex'; if (/دور/.test(t)) return 'floor';
+    return 'apartment';
+  }
+  function norm(p) {
+    const closed = p.status === 'rented' || p.status === 'sold';
+    const changed = new Date(p.status_changed_at || p.updated_at || p.created_at || 0).getTime();
+    const grace = closed && S.hideH > 0 && (Date.now() - changed) < S.hideH * 36e5;
+    const created = new Date(p.created_at || 0).getTime();
+    return {
+      id: String(p.id), title: p.title_ar || p.title || 'عقار', type: inferType(p), deal: p.price_type === 'sale' ? 'sale' : 'rent',
+      price: Number(p.price) || 0, area: Number(p.area) || 0, beds: Number(p.beds) || 0, baths: Number(p.baths) || 0,
+      floor: p.floor || '', district: (p.district || '').trim(), city: p.city || 'جدة', desc: p.description_ar || p.description || '',
+      amen: Array.isArray(p.amenities) ? p.amenities.filter(Boolean) : [], imgs: Array.isArray(p.images) ? p.images.filter(Boolean) : [],
+      status: p.status, closed, inMain: !closed || grace, changed, created, isNew: !closed && Date.now() - created < 7 * 864e5,
+      lic: p.ad_license || p.fal_license || ''
+    };
+  }
+  async function load() {
+    if (!db) return fail();
+    const [pr, st] = await Promise.all([
+      db.from('properties').select('*').in('status', ['active', 'rented', 'sold']).order('created_at', { ascending: false }),
+      db.from('site_settings').select('value').eq('key', 'listing_hide_after_hours').maybeSingle()
+    ]);
+    if (pr.error) return fail();
+    S.hideH = st && st.data ? (parseFloat(st.data.value) || 0) : 0;
+    S.all = (pr.data || []).map(norm);
+    if (!S.all.some(p => p.deal === 'rent' && !p.closed) && S.all.some(p => p.deal === 'sale' && !p.closed)) S.deal = 'sale';
+    render(); route();
+  }
+  function fail() { $('grid').innerHTML = `<div class="empty"><b>تعذّر تحميل العقارات الآن</b><span>جرّب تحديث الصفحة، أو راسلنا على واتساب ونرسل لك المتاح.</span><a class="btn wa" target="_blank" rel="noopener" href="${waLink('مرحباً، أبغى أعرف العقارات المتاحة')}">${I('wa')} راسلنا على واتساب</a></div>`; }
+
+  /* ---------- account ---------- */
+  function normPhone(v) { let d = toDigits(v).replace(/\D/g, ''); if (d.startsWith('00966')) d = d.slice(2); if (/^05\d{8}$/.test(d)) d = '966' + d.slice(1); if (/^5\d{8}$/.test(d)) d = '966' + d; return d; }
+  const validPhone = d => /^9665\d{8}$/.test(d);
+  const showPhone = d => /^9665\d{8}$/.test(d) ? '0' + d.slice(3) : d;
+  async function register(name, phone) {
+    name = String(name || '').trim().slice(0, 80); phone = normPhone(phone);
+    if (name.length < 2) return { error: 'اكتب اسمك.' };
+    if (!validPhone(phone)) return { error: 'اكتب رقم جوال سعودي صحيح، مثل 0501234567.' };
+    let id = USER && USER.phone === phone ? USER.id : null;
+    if (db) { const r = await db.rpc('register_customer', { p_name: name, p_phone: phone }); if (!r.error) id = r.data; }
+    USER = { id, name, phone }; store.set('jwd_user', USER); paintUser();
+    return { user: USER };
+  }
+  function paintUser() { $('uName').textContent = USER ? USER.name.split(' ')[0] : 'دخول'; }
+  async function insertRow(table, row) {
+    const withC = Object.assign({}, row); if (USER && USER.id) withC.customer_id = USER.id;
+    let r = await db.from(table).insert([withC]);
+    if (r.error && /customer_id/.test(r.error.message || '')) r = await db.from(table).insert([row]);
+    return r;
+  }
+
+  /* ---------- listing ---------- */
+  const maxOpts = () => S.deal === 'rent'
+    ? [[0, 'أي ميزانية'], [35000, 'حتى ٣٥ ألف'], [50000, 'حتى ٥٠ ألف'], [70000, 'حتى ٧٠ ألف'], [100000, 'حتى ١٠٠ ألف'], [150000, 'حتى ١٥٠ ألف']]
+    : [[0, 'أي ميزانية'], [800000, 'حتى ٨٠٠ ألف'], [1200000, 'حتى ١٫٢ مليون'], [2000000, 'حتى ٢ مليون'], [3500000, 'حتى ٣٫٥ مليون']];
+  function list() {
+    let l = S.all.filter(p => S.tab === 'done' ? (p.closed && !p.inMain) : p.inMain);
+    if (S.tab === 'av') {
+      l = l.filter(p => p.deal === S.deal);
+      if (S.type !== 'all') l = l.filter(p => p.type === S.type);
+      if (S.dist) l = l.filter(p => p.district === S.dist);
+      if (S.max) l = l.filter(p => p.price <= S.max);
+      if (S.beds) l = l.filter(p => S.beds === 5 ? p.beds >= 5 : p.beds === S.beds);
+      if (S.favOnly) l = l.filter(p => S.favs.includes(p.id));
+    }
+    const by = { new: (a, b) => (a.closed - b.closed) || (b.created - a.created), low: (a, b) => a.price - b.price, high: (a, b) => b.price - a.price, area: (a, b) => b.area - a.area }[S.sort];
+    return l.sort(by);
+  }
+  const unit = p => p.deal === 'rent' ? 'ر.س <small>/ سنويًا</small>' : 'ر.س';
+  const ph = (p, cls = '') => p.imgs[0] ? `<img src="${esc(p.imgs[0])}" alt="${esc(p.title)}" loading="lazy" decoding="async">` : HOUSE;
+  function specs(p) { return `<ul class="specs">${p.beds ? `<li>${I('bed')} ${p.beds} غرف</li>` : ''}${p.baths ? `<li>${I('bath')} ${p.baths}</li>` : ''}${p.area ? `<li>${I('area')} <span class="num">${fmt(p.area)}</span> م²</li>` : ''}${p.floor ? `<li>${I('floor')} ${/^\d+$/.test(p.floor) ? 'الدور ' + esc(p.floor) : esc(p.floor)}</li>` : ''}</ul>`; }
+  function card(p) {
+    const ago = Math.max(1, Math.round((Date.now() - p.changed) / 864e5));
+    if (S.tab === 'done') return `<article class="card closed"><div class="ph" data-stamp="${p.status === 'sold' ? 'تم البيع' : 'تم التأجير'}">${ph(p)}</div><div class="cb"><div class="price"><b>${fmt(p.price)}</b> ${unit(p)}</div><h3>${esc(p.title)}</h3><p class="loc">${I('pin')} ${esc(p.district || p.city)}</p></div><div class="cf"><span>${p.status === 'sold' ? 'بيع' : 'أُجّر'} قبل ${ago === 1 ? 'يوم' : ago + ' أيام'}</span><button class="btn ghost sm" type="button" data-act="alert">نبّهني بمثله</button></div></article>`;
+    const badge = p.closed ? `<span class="badge done">${p.status === 'sold' ? 'تم البيع' : 'تم التأجير'} للتو</span>` : p.isNew ? '<span class="badge new">جديد</span>' : '';
+    const fav = S.favs.includes(p.id);
+    return `<article class="card"><button class="fav" type="button" data-fav="${esc(p.id)}" aria-pressed="${fav}" aria-label="${fav ? 'شيل من المفضلة' : 'أضف للمفضلة'}">${I('heart')}</button>
+      <button class="card-open" type="button" data-open="${esc(p.id)}" aria-label="${esc(p.title + '، ' + p.district)}"><div class="ph">${ph(p)}${badge}<span class="deal">${TYPES[p.type]} ${p.deal === 'rent' ? 'للإيجار' : 'للبيع'}</span>${p.imgs.length > 1 ? `<span class="photos">${p.imgs.length} صور</span>` : ''}</div>
+      <div class="cb"><div class="price"><b>${fmt(p.price)}</b> ${unit(p)}</div><h3>${esc(p.title)}</h3><p class="loc">${I('pin')} ${esc(p.district ? p.district + '، ' + p.city : p.city)}</p>${specs(p)}</div></button>
+      <div class="cf">${p.closed ? '<span></span>' : `<label class="cmp"><input type="checkbox" data-cmp="${esc(p.id)}" ${S.cmp.includes(p.id) ? 'checked' : ''}> قارن</label>`}${p.lic ? `<span class="mono">ترخيص ${esc(p.lic)}</span>` : ''}</div></article>`;
+  }
+  function render() {
+    document.querySelectorAll('[data-deal]').forEach(b => b.setAttribute('aria-pressed', S.tab === 'av' && b.dataset.deal === S.deal));
+    document.querySelectorAll('[data-tab]').forEach(b => b.setAttribute('aria-pressed', b.dataset.tab === S.tab));
+    document.querySelector('[data-act="tab-done"]').setAttribute('aria-pressed', S.tab === 'done');
+    const live = S.all.filter(p => p.inMain && !p.closed);
+    const dists = {}; live.filter(p => p.deal === S.deal).forEach(p => { if (p.district) dists[p.district] = (dists[p.district] || 0) + 1; });
+    const allD = [...new Set(S.all.map(p => p.district).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'ar'));
+    $('fDist').innerHTML = '<option value="">كل الأحياء</option>' + allD.map(d => `<option ${S.dist === d ? 'selected' : ''}>${esc(d)}</option>`).join('');
+    const types = [...new Set(live.map(p => p.type))];
+    $('fType').innerHTML = '<option value="all">الكل</option>' + Object.keys(TYPES).filter(k => types.includes(k)).map(k => `<option value="${k}" ${S.type === k ? 'selected' : ''}>${TYPES[k]}</option>`).join('');
+    $('fMax').innerHTML = maxOpts().map(([v, l]) => `<option value="${v}" ${S.max === v ? 'selected' : ''}>${l}</option>`).join('');
+    $('fSort').value = S.sort;
+    $('quick').innerHTML = Object.entries(dists).sort((a, b) => b[1] - a[1]).slice(0, 8).map(([d, n]) => `<button type="button" data-qd="${esc(d)}">${esc(d)}<b>${n}</b></button>`).join('');
+    $('nAv').textContent = S.all.filter(p => p.inMain).length;
+    $('nDone').textContent = S.all.filter(p => p.closed && !p.inMain).length;
+    $('beds').hidden = S.tab === 'done';
+    $('beds').innerHTML = (S.favOnly ? `<button class="chip" type="button" aria-pressed="true" data-act="favs">${I('heart')} المفضلة فقط · إلغاء</button>` : '') + [[0, 'كل الغرف'], [1, 'غرفة'], [2, 'غرفتين'], [3, '٣ غرف'], [4, '٤ غرف'], [5, '٥ وأكثر']].map(([v, l]) => `<button class="chip" type="button" data-beds="${v}" aria-pressed="${S.beds === v}">${l}</button>`).join('');
+    const l = list();
+    $('count').textContent = `${l.length} ${S.tab === 'done' ? 'عقار مؤجّر أو مُباع' : 'عقار'}`;
+    $('grid').innerHTML = l.length ? l.map(card).join('') : `<div class="empty"><b>${S.tab === 'done' ? 'ما فيه عقارات مؤجّرة بعد' : S.favOnly ? 'المفضلة فاضية' : 'ما فيه عقار يطابق اختياراتك الحين'}</b><span>${S.favOnly ? 'اضغط على القلب في أي عقار عشان تحفظه هنا.' : 'وسّع الميزانية أو اختر حي ثاني، أو سجّل طلبك وننبّهك أول ما ينزل عقار يناسبك.'}</span><div class="row-b"><button class="btn ghost sm" type="button" data-act="reset">امسح الفلاتر</button><button class="btn sm" type="button" data-act="alert">${I('bell')} نبّهني</button></div></div>`;
+    $('favN').hidden = !S.favs.length; $('favN').textContent = S.favs.length;
+    $('ctray').classList.toggle('on', S.cmp.length > 0 && !sheetMode);
+    $('cthumbs').innerHTML = S.cmp.map(id => { const p = byId(id); return `<span class="t" style="${p && p.imgs[0] ? `background-image:url(&quot;${esc(p.imgs[0])}&quot;)` : ''}"></span>`; }).join('') + `<span style="font-size:13px;font-weight:600">${S.cmp.length} من ٣</span>`;
+  }
+  const byId = id => S.all.find(p => p.id === String(id));
+
+  /* ---------- sheets ---------- */
+  let lastFocus = null;
+  function openSheet(mode, title, body, acts = '') {
+    lastFocus = document.activeElement; sheetMode = mode;
+    $('sheetT').textContent = title; $('sheetB').innerHTML = body; $('sheetActs').innerHTML = acts;
+    $('sheet').classList.add('on'); $('aiSheet').classList.remove('on'); $('scrim').classList.add('on'); document.body.classList.add('lock');
+    $('sheetB').scrollTop = 0; render();
+    setTimeout(() => { const c = $('sheet').querySelector('[data-act="close"]'); if (c) c.focus({ preventScroll: true }); }, 60);
+  }
+  function openAi() {
+    lastFocus = document.activeElement; sheetMode = 'ai';
+    $('aiSheet').classList.add('on'); $('sheet').classList.remove('on'); $('scrim').classList.add('on'); document.body.classList.add('lock'); render();
+    if (!msgs.length) { msgs.push({ who: 'bot', html: 'أهلًا! قل لي وش تدوّر عليه (نوع العقار، الحي، عدد الغرف، والميزانية) وأرشّح لك ٣ عقارات من المتاح الآن.' }); paintMsgs(); }
+    setTimeout(() => $('cin').focus({ preventScroll: true }), 320);
+  }
+  function close() {
+    sheetMode = ''; openId = null;
+    $('sheet').classList.remove('on'); $('aiSheet').classList.remove('on'); $('scrim').classList.remove('on'); document.body.classList.remove('lock');
+    if (/^#p-/.test(location.hash)) history.replaceState(null, '', location.pathname + location.search);
+    render(); if (lastFocus && document.contains(lastFocus)) lastFocus.focus({ preventScroll: true });
+  }
+
+  function detail(id) {
+    const p = byId(id); if (!p) return;
+    openId = p.id;
+    if (location.hash !== '#p-' + p.id) history.replaceState(null, '', '#p-' + p.id);
+    const gal = p.imgs.length ? p.imgs.map((u, i) => `<img src="${esc(u)}" alt="${esc(p.title)} — صورة ${i + 1}" loading="${i ? 'lazy' : 'eager'}">`).join('') : `<div class="ph">${HOUSE}</div>`;
+    const fav = S.favs.includes(p.id);
+    const acts = `<button class="x" type="button" data-share="${esc(p.id)}" aria-label="مشاركة">${I('share')}</button><button class="x" type="button" data-fav="${esc(p.id)}" aria-pressed="${fav}" aria-label="المفضلة">${I('heart')}</button>`;
+    const sent = store.get('jwd_sent', {})[p.id];
+    const days = ['اليوم', 'بكرة', 'بعد بكرة', 'نهاية الأسبوع'], times = ['صباحًا', 'عصرًا', 'مساءً'];
+    const bookHtml = p.closed ? `<div class="note">هذا العقار ${p.status === 'sold' ? 'تم بيعه' : 'تم تأجيره'}. سجّل طلبك وننبّهك أول ما ينزل عقار مشابه.</div><button class="btn" type="button" data-act="alert">${I('bell')} نبّهني بعقار مشابه</button>`
+      : sent ? `<div class="done-box"><h3>${I('check')} وصل طلب المعاينة</h3><p style="color:var(--ink-2)">الموعد اللي اخترته: ${esc(sent)}. بيتواصل معك فريق جودة لتأكيد الوقت.</p></div><a class="btn wa" target="_blank" rel="noopener" href="${waLink('مرحباً، بخصوص طلب معاينة: ' + p.title + '\n' + pageUrl(p))}">${I('wa')} تابع معنا على واتساب</a>`
+      : `<form class="book" id="book" data-id="${esc(p.id)}"><h3>اطلب معاينة</h3>
+          <div class="chips" role="group" aria-label="اليوم">${days.map((d, i) => `<button type="button" class="chip" data-day="${i}" aria-pressed="${S.book.day === i}">${d}</button>`).join('')}</div>
+          <div class="chips" role="group" aria-label="الوقت">${times.map((t, i) => `<button type="button" class="chip" data-time="${i}" aria-pressed="${S.book.time === i}">${t}</button>`).join('')}</div>
+          <div class="pair"><label class="sr" for="bName">الاسم</label><input class="inp" id="bName" placeholder="الاسم" autocomplete="name" maxlength="80" value="${esc(USER ? USER.name : '')}"><label class="sr" for="bPhone">الجوال</label><input class="inp" id="bPhone" placeholder="05xxxxxxxx" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" maxlength="15" value="${esc(USER ? showPhone(USER.phone) : '')}"></div>
+          <p class="err" id="bErr" role="alert"></p>
+          <div class="d-actions"><button class="btn" type="submit">${I('cal')} أرسل الطلب</button><a class="btn wa" target="_blank" rel="noopener" href="${waLink('مرحباً، أبغى أستفسر عن: ' + p.title + (p.district ? ' – حي ' + p.district : '') + '\n' + pageUrl(p))}">${I('wa')} واتساب</a></div></form>`;
+    const body = `<div><div class="gal" tabindex="0" aria-label="صور العقار">${gal}</div></div>${p.imgs.length > 1 ? `<p class="gal-n">اسحب لتشوف ${p.imgs.length} صور</p>` : ''}
+      <div class="d-price"><b>${fmt(p.price)}</b><span>${p.deal === 'rent' ? 'ر.س / سنويًا' : 'ر.س'}</span><span class="loc">${I('pin')} ${esc(p.district ? 'حي ' + p.district + '، ' + p.city : p.city)}</span></div>
+      ${p.deal === 'rent' && !p.closed ? '<div class="note">العقد يُسجَّل في منصة إيجار، وطريقة الدفع (دفعة أو دفعات) نتفق عليها معك.</div>' : ''}
+      <div class="kv"><div><span>الغرف</span><b>${p.beds || '—'}</b></div><div><span>دورات المياه</span><b>${p.baths || '—'}</b></div><div><span>المساحة</span><b>${p.area ? fmt(p.area) + ' م²' : '—'}</b></div><div><span>الدور</span><b>${esc(p.floor || '—')}</b></div></div>
+      ${p.desc ? `<p class="desc">${esc(p.desc)}</p>` : ''}
+      ${p.amen.length ? `<div class="amen">${p.amen.map(a => `<span>${esc(AMEN[a] || a)}</span>`).join('')}</div>` : ''}
+      ${bookHtml}
+      <div class="lic">${p.lic ? `<span>رقم ترخيص الإعلان: <b class="mono">${esc(p.lic)}</b></span>` : ''}<span>${TYPES[p.type]} ${p.deal === 'rent' ? 'للإيجار' : 'للبيع'}</span><span>أُضيف ${new Date(p.created).toLocaleDateString('ar-SA', { day: 'numeric', month: 'long' })}</span></div>`;
+    openSheet('detail', p.title, body, acts);
+  }
+  async function sendBook(f) {
+    const p = byId(f.dataset.id), btn = f.querySelector('[type=submit]'), err = $('bErr');
+    const when = ['اليوم', 'بكرة', 'بعد بكرة', 'نهاية الأسبوع'][S.book.day] + ' · ' + ['صباحًا', 'عصرًا', 'مساءً'][S.book.time];
+    btn.disabled = true;
+    const acc = await register($('bName').value, $('bPhone').value);
+    if (acc.error) { btn.disabled = false; err.textContent = acc.error; return; }
+    const r = db ? await insertRow('leads', { name: acc.user.name, phone: acc.user.phone, property_id: p.id, source: 'موقع العقارات', stage: 'new', notes: 'طلب معاينة: ' + p.title + ' · الموعد المناسب: ' + when }) : { error: true };
+    btn.disabled = false;
+    if (r.error) { err.innerHTML = `ما قدرنا نحفظ الطلب الآن. <a target="_blank" rel="noopener" href="${waLink('أبغى أحجز معاينة: ' + p.title + ' – ' + acc.user.name + ' – ' + when + '\n' + pageUrl(p))}">أرسله عبر واتساب</a>`; return; }
+    const sent = store.get('jwd_sent', {}); sent[p.id] = when; store.set('jwd_sent', sent);
+    toast('وصل طلبك، وبيتواصل معك فريق جودة'); detail(p.id);
+  }
+
+  function account() {
+    if (!USER) return openSheet('login', 'سجّل دخولك', `<p style="color:var(--ink-2)">بالاسم والجوال بس. نحفظ لك المفضلة وطلبات المعاينة، ويتواصل معك فريقنا بسرعة.</p>
+      <form id="login" style="display:grid;gap:12px"><label class="f" for="lName">الاسم<input class="inp" id="lName" autocomplete="name" maxlength="80" required></label><label class="f" for="lPhone">رقم الجوال<input class="inp" id="lPhone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" placeholder="05xxxxxxxx" maxlength="15" required></label><p class="err" id="lErr" role="alert"></p><button class="btn" type="submit">دخول</button><p style="font-size:12px;color:var(--ink-3)">نستخدم رقمك للتواصل معك بخصوص العقارات فقط.</p></form>`);
+    openSheet('account', 'حسابي', `<div class="kv" style="grid-template-columns:1fr 1fr"><div><span>الاسم</span><b>${esc(USER.name)}</b></div><div><span>الجوال</span><b class="mono" dir="ltr" style="text-align:right">${esc(showPhone(USER.phone))}</b></div></div>
+      <button class="btn ghost" type="button" data-act="favs">${I('heart')} المفضلة (${S.favs.length})</button><button class="btn ghost" type="button" data-act="alert">${I('bell')} نبّهني بعقار جديد</button><button class="btn ghost" type="button" data-act="logout" style="color:var(--warn)">تسجيل الخروج</button>`);
+  }
+  function alertForm() {
+    const dists = [...new Set(S.all.map(p => p.district).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'ar'));
+    openSheet('alert', 'نبّهني بالعقارات الجديدة', `<p style="color:var(--ink-2)">سجّل اللي تدوّر عليه، وأول ما ينزل عقار يناسبك يتواصل معك فريقنا على واتساب.</p>
+      <form id="alertF" style="display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))">
+        <label class="f" for="aName">الاسم<input class="inp" id="aName" autocomplete="name" maxlength="80" value="${esc(USER ? USER.name : '')}"></label>
+        <label class="f" for="aPhone">رقم الجوال<input class="inp" id="aPhone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" placeholder="05xxxxxxxx" maxlength="15" value="${esc(USER ? showPhone(USER.phone) : '')}"></label>
+        <label class="f" for="aType">نوع العقار<select class="inp" id="aType"><option value="">أي نوع</option>${Object.entries(TYPES).map(([k, v]) => `<option value="${k}" ${S.type === k ? 'selected' : ''}>${v}</option>`).join('')}</select></label>
+        <label class="f" for="aDist">الحي<input class="inp" id="aDist" list="aDists" maxlength="60" placeholder="مثال: الروضة" value="${esc(S.dist)}"><datalist id="aDists">${dists.map(d => `<option value="${esc(d)}">`).join('')}</datalist></label>
+        <label class="f" for="aBudget">أقصى ميزانية (ر.س)<input class="inp" id="aBudget" type="number" inputmode="numeric" min="0" dir="ltr" placeholder="45000" value="${S.max || ''}"></label>
+        <label class="f" for="aBeds">أقل عدد غرف<select class="inp" id="aBeds"><option value="">أي عدد</option>${[1, 2, 3, 4, 5].map(n => `<option ${S.beds === n ? 'selected' : ''}>${n}</option>`).join('')}</select></label>
+        <p class="err" id="aErr" role="alert" style="grid-column:1/-1"></p><p class="ok" id="aOk" role="status" style="grid-column:1/-1"></p>
+        <button class="btn" type="submit" style="grid-column:1/-1">${I('bell')} نبّهني</button></form>`);
+  }
+  async function sendAlert(f) {
+    const btn = f.querySelector('[type=submit]'); $('aErr').textContent = ''; btn.disabled = true;
+    const acc = await register($('aName').value, $('aPhone').value);
+    if (acc.error) { btn.disabled = false; $('aErr').textContent = acc.error; return; }
+    const row = { name: acc.user.name, phone: acc.user.phone, property_type: $('aType').value || null, district: $('aDist').value.trim() || null, max_budget: $('aBudget').value ? Number($('aBudget').value) : null, min_beds: $('aBeds').value ? Number($('aBeds').value) : null };
+    const r = db ? await insertRow('property_alerts', row) : { error: true };
+    btn.disabled = false;
+    if (r.error) { $('aErr').innerHTML = `ما قدرنا نحفظ طلبك الآن. <a target="_blank" rel="noopener" href="${waLink('أبغى تنبيه لما ينزل عقار: ' + (TYPES[row.property_type] || 'أي نوع') + (row.district ? ' – ' + row.district : '') + (row.max_budget ? ' – حتى ' + fmt(row.max_budget) : ''))}">أرسله عبر واتساب</a>`; return; }
+    $('aOk').textContent = 'تم. بنتواصل معك أول ما ينزل عقار يناسب طلبك.'; btn.hidden = true;
+  }
+  function compare() {
+    const ps = S.cmp.map(byId).filter(Boolean); if (ps.length < 2) { toast('اختر عقارين على الأقل للمقارنة'); return; }
+    const minP = Math.min(...ps.map(p => p.price)), maxA = Math.max(...ps.map(p => p.area));
+    const row = (h, f) => `<tr><th scope="row">${h}</th>${ps.map(f).join('')}</tr>`;
+    openSheet('cmp', `مقارنة ${ps.length} عقارات`, `<div class="tbl-wrap"><table class="ctbl"><tbody>
+      ${row('', p => `<td><button class="card-open" type="button" data-open="${esc(p.id)}" style="display:grid;gap:6px"><span class="cimg" style="${p.imgs[0] ? `background-image:url(&quot;${esc(p.imgs[0])}&quot;)` : ''}"></span><b style="font-size:13px">${esc(p.title)}</b></button></td>`)}
+      ${row('السعر', p => `<td class="num ${p.price === minP ? 'best' : ''}">${fmt(p.price)}</td>`)}
+      ${row('الحي', p => `<td>${esc(p.district || '—')}</td>`)}
+      ${row('المساحة', p => `<td class="num ${p.area && p.area === maxA ? 'best' : ''}">${p.area ? fmt(p.area) + ' م²' : '—'}</td>`)}
+      ${row('سعر المتر', p => `<td class="num">${p.area ? fmt(Math.round(p.price / p.area)) : '—'}</td>`)}
+      ${row('الغرف', p => `<td>${p.beds || '—'}</td>`)}
+      ${row('دورات المياه', p => `<td>${p.baths || '—'}</td>`)}
+      ${row('الدور', p => `<td>${esc(p.floor || '—')}</td>`)}
+      ${row('المزايا', p => `<td style="font-size:12px;color:var(--ink-2)">${esc(p.amen.map(a => AMEN[a] || a).join('، ') || '—')}</td>`)}
+    </tbody></table></div><button class="btn ghost" type="button" data-act="cmp-clear">مسح المقارنة</button>`);
+  }
+  async function share(id) {
+    const p = byId(id); if (!p) return; const url = pageUrl(p);
+    if (navigator.share) { try { await navigator.share({ title: p.title, text: p.title + ' – عقارات جودة', url }); return; } catch (e) { if (e && e.name === 'AbortError') return; } }
+    try { await navigator.clipboard.writeText(url); toast('نسخنا رابط العقار'); } catch { toast(url); }
+  }
+  function toast(t) { const el = $('toast'); el.textContent = t; el.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove('on'), 2800); }
+
+  /* ---------- assistant ---------- */
+  const msgs = [], chatLog = [];
+  const SUG = ['شقة ٣ غرف حدود ٤٥ ألف', 'شقة غرفتين أقل من ٣٥ ألف', 'فيلا لعائلة كبيرة', 'محل تجاري'];
+  $('sug').innerHTML = SUG.map(s => `<button class="chip" type="button" data-ask="${esc(s)}">${esc(s)}</button>`).join('');
+  function paintMsgs(typing) {
+    $('msgs').innerHTML = msgs.map(m => `<div class="msg ${m.who}">${m.html}${m.picks ? `<div class="picks">${m.picks.map(r => `<button class="pick" type="button" data-open="${esc(r.p.id)}"><span class="pi" style="${r.p.imgs[0] ? `background-image:url(&quot;${esc(r.p.imgs[0])}&quot;)` : ''}"></span><span><b>${esc(r.p.title)}</b><small>${fmt(r.p.price)} ر.س${r.p.district ? ' · ' + esc(r.p.district) : ''}${r.reason ? ' · ' + esc(r.reason) : ''}</small></span></button>`).join('')}</div>` : ''}${m.alert ? `<div style="margin-top:8px"><button class="btn sm" type="button" data-act="alert">${I('bell')} نبّهني لما ينزل عقار يناسبني</button></div>` : ''}</div>`).join('') + (typing ? '<div class="msg bot"><span class="typing" aria-label="يكتب"><i></i><i></i><i></i></span></div>' : '');
+    $('msgs').scrollTop = $('msgs').scrollHeight;
+  }
+  function localPick(text) {
+    const t = toDigits(text), want = {};
+    Object.keys(TYPES).forEach(k => { if (t.includes(TYPES[k])) want.type = k; });
+    if (/فلل|فله|فلة/.test(t)) want.type = 'villa'; if (/شقق|شقه/.test(t)) want.type = 'apartment';
+    const m = t.match(/(\d+)\s*غرف/); if (m) want.beds = +m[1]; else if (/غرفتين/.test(t)) want.beds = 2; else if (/عائل/.test(t)) want.beds = 3;
+    const b = t.match(/(\d+(?:[.,]\d+)?)\s*(ألف|الف|مليون)/); if (b) want.budget = parseFloat(b[1].replace(',', '.')) * (b[2] === 'مليون' ? 1e6 : 1000); else { const n = t.match(/(\d{5,7})/); if (n) want.budget = +n[1]; }
+    S.all.forEach(p => { if (p.district && t.includes(p.district)) want.dist = p.district; });
+    const deal = /بيع|شراء|تمليك|اشتري|أشتري/.test(t) ? 'sale' : null;
+    return S.all.filter(p => !p.closed && (!deal || p.deal === deal)).map(p => {
+      let sc = 0; const why = [];
+      if (want.type) { if (p.type === want.type) { sc += 3; why.push(TYPES[p.type] + ' كما طلبت'); } else sc -= 2; }
+      if (want.budget) { if (p.price <= want.budget) { sc += 3; why.push('ضمن ميزانيتك'); } else if (p.price <= want.budget * 1.15) { sc += 1; why.push('أعلى بقليل من ميزانيتك'); } else sc -= 2; }
+      if (want.beds) { if (p.beds === want.beds) { sc += 2; why.push(p.beds + ' غرف'); } else if (p.beds > want.beds) sc += 1; else sc -= 1; }
+      if (want.dist && p.district === want.dist) { sc += 3; why.push('في حي ' + p.district); }
+      return { p, sc, reason: why.join(' · ') || 'من أحدث المعروض' };
+    }).sort((a, b) => b.sc - a.sc || a.p.price - b.p.price).slice(0, 3);
+  }
+  async function ask(text) {
+    text = String(text || '').trim().slice(0, 400); if (!text) return;
+    msgs.push({ who: 'me', html: esc(text) }); paintMsgs(true);
+    const av = S.all.filter(p => !p.closed);
+    let out = null;
+    try {
+      const ctl = new AbortController(), tm = setTimeout(() => ctl.abort(), 25000);
+      const res = await fetch('/api/assistant', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: text, history: chatLog.slice(-6) }), signal: ctl.signal });
+      clearTimeout(tm); if (res.ok) out = await res.json();
+    } catch { out = null; }
+    let items = [];
+    if (out && Array.isArray(out.picks)) out.picks.forEach(k => { const p = av.find(x => x.id === String(k.id)); if (p) items.push({ p, reason: k.reason || '' }); });
+    let reply = out && out.reply;
+    if (!items.length && !reply) { items = localPick(text); reply = items.length ? 'هذي أقرب العقارات لطلبك من المتاح الآن:' : 'ما فيه عقارات متاحة الآن تطابق طلبك. سجّل طلبك وننبّهك أول ما ينزل عقار يناسبك.'; }
+    msgs.push({ who: 'bot', html: esc(reply || 'هذي أقرب العقارات لطلبك:'), picks: items.length ? items : null, alert: !items.length });
+    chatLog.push({ role: 'user', text }, { role: 'assistant', text: reply || '' });
+    paintMsgs();
+  }
+
+  /* ---------- routing + events ---------- */
+  function route() { const m = location.hash.match(/^#p-(.+)$/); if (m && S.all.length) detail(decodeURIComponent(m[1])); }
+  addEventListener('hashchange', route);
+  const toResults = () => $('results').scrollIntoView({ behavior: 'smooth' });
+  document.addEventListener('click', e => {
+    const t = e.target;
+    if (t.closest('[data-cmp]')) { const c = t.closest('[data-cmp]'), id = c.dataset.cmp; if (c.checked) { if (S.cmp.length >= 3) { c.checked = false; toast('تقدر تقارن ٣ عقارات بحد أقصى'); return; } S.cmp.push(id); if (S.cmp.length === 1) toast('اختر عقار ثاني للمقارنة'); } else S.cmp = S.cmp.filter(x => x !== id); render(); return; }
+    const fav = t.closest('[data-fav]'); if (fav) { const id = fav.dataset.fav, had = S.favs.includes(id); S.favs = had ? S.favs.filter(x => x !== id) : [...S.favs, id]; store.set('jwd_favs', S.favs); document.querySelectorAll(`[data-fav="${CSS.escape(id)}"]`).forEach(b => b.setAttribute('aria-pressed', !had)); toast(had ? 'انشال من المفضلة' : 'انحفظ في المفضلة'); render(); return; }
+    const dl = t.closest('[data-deal]'); if (dl) { S.deal = dl.dataset.deal; S.tab = 'av'; S.max = 0; S.type = 'all'; render(); if (dl.closest('.nav')) toResults(); return; }
+    const tb = t.closest('[data-tab]'); if (tb) { S.tab = tb.dataset.tab; render(); return; }
+    const qd = t.closest('[data-qd]'); if (qd) { S.dist = qd.dataset.qd; S.tab = 'av'; render(); toResults(); return; }
+    const bd = t.closest('[data-beds]'); if (bd) { S.beds = +bd.dataset.beds; render(); return; }
+    const dy = t.closest('[data-day]'); if (dy) { S.book.day = +dy.dataset.day; dy.parentElement.querySelectorAll('[data-day]').forEach(b => b.setAttribute('aria-pressed', b === dy)); return; }
+    const tm = t.closest('[data-time]'); if (tm) { S.book.time = +tm.dataset.time; tm.parentElement.querySelectorAll('[data-time]').forEach(b => b.setAttribute('aria-pressed', b === tm)); return; }
+    const ak = t.closest('[data-ask]'); if (ak) { ask(ak.dataset.ask); return; }
+    const sh = t.closest('[data-share]'); if (sh) { share(sh.dataset.share); return; }
+    const op = t.closest('[data-open]'); if (op) { detail(op.dataset.open); return; }
+    const a = t.closest('[data-act]'); if (!a) return;
+    switch (a.dataset.act) {
+      case 'close': close(); break;
+      case 'home': e.preventDefault(); close(); S.tab = 'av'; render(); scrollTo({ top: 0, behavior: 'smooth' }); break;
+      case 'tab-done': S.tab = 'done'; render(); toResults(); break;
+      case 'ai': openAi(); break;
+      case 'account': account(); break;
+      case 'logout': USER = null; try { localStorage.removeItem('jwd_user'); } catch {} paintUser(); close(); toast('تم تسجيل الخروج'); break;
+      case 'alert': alertForm(); break;
+      case 'favs': if (sheetMode) close(); S.favOnly = !S.favOnly; S.tab = 'av'; render(); toResults(); break;
+      case 'reset': Object.assign(S, { type: 'all', dist: '', max: 0, beds: 0, favOnly: false }); render(); break;
+      case 'cmp-open': compare(); break;
+      case 'cmp-clear': S.cmp = []; if (sheetMode === 'cmp') close(); else render(); break;
+    }
+  });
+  document.addEventListener('change', e => { const f = e.target.dataset && e.target.dataset.f; if (!f) return; S[f] = (f === 'max') ? +e.target.value : e.target.value; if (f !== 'sort') S.tab = 'av'; render(); });
+  document.addEventListener('submit', async e => {
+    const f = e.target; e.preventDefault();
+    if (f.id === 'search') { S.tab = 'av'; render(); toResults(); }
+    else if (f.id === 'book') sendBook(f);
+    else if (f.id === 'alertF') sendAlert(f);
+    else if (f.id === 'cform') { const v = $('cin').value; $('cin').value = ''; ask(v); }
+    else if (f.id === 'login') { const b = f.querySelector('[type=submit]'); b.disabled = true; const r = await register($('lName').value, $('lPhone').value); b.disabled = false; if (r.error) { $('lErr').textContent = r.error; return; } close(); toast('أهلًا ' + r.user.name.split(' ')[0]); }
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && sheetMode) close(); });
+
+  $('yr').textContent = new Date().getFullYear();
+  paintUser();
+  if (USER && db) { if (USER.id) db.rpc('touch_customer', { p_id: USER.id }).then(() => {}, () => {}); else register(USER.name, USER.phone); }
+  load();
+})();
+</script>
+</body>
+</html>
