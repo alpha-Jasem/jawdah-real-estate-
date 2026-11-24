@@ -52,6 +52,12 @@ p{margin:0}
 .icon-btn{width:44px;height:44px;display:grid;place-items:center;border-radius:12px;border:1px solid var(--ink-200);background:#fff;position:relative}
 .icon-btn:hover{background:var(--ink-100)}
 .icon-btn svg{width:20px;height:20px}
+.acct{display:inline-flex;align-items:center;gap:8px;min-height:44px;max-width:160px;padding:0 14px;border-radius:12px;border:1px solid var(--ink-200);background:#fff;font-family:var(--f-display);font-size:14px}
+.acct:hover{background:var(--ink-100)}
+.acct svg{flex:none;width:18px;height:18px}
+.acct span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.acct.in{background:var(--teal-50);border-color:var(--teal-200);color:var(--teal-800)}
+@media (max-width:420px){.acct span{display:none}.acct{padding:0;width:44px;justify-content:center}}
 .dot{position:absolute;top:-4px;left:-4px;min-width:20px;height:20px;padding:0 5px;border-radius:999px;background:var(--teal-600);color:#fff;font:600 11px/20px var(--f-num);text-align:center}
 
 /* header */
@@ -63,6 +69,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .hdr-link{font-family:var(--f-display);font-size:14px;color:var(--ink-600);text-decoration:none;padding:8px 10px;border-radius:8px}
 .hdr-link:hover{background:var(--ink-100)}
 @media (max-width:640px){.hdr-link{display:none}.hdr-logo img{height:22px}}
+@media (max-width:480px){#hdrWa{display:none}.hdr-in{gap:8px}}
 
 /* intro + search */
 .intro{background:#fff;border-bottom:1px solid var(--ink-200)}
@@ -205,6 +212,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
     <a class="hdr-logo" href="index.html" aria-label="جودة العقارية، الصفحة الرئيسية"><img src="assets/v2/logo.webp" alt="جودة العقارية" width="624" height="98"></a>
     <a class="hdr-link" href="index.html">عن جودة</a>
     <span class="hdr-sep"></span>
+    <button class="acct" id="acctBtn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0116 0"/></svg><span id="acctLbl">دخول</span></button>
     <button class="icon-btn" id="alertBtn" type="button" aria-label="نبّهني بالعقارات الجديدة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg></button>
     <button class="icon-btn" id="favBtn" type="button" aria-label="المفضلة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 00-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 000-7.8z"/></svg><span class="dot num" id="favCount" hidden>0</span></button>
     <a class="btn btn-wa" id="hdrWa" href="#" target="_blank" rel="noopener">واتساب</a>
@@ -312,6 +320,69 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
   function toast(t) { var el = $('toast'); el.textContent = t; el.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(function () { el.hidden = true; }, 2600); }
   function waLink(text) { return 'https://wa.me/' + WA + '?text=' + encodeURIComponent(text); }
   function pageUrl(p) { return location.origin + location.pathname + '#p-' + p.id; }
+
+  /* ── customer account (name + phone) ── */
+  var USER = (function () { try { return JSON.parse(localStorage.getItem('jwd_user') || 'null'); } catch (e) { return null; } })();
+  function normPhone(v) {
+    var d = String(v || '').replace(/[٠-٩]/g, function (c) { return '٠١٢٣٤٥٦٧٨٩'.indexOf(c); }).replace(/[^\d]/g, '');
+    if (d.indexOf('00966') === 0) d = d.slice(2);
+    if (d.indexOf('05') === 0 && d.length === 10) d = '966' + d.slice(1);
+    if (d.indexOf('5') === 0 && d.length === 9) d = '966' + d;
+    return d;
+  }
+  function validPhone(d) { return /^9665\d{8}$/.test(d) || (d.length >= 9 && d.length <= 15 && d.indexOf('966') !== 0); }
+  function showPhone(d) { return /^9665\d{8}$/.test(d) ? '0' + d.slice(3) : d; }
+  function paintUser() {
+    var b = $('acctBtn');
+    b.classList.toggle('in', !!USER);
+    $('acctLbl').textContent = USER ? USER.name.split(' ')[0] : 'دخول';
+    b.setAttribute('aria-label', USER ? 'حسابي: ' + USER.name : 'تسجيل الدخول');
+  }
+  async function register(name, phone) {
+    name = String(name || '').trim().slice(0, 80); phone = normPhone(phone);
+    if (name.length < 2) return { error: 'اكتب اسمك.' };
+    if (!validPhone(phone)) return { error: 'اكتب رقم جوال صحيح، مثل 0501234567.' };
+    var id = null;
+    if (db) { var r = await db.rpc('register_customer', { p_name: name, p_phone: phone }); if (!r.error) id = r.data; }
+    USER = { id: id, name: name, phone: phone };
+    try { localStorage.setItem('jwd_user', JSON.stringify(USER)); } catch (e) {}
+    paintUser();
+    return { user: USER };
+  }
+  function logout() { USER = null; try { localStorage.removeItem('jwd_user'); } catch (e) {} paintUser(); closeSheet(); toast('تم تسجيل الخروج'); }
+  function openLogin(reason) {
+    var body = '<form class="sheet-bd" id="loginForm" style="display:flex;flex-direction:column;gap:14px;max-width:440px;margin-inline:auto">' +
+      '<p class="note">' + esc(reason || 'سجّل باسمك ورقم جوالك عشان نحفظ طلباتك ومفضلتك، ويتواصل معك فريقنا بسرعة.') + '</p>' +
+      '<label class="field" for="lName">الاسم<input id="lName" name="name" required autocomplete="name" maxlength="80"></label>' +
+      '<label class="field" for="lPhone">رقم الجوال<input id="lPhone" name="phone" type="tel" inputmode="tel" required autocomplete="tel" dir="ltr" placeholder="05XXXXXXXX…" maxlength="15"></label>' +
+      '<button class="btn btn-dark" type="submit">دخول</button>' +
+      '<p class="note" style="font-size:12px">نستخدم رقمك للتواصل معك بخصوص العقارات فقط.</p>' +
+      '<p class="note" role="status" id="lNote"></p></form>';
+    openSheet('تسجيل الدخول', body);
+    setTimeout(function () { var i = $('lName'); if (i) i.focus(); }, 80);
+  }
+  function openAccount() {
+    var mine = S.all.filter(function (p) { return S.favs.indexOf(p.id) >= 0; }).length;
+    var body = '<div class="sheet-bd" style="display:flex;flex-direction:column;gap:14px;max-width:440px;margin-inline:auto">' +
+      '<div class="box"><b style="font-family:var(--f-display);font-size:18px">' + esc(USER.name) + '</b><span class="num" dir="ltr" style="text-align:right">' + esc(showPhone(USER.phone)) + '</span></div>' +
+      '<button class="btn btn-line" type="button" data-favs>المفضلة (' + mine + ')</button>' +
+      '<button class="btn btn-line" type="button" data-alert>نبّهني بعقار جديد</button>' +
+      '<button class="btn btn-line" type="button" data-logout style="color:var(--danger)">تسجيل الخروج</button></div>';
+    openSheet('حسابي', body);
+  }
+  async function sendLogin(f) {
+    var b = f.querySelector('button[type=submit]'); b.disabled = true;
+    var r = await register(f.name.value, f.phone.value);
+    b.disabled = false;
+    if (r.error) { $('lNote').className = 'note err'; $('lNote').textContent = r.error; return; }
+    closeSheet(); toast('أهلاً ' + r.user.name.split(' ')[0]);
+  }
+  function withCustomer(row) { if (USER && USER.id) row.customer_id = USER.id; return row; }
+  async function insertRow(table, row) {
+    var r = await db.from(table).insert([withCustomer(Object.assign({}, row))]);
+    if (r.error && row && /customer_id/.test(r.error.message || '')) r = await db.from(table).insert([row]);
+    return r;
+  }
 
   function inferType(p) {
     if (p.property_type && TYPES[p.property_type]) return p.property_type;
@@ -460,8 +531,8 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
       '<div class="box"><span class="price"><b>' + fmt(p.price) + '</b><span>' + priceUnit(p) + '</span></span>' +
         '<a class="btn btn-wa" target="_blank" rel="noopener" href="' + waLink(waText) + '">اسأل عنه في واتساب</a></div>' +
       '<form class="box" data-visit="' + esc(p.id) + '"><b style="font-family:var(--f-display)">احجز موعد معاينة</b>' +
-        '<label class="field" for="vName">الاسم<input id="vName" name="name" required autocomplete="name" maxlength="80"></label>' +
-        '<label class="field" for="vPhone">رقم الجوال<input id="vPhone" name="phone" type="tel" inputmode="tel" required autocomplete="tel" dir="ltr" placeholder="05XXXXXXXX…" maxlength="15"></label>' +
+        '<label class="field" for="vName">الاسم<input id="vName" name="name" required autocomplete="name" maxlength="80" value="' + esc(USER ? USER.name : '') + '"></label>' +
+        '<label class="field" for="vPhone">رقم الجوال<input id="vPhone" name="phone" type="tel" inputmode="tel" required autocomplete="tel" dir="ltr" placeholder="05XXXXXXXX…" maxlength="15" value="' + esc(USER ? showPhone(USER.phone) : '') + '"></label>' +
         '<label class="field" for="vTime">الوقت المناسب<select id="vTime" name="time"><option>أقرب وقت</option><option>صباحاً</option><option>بعد العصر</option><option>مساءً</option><option>نهاية الأسبوع</option></select></label>' +
         '<button class="btn btn-dark" type="submit">أرسل الطلب</button><p class="note" role="status" data-vnote></p></form>';
     var body = '<div class="gal" tabindex="0" aria-label="صور العقار">' + gal + '</div>' +
@@ -481,18 +552,19 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
   async function sendVisit(form) {
     var id = form.getAttribute('data-visit');
     var p = S.all.filter(function (x) { return String(x.id) === String(id); })[0];
-    var name = form.name.value.trim(), phone = form.phone.value.replace(/[^\d+]/g, ''), time = form.time.value;
+    var name = form.name.value.trim(), time = form.time.value;
     var note = form.querySelector('[data-vnote]');
-    if (name.length < 2 || phone.length < 9) { note.className = 'note err'; note.textContent = 'اكتب اسمك ورقم جوال صحيح (مثل 0501234567).'; return; }
     var btn = form.querySelector('button[type=submit]'); btn.disabled = true; btn.textContent = 'جارٍ الإرسال…';
-    var r = db ? await db.from('leads').insert([{ name: name, phone: phone, property_id: p.id, source: 'موقع العقارات', stage: 'new', notes: 'طلب معاينة: ' + p.title + ' · الوقت المناسب: ' + time }]) : { error: true };
+    var acc = await register(name, form.phone.value);
+    if (acc.error) { btn.disabled = false; btn.textContent = 'أرسل الطلب'; note.className = 'note err'; note.textContent = acc.error; return; }
+    var r = db ? await insertRow('leads', { name: acc.user.name, phone: acc.user.phone, property_id: p.id, source: 'موقع العقارات', stage: 'new', notes: 'طلب معاينة: ' + p.title + ' · الوقت المناسب: ' + time }) : { error: true };
     btn.disabled = false; btn.textContent = 'أرسل الطلب';
     if (r.error) {
       note.className = 'note err';
       note.innerHTML = 'ما قدرنا نحفظ الطلب الآن. <a target="_blank" rel="noopener" href="' + waLink('أبغى أحجز معاينة: ' + p.title + ' – ' + name + ' – ' + time + '\n' + pageUrl(p)) + '">أرسله عبر واتساب</a>';
       return;
     }
-    form.reset(); note.className = 'note ok'; note.textContent = 'وصل طلبك. بيتواصل معك فريقنا لتأكيد الموعد.';
+    note.className = 'note ok'; note.textContent = 'وصل طلبك. بيتواصل معك فريقنا لتأكيد الموعد.';
   }
 
   async function share(id) {
@@ -507,7 +579,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
     var i = S.favs.indexOf(id); if (i >= 0) S.favs.splice(i, 1); else S.favs.push(id);
     save('jwd_favs', S.favs); render();
     document.querySelectorAll('[data-fav="' + CSS.escape(String(id)) + '"]').forEach(function (b) { b.setAttribute('aria-pressed', S.favs.indexOf(id) >= 0); });
-    toast(i >= 0 ? 'انحذف من المفضلة' : 'انضاف للمفضلة');
+    toast(i >= 0 ? 'انحذف من المفضلة' : (USER ? 'انضاف للمفضلة' : 'انضاف للمفضلة. سجّل دخولك عشان يتواصل معك فريقنا'));
   }
   function toggleCmp(id) {
     var i = S.cmp.indexOf(id);
@@ -535,8 +607,8 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
     var dists = Array.from(new Set(S.all.map(function (p) { return p.district; }).filter(Boolean))).sort();
     var body = '<form class="sheet-bd" id="alertForm" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;max-width:720px">' +
       '<p class="note" style="grid-column:1/-1">سجّل طلبك، وأول ما ينزل عقار يناسبك يتواصل معك فريقنا على الواتساب.</p>' +
-      '<label class="field" for="aName">الاسم<input id="aName" name="name" autocomplete="name" maxlength="80"></label>' +
-      '<label class="field" for="aPhone">رقم الجوال<input id="aPhone" name="phone" type="tel" inputmode="tel" required autocomplete="tel" dir="ltr" placeholder="05XXXXXXXX…" maxlength="15"></label>' +
+      '<label class="field" for="aName">الاسم<input id="aName" name="name" required autocomplete="name" maxlength="80" value="' + esc(USER ? USER.name : '') + '"></label>' +
+      '<label class="field" for="aPhone">رقم الجوال<input id="aPhone" name="phone" type="tel" inputmode="tel" required autocomplete="tel" dir="ltr" placeholder="05XXXXXXXX…" maxlength="15" value="' + esc(USER ? showPhone(USER.phone) : '') + '"></label>' +
       '<label class="field" for="aType">نوع العقار<select id="aType" name="type"><option value="">أي نوع</option>' + opts + '</select></label>' +
       '<label class="field" for="aDist">الحي المفضّل<input id="aDist" name="district" list="aDists" placeholder="مثال: الروضة…" maxlength="60"><datalist id="aDists">' + dists.map(function (d) { return '<option value="' + esc(d) + '">'; }).join('') + '</datalist></label>' +
       '<label class="field" for="aBudget">أقصى ميزانية سنوية (ر.س)<input id="aBudget" name="budget" type="number" inputmode="numeric" min="0" dir="ltr" placeholder="45000…"></label>' +
@@ -545,14 +617,15 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
     openSheet('نبّهني بالعقارات الجديدة', body);
   }
   async function sendAlert(f) {
-    var phone = f.phone.value.replace(/[^\d+]/g, ''), note = $('aNote');
-    if (phone.length < 9) { note.className = 'note err'; note.textContent = 'اكتب رقم جوال صحيح (مثل 0501234567).'; return; }
-    var row = { name: f.name.value.trim() || null, phone: phone, property_type: f.type.value || null, district: f.district.value.trim() || null, max_budget: f.budget.value ? Number(f.budget.value) : null, min_beds: f.beds.value ? Number(f.beds.value) : null };
+    var note = $('aNote');
     var b = f.querySelector('button[type=submit]'); b.disabled = true;
-    var r = db ? await db.from('property_alerts').insert([row]) : { error: true };
+    var acc = await register(f.name.value, f.phone.value);
+    if (acc.error) { b.disabled = false; note.className = 'note err'; note.textContent = acc.error; return; }
+    var row = { name: acc.user.name, phone: acc.user.phone, property_type: f.type.value || null, district: f.district.value.trim() || null, max_budget: f.budget.value ? Number(f.budget.value) : null, min_beds: f.beds.value ? Number(f.beds.value) : null };
+    var r = db ? await insertRow('property_alerts', row) : { error: true };
     b.disabled = false;
     if (r.error) { note.className = 'note err'; note.innerHTML = 'ما قدرنا نحفظ طلبك الآن. <a target="_blank" rel="noopener" href="' + waLink('أبغى تنبيه لما ينزل عقار: ' + (TYPES[row.property_type] || 'أي نوع') + (row.district ? ' – ' + row.district : '') + (row.max_budget ? ' – حتى ' + fmt(row.max_budget) : '')) + '">أرسله عبر واتساب</a>'; return; }
-    f.reset(); note.className = 'note ok'; note.textContent = 'تم. بنتواصل معك أول ما ينزل عقار يناسب طلبك.';
+    note.className = 'note ok'; note.textContent = 'تم. بنتواصل معك أول ما ينزل عقار يناسب طلبك.';
   }
 
   /* ── assistant ── */
@@ -630,10 +703,13 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
     if (t.hasAttribute('data-reset')) { S.q = ''; S.deal = S.type = S.dist = S.price = S.beds = 'all'; $('q').value = ''; ['fDist', 'fPrice', 'fBeds'].forEach(function (i) { $(i).value = 'all'; }); render(); return; }
     if (t.hasAttribute('data-cmpclear')) { S.cmp = []; render(); closeSheet(); return; }
     if (t.dataset.ask) { ask(t.dataset.ask); return; }
+    if (t.hasAttribute('data-logout')) { logout(); return; }
+    if (t.hasAttribute('data-favs')) { closeSheet(); setTimeout(openFavs, 220); return; }
   });
   document.addEventListener('submit', function (e) {
     if (e.target.matches('[data-visit]')) { e.preventDefault(); sendVisit(e.target); }
     else if (e.target.id === 'alertForm') { e.preventDefault(); sendAlert(e.target); }
+    else if (e.target.id === 'loginForm') { e.preventDefault(); sendLogin(e.target); }
     else if (e.target.id === 'composer') { e.preventDefault(); var v = $('ask').value; $('ask').value = ''; ask(v); }
   });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { if (!$('scrim').hidden) closeSheet(); else closeAi(); } });
@@ -644,7 +720,13 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
   $('aiOpen1').addEventListener('click', openAi); $('aiOpen2').addEventListener('click', openAi); $('aiClose').addEventListener('click', closeAi);
   $('favBtn').addEventListener('click', openFavs); $('alertBtn').addEventListener('click', openAlert); $('cmpBar').addEventListener('click', openCompare);
   $('hdrWa').href = waLink('مرحباً، أبغى أستفسر عن العقارات المتاحة');
+  $('acctBtn').addEventListener('click', function () { if (USER) openAccount(); else openLogin(); });
 
+  paintUser();
+  if (USER && db) {
+    if (USER.id) db.rpc('touch_customer', { p_id: USER.id }).then(function () {}, function () {});
+    else register(USER.name, USER.phone);
+  }
   fetchAll();
 })();
 </script>

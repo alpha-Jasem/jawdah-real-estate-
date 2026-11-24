@@ -77,3 +77,52 @@ create policy "staff delete alerts" on public.property_alerts
 insert into public.site_settings (key, value)
 values ('listing_hide_after_hours', '0')
 on conflict (key) do nothing;
+
+-- 6) تسجيل العملاء في موقع العقارات (الاسم + رقم الجوال)
+create table if not exists public.customers (
+  id            uuid primary key default gen_random_uuid(),
+  name          text not null,
+  phone         text not null unique,
+  source        text default 'موقع العقارات',
+  visits        int  not null default 1,
+  last_seen_at  timestamptz not null default now(),
+  created_at    timestamptz not null default now()
+);
+alter table public.customers enable row level security;
+
+-- الزوار ما يقدرون يقرأون بيانات العملاء. الموظفين (المسجّلين في اللوحة) فقط.
+drop policy if exists "staff read customers" on public.customers;
+create policy "staff read customers" on public.customers for select to authenticated using (true);
+drop policy if exists "staff update customers" on public.customers;
+create policy "staff update customers" on public.customers for update to authenticated using (true) with check (true);
+drop policy if exists "staff delete customers" on public.customers;
+create policy "staff delete customers" on public.customers for delete to authenticated using (true);
+
+-- التسجيل يمر عبر دالة: تنشئ العميل أو ترجع رقمه إذا كان مسجّل، بدون ما تكشف بياناته.
+create or replace function public.register_customer(p_name text, p_phone text)
+returns uuid language plpgsql security definer set search_path = public as $$
+declare v_id uuid; v_phone text; v_name text;
+begin
+  v_phone := regexp_replace(coalesce(p_phone,''), '[^0-9+]', '', 'g');
+  v_name  := left(trim(coalesce(p_name,'')), 80);
+  if char_length(v_phone) < 9 or char_length(v_phone) > 15 then raise exception 'invalid phone'; end if;
+  if char_length(v_name) < 2 then raise exception 'invalid name'; end if;
+  insert into public.customers (name, phone) values (v_name, v_phone)
+  on conflict (phone) do update set last_seen_at = now(), visits = public.customers.visits + 1
+  returning id into v_id;
+  return v_id;
+end $$;
+
+create or replace function public.touch_customer(p_id uuid)
+returns void language sql security definer set search_path = public as $$
+  update public.customers set last_seen_at = now() where id = p_id;
+$$;
+
+revoke all on function public.register_customer(text, text) from public;
+revoke all on function public.touch_customer(uuid) from public;
+grant execute on function public.register_customer(text, text) to anon, authenticated;
+grant execute on function public.touch_customer(uuid) to anon, authenticated;
+
+-- ربط طلبات المعاينة والتنبيهات بالعميل
+alter table public.leads           add column if not exists customer_id uuid references public.customers(id) on delete set null;
+alter table public.property_alerts add column if not exists customer_id uuid references public.customers(id) on delete set null;

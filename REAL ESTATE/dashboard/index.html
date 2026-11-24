@@ -1011,7 +1011,12 @@ canvas { max-width: 100%; }
         </button>
         <button class="nav-item" onclick="navTo('properties')" data-page="properties">
           <i data-lucide="home" width="18" height="18"></i>
-          <span class="nav-label-text">بوابة العقارات <span style="font-size:11px;font-weight:700;padding:2px 7px;border-radius:20px;border:1.5px solid #000;color:#000;background:#fff;margin-right:4px">قريباً</span></span>
+          <span class="nav-label-text">موقع العقارات</span>
+        </button>
+        <button class="nav-item" onclick="navTo('customers')" data-page="customers">
+          <i data-lucide="user-check" width="18" height="18"></i>
+          <span class="nav-label-text">عملاء موقع العقارات</span>
+          <span class="badge" id="badge-customers" style="display:none"></span>
         </button>
       </div>
 
@@ -1298,6 +1303,34 @@ canvas { max-width: 100%; }
           <table>
             <thead><tr><th>العميل</th><th>الطلب</th><th>عقارات مناسبة الآن</th><th>التاريخ</th><th></th></tr></thead>
             <tbody id="alerts-tbody"><tr><td colspan="5" style="color:var(--fg-muted);font-size:13px">جارٍ التحميل…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="page" id="page-customers" data-screen-label="03b Customers">
+      <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px">
+        <div>
+          <div class="eyebrow">موقع العقارات</div>
+          <h1 style="font-family:var(--font-display);font-size:32px;font-weight:500;margin-top:6px">العملاء المسجّلون</h1>
+          <div style="font-size:13px;color:var(--fg-muted);margin-top:4px">كل عميل سجّل دخوله في موقع العقارات أو طلب معاينة أو تنبيه</div>
+        </div>
+        <div class="search-bar" style="max-width:280px">
+          <i data-lucide="search" width="14" height="14" style="color:var(--fg-muted)"></i>
+          <input id="cust-search" placeholder="بحث بالاسم أو الجوال…" oninput="renderCustomers()">
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:20px">
+        <div class="panel" style="padding:14px"><div style="font-family:var(--font-display);font-size:24px;font-weight:500" id="cs-total">0</div><div style="font-size:11px;color:var(--fg-muted)">عميل مسجّل</div></div>
+        <div class="panel" style="padding:14px"><div style="font-family:var(--font-display);font-size:24px;font-weight:500" id="cs-week">0</div><div style="font-size:11px;color:var(--fg-muted)">سجّلوا آخر 7 أيام</div></div>
+        <div class="panel" style="padding:14px"><div style="font-family:var(--font-display);font-size:24px;font-weight:500" id="cs-active">0</div><div style="font-size:11px;color:var(--fg-muted)">زاروا الموقع آخر 7 أيام</div></div>
+        <div class="panel" style="padding:14px"><div style="font-family:var(--font-display);font-size:24px;font-weight:500" id="cs-req">0</div><div style="font-size:11px;color:var(--fg-muted)">عندهم طلب معاينة أو تنبيه</div></div>
+      </div>
+      <div class="panel" style="padding:0;overflow:hidden">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>العميل</th><th>الجوال</th><th>سجّل في</th><th>آخر زيارة</th><th>الزيارات</th><th>طلباته</th><th></th></tr></thead>
+            <tbody id="customers-tbody"><tr><td colspan="7" style="color:var(--fg-muted);font-size:13px">جارٍ التحميل…</td></tr></tbody>
           </table>
         </div>
       </div>
@@ -2556,6 +2589,7 @@ function navTo(page) {
     setTimeout(updateMonthlyChart, 300);
   }
   if (page === 'calendar') renderCalendar();
+  if (page === 'customers') loadCustomers();
   if (page === 'settings') { loadActivityLog(); loadLogoSetting(); }
   if (page === 'site-editor') loadSiteEditor();
 }
@@ -3393,6 +3427,61 @@ async function saveProperty() {
   if (propFilesEl) propFilesEl.value = '';
   closeModal('modal-property');
   await loadProperties();
+}
+
+let CUSTOMERS = [], CUST_LEADS = [];
+function showPhoneLocal(d) { d = String(d||''); return /^9665\d{8}$/.test(d) ? '0' + d.slice(3) : d; }
+async function loadCustomers() {
+  const tbody = document.getElementById('customers-tbody');
+  const { data, error } = await sb.from('customers').select('*').order('created_at', { ascending: false });
+  if (error) {
+    if (tbody) tbody.innerHTML = '<tr><td colspan="7" style="color:var(--fg-muted);font-size:13px">جدول العملاء غير موجود بعد. شغّل ملف supabase/aqarat_migration.sql في Supabase.</td></tr>';
+    return;
+  }
+  CUSTOMERS = data || [];
+  const [{ data: leads }, alertsRes] = await Promise.all([
+    sb.from('leads').select('*, properties(title_ar)').order('created_at', { ascending: false }),
+    sb.from('property_alerts').select('*')
+  ]);
+  CUST_LEADS = leads || [];
+  if (!alertsRes.error) ALERTS = alertsRes.data || ALERTS;
+  const badge = document.getElementById('badge-customers');
+  if (badge) { const wk = CUSTOMERS.filter(c => Date.now() - new Date(c.created_at) < 7*864e5).length; badge.textContent = wk; badge.style.display = wk ? '' : 'none'; }
+  renderCustomers();
+}
+function customerItems(c) {
+  const same = x => (x.customer_id && x.customer_id === c.id) || (x.phone && String(x.phone).replace(/[^\d]/g,'') === c.phone);
+  return { leads: CUST_LEADS.filter(same), alerts: ALERTS.filter(same) };
+}
+function renderCustomers() {
+  const tbody = document.getElementById('customers-tbody'); if (!tbody) return;
+  const q = (document.getElementById('cust-search')?.value || '').trim();
+  const week = Date.now() - 7*864e5;
+  const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+  set('cs-total', CUSTOMERS.length);
+  set('cs-week', CUSTOMERS.filter(c => new Date(c.created_at) > week).length);
+  set('cs-active', CUSTOMERS.filter(c => new Date(c.last_seen_at) > week).length);
+  set('cs-req', CUSTOMERS.filter(c => { const i = customerItems(c); return i.leads.length || i.alerts.length; }).length);
+  const rows = CUSTOMERS.filter(c => !q || (c.name + ' ' + c.phone + ' ' + showPhoneLocal(c.phone)).includes(q));
+  if (!rows.length) { tbody.innerHTML = '<tr><td colspan="7" style="color:var(--fg-muted);font-size:13px;padding:20px">ما فيه عملاء مسجّلين بعد.</td></tr>'; return; }
+  const fmtD = d => d ? new Date(d).toLocaleDateString('ar-SA', { day:'numeric', month:'short' }) : '—';
+  tbody.innerHTML = rows.map(c => {
+    const it = customerItems(c);
+    const reqs = [
+      ...it.leads.map(l => `<div style="font-size:12px">معاينة: ${escH(l.properties?.title_ar || (l.notes || '').replace('طلب معاينة: ','').split(' · ')[0] || '—')}</div>`),
+      ...it.alerts.map(a => `<div style="font-size:12px;color:var(--fg-muted)">تنبيه: ${escH([PROP_KINDS[a.property_type] || 'أي نوع', a.district || '', a.max_budget ? 'حتى ' + Number(a.max_budget).toLocaleString('en-US') : ''].filter(Boolean).join(' · '))}</div>`)
+    ].join('') || '<span style="color:var(--fg-muted);font-size:12px">—</span>';
+    return `<tr>
+      <td><div style="font-size:13px;font-weight:600">${escH(c.name)}</div></td>
+      <td style="direction:ltr;text-align:right;font-variant-numeric:tabular-nums;font-size:13px">${escH(showPhoneLocal(c.phone))}</td>
+      <td style="font-size:12px;color:var(--fg-muted)">${fmtD(c.created_at)}</td>
+      <td style="font-size:12px;color:var(--fg-muted)">${fmtD(c.last_seen_at)}</td>
+      <td style="font-variant-numeric:tabular-nums;font-size:13px">${c.visits || 1}</td>
+      <td>${reqs}</td>
+      <td><a class="btn btn-secondary btn-sm" target="_blank" rel="noopener" href="${escH(waTo(c.phone, 'مرحباً ' + c.name + '، معك جودة العقارية.'))}">واتساب</a></td>
+    </tr>`;
+  }).join('');
+  lucide.createIcons();
 }
 
 async function deleteProperty(id) {
