@@ -220,7 +220,7 @@ html[dir="ltr"] .rv-nav svg { transform: scaleX(-1); }
 .pt-grid li { display: grid; place-items: center; height: 110px; border-bottom: 1px solid var(--line); border-inline-end: 1px solid var(--line); background: var(--white); }
 .pt-grid img { max-height: 54px; max-width: 120px; width: auto; height: auto; filter: grayscale(1); opacity: .7; transition: filter .2s, opacity .2s; }
 .pt-grid li:hover img { filter: none; opacity: 1; }
-.pt-grid li.pt-label { background: var(--paper); font: 700 14px/1.6 var(--f-display); color: var(--ink-2); padding: 12px; text-align: center; }
+.pt-grid li.pt-label { grid-column: span 2; background: var(--paper); font: 700 14px/1.6 var(--f-display); color: var(--ink-2); padding: 12px; text-align: center; }
 
 /* contact */
 .contact { background: var(--white); }
@@ -276,6 +276,7 @@ html[lang="en"] .form label { font-family: var(--f-num); }
   .pr-rail li::before { top: 8px; inset-inline-start: -7px; }
   .ftr-grid { grid-template-columns: 1fr 1fr; }
   .pt-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .pt-grid li.pt-label { grid-column: span 4; }
 }
 @media (max-width: 760px) {
   body { font-size: 17px; }
@@ -295,6 +296,7 @@ html[lang="en"] .form label { font-family: var(--f-num); }
   .ab-grid figure img { aspect-ratio: 4/3; }
   .seals { grid-template-columns: 1fr 1fr; }
   .pt-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .pt-grid li.pt-label { grid-column: span 2; }
   .form { grid-template-columns: 1fr; }
   .ct-photo { min-height: 380px; }
   .ftr-grid { grid-template-columns: 1fr; }
@@ -601,7 +603,13 @@ html[lang="en"] .form label { font-family: var(--f-num); }
     ['والله تعامل فوق الممتاز وناس راقيين والحمد لله حصلنا طلبنا ونحنا مبسوطين.', 'Mosab Aro'],
     ['تعاملهم ممتاز وراقي جدًا. شكرًا جودة العقارية وجزيل الشكر للأستاذ فراس.', 'Wafaa Gamrani'],
   ];
-  const PARTNERS = ['ittihad', 'nahdi', 'dorrah', 'baabdullah', 'alezz', 'w7', 'suico', 'rsoukh', 'bromedia', 'p10', 'p11'];
+  const PARTNERS = [
+    ['emaar.svg', 'إعمار', 'Emaar'], ['arabianoud.webp', 'العربية للعود', 'Arabian Oud'], ['almajed.webp', 'الماجد للعود', 'Al Majed Oud'],
+    ['almosafer.svg', 'المسافر', 'Almosafer'], ['vravello.webp', 'فرافيلو للشوكولاتة', 'Vravello Chocolatier'],
+    ['ittihad.webp', 'نادي الاتحاد', 'Al-Ittihad Club'], ['nahdi.webp', 'النهدي', 'Nahdi'], ['dorrah.webp', 'درة العقارية', 'Dorrah Real Estate'],
+    ['baabdullah.webp', 'باعبدالله العقارية', 'Baabdullah Real Estate'], ['alezz.webp', 'العز المتقدمة', 'Al Ezz'], ['w7.webp', 'النوافذ السبعة', 'Seven Windows'],
+    ['suico.webp', 'SUICO', 'SUICO'], ['rsoukh.webp', 'رسوخ', 'Rsoukh'], ['bromedia.webp', 'بروميديا', 'Bromedia'], ['p10.webp', '', ''], ['p11.webp', '', '']
+  ];
   const TYPES = [['عمارة سكنية', 'Residential building'], ['مجمع سكني', 'Residential compound'], ['محلات أو معارض', 'Shops or showrooms'], ['مكاتب', 'Offices'], ['فيلا أو وحدة', 'Villa or single unit']];
   const fmt = n => new Intl.NumberFormat('en-US').format(n);
   const seal = `<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="50" cy="50" r="38" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 3"/><path d="M30 60l20-20 20 20" fill="none" stroke="currentColor" stroke-width="5"/><path d="M38 68l12-12 12 12" fill="none" stroke="currentColor" stroke-width="5" opacity=".55"/></svg>`;
@@ -617,7 +625,7 @@ html[lang="en"] .form label { font-family: var(--f-num); }
       .map(([k, v]) => `<div><span>${k}</span><b>${v < 0 ? '−' : ''}${fmt(Math.abs(v))}</b></div>`).join('') +
       `<div class="net"><span>${T('الصافي المحوّل للمالك', 'Net paid to owner')}</span><b>${fmt(collected - maint - fee)} ${T('ر.س', 'SAR')}</b></div>`;
     $('#seals').innerHTML = LIC.map(l => `<li class="seal">${seal}<h3>${T(l[0], l[1])}</h3><span class="no" translate="no">${l[2]}</span><small>${T(l[3], l[4])}</small></li>`).join('');
-    $('#ptGrid').innerHTML = PARTNERS.map(p => `<li><img src="assets/v2/p/${p}.webp" alt="" width="120" height="54" loading="lazy"></li>`).join('') + `<li class="pt-label">${T('ومُلّاك آخرون', 'and more owners')}</li>`;
+    $('#ptGrid').innerHTML = PARTNERS.map(p => `<li><img src="assets/v2/p/${p[0]}" alt="${T(p[1], p[2])}" width="120" height="54" loading="lazy"></li>`).join('') + `<li class="pt-label">${T('ومُلّاك آخرون', 'and more owners')}</li>`;
     $('#fSvc').innerHTML = SERVICES.slice(0, 5).map(s => `<li>${T(s[1], s[2])}</li>`).join('');
     $('#fLic').innerHTML = LIC.slice(0, 3).map(l => `<li>${T(l[0], l[1])} · <span class="mono">${l[2]}</span></li>`).join('');
     const sel = $('#fType'), cur = sel.selectedIndex;
