@@ -8,7 +8,7 @@
 <link rel="canonical" href="https://jawdah.com.sa/estate">
 <meta property="og:title" content="عقارات جودة">
 <meta property="og:description" content="شقق وفلل للإيجار والبيع في جدة، تحت إدارة جودة العقارية.">
-<meta property="og:image" content="https://jawdah.com.sa/media/cta.webp">
+<meta property="og:image" content="https://jawdah.com.sa/media/estate-hero.webp">
 <meta name="theme-color" content="#0e3438">
 <link rel="icon" type="image/png" href="/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -70,8 +70,8 @@ svg.i { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor;
 
 /* hero + search */
 .hero { position: relative; isolation: isolate; color: #fff; background: var(--deep); overflow: hidden; }
-.hero::before { content: ""; position: absolute; inset: 0; z-index: -1; background: url(/media/cta.webp) center 55% / cover; opacity: .7; }
-.hero::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(10,38,41,.25), rgba(10,38,41,.92) 70%); }
+.hero::before { content: ""; position: absolute; inset: 0; z-index: -1; background: url(/media/estate-hero.webp) left center / cover; opacity: .9; }
+.hero::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(10,38,41,.05) 20%, rgba(10,38,41,.88) 75%); }
 .hero .wrap { padding-block: 40px 30px; display: grid; gap: 20px; }
 .kick { font: 600 13px/1 var(--f-ui); color: var(--teal-hi); display: flex; gap: 8px; align-items: center; }
 .hero h1 { font-size: clamp(26px, 5vw, 46px); max-width: 16ch; line-height: 1.35; }
@@ -226,7 +226,8 @@ label.f { display: grid; gap: 5px; font-size: 13px; font-weight: 600; color: var
   .toast { bottom: 28px; }
 }
 @media (max-width: 639px) {
-  .hero::before { background-position: 18% 50%; }
+  .hero::before { background-image: url(/media/estate-hero-m.webp); background-position: left center; }
+  .hero::after { background: linear-gradient(180deg, rgba(10,38,41,.55), rgba(10,38,41,.85)); }
   .hdr .wrap { height: 58px; gap: 8px; }
   .brand img { height: 22px; }
   .acts .btn span { display: none; }
